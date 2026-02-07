@@ -31,6 +31,8 @@ function assembleUnits(
   const currentGuestByUnit = new Map<string, Guest & { dbId: string }>();
   const futureGuestsByUnit = new Map<string, FutureGuest[]>();
 
+  const today = new Date().toISOString().split('T')[0];
+
   for (const g of dbGuests) {
     const guestData = {
       dbId: g.id,
@@ -49,9 +51,13 @@ function assembleUnits(
     if (g.is_current) {
       currentGuestByUnit.set(g.unit_id, guestData);
     } else {
-      const list = futureGuestsByUnit.get(g.unit_id) ?? [];
-      list.push(guestData);
-      futureGuestsByUnit.set(g.unit_id, list);
+      // Skip past guests whose checkout has already passed
+      const isPast = g.check_out && g.check_out < today;
+      if (!isPast) {
+        const list = futureGuestsByUnit.get(g.unit_id) ?? [];
+        list.push(guestData);
+        futureGuestsByUnit.set(g.unit_id, list);
+      }
     }
   }
 
@@ -92,8 +98,76 @@ export function usePropertyData() {
     setLoading(false);
   }, []);
 
+  /**
+   * Automatically demotes expired current guests and promotes the next
+   * future guest whose check-in date has arrived. Runs on every app load / refresh.
+   */
+  const checkAndPromote = useCallback(async () => {
+    const today = new Date().toISOString().split('T')[0];
+
+    // Step 1: Find current guests whose checkout date has passed
+    const { data: expiredGuests } = await supabase
+      .from('guests')
+      .select('id, unit_id, check_out')
+      .eq('is_current', true)
+      .not('check_out', 'is', null)
+      .lte('check_out', today);
+
+    const affectedUnitIds = new Set<string>();
+
+    if (expiredGuests?.length) {
+      for (const g of expiredGuests) {
+        // Demote the expired guest
+        await supabase.from('guests').update({ is_current: false }).eq('id', g.id);
+        // Temporarily set unit to vacant
+        await supabase.from('units').update({ status: 'vacant' }).eq('id', g.unit_id);
+        affectedUnitIds.add(g.unit_id);
+      }
+    }
+
+    // Step 2: For affected units (and any already-vacant units), check for ready future guests
+    const { data: vacantUnits } = await supabase
+      .from('units')
+      .select('id')
+      .eq('status', 'vacant');
+
+    if (vacantUnits?.length) {
+      for (const unit of vacantUnits) {
+        // Find the next future guest whose check-in has arrived and checkout hasn't passed
+        const { data: readyGuests } = await supabase
+          .from('guests')
+          .select('id, source, check_out')
+          .eq('unit_id', unit.id)
+          .eq('is_current', false)
+          .lte('check_in', today)
+          .order('check_in', { ascending: true });
+
+        // Filter: only guests whose checkout is null (month-to-month) or still in the future
+        const nextGuest = readyGuests?.find(g => !g.check_out || g.check_out > today);
+
+        if (nextGuest) {
+          await supabase.from('guests').update({ is_current: true }).eq('id', nextGuest.id);
+          const unitStatus: UnitStatus = nextGuest.source === 'long_term' ? 'rented' : 'occupied';
+          await supabase.from('units').update({ status: unitStatus }).eq('id', unit.id);
+          affectedUnitIds.add(unit.id);
+        }
+      }
+    }
+
+    return affectedUnitIds.size > 0;
+  }, []);
+
+  const refresh = useCallback(async () => {
+    const changed = await checkAndPromote();
+    await fetchAll();
+  }, [checkAndPromote, fetchAll]);
+
   useEffect(() => {
-    fetchAll();
+    const init = async () => {
+      await checkAndPromote();
+      await fetchAll();
+    };
+    init();
 
     // Subscribe to realtime changes
     const channel = supabase
@@ -141,7 +215,7 @@ export function usePropertyData() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchAll]);
+  }, [fetchAll, checkAndPromote]);
 
   // Assemble frontend shape
   const units = useMemo(
@@ -298,8 +372,15 @@ export function usePropertyData() {
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
 
-    // Mark guest as no longer current
-    await supabase.from('guests').update({ is_current: false }).eq('id', guestId);
+    const today = new Date().toISOString().split('T')[0];
+
+    // Mark guest as no longer current; set check_out to today if month-to-month
+    const guest = dbGuests.find(g => g.id === guestId);
+    const updates: Record<string, unknown> = { is_current: false };
+    if (!guest?.check_out) {
+      updates.check_out = today;
+    }
+    await supabase.from('guests').update(updates).eq('id', guestId);
 
     // Set unit to vacant
     const { data: unitData } = await supabase
@@ -312,7 +393,7 @@ export function usePropertyData() {
     setDbGuests(prev => prev.filter(g => g.id !== guestId));
     setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
-  }, [guestIdByUnit]);
+  }, [guestIdByUnit, dbGuests]);
 
   const addPayment = useCallback(async (unitId: string, payment: Payment) => {
     const guestId = guestIdByUnit.get(unitId);
@@ -460,7 +541,7 @@ export function usePropertyData() {
   return {
     units,
     loading,
-    refresh: fetchAll,
+    refresh,
     addUnit,
     updateUnit,
     reorderUnits,
