@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PaymentStatus, BookingSource, SOURCE_LABELS } from '@/types/property';
@@ -52,9 +52,35 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  const prevMonth = () => { setCurrentDate(new Date(year, month - 1, 1)); setSelectedDay(null); };
-  const nextMonth = () => { setCurrentDate(new Date(year, month + 1, 1)); setSelectedDay(null); };
+  const prevMonth = useCallback(() => { setCurrentDate(new Date(year, month - 1, 1)); setSelectedDay(null); }, [year, month]);
+  const nextMonth = useCallback(() => { setCurrentDate(new Date(year, month + 1, 1)); setSelectedDay(null); }, [year, month]);
   const goToday = () => { setCurrentDate(new Date()); setSelectedDay(new Date().getDate()); };
+
+  // Swipe gesture handling
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const swiped = useRef(false);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    swiped.current = false;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null || swiped.current) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    const MIN_SWIPE = 50;
+    // Only trigger if horizontal swipe is dominant
+    if (Math.abs(dx) > MIN_SWIPE && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      swiped.current = true;
+      if (dx > 0) prevMonth();
+      else nextMonth();
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [prevMonth, nextMonth]);
 
   const eventsByDay = useMemo(() => {
     const map: Record<number, CalendarEvent[]> = {};
@@ -151,7 +177,11 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
         </div>
       </div>
 
-      <div className="glass-card rounded-xl overflow-hidden">
+      <div
+        className="glass-card rounded-xl overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Navigation */}
         <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
           <div className="flex items-center gap-1.5 sm:gap-3">
