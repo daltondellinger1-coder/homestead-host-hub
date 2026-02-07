@@ -9,6 +9,7 @@ interface UnitCardProps {
   index: number;
   onAddGuest: (unitId: string) => void;
   onEditGuest: (unitId: string) => void;
+  onEditUnit: (unitId: string) => void;
   onRecordPayment: (unitId: string) => void;
   onMarkPaid: (unitId: string, paymentId: string) => void;
   onRemoveGuest: (unitId: string) => void;
@@ -37,7 +38,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -66,6 +67,14 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecor
               {SOURCE_LABELS[guest.source]}
             </Badge>
           )}
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+            onClick={() => onEditUnit(unit.id)}
+          >
+            <Pencil className="h-3.5 w-3.5" />
+          </Button>
           <Button
             size="sm"
             variant="ghost"

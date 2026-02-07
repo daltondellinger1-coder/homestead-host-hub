@@ -7,12 +7,13 @@ import PaymentCalendar from '@/components/PaymentCalendar';
 import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
+import EditUnitDialog from '@/components/EditUnitDialog';
 import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
-import { Guest, Payment } from '@/types/property';
+import { Guest, Payment, UnitStatus } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
@@ -23,7 +24,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const handleRefresh = useCallback(async () => {
     await refresh();
@@ -32,10 +33,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
   const [showAddUnit, setShowAddUnit] = useState(false);
+  const [editUnitId, setEditUnitId] = useState<string | null>(null);
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
+  const editUnit = units.find(u => u.id === editUnitId);
 
   const handleGuestSave = (guest: Guest) => {
     if (!guestDialog) return;
@@ -177,6 +180,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                     index={i}
                     onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
                     onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
+                    onEditUnit={id => setEditUnitId(id)}
                     onRecordPayment={id => setPaymentDialogUnit(id)}
                     onMarkPaid={markPaymentPaid}
                     onRemoveGuest={removeGuest}
@@ -214,6 +218,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         open={showAddUnit}
         onClose={() => setShowAddUnit(false)}
         onSave={addUnit}
+      />
+
+      <EditUnitDialog
+        open={!!editUnitId}
+        onClose={() => setEditUnitId(null)}
+        onSave={(name: string, status: UnitStatus) => {
+          if (editUnitId) updateUnit(editUnitId, name, status);
+        }}
+        currentName={editUnit?.name ?? ''}
+        currentStatus={editUnit?.status ?? 'vacant'}
       />
 
       <AlertDialog open={!!deleteUnitId} onOpenChange={open => !open && setDeleteUnitId(null)}>
