@@ -29,7 +29,6 @@ export type Database = {
           source: Database["public"]["Enums"]["booking_source"]
           unit_id: string
           updated_at: string
-          user_id: string | null
         }
         Insert: {
           check_in: string
@@ -45,7 +44,6 @@ export type Database = {
           source?: Database["public"]["Enums"]["booking_source"]
           unit_id: string
           updated_at?: string
-          user_id?: string | null
         }
         Update: {
           check_in?: string
@@ -61,7 +59,6 @@ export type Database = {
           source?: Database["public"]["Enums"]["booking_source"]
           unit_id?: string
           updated_at?: string
-          user_id?: string | null
         }
         Relationships: [
           {
@@ -84,7 +81,6 @@ export type Database = {
           status: Database["public"]["Enums"]["payment_status"]
           unit_id: string
           updated_at: string
-          user_id: string | null
         }
         Insert: {
           amount: number
@@ -96,7 +92,6 @@ export type Database = {
           status?: Database["public"]["Enums"]["payment_status"]
           unit_id: string
           updated_at?: string
-          user_id?: string | null
         }
         Update: {
           amount?: number
@@ -108,7 +103,6 @@ export type Database = {
           status?: Database["public"]["Enums"]["payment_status"]
           unit_id?: string
           updated_at?: string
-          user_id?: string | null
         }
         Relationships: [
           {
@@ -135,7 +129,6 @@ export type Database = {
           sort_order: number
           status: Database["public"]["Enums"]["unit_status"]
           updated_at: string
-          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -144,7 +137,6 @@ export type Database = {
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
           updated_at?: string
-          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -153,7 +145,6 @@ export type Database = {
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
           updated_at?: string
-          user_id?: string | null
         }
         Relationships: []
       }
