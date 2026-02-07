@@ -7,8 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import PaymentHistory from "./pages/PaymentHistory";
-import FinancialReports from "./pages/FinancialReports";
+import Finances from "./pages/Finances";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 
@@ -23,8 +22,9 @@ function AuthenticatedApp() {
     <>
       <Routes>
         <Route path="/" element={<Index viewMode={viewMode} onViewModeChange={setViewMode} />} />
-        <Route path="/payments" element={<PaymentHistory />} />
-        <Route path="/reports" element={<FinancialReports />} />
+        <Route path="/finances" element={<Finances />} />
+        <Route path="/payments" element={<Finances />} />
+        <Route path="/reports" element={<Finances />} />
         <Route path="/auth" element={<Navigate to="/" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
