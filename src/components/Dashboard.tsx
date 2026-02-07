@@ -31,7 +31,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -48,7 +48,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
   const [schedulePaymentsTarget, setSchedulePaymentsTarget] = useState<{ unitId: string; futureGuestId?: string } | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [showFutureGuest, setShowFutureGuest] = useState(false);
+  const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string } | null>(null);
+  const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -164,7 +165,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                   <Home className="h-4 w-4 mr-2" />
                   Add Unit
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setShowFutureGuest(true)}>
+                <DropdownMenuItem onClick={() => setFutureGuestDialog({ unitId: '' })}>
                   <UserPlus className="h-4 w-4 mr-2" />
                   Book Future Guest
                 </DropdownMenuItem>
@@ -206,6 +207,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               onDeleteUnit={id => setDeleteUnitId(id)}
               onViewHistory={id => setHistoryUnitId(id)}
               onSchedulePayments={(id, futureGuestId) => setSchedulePaymentsTarget({ unitId: id, futureGuestId })}
+              onEditFutureGuest={(unitId, guestId) => setFutureGuestDialog({ unitId, guestId })}
+              onDeleteFutureGuest={id => setDeleteFutureGuestId(id)}
             />
           </div>
         ) : (
@@ -252,13 +255,24 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       />
 
       <FutureGuestDialog
-        open={showFutureGuest}
-        onClose={() => setShowFutureGuest(false)}
+        open={!!futureGuestDialog}
+        onClose={() => setFutureGuestDialog(null)}
         onSave={(unitId, guest) => {
-          addFutureGuest(unitId, guest);
-          toast.success(`Future booking added for ${guest.name}`);
+          if (futureGuestDialog?.guestId) {
+            updateFutureGuest(futureGuestDialog.guestId, guest);
+            toast.success(`Booking updated for ${guest.name}`);
+          } else {
+            addFutureGuest(unitId, guest);
+            toast.success(`Future booking added for ${guest.name}`);
+          }
         }}
         units={units}
+        preselectedUnitId={futureGuestDialog?.unitId || null}
+        existingGuest={
+          futureGuestDialog?.guestId
+            ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null
+            : null
+        }
       />
 
       <EditUnitDialog
@@ -322,6 +336,32 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             </AlertDialogAction>
           </AlertDialogFooter>
        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={!!deleteFutureGuestId} onOpenChange={open => !open && setDeleteFutureGuestId(null)}>
+        <AlertDialogContent className="glass-card border-border/60">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-heading">Delete Future Booking</AlertDialogTitle>
+            <AlertDialogDescription className="font-body text-sm">
+              Are you sure you want to delete this future booking? Any scheduled payments for this guest will also be removed. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-body text-xs">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="font-body text-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (deleteFutureGuestId) {
+                  deleteFutureGuest(deleteFutureGuestId);
+                  setDeleteFutureGuestId(null);
+                  toast.success('Future booking deleted');
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
       </AlertDialog>
 
       <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} />
