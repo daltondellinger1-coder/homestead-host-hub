@@ -6,14 +6,17 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Mountain, ArrowLeft, Search, Filter, X } from 'lucide-react';
+import { Mountain, ArrowLeft, Search, Filter, X, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import BulkDeletePaymentsDialog from '@/components/BulkDeletePaymentsDialog';
 
 type SortField = 'date' | 'amount' | 'unit';
 type SortDir = 'asc' | 'desc';
 
 export default function PaymentHistory() {
-  const { units, loading, allPaymentEvents } = usePropertyData();
+  const { units, loading, allPaymentEvents, bulkDeletePayments } = usePropertyData();
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
 
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
@@ -144,6 +147,15 @@ export default function PaymentHistory() {
               <h1 className="text-lg font-heading font-bold tracking-tight text-foreground">Payment History</h1>
             </div>
           </div>
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive font-body text-xs"
+            onClick={() => setBulkDeleteOpen(true)}
+          >
+            <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+            Bulk Delete
+          </Button>
         </div>
       </header>
 
@@ -309,6 +321,17 @@ export default function PaymentHistory() {
             </TableBody>
           </Table>
         </div>
+
+        <BulkDeletePaymentsDialog
+          open={bulkDeleteOpen}
+          onOpenChange={setBulkDeleteOpen}
+          allPayments={allPaymentEvents}
+          units={units.map(u => ({ id: u.id, name: u.name }))}
+          onBulkDelete={async (ids) => {
+            await bulkDeletePayments(ids);
+            toast.success(`${ids.length} payment${ids.length !== 1 ? 's' : ''} deleted`);
+          }}
+        />
       </main>
     </div>
   );
