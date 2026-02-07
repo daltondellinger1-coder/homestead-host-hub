@@ -8,7 +8,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import { Button } from '@/components/ui/button';
-import { Plus, Mountain, LayoutGrid, CalendarDays, History } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
 import { Guest, Payment } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
@@ -77,6 +77,16 @@ export default function Dashboard() {
                 Calendar
               </Button>
             </div>
+            <Link to="/reports">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              >
+                <BarChart3 className="h-4 w-4 mr-1.5" />
+                Reports
+              </Button>
+            </Link>
             <Link to="/payments">
               <Button
                 size="sm"
