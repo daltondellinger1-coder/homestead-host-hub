@@ -348,6 +348,21 @@ export function usePropertyData() {
       }))
     );
 
+  // Check-in / check-out events for calendar
+  const allBookingEvents = units
+    .filter(u => u.currentGuest)
+    .flatMap(u => {
+      const g = u.currentGuest!;
+      const events: { type: 'checkin' | 'checkout'; date: string; unitId: string; unitName: string; guestName: string; source: typeof g.source }[] = [];
+      if (g.checkIn) {
+        events.push({ type: 'checkin', date: g.checkIn, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+      }
+      if (g.checkOut) {
+        events.push({ type: 'checkout', date: g.checkOut, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+      }
+      return events;
+    });
+
   return {
     units,
     addUnit,
@@ -367,5 +382,6 @@ export function usePropertyData() {
       nextVacancy,
     },
     allPaymentEvents,
+    allBookingEvents,
   };
 }

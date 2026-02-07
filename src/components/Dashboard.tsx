@@ -15,7 +15,7 @@ type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
-  const { units, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents } = usePropertyData();
+  const { units, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
@@ -179,7 +179,7 @@ export default function Dashboard() {
             </div>
           </>
         ) : (
-          <PaymentCalendar events={allPaymentEvents} onMarkPaid={markPaymentPaid} />
+          <PaymentCalendar events={allPaymentEvents} bookingEvents={allBookingEvents} onMarkPaid={markPaymentPaid} />
         )}
       </main>
 
