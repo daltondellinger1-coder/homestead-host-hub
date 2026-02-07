@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Unit, Guest, Payment, UnitStatus, BookingSource } from '@/types/property';
+import { Unit, Guest, FutureGuest, Payment, UnitStatus, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
 
 type DbUnit = Tables<'units'>;
@@ -14,7 +14,7 @@ function assembleUnits(
   dbUnits: DbUnit[],
   dbGuests: DbGuest[],
   dbPayments: DbPayment[],
-): Unit[] {
+): (Unit & { _guestDbId?: string })[] {
   const paymentsByGuest = new Map<string, Payment[]>();
   for (const p of dbPayments) {
     const list = paymentsByGuest.get(p.guest_id) ?? [];
@@ -28,11 +28,13 @@ function assembleUnits(
     paymentsByGuest.set(p.guest_id, list);
   }
 
-  const guestByUnit = new Map<string, Guest & { dbId: string }>();
+  const currentGuestByUnit = new Map<string, Guest & { dbId: string }>();
+  const futureGuestsByUnit = new Map<string, FutureGuest[]>();
+
   for (const g of dbGuests) {
-    if (!g.is_current) continue;
-    guestByUnit.set(g.unit_id, {
+    const guestData = {
       dbId: g.id,
+      id: g.id,
       name: g.name,
       source: g.source as BookingSource,
       checkIn: g.check_in,
@@ -42,20 +44,31 @@ function assembleUnits(
       securityDepositPaid: g.security_deposit_paid,
       payments: paymentsByGuest.get(g.id) ?? [],
       notes: g.notes ?? undefined,
-    });
+    };
+
+    if (g.is_current) {
+      currentGuestByUnit.set(g.unit_id, guestData);
+    } else {
+      const list = futureGuestsByUnit.get(g.unit_id) ?? [];
+      list.push(guestData);
+      futureGuestsByUnit.set(g.unit_id, list);
+    }
   }
 
   return dbUnits
     .sort((a, b) => a.sort_order - b.sort_order)
     .map(u => {
-      const guest = guestByUnit.get(u.id);
+      const guest = currentGuestByUnit.get(u.id);
+      const futureGuests = (futureGuestsByUnit.get(u.id) ?? [])
+        .sort((a, b) => a.checkIn.localeCompare(b.checkIn));
       return {
         id: u.id,
         name: u.name,
         status: u.status as UnitStatus,
-        currentGuest: guest ? { ...guest, dbId: undefined } as unknown as Guest : null,
+        currentGuest: guest ? { ...guest, dbId: undefined, id: undefined } as unknown as Guest : null,
+        futureGuests,
         _guestDbId: guest?.dbId,
-      } as Unit & { _guestDbId?: string };
+      } as (Unit & { _guestDbId?: string });
     });
 }
 
@@ -69,7 +82,7 @@ export function usePropertyData() {
   const fetchAll = useCallback(async () => {
     const [unitsRes, guestsRes, paymentsRes] = await Promise.all([
       supabase.from('units').select('*'),
-      supabase.from('guests').select('*').eq('is_current', true),
+      supabase.from('guests').select('*'),
       supabase.from('payments').select('*'),
     ]);
 
@@ -100,18 +113,13 @@ export function usePropertyData() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'guests' }, (payload) => {
         const newGuest = payload.new as DbGuest;
         const oldGuest = payload.old as { id: string };
-        if (payload.eventType === 'INSERT' && newGuest.is_current) {
+        if (payload.eventType === 'INSERT') {
           setDbGuests(prev => prev.some(g => g.id === newGuest.id) ? prev : [...prev, newGuest]);
         } else if (payload.eventType === 'UPDATE') {
-          if (newGuest.is_current) {
-            setDbGuests(prev => {
-              const exists = prev.some(g => g.id === newGuest.id);
-              return exists ? prev.map(g => g.id === newGuest.id ? newGuest : g) : [...prev, newGuest];
-            });
-          } else {
-            // Guest marked as not current — remove from local state
-            setDbGuests(prev => prev.filter(g => g.id !== newGuest.id));
-          }
+          setDbGuests(prev => {
+            const exists = prev.some(g => g.id === newGuest.id);
+            return exists ? prev.map(g => g.id === newGuest.id ? newGuest : g) : [...prev, newGuest];
+          });
         } else if (payload.eventType === 'DELETE') {
           setDbGuests(prev => prev.filter(g => g.id !== oldGuest.id));
         }
@@ -230,6 +238,27 @@ export function usePropertyData() {
 
     if (guestData) setDbGuests(prev => [...prev, guestData]);
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
+  }, []);
+
+  const addFutureGuest = useCallback(async (unitId: string, guest: Guest) => {
+    const { data: guestData } = await supabase
+      .from('guests')
+      .insert({
+        unit_id: unitId,
+        name: guest.name,
+        source: guest.source,
+        check_in: guest.checkIn,
+        check_out: guest.checkOut || null,
+        monthly_rate: guest.monthlyRate,
+        security_deposit: guest.securityDeposit,
+        security_deposit_paid: guest.securityDepositPaid,
+        notes: guest.notes || null,
+        is_current: false,
+      })
+      .select()
+      .single();
+
+    if (guestData) setDbGuests(prev => [...prev, guestData]);
   }, []);
 
   const updateGuest = useCallback(async (unitId: string, guest: Guest) => {
@@ -389,12 +418,19 @@ export function usePropertyData() {
     );
 
   const allBookingEvents = units
-    .filter(u => u.currentGuest)
     .flatMap(u => {
-      const g = u.currentGuest!;
-      const events: { type: 'checkin' | 'checkout'; date: string; unitId: string; unitName: string; guestName: string; source: typeof g.source }[] = [];
-      if (g.checkIn) events.push({ type: 'checkin', date: g.checkIn, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
-      if (g.checkOut) events.push({ type: 'checkout', date: g.checkOut, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+      const events: { type: 'checkin' | 'checkout'; date: string; unitId: string; unitName: string; guestName: string; source: BookingSource; isFuture?: boolean }[] = [];
+      // Current guest events
+      if (u.currentGuest) {
+        const g = u.currentGuest;
+        if (g.checkIn) events.push({ type: 'checkin', date: g.checkIn, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+        if (g.checkOut) events.push({ type: 'checkout', date: g.checkOut, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+      }
+      // Future guest events
+      for (const fg of u.futureGuests) {
+        if (fg.checkIn) events.push({ type: 'checkin', date: fg.checkIn, unitId: u.id, unitName: u.name, guestName: fg.name, source: fg.source, isFuture: true });
+        if (fg.checkOut) events.push({ type: 'checkout', date: fg.checkOut, unitId: u.id, unitName: u.name, guestName: fg.name, source: fg.source, isFuture: true });
+      }
       return events;
     });
 
@@ -407,6 +443,7 @@ export function usePropertyData() {
     reorderUnits,
     removeUnit,
     addGuest,
+    addFutureGuest,
     updateGuest,
     removeGuest,
     addPayment,
