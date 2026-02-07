@@ -1,7 +1,7 @@
 import { Unit, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil } from 'lucide-react';
+import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface UnitCardProps {
@@ -12,6 +12,7 @@ interface UnitCardProps {
   onRecordPayment: (unitId: string) => void;
   onMarkPaid: (unitId: string, paymentId: string) => void;
   onRemoveGuest: (unitId: string) => void;
+  onDeleteUnit: (unitId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -36,7 +37,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecordPayment, onMarkPaid, onRemoveGuest }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -59,11 +60,21 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecor
             {STATUS_LABELS[unit.status]}
           </Badge>
         </div>
-        {guest && (
-          <Badge variant="secondary" className="font-body text-[11px]">
-            {SOURCE_LABELS[guest.source]}
-          </Badge>
-        )}
+        <div className="flex items-center gap-1.5">
+          {guest && (
+            <Badge variant="secondary" className="font-body text-[11px]">
+              {SOURCE_LABELS[guest.source]}
+            </Badge>
+          )}
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+            onClick={() => onDeleteUnit(unit.id)}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
       </div>
 
       {/* Body */}
