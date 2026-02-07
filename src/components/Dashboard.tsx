@@ -31,7 +31,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateGuest, removeGuest, addPayment, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -46,7 +46,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [editUnitId, setEditUnitId] = useState<string | null>(null);
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
-  const [schedulePaymentsUnitId, setSchedulePaymentsUnitId] = useState<string | null>(null);
+  const [schedulePaymentsTarget, setSchedulePaymentsTarget] = useState<{ unitId: string; futureGuestId?: string } | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showFutureGuest, setShowFutureGuest] = useState(false);
 
@@ -54,7 +54,10 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
   const editUnit = units.find(u => u.id === editUnitId);
   const historyUnit = units.find(u => u.id === historyUnitId);
-  const scheduleUnit = units.find(u => u.id === schedulePaymentsUnitId);
+  const scheduleUnit = units.find(u => u.id === schedulePaymentsTarget?.unitId);
+  const scheduleFutureGuest = schedulePaymentsTarget?.futureGuestId
+    ? scheduleUnit?.futureGuests.find(fg => fg.id === schedulePaymentsTarget.futureGuestId)
+    : null;
 
   const handleGuestSave = (guest: Guest) => {
     if (!guestDialog) return;
@@ -202,7 +205,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               onRemoveGuest={removeGuest}
               onDeleteUnit={id => setDeleteUnitId(id)}
               onViewHistory={id => setHistoryUnitId(id)}
-              onSchedulePayments={id => setSchedulePaymentsUnitId(id)}
+              onSchedulePayments={(id, futureGuestId) => setSchedulePaymentsTarget({ unitId: id, futureGuestId })}
             />
           </div>
         ) : (
@@ -276,13 +279,21 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       />
 
       <SchedulePaymentsDialog
-        open={!!schedulePaymentsUnitId}
-        onClose={() => setSchedulePaymentsUnitId(null)}
-        unitId={schedulePaymentsUnitId ?? ''}
-        unitName={scheduleUnit?.name ?? ''}
-        payments={scheduleUnit?.currentGuest?.payments ?? []}
-        defaultAmount={scheduleUnit?.currentGuest?.monthlyRate}
-        onAddPayment={addPayment}
+        open={!!schedulePaymentsTarget}
+        onClose={() => setSchedulePaymentsTarget(null)}
+        unitId={schedulePaymentsTarget?.unitId ?? ''}
+        unitName={
+          scheduleFutureGuest
+            ? `${scheduleUnit?.name ?? ''} — ${scheduleFutureGuest.name}`
+            : scheduleUnit?.name ?? ''
+        }
+        payments={scheduleFutureGuest?.payments ?? scheduleUnit?.currentGuest?.payments ?? []}
+        defaultAmount={scheduleFutureGuest?.monthlyRate ?? scheduleUnit?.currentGuest?.monthlyRate}
+        onAddPayment={
+          scheduleFutureGuest
+            ? (unitId, payment) => addPaymentForGuest(scheduleFutureGuest.id, unitId, payment)
+            : addPayment
+        }
         onUpdatePayment={updatePayment}
         onDeletePayment={deletePayment}
         onMarkPaid={markPaymentPaid}
