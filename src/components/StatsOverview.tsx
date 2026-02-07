@@ -27,15 +27,15 @@ const StatCard = ({
     initial={{ opacity: 0, y: 12 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4, delay }}
-    className="glass-card stat-glow rounded-lg p-4 flex items-start gap-3"
+    className="glass-card stat-glow rounded-lg px-3 py-3 sm:p-4 flex items-start gap-2.5 sm:gap-3"
   >
-    <div className="p-2 rounded-md bg-secondary/10">
-      <Icon className="h-4 w-4 text-secondary" />
+    <div className="p-1.5 sm:p-2 rounded-md bg-secondary/10">
+      <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-secondary" />
     </div>
-    <div>
-      <p className="text-xs text-muted-foreground font-body">{label}</p>
-      <p className="text-xl font-heading font-semibold mt-0.5">{value}</p>
-      {sub && <p className="text-[11px] text-muted-foreground mt-0.5">{sub}</p>}
+    <div className="min-w-0">
+      <p className="text-[10px] sm:text-xs text-muted-foreground font-body">{label}</p>
+      <p className="text-base sm:text-xl font-heading font-semibold mt-0.5 truncate">{value}</p>
+      {sub && <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 truncate">{sub}</p>}
     </div>
   </motion.div>
 );
@@ -48,7 +48,7 @@ const formatDate = (iso: string) =>
 
 export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacantCount, totalUnits, totalDepositsHeld, nextVacancy }: StatsOverviewProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
       <StatCard
         icon={DollarSign}
         label="Monthly Income"
