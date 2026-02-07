@@ -264,6 +264,14 @@ export function usePropertyData() {
     );
   }, []);
 
+  const updateGuest = useCallback((unitId: string, guest: Guest) => {
+    setUnits(prev =>
+      prev.map(u =>
+        u.id === unitId ? { ...u, currentGuest: guest, status: guest.source === 'long_term' ? 'rented' : 'occupied' as UnitStatus } : u
+      )
+    );
+  }, []);
+
   const removeGuest = useCallback((unitId: string) => {
     setUnits(prev =>
       prev.map(u =>
@@ -345,6 +353,7 @@ export function usePropertyData() {
     addUnit,
     removeUnit,
     addGuest,
+    updateGuest,
     removeGuest,
     addPayment,
     markPaymentPaid,

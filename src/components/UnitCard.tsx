@@ -1,13 +1,14 @@
 import { Unit, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote } from 'lucide-react';
+import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface UnitCardProps {
   unit: Unit;
   index: number;
   onAddGuest: (unitId: string) => void;
+  onEditGuest: (unitId: string) => void;
   onRecordPayment: (unitId: string) => void;
   onMarkPaid: (unitId: string, paymentId: string) => void;
   onRemoveGuest: (unitId: string) => void;
@@ -35,7 +36,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onRecordPayment, onMarkPaid, onRemoveGuest }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecordPayment, onMarkPaid, onRemoveGuest }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -155,7 +156,16 @@ export default function UnitCard({ unit, index, onAddGuest, onRecordPayment, onM
                 onClick={() => onRecordPayment(unit.id)}
               >
                 <Plus className="h-3 w-3 mr-1" />
-                Record Payment
+                Payment
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="font-body text-xs h-8"
+                onClick={() => onEditGuest(unit.id)}
+              >
+                <Pencil className="h-3 w-3 mr-1" />
+                Edit
               </Button>
               <Button
                 size="sm"
