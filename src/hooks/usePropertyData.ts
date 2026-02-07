@@ -311,6 +311,22 @@ export function usePropertyData() {
     if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
   }, []);
 
+  const updatePayment = useCallback(async (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: Payment['status'] }) => {
+    const { data } = await supabase
+      .from('payments')
+      .update(updates)
+      .eq('id', paymentId)
+      .select()
+      .single();
+
+    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+  }, []);
+
+  const deletePayment = useCallback(async (paymentId: string) => {
+    await supabase.from('payments').delete().eq('id', paymentId);
+    setDbPayments(prev => prev.filter(p => p.id !== paymentId));
+  }, []);
+
   const bulkDeletePayments = useCallback(async (paymentIds: string[]) => {
     if (paymentIds.length === 0) return;
     const batchSize = 50;
@@ -389,6 +405,8 @@ export function usePropertyData() {
     removeGuest,
     addPayment,
     markPaymentPaid,
+    updatePayment,
+    deletePayment,
     bulkDeletePayments,
     resetAllData,
     stats: {

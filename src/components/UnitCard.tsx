@@ -15,6 +15,7 @@ interface UnitCardProps {
   onRemoveGuest: (unitId: string) => void;
   onDeleteUnit: (unitId: string) => void;
   onViewHistory: (unitId: string) => void;
+  onSchedulePayments: (unitId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -39,7 +40,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory, onSchedulePayments }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -146,8 +147,15 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
             )}
 
             {/* Payments */}
-            <div className="pt-3 border-t border-border/50 space-y-2">
-              <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
+            <div
+              className="pt-3 border-t border-border/50 space-y-2 cursor-pointer rounded-lg -mx-1 px-1 hover:bg-muted/20 transition-colors"
+              onClick={() => onSchedulePayments(unit.id)}
+              title="Click to manage payments"
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
+                <span className="text-[10px] text-primary font-medium">Manage →</span>
+              </div>
 
               {nextPayment && (
                 <div className="flex items-center justify-between gap-2 text-sm bg-muted/40 rounded-lg px-3 py-2.5">
@@ -161,7 +169,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                     size="sm"
                     variant="ghost"
                     className="h-7 text-xs text-primary hover:text-primary px-2 shrink-0"
-                    onClick={() => onMarkPaid(unit.id, nextPayment.id)}
+                    onClick={(e) => { e.stopPropagation(); onMarkPaid(unit.id, nextPayment.id); }}
                   >
                     Mark Paid
                   </Button>
