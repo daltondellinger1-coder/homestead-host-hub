@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { toast } from 'sonner';
 import {
   DndContext,
   closestCenter,
@@ -68,9 +69,13 @@ export default function SortableUnitGrid({
     const { active, over } = event;
     setActiveId(null);
     if (over && active.id !== over.id) {
+      const movedUnit = units.find(u => u.id === active.id);
       onReorder(active.id as string, over.id as string);
+      toast.success(`${movedUnit?.name ?? 'Unit'} reordered`, {
+        duration: 1500,
+      });
     }
-  }, [onReorder]);
+  }, [onReorder, units]);
 
   const handleDragCancel = useCallback(() => {
     setActiveId(null);
