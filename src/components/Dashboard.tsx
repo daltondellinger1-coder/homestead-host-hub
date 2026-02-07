@@ -15,7 +15,7 @@ type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
-  const { units, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
@@ -125,6 +125,12 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-muted-foreground font-body text-sm animate-pulse">Loading property data...</div>
+          </div>
+        ) : (
+        <>
         <StatsOverview
           totalMonthlyIncome={stats.totalMonthlyIncome}
           occupiedCount={stats.occupiedCount}
@@ -180,6 +186,8 @@ export default function Dashboard() {
           </>
         ) : (
           <PaymentCalendar events={allPaymentEvents} bookingEvents={allBookingEvents} onMarkPaid={markPaymentPaid} />
+        )}
+        </>
         )}
       </main>
 

@@ -1,315 +1,236 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Unit, Guest, Payment, UnitStatus } from '@/types/property';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Unit, Guest, Payment, UnitStatus, BookingSource } from '@/types/property';
+import { Tables } from '@/integrations/supabase/types';
 
-const STORAGE_KEY = 'homestead-hill-data';
+type DbUnit = Tables<'units'>;
+type DbGuest = Tables<'guests'>;
+type DbPayment = Tables<'payments'>;
 
-const generateId = () => crypto.randomUUID();
+/**
+ * Transforms DB rows into the frontend Unit shape (with embedded guest + payments).
+ */
+function assembleUnits(
+  dbUnits: DbUnit[],
+  dbGuests: DbGuest[],
+  dbPayments: DbPayment[],
+): Unit[] {
+  const paymentsByGuest = new Map<string, Payment[]>();
+  for (const p of dbPayments) {
+    const list = paymentsByGuest.get(p.guest_id) ?? [];
+    list.push({
+      id: p.id,
+      amount: Number(p.amount),
+      date: p.date,
+      status: p.status,
+      note: p.note ?? undefined,
+    });
+    paymentsByGuest.set(p.guest_id, list);
+  }
 
-const defaultUnits: Unit[] = [
-  {
-    id: generateId(),
-    name: 'Unit 1',
-    status: 'occupied',
-    currentGuest: {
-      name: 'John Timmerman',
-      source: 'airbnb',
-      checkIn: '2026-01-03',
-      checkOut: '2026-05-02',
-      monthlyRate: 1336.53,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 1207.18, date: '2026-02-04', status: 'paid', note: 'Last payout' },
-        { id: generateId(), amount: 1336.53, date: '2026-03-04', status: 'upcoming', note: 'Next payout' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 2',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Austin',
-      source: 'airbnb',
-      checkIn: '2026-01-11',
-      checkOut: '2026-03-14',
-      monthlyRate: 1059.77,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 1059.77, date: '2026-01-12', status: 'paid', note: 'January payout' },
-        { id: generateId(), amount: 1059.77, date: '2026-02-12', status: 'upcoming', note: 'February payout' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 3',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Khushali',
-      source: 'furnished_finder',
-      checkIn: '2025-09-08',
-      checkOut: '2026-02-28',
-      monthlyRate: 1400,
-      securityDeposit: 700,
-      securityDepositPaid: true,
-      payments: [
-        { id: generateId(), amount: 1400, date: '2026-02-04', status: 'paid', note: 'February rent' },
-        { id: generateId(), amount: 1400, date: '2026-03-01', status: 'upcoming', note: 'March rent' },
-      ],
-      notes: 'Paid $700 Deposit',
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 4',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Jason',
-      source: 'airbnb',
-      checkIn: '2026-01-10',
-      checkOut: '2026-05-31',
-      monthlyRate: 1333.78,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 1333.78, date: '2026-01-11', status: 'paid', note: 'January payout' },
-        { id: generateId(), amount: 1333.78, date: '2026-02-11', status: 'upcoming', note: 'February payout' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 5',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Kevin',
-      source: 'furnished_finder',
-      checkIn: '2025-05-05',
-      checkOut: '2026-02-15',
-      monthlyRate: 500,
-      securityDeposit: 800,
-      securityDepositPaid: true,
-      payments: [
-        { id: generateId(), amount: 799.16, date: '2026-02-01', status: 'paid', note: 'February rent' },
-        { id: generateId(), amount: 500, date: '2026-02-21', status: 'upcoming', note: 'Next payment' },
-      ],
-      notes: 'Kevin paid $800 deposit on 4/21/25',
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 6',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Igor',
-      source: 'airbnb',
-      checkIn: '2026-01-10',
-      checkOut: '2026-05-17',
-      monthlyRate: 1436.53,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 1590.44, date: '2026-01-11', status: 'paid', note: 'January payout' },
-        { id: generateId(), amount: 1436.53, date: '2026-02-11', status: 'upcoming', note: 'February payout' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 7',
-    status: 'vacant',
-    currentGuest: null,
-  },
-  {
-    id: generateId(),
-    name: 'Unit 8',
-    status: 'rented',
-    currentGuest: {
-      name: 'Ann',
-      source: 'long_term',
-      checkIn: '2023-02-01',
-      checkOut: '',
-      monthlyRate: 480,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 480, date: '2025-12-05', status: 'paid', note: 'December rent' },
-        { id: generateId(), amount: 480, date: '2026-01-01', status: 'upcoming', note: 'January rent' },
-      ],
-      notes: 'Does month by month lease',
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 9',
-    status: 'planning',
-    currentGuest: null,
-  },
-  {
-    id: generateId(),
-    name: 'Unit 10',
-    status: 'rented',
-    currentGuest: {
-      name: 'Roy',
-      source: 'long_term',
-      checkIn: '2025-01-01',
-      checkOut: '',
-      monthlyRate: 500,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 500, date: '2026-01-01', status: 'paid', note: 'January rent' },
-        { id: generateId(), amount: 500, date: '2026-02-01', status: 'upcoming', note: 'February rent' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 11',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Kylie',
-      source: 'airbnb',
-      checkIn: '2025-12-31',
-      checkOut: '2026-03-02',
-      monthlyRate: 1318.92,
-      securityDeposit: 0,
-      securityDepositPaid: false,
-      payments: [
-        { id: generateId(), amount: 1318.92, date: '2026-01-01', status: 'paid', note: 'January payout' },
-      ],
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 12',
-    status: 'storage',
-    currentGuest: null,
-  },
-  {
-    id: generateId(),
-    name: 'Unit 13',
-    status: 'occupied',
-    currentGuest: {
-      name: 'Guyline',
-      source: 'lease',
-      checkIn: '2024-08-09',
-      checkOut: '2026-03-15',
-      monthlyRate: 1400,
-      securityDeposit: 750,
-      securityDepositPaid: true,
-      payments: [
-        { id: generateId(), amount: 1400, date: '2026-01-11', status: 'paid', note: 'January rent' },
-        { id: generateId(), amount: 1400, date: '2026-02-10', status: 'upcoming', note: 'February rent' },
-      ],
-      notes: 'Guyline paid $750 deposit',
-    },
-  },
-  {
-    id: generateId(),
-    name: 'Unit 14',
-    status: 'storage',
-    currentGuest: null,
-  },
-  {
-    id: generateId(),
-    name: 'Unit 15',
-    status: 'planning',
-    currentGuest: null,
-  },
-];
+  const guestByUnit = new Map<string, Guest & { dbId: string }>();
+  for (const g of dbGuests) {
+    if (!g.is_current) continue;
+    guestByUnit.set(g.unit_id, {
+      dbId: g.id,
+      name: g.name,
+      source: g.source as BookingSource,
+      checkIn: g.check_in,
+      checkOut: g.check_out ?? '',
+      monthlyRate: Number(g.monthly_rate),
+      securityDeposit: Number(g.security_deposit),
+      securityDepositPaid: g.security_deposit_paid,
+      payments: paymentsByGuest.get(g.id) ?? [],
+      notes: g.notes ?? undefined,
+    });
+  }
 
-function loadData(): Unit[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      // Check if it's the old data format (has isVacant) and reset
-      if (parsed.length > 0 && 'isVacant' in parsed[0]) {
-        localStorage.removeItem(STORAGE_KEY);
-        return defaultUnits;
-      }
-      return parsed;
-    }
-  } catch {}
-  return defaultUnits;
-}
-
-function saveData(units: Unit[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(units));
+  return dbUnits
+    .sort((a, b) => a.sort_order - b.sort_order)
+    .map(u => {
+      const guest = guestByUnit.get(u.id);
+      return {
+        id: u.id,
+        name: u.name,
+        status: u.status as UnitStatus,
+        currentGuest: guest ? { ...guest, dbId: undefined } as unknown as Guest : null,
+        _guestDbId: guest?.dbId,
+      } as Unit & { _guestDbId?: string };
+    });
 }
 
 export function usePropertyData() {
-  const [units, setUnits] = useState<Unit[]>(loadData);
+  const [dbUnits, setDbUnits] = useState<DbUnit[]>([]);
+  const [dbGuests, setDbGuests] = useState<DbGuest[]>([]);
+  const [dbPayments, setDbPayments] = useState<DbPayment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch all data
+  const fetchAll = useCallback(async () => {
+    const [unitsRes, guestsRes, paymentsRes] = await Promise.all([
+      supabase.from('units').select('*'),
+      supabase.from('guests').select('*').eq('is_current', true),
+      supabase.from('payments').select('*'),
+    ]);
+
+    if (unitsRes.data) setDbUnits(unitsRes.data);
+    if (guestsRes.data) setDbGuests(guestsRes.data);
+    if (paymentsRes.data) setDbPayments(paymentsRes.data);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
-    saveData(units);
-  }, [units]);
+    fetchAll();
+  }, [fetchAll]);
 
-  const addUnit = useCallback((name: string, status: UnitStatus = 'vacant') => {
-    setUnits(prev => [...prev, { id: generateId(), name, status, currentGuest: null }]);
+  // Assemble frontend shape
+  const units = useMemo(
+    () => assembleUnits(dbUnits, dbGuests, dbPayments),
+    [dbUnits, dbGuests, dbPayments],
+  );
+
+  // Map unit id → guest db id for payment operations
+  const guestIdByUnit = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const g of dbGuests) {
+      if (g.is_current) m.set(g.unit_id, g.id);
+    }
+    return m;
+  }, [dbGuests]);
+
+  const addUnit = useCallback(async (name: string, status: UnitStatus = 'vacant') => {
+    const maxOrder = dbUnits.reduce((max, u) => Math.max(max, u.sort_order), 0);
+    const { data } = await supabase
+      .from('units')
+      .insert({ name, status, sort_order: maxOrder + 1 })
+      .select()
+      .single();
+    if (data) setDbUnits(prev => [...prev, data]);
+  }, [dbUnits]);
+
+  const removeUnit = useCallback(async (unitId: string) => {
+    await supabase.from('units').delete().eq('id', unitId);
+    setDbUnits(prev => prev.filter(u => u.id !== unitId));
+    setDbGuests(prev => prev.filter(g => g.unit_id !== unitId));
+    setDbPayments(prev => prev.filter(p => p.unit_id !== unitId));
   }, []);
 
-  const removeUnit = useCallback((unitId: string) => {
-    setUnits(prev => prev.filter(u => u.id !== unitId));
-  }, []);
+  const addGuest = useCallback(async (unitId: string, guest: Guest) => {
+    const unitStatus: UnitStatus = guest.source === 'long_term' ? 'rented' : 'occupied';
 
-  const addGuest = useCallback((unitId: string, guest: Guest) => {
-    setUnits(prev =>
-      prev.map(u =>
-        u.id === unitId ? { ...u, currentGuest: guest, status: guest.source === 'long_term' ? 'rented' : 'occupied' as UnitStatus } : u
-      )
-    );
-  }, []);
-
-  const updateGuest = useCallback((unitId: string, guest: Guest) => {
-    setUnits(prev =>
-      prev.map(u =>
-        u.id === unitId ? { ...u, currentGuest: guest, status: guest.source === 'long_term' ? 'rented' : 'occupied' as UnitStatus } : u
-      )
-    );
-  }, []);
-
-  const removeGuest = useCallback((unitId: string) => {
-    setUnits(prev =>
-      prev.map(u =>
-        u.id === unitId ? { ...u, currentGuest: null, status: 'vacant' as UnitStatus } : u
-      )
-    );
-  }, []);
-
-  const addPayment = useCallback((unitId: string, payment: Payment) => {
-    setUnits(prev =>
-      prev.map(u => {
-        if (u.id !== unitId || !u.currentGuest) return u;
-        return {
-          ...u,
-          currentGuest: {
-            ...u.currentGuest,
-            payments: [payment, ...u.currentGuest.payments],
-          },
-        };
+    // Insert guest
+    const { data: guestData } = await supabase
+      .from('guests')
+      .insert({
+        unit_id: unitId,
+        name: guest.name,
+        source: guest.source,
+        check_in: guest.checkIn,
+        check_out: guest.checkOut || null,
+        monthly_rate: guest.monthlyRate,
+        security_deposit: guest.securityDeposit,
+        security_deposit_paid: guest.securityDepositPaid,
+        notes: guest.notes || null,
+        is_current: true,
       })
-    );
+      .select()
+      .single();
+
+    // Update unit status
+    const { data: unitData } = await supabase
+      .from('units')
+      .update({ status: unitStatus })
+      .eq('id', unitId)
+      .select()
+      .single();
+
+    if (guestData) setDbGuests(prev => [...prev, guestData]);
+    if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
   }, []);
 
-  const markPaymentPaid = useCallback((unitId: string, paymentId: string) => {
-    setUnits(prev =>
-      prev.map(u => {
-        if (u.id !== unitId || !u.currentGuest) return u;
-        return {
-          ...u,
-          currentGuest: {
-            ...u.currentGuest,
-            payments: u.currentGuest.payments.map(p =>
-              p.id === paymentId ? { ...p, status: 'paid' as const, date: new Date().toISOString().split('T')[0] } : p
-            ),
-          },
-        };
+  const updateGuest = useCallback(async (unitId: string, guest: Guest) => {
+    const guestId = guestIdByUnit.get(unitId);
+    if (!guestId) return;
+
+    const unitStatus: UnitStatus = guest.source === 'long_term' ? 'rented' : 'occupied';
+
+    const { data: guestData } = await supabase
+      .from('guests')
+      .update({
+        name: guest.name,
+        source: guest.source,
+        check_in: guest.checkIn,
+        check_out: guest.checkOut || null,
+        monthly_rate: guest.monthlyRate,
+        security_deposit: guest.securityDeposit,
+        security_deposit_paid: guest.securityDepositPaid,
+        notes: guest.notes || null,
       })
-    );
+      .eq('id', guestId)
+      .select()
+      .single();
+
+    const { data: unitData } = await supabase
+      .from('units')
+      .update({ status: unitStatus })
+      .eq('id', unitId)
+      .select()
+      .single();
+
+    if (guestData) setDbGuests(prev => prev.map(g => g.id === guestId ? guestData : g));
+    if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
+  }, [guestIdByUnit]);
+
+  const removeGuest = useCallback(async (unitId: string) => {
+    const guestId = guestIdByUnit.get(unitId);
+    if (!guestId) return;
+
+    // Mark guest as no longer current
+    await supabase.from('guests').update({ is_current: false }).eq('id', guestId);
+
+    // Set unit to vacant
+    const { data: unitData } = await supabase
+      .from('units')
+      .update({ status: 'vacant' as UnitStatus })
+      .eq('id', unitId)
+      .select()
+      .single();
+
+    setDbGuests(prev => prev.filter(g => g.id !== guestId));
+    setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
+    if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
+  }, [guestIdByUnit]);
+
+  const addPayment = useCallback(async (unitId: string, payment: Payment) => {
+    const guestId = guestIdByUnit.get(unitId);
+    if (!guestId) return;
+
+    const { data } = await supabase
+      .from('payments')
+      .insert({
+        guest_id: guestId,
+        unit_id: unitId,
+        amount: payment.amount,
+        date: payment.date,
+        status: payment.status,
+        note: payment.note || null,
+      })
+      .select()
+      .single();
+
+    if (data) setDbPayments(prev => [data, ...prev]);
+  }, [guestIdByUnit]);
+
+  const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const { data } = await supabase
+      .from('payments')
+      .update({ status: 'paid' as const, date: today })
+      .eq('id', paymentId)
+      .select()
+      .single();
+
+    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
   }, []);
 
   // Computed stats
@@ -335,7 +256,6 @@ export function usePropertyData() {
     .map(u => ({ unitName: u.name, checkOut: u.currentGuest!.checkOut }))
     .sort((a, b) => a.checkOut.localeCompare(b.checkOut))[0];
 
-  // All payment events for calendar
   const allPaymentEvents = units
     .filter(u => u.currentGuest)
     .flatMap(u =>
@@ -348,23 +268,19 @@ export function usePropertyData() {
       }))
     );
 
-  // Check-in / check-out events for calendar
   const allBookingEvents = units
     .filter(u => u.currentGuest)
     .flatMap(u => {
       const g = u.currentGuest!;
       const events: { type: 'checkin' | 'checkout'; date: string; unitId: string; unitName: string; guestName: string; source: typeof g.source }[] = [];
-      if (g.checkIn) {
-        events.push({ type: 'checkin', date: g.checkIn, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
-      }
-      if (g.checkOut) {
-        events.push({ type: 'checkout', date: g.checkOut, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
-      }
+      if (g.checkIn) events.push({ type: 'checkin', date: g.checkIn, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
+      if (g.checkOut) events.push({ type: 'checkout', date: g.checkOut, unitId: u.id, unitName: u.name, guestName: g.name, source: g.source });
       return events;
     });
 
   return {
     units,
+    loading,
     addUnit,
     removeUnit,
     addGuest,
