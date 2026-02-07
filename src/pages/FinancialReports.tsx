@@ -178,7 +178,7 @@ export default function FinancialReports() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-6 space-y-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-muted-foreground font-body text-sm animate-pulse">Loading financial data...</div>

@@ -147,7 +147,7 @@ export default function PaymentHistory() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-6 space-y-5">
         {/* Summary cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div className="glass-card rounded-xl p-4">

@@ -8,6 +8,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import PullToRefresh from '@/components/PullToRefresh';
+
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
@@ -16,7 +17,12 @@ import { Guest, Payment } from '@/types/property';
 type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
-export default function Dashboard() {
+interface DashboardProps {
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
+}
+
+export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
   const { units, loading, refresh, addUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const handleRefresh = useCallback(async () => {
@@ -26,7 +32,6 @@ export default function Dashboard() {
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
   const [showAddUnit, setShowAddUnit] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('units');
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
@@ -66,7 +71,7 @@ export default function Dashboard() {
                     ? 'bg-card text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
-                onClick={() => setViewMode('units')}
+                onClick={() => onViewModeChange('units')}
               >
                 <LayoutGrid className="h-3.5 w-3.5 mr-1.5" />
                 Units
@@ -79,7 +84,7 @@ export default function Dashboard() {
                     ? 'bg-card text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
-                onClick={() => setViewMode('calendar')}
+                onClick={() => onViewModeChange('calendar')}
               >
                 <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
                 Calendar
@@ -117,32 +122,8 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Mobile view toggle */}
-      <div className="sm:hidden px-4 pt-4">
-        <div className="flex items-center bg-muted rounded-lg p-0.5">
-          <Button
-            size="sm"
-            variant="ghost"
-            className={`flex-1 h-8 font-body text-xs ${viewMode === 'units' ? 'bg-card shadow-sm' : ''}`}
-            onClick={() => setViewMode('units')}
-          >
-            <LayoutGrid className="h-3.5 w-3.5 mr-1.5" />
-            Units
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className={`flex-1 h-8 font-body text-xs ${viewMode === 'calendar' ? 'bg-card shadow-sm' : ''}`}
-            onClick={() => setViewMode('calendar')}
-          >
-            <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
-            Calendar
-          </Button>
-        </div>
-      </div>
-
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-6 space-y-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-muted-foreground font-body text-sm animate-pulse">Loading property data...</div>
@@ -255,8 +236,10 @@ export default function Dashboard() {
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
-        </AlertDialogContent>
+       </AlertDialogContent>
       </AlertDialog>
+
+      
     </div>
     </PullToRefresh>
   );
