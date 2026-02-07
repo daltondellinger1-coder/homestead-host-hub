@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
+import { useAuth } from '@/hooks/useAuth';
 import StatsOverview from '@/components/StatsOverview';
 import UnitCard from '@/components/UnitCard';
 import PaymentCalendar from '@/components/PaymentCalendar';
@@ -8,7 +9,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import { Button } from '@/components/ui/button';
-import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3, LogOut } from 'lucide-react';
 import { Guest, Payment } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
@@ -16,6 +17,7 @@ type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
   const { units, loading, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { signOut } = useAuth();
 
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
@@ -104,6 +106,14 @@ export default function Dashboard() {
             >
               <Plus className="h-4 w-4 mr-1.5" />
               Add Unit
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              onClick={signOut}
+            >
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>

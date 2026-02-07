@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { Unit, Guest, Payment, UnitStatus, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
 
@@ -60,12 +61,13 @@ function assembleUnits(
 }
 
 export function usePropertyData() {
+  const { user } = useAuth();
   const [dbUnits, setDbUnits] = useState<DbUnit[]>([]);
   const [dbGuests, setDbGuests] = useState<DbGuest[]>([]);
   const [dbPayments, setDbPayments] = useState<DbPayment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch all data
+  // Fetch all data (RLS filters by user_id automatically)
   const fetchAll = useCallback(async () => {
     const [unitsRes, guestsRes, paymentsRes] = await Promise.all([
       supabase.from('units').select('*'),
@@ -99,14 +101,15 @@ export function usePropertyData() {
   }, [dbGuests]);
 
   const addUnit = useCallback(async (name: string, status: UnitStatus = 'vacant') => {
+    if (!user) return;
     const maxOrder = dbUnits.reduce((max, u) => Math.max(max, u.sort_order), 0);
     const { data } = await supabase
       .from('units')
-      .insert({ name, status, sort_order: maxOrder + 1 })
+      .insert({ name, status, sort_order: maxOrder + 1, user_id: user.id })
       .select()
       .single();
     if (data) setDbUnits(prev => [...prev, data]);
-  }, [dbUnits]);
+  }, [dbUnits, user]);
 
   const removeUnit = useCallback(async (unitId: string) => {
     await supabase.from('units').delete().eq('id', unitId);
@@ -116,6 +119,7 @@ export function usePropertyData() {
   }, []);
 
   const addGuest = useCallback(async (unitId: string, guest: Guest) => {
+    if (!user) return;
     const unitStatus: UnitStatus = guest.source === 'long_term' ? 'rented' : 'occupied';
 
     // Insert guest
@@ -123,6 +127,7 @@ export function usePropertyData() {
       .from('guests')
       .insert({
         unit_id: unitId,
+        user_id: user.id,
         name: guest.name,
         source: guest.source,
         check_in: guest.checkIn,
@@ -146,7 +151,7 @@ export function usePropertyData() {
 
     if (guestData) setDbGuests(prev => [...prev, guestData]);
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
-  }, []);
+  }, [user]);
 
   const updateGuest = useCallback(async (unitId: string, guest: Guest) => {
     const guestId = guestIdByUnit.get(unitId);
@@ -202,6 +207,7 @@ export function usePropertyData() {
   }, [guestIdByUnit]);
 
   const addPayment = useCallback(async (unitId: string, payment: Payment) => {
+    if (!user) return;
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
 
@@ -210,6 +216,7 @@ export function usePropertyData() {
       .insert({
         guest_id: guestId,
         unit_id: unitId,
+        user_id: user.id,
         amount: payment.amount,
         date: payment.date,
         status: payment.status,
@@ -219,7 +226,7 @@ export function usePropertyData() {
       .single();
 
     if (data) setDbPayments(prev => [data, ...prev]);
-  }, [guestIdByUnit]);
+  }, [guestIdByUnit, user]);
 
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
     const today = new Date().toISOString().split('T')[0];
