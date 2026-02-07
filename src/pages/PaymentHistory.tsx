@@ -13,7 +13,7 @@ type SortField = 'date' | 'amount' | 'unit';
 type SortDir = 'asc' | 'desc';
 
 export default function PaymentHistory() {
-  const { units, allPaymentEvents } = usePropertyData();
+  const { units, loading, allPaymentEvents } = usePropertyData();
 
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
