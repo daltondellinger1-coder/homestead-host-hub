@@ -34,8 +34,8 @@ const StatCard = ({
     </div>
     <div className="min-w-0">
       <p className="text-[11px] sm:text-xs text-muted-foreground font-body">{label}</p>
-      <p className="text-lg sm:text-xl font-heading font-semibold mt-0.5 truncate">{value}</p>
-      {sub && <p className="text-xs sm:text-[11px] text-muted-foreground mt-0.5 truncate">{sub}</p>}
+      <p className="text-base sm:text-xl font-heading font-semibold mt-0.5">{value}</p>
+      {sub && <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 leading-tight">{sub}</p>}
     </div>
   </motion.div>
 );
@@ -53,7 +53,7 @@ export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacan
         icon={DollarSign}
         label="Monthly Income"
         value={formatCurrency(totalMonthlyIncome)}
-        sub={`${occupiedCount} units generating revenue`}
+        sub={`${occupiedCount} occupied`}
         delay={0}
       />
       <StatCard
