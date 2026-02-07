@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import StatsOverview from '@/components/StatsOverview';
-import UnitCard from '@/components/UnitCard';
+import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
 import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
@@ -24,7 +24,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const handleRefresh = useCallback(async () => {
     await refresh();
@@ -172,22 +172,17 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
 
             <div>
               <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {units.map((unit, i) => (
-                  <UnitCard
-                    key={unit.id}
-                    unit={unit}
-                    index={i}
-                    onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
-                    onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
-                    onEditUnit={id => setEditUnitId(id)}
-                    onRecordPayment={id => setPaymentDialogUnit(id)}
-                    onMarkPaid={markPaymentPaid}
-                    onRemoveGuest={removeGuest}
-                    onDeleteUnit={id => setDeleteUnitId(id)}
-                  />
-                ))}
-              </div>
+              <SortableUnitGrid
+                units={units}
+                onReorder={reorderUnits}
+                onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
+                onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
+                onEditUnit={id => setEditUnitId(id)}
+                onRecordPayment={id => setPaymentDialogUnit(id)}
+                onMarkPaid={markPaymentPaid}
+                onRemoveGuest={removeGuest}
+                onDeleteUnit={id => setDeleteUnitId(id)}
+              />
             </div>
           </>
         ) : (
