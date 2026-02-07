@@ -16,6 +16,8 @@ interface UnitCardProps {
   onDeleteUnit: (unitId: string) => void;
   onViewHistory: (unitId: string) => void;
   onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
+  onEditFutureGuest: (unitId: string, futureGuestId: string) => void;
+  onDeleteFutureGuest: (futureGuestId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -40,7 +42,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory, onSchedulePayments }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory, onSchedulePayments, onEditFutureGuest, onDeleteFutureGuest }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -194,9 +196,29 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                   <div key={fg.id} className="bg-primary/5 border border-primary/10 rounded-lg px-3 py-2 space-y-1">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-medium truncate">{fg.name}</span>
-                      <Badge variant="secondary" className="font-body text-[10px] py-0 shrink-0">
-                        {SOURCE_LABELS[fg.source]}
-                      </Badge>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <Badge variant="secondary" className="font-body text-[10px] py-0">
+                          {SOURCE_LABELS[fg.source]}
+                        </Badge>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-5 w-5 p-0 text-muted-foreground hover:text-foreground"
+                          onClick={() => onEditFutureGuest(unit.id, fg.id)}
+                          title="Edit booking"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-5 w-5 p-0 text-muted-foreground hover:text-destructive"
+                          onClick={() => onDeleteFutureGuest(fg.id)}
+                          title="Delete booking"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Calendar className="h-3 w-3 shrink-0" />

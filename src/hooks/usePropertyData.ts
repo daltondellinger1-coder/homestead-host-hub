@@ -335,6 +335,34 @@ export function usePropertyData() {
     if (guestData) setDbGuests(prev => [...prev, guestData]);
   }, []);
 
+  const updateFutureGuest = useCallback(async (guestId: string, guest: Guest) => {
+    const { data: guestData } = await supabase
+      .from('guests')
+      .update({
+        name: guest.name,
+        source: guest.source,
+        check_in: guest.checkIn,
+        check_out: guest.checkOut || null,
+        monthly_rate: guest.monthlyRate,
+        security_deposit: guest.securityDeposit,
+        security_deposit_paid: guest.securityDepositPaid,
+        notes: guest.notes || null,
+      })
+      .eq('id', guestId)
+      .select()
+      .single();
+
+    if (guestData) setDbGuests(prev => prev.map(g => g.id === guestId ? guestData : g));
+  }, []);
+
+  const deleteFutureGuest = useCallback(async (guestId: string) => {
+    // Delete associated payments first
+    await supabase.from('payments').delete().eq('guest_id', guestId);
+    await supabase.from('guests').delete().eq('id', guestId);
+    setDbGuests(prev => prev.filter(g => g.id !== guestId));
+    setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
+  }, []);
+
   const updateGuest = useCallback(async (unitId: string, guest: Guest) => {
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
@@ -548,6 +576,8 @@ export function usePropertyData() {
     removeUnit,
     addGuest,
     addFutureGuest,
+    updateFutureGuest,
+    deleteFutureGuest,
     updateGuest,
     removeGuest,
     addPayment,

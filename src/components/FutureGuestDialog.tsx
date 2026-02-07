@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Guest, BookingSource, Unit } from '@/types/property';
+import { Guest, BookingSource, Unit, FutureGuest } from '@/types/property';
 
 interface FutureGuestDialogProps {
   open: boolean;
@@ -14,9 +14,10 @@ interface FutureGuestDialogProps {
   onSave: (unitId: string, guest: Guest) => void;
   units: Unit[];
   preselectedUnitId?: string | null;
+  existingGuest?: FutureGuest | null;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId }: FutureGuestDialogProps) {
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, existingGuest }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
@@ -27,20 +28,40 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
   const [depositPaid, setDepositPaid] = useState(false);
   const [notes, setNotes] = useState('');
 
-  // Pre-fill check-in from current guest's checkout when selecting a unit
+  const isEditing = !!existingGuest;
+
+  // Pre-fill form when editing or when dialog opens
+  useEffect(() => {
+    if (!open) return;
+
+    if (existingGuest) {
+      // Find the unit this guest belongs to
+      const ownerUnit = units.find(u => u.futureGuests.some(fg => fg.id === existingGuest.id));
+      setUnitId(ownerUnit?.id ?? '');
+      setName(existingGuest.name);
+      setSource(existingGuest.source);
+      setCheckIn(existingGuest.checkIn);
+      setCheckOut(existingGuest.checkOut);
+      setMonthlyRate(existingGuest.monthlyRate.toString());
+      setSecurityDeposit(existingGuest.securityDeposit > 0 ? existingGuest.securityDeposit.toString() : '');
+      setDepositPaid(existingGuest.securityDepositPaid);
+      setNotes(existingGuest.notes ?? '');
+    } else {
+      reset();
+      if (preselectedUnitId) {
+        setUnitId(preselectedUnitId);
+      }
+    }
+  }, [open, existingGuest, preselectedUnitId]);
+
+  // Pre-fill check-in from current guest's checkout when selecting a unit (only for new bookings)
   const selectedUnit = units.find(u => u.id === unitId);
 
   useEffect(() => {
-    if (open && preselectedUnitId) {
-      setUnitId(preselectedUnitId);
-    }
-  }, [open, preselectedUnitId]);
-
-  useEffect(() => {
-    if (selectedUnit?.currentGuest?.checkOut) {
+    if (!isEditing && selectedUnit?.currentGuest?.checkOut) {
       setCheckIn(selectedUnit.currentGuest.checkOut);
     }
-  }, [unitId, selectedUnit?.currentGuest?.checkOut]);
+  }, [unitId, selectedUnit?.currentGuest?.checkOut, isEditing]);
 
   const reset = () => {
     setUnitId('');
@@ -83,13 +104,13 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     <Dialog open={open} onOpenChange={v => { if (!v) { reset(); onClose(); } }}>
       <DialogContent className="sm:max-w-md font-body max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-heading">Book Future Guest</DialogTitle>
+          <DialogTitle className="font-heading">{isEditing ? 'Edit Future Booking' : 'Book Future Guest'}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-1.5">
             <Label>Unit</Label>
-            <Select value={unitId} onValueChange={setUnitId}>
+            <Select value={unitId} onValueChange={setUnitId} disabled={isEditing}>
               <SelectTrigger><SelectValue placeholder="Select a unit..." /></SelectTrigger>
               <SelectContent>
                 {eligibleUnits.map(u => (
@@ -167,7 +188,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={!unitId || !name.trim() || !checkIn || !monthlyRate} className="font-body">
-            Book Guest
+            {isEditing ? 'Save Changes' : 'Book Guest'}
           </Button>
         </DialogFooter>
       </DialogContent>
