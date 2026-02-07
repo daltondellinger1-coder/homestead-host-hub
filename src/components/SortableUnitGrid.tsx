@@ -81,6 +81,22 @@ export default function SortableUnitGrid({
     setActiveId(null);
   }, []);
 
+  const handleMoveUp = useCallback((unitId: string) => {
+    const idx = units.findIndex(u => u.id === unitId);
+    if (idx > 0) {
+      onReorder(unitId, units[idx - 1].id);
+      toast.success(`${units[idx].name} moved up`, { duration: 1500 });
+    }
+  }, [units, onReorder]);
+
+  const handleMoveDown = useCallback((unitId: string) => {
+    const idx = units.findIndex(u => u.id === unitId);
+    if (idx < units.length - 1) {
+      onReorder(unitId, units[idx + 1].id);
+      toast.success(`${units[idx].name} moved down`, { duration: 1500 });
+    }
+  }, [units, onReorder]);
+
   return (
     <DndContext
       sensors={sensors}
@@ -96,7 +112,10 @@ export default function SortableUnitGrid({
               key={unit.id}
               unit={unit}
               index={i}
+              totalUnits={units.length}
               isDragging={activeId === unit.id}
+              onMoveUp={handleMoveUp}
+              onMoveDown={handleMoveDown}
               onAddGuest={onAddGuest}
               onEditGuest={onEditGuest}
               onEditUnit={onEditUnit}
