@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import StatsOverview from '@/components/StatsOverview';
 import UnitCard from '@/components/UnitCard';
@@ -7,7 +8,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import { Button } from '@/components/ui/button';
-import { Plus, Mountain, LayoutGrid, CalendarDays } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, History } from 'lucide-react';
 import { Guest, Payment } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
@@ -76,6 +77,16 @@ export default function Dashboard() {
                 Calendar
               </Button>
             </div>
+            <Link to="/payments">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="font-body text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <History className="h-4 w-4 mr-1.5" />
+                History
+              </Button>
+            </Link>
             <Button
               size="sm"
               className="font-body gold-gradient border-0 text-primary hover:opacity-90"
