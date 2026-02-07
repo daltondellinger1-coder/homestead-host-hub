@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, BarChart3, History, LogOut } from 'lucide-react';
+import { LayoutGrid, CalendarDays, DollarSign, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 
@@ -33,16 +33,10 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       },
     },
     {
-      label: 'Reports',
-      icon: BarChart3,
-      active: location.pathname === '/reports',
-      to: '/reports',
-    },
-    {
-      label: 'History',
-      icon: History,
-      active: location.pathname === '/payments',
-      to: '/payments',
+      label: 'Finances',
+      icon: DollarSign,
+      active: location.pathname === '/finances' || location.pathname === '/reports' || location.pathname === '/payments',
+      to: '/finances',
     },
     {
       label: 'Sign Out',

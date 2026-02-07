@@ -15,7 +15,7 @@ import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3, HelpCircle, LogOut, Trash2 } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2 } from 'lucide-react';
 import { Guest, Payment, UnitStatus } from '@/types/property';
 import { toast } from 'sonner';
 
@@ -103,24 +103,14 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Calendar
               </Button>
             </div>
-            <Link to="/reports" className="hidden sm:block">
+            <Link to="/finances" className="hidden sm:block">
               <Button
                 size="sm"
                 variant="ghost"
                 className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
               >
-                <BarChart3 className="h-4 w-4 mr-1.5" />
-                Reports
-              </Button>
-            </Link>
-            <Link to="/payments" className="hidden sm:block">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
-              >
-                <History className="h-4 w-4 mr-1.5" />
-                History
+                <DollarSign className="h-4 w-4 mr-1.5" />
+                Finances
               </Button>
             </Link>
             <Button
@@ -176,53 +166,25 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             occupiedCount={stats.occupiedCount}
             vacantCount={stats.vacantCount}
             totalUnits={stats.totalUnits}
-            totalDepositsHeld={stats.totalDepositsHeld}
-            nextVacancy={stats.nextVacancy}
           />
         )}
 
         {viewMode === 'units' ? (
-          <>
-            {stats.upcomingPayments.length > 0 && (
-              <div className="glass-card rounded-xl p-4 sm:p-5">
-                <h2 className="font-heading text-base font-semibold mb-3">Upcoming Payments</h2>
-                <div className="space-y-1.5">
-                  {stats.upcomingPayments.slice(0, 5).map(p => (
-                    <div key={p.id} className="flex items-center justify-between text-sm bg-muted/40 rounded-lg px-3 sm:px-4 py-2.5">
-                      <div className="min-w-0 truncate">
-                        <span className="font-medium">{p.unitName}</span>
-                        <span className="text-muted-foreground"> · {p.guestName}</span>
-                      </div>
-                      <div className="text-right shrink-0 ml-2">
-                        <span className="font-medium">
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(p.amount)}
-                        </span>
-                        <span className="text-muted-foreground ml-2">
-                          {new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div>
-              <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
-              <SortableUnitGrid
-                units={units}
-                onReorder={reorderUnits}
-                onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
-                onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
-                onEditUnit={id => setEditUnitId(id)}
-                onRecordPayment={id => setPaymentDialogUnit(id)}
-                onMarkPaid={markPaymentPaid}
-                onRemoveGuest={removeGuest}
-                onDeleteUnit={id => setDeleteUnitId(id)}
-                onViewHistory={id => setHistoryUnitId(id)}
-              />
-            </div>
-          </>
+          <div>
+            <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
+            <SortableUnitGrid
+              units={units}
+              onReorder={reorderUnits}
+              onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
+              onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
+              onEditUnit={id => setEditUnitId(id)}
+              onRecordPayment={id => setPaymentDialogUnit(id)}
+              onMarkPaid={markPaymentPaid}
+              onRemoveGuest={removeGuest}
+              onDeleteUnit={id => setDeleteUnitId(id)}
+              onViewHistory={id => setHistoryUnitId(id)}
+            />
+          </div>
         ) : (
           <PaymentCalendar events={allPaymentEvents} bookingEvents={allBookingEvents} onMarkPaid={markPaymentPaid} />
         )}
