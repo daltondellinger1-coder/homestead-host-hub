@@ -7,6 +7,7 @@ import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
 import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
+import SchedulePaymentsDialog from '@/components/SchedulePaymentsDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import EditUnitDialog from '@/components/EditUnitDialog';
 import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
@@ -28,7 +29,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -43,12 +44,14 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [editUnitId, setEditUnitId] = useState<string | null>(null);
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
+  const [schedulePaymentsUnitId, setSchedulePaymentsUnitId] = useState<string | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
   const editUnit = units.find(u => u.id === editUnitId);
   const historyUnit = units.find(u => u.id === historyUnitId);
+  const scheduleUnit = units.find(u => u.id === schedulePaymentsUnitId);
 
   const handleGuestSave = (guest: Guest) => {
     if (!guestDialog) return;
@@ -183,6 +186,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               onRemoveGuest={removeGuest}
               onDeleteUnit={id => setDeleteUnitId(id)}
               onViewHistory={id => setHistoryUnitId(id)}
+              onSchedulePayments={id => setSchedulePaymentsUnitId(id)}
             />
           </div>
         ) : (
@@ -230,6 +234,19 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         onClose={() => setHistoryUnitId(null)}
         unitId={historyUnitId ?? ''}
         unitName={historyUnit?.name ?? ''}
+      />
+
+      <SchedulePaymentsDialog
+        open={!!schedulePaymentsUnitId}
+        onClose={() => setSchedulePaymentsUnitId(null)}
+        unitId={schedulePaymentsUnitId ?? ''}
+        unitName={scheduleUnit?.name ?? ''}
+        payments={scheduleUnit?.currentGuest?.payments ?? []}
+        defaultAmount={scheduleUnit?.currentGuest?.monthlyRate}
+        onAddPayment={addPayment}
+        onUpdatePayment={updatePayment}
+        onDeletePayment={deletePayment}
+        onMarkPaid={markPaymentPaid}
       />
 
       <AlertDialog open={!!deleteUnitId} onOpenChange={open => !open && setDeleteUnitId(null)}>
