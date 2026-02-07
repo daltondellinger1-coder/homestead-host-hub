@@ -57,7 +57,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <div className="min-h-screen pattern-bg">
       {/* Header */}
       <header className="border-b border-border/40 sticky top-0 z-10" style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="p-1.5 sm:p-2 rounded-lg bg-secondary/15">
               <Mountain className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
@@ -96,32 +96,32 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Calendar
               </Button>
             </div>
-            <Link to="/reports">
+            <Link to="/reports" className="hidden sm:block">
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-2 sm:px-3"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
               >
-                <BarChart3 className="h-4 w-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">Reports</span>
+                <BarChart3 className="h-4 w-4 mr-1.5" />
+                Reports
               </Button>
             </Link>
-            <Link to="/payments">
+            <Link to="/payments" className="hidden sm:block">
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-2 sm:px-3"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
               >
-                <History className="h-4 w-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">History</span>
+                <History className="h-4 w-4 mr-1.5" />
+                History
               </Button>
             </Link>
             <Button
               size="sm"
-              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 px-2 sm:px-3"
+              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 h-9 w-9 sm:w-auto sm:h-auto p-0 sm:px-3 sm:py-1.5"
               onClick={() => setShowAddUnit(true)}
             >
-              <Plus className="h-4 w-4 sm:mr-1.5" />
+              <Plus className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-1.5" />
               <span className="hidden sm:inline">Add Unit</span>
             </Button>
           </div>
@@ -129,7 +129,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-6 space-y-4 sm:space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-6 space-y-5 sm:space-y-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-muted-foreground font-body text-sm animate-pulse">Loading property data...</div>
@@ -150,11 +150,11 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         {viewMode === 'units' ? (
           <>
             {stats.upcomingPayments.length > 0 && (
-              <div className="glass-card rounded-xl p-3.5 sm:p-5">
-                <h2 className="font-heading text-sm sm:text-base font-semibold mb-2.5 sm:mb-3">Upcoming Payments</h2>
-                <div className="space-y-1 sm:space-y-1.5">
+              <div className="glass-card rounded-xl p-4 sm:p-5">
+                <h2 className="font-heading text-base font-semibold mb-3">Upcoming Payments</h2>
+                <div className="space-y-1.5">
                   {stats.upcomingPayments.slice(0, 5).map(p => (
-                    <div key={p.id} className="flex items-center justify-between text-[11px] sm:text-xs bg-muted/40 rounded-md px-2.5 sm:px-4 py-2 sm:py-2.5">
+                    <div key={p.id} className="flex items-center justify-between text-sm bg-muted/40 rounded-lg px-3 sm:px-4 py-2.5">
                       <div className="min-w-0 truncate">
                         <span className="font-medium">{p.unitName}</span>
                         <span className="text-muted-foreground"> · {p.guestName}</span>
@@ -163,7 +163,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                         <span className="font-medium">
                           {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(p.amount)}
                         </span>
-                        <span className="text-muted-foreground ml-1.5 sm:ml-2">
+                        <span className="text-muted-foreground ml-2">
                           {new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </span>
                       </div>
@@ -174,7 +174,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             )}
 
             <div>
-              <h2 className="font-heading text-sm sm:text-base font-semibold mb-3 sm:mb-4">All Units ({units.length})</h2>
+              <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
               <SortableUnitGrid
                 units={units}
                 onReorder={reorderUnits}

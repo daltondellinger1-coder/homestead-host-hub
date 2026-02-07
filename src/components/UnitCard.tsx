@@ -55,64 +55,66 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
       className={`glass-card rounded-xl overflow-hidden ${isInactive ? 'opacity-60' : ''}`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-border/50">
-        <div className="flex items-center gap-2 min-w-0">
-          <h3 className="font-heading text-sm sm:text-base font-semibold truncate">{unit.name}</h3>
-          <Badge variant="outline" className={`${colors.border} ${colors.text} font-body text-[10px] sm:text-[11px] py-0 shrink-0`}>
-            {STATUS_LABELS[unit.status]}
-          </Badge>
-        </div>
-        <div className="flex items-center gap-0.5 sm:gap-1.5 shrink-0">
-          {guest && (
-            <Badge variant="secondary" className="font-body text-[10px] sm:text-[11px] hidden sm:inline-flex">
-              {SOURCE_LABELS[guest.source]}
+      <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-border/50">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <h3 className="font-heading text-base sm:text-lg font-semibold">{unit.name}</h3>
+            <Badge variant="outline" className={`${colors.border} ${colors.text} font-body text-[11px] py-0 shrink-0`}>
+              {STATUS_LABELS[unit.status]}
             </Badge>
-          )}
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
-            onClick={() => onViewHistory(unit.id)}
-            title="Lease history"
-          >
-            <History className="h-3.5 w-3.5" />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
-            onClick={() => onEditUnit(unit.id)}
-          >
-            <Pencil className="h-3.5 w-3.5" />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
-            onClick={() => onDeleteUnit(unit.id)}
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </Button>
+            {guest && (
+              <Badge variant="secondary" className="font-body text-[11px] py-0 shrink-0">
+                {SOURCE_LABELS[guest.source]}
+              </Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-1 shrink-0">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+              onClick={() => onViewHistory(unit.id)}
+              title="Lease history"
+            >
+              <History className="h-4 w-4" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+              onClick={() => onEditUnit(unit.id)}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+              onClick={() => onDeleteUnit(unit.id)}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
       {/* Body */}
-      <div className="px-3.5 sm:px-5 py-3 sm:py-3.5 space-y-2.5 sm:space-y-3">
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 space-y-3">
         {guest ? (
           <>
-            <div className="flex items-center gap-2 text-sm">
-              <User className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <div className="flex items-center gap-2.5 text-sm sm:text-base">
+              <User className="h-4 w-4 text-muted-foreground shrink-0" />
               <span className="font-medium">{guest.name}</span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Calendar className="h-3.5 w-3.5 shrink-0" />
+            <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+              <Calendar className="h-4 w-4 shrink-0" />
               <span>{formatDate(guest.checkIn)} — {formatDate(guest.checkOut)}</span>
             </div>
 
             {daysToCheckout !== null && (
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Clock className="h-3.5 w-3.5 shrink-0" />
+              <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4 shrink-0" />
                 <span>
                   {daysToCheckout > 0
                     ? `${daysToCheckout} days remaining`
@@ -123,39 +125,39 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               </div>
             )}
 
-            <div className="flex items-center gap-2 text-sm">
-              <DollarSign className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <span>{formatCurrency(guest.monthlyRate)}<span className="text-muted-foreground text-xs"> /mo</span></span>
+            <div className="flex items-center gap-2.5 text-base sm:text-lg">
+              <DollarSign className="h-4 w-4 text-muted-foreground shrink-0" />
+              <span className="font-semibold">{formatCurrency(guest.monthlyRate)}<span className="text-muted-foreground text-sm font-normal"> /mo</span></span>
             </div>
 
             {guest.securityDeposit > 0 && (
-              <div className="flex items-center gap-2 text-xs">
-                <Shield className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                <span className="flex items-center gap-1">
+              <div className="flex items-center gap-2.5 text-sm">
+                <Shield className="h-4 w-4 text-muted-foreground shrink-0" />
+                <span className="flex items-center gap-1.5">
                   {formatCurrency(guest.securityDeposit)} deposit
                   {guest.securityDepositPaid ? (
-                    <CheckCircle2 className="h-3 w-3 text-success" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-success" />
                   ) : (
-                    <XCircle className="h-3 w-3 text-destructive" />
+                    <XCircle className="h-3.5 w-3.5 text-destructive" />
                   )}
                 </span>
               </div>
             )}
 
             {guest.notes && (
-              <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                <StickyNote className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                <StickyNote className="h-4 w-4 shrink-0 mt-0.5" />
                 <span>{guest.notes}</span>
               </div>
             )}
 
             {/* Payments */}
-            <div className="pt-2 border-t border-border/50 space-y-1.5">
-              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
+            <div className="pt-3 border-t border-border/50 space-y-2">
+              <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
 
               {nextPayment && (
-                <div className="flex items-center justify-between text-[11px] sm:text-xs bg-muted/40 rounded-md px-2.5 sm:px-3 py-1.5 sm:py-2">
-                  <div className="min-w-0 truncate">
+                <div className="flex items-center justify-between text-sm bg-muted/40 rounded-lg px-3 py-2.5">
+                  <div className="min-w-0">
                     <span className="text-muted-foreground">Next: </span>
                     <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
                     <span className="text-muted-foreground"> · {formatDate(nextPayment.date)}</span>
@@ -163,7 +165,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-6 text-[11px] text-primary hover:text-primary px-2 shrink-0"
+                    className="h-7 text-xs text-primary hover:text-primary px-2.5 shrink-0 ml-2"
                     onClick={() => onMarkPaid(unit.id, nextPayment.id)}
                   >
                     Mark Paid
@@ -172,54 +174,54 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               )}
 
               {lastPayment && (
-                <div className="text-[11px] sm:text-xs text-muted-foreground px-2.5 sm:px-3">
+                <div className="text-sm text-muted-foreground px-3">
                   Last: {formatCurrency(lastPayment.amount)} · {formatDate(lastPayment.date)}
                 </div>
               )}
             </div>
 
-            <div className="flex gap-1.5 sm:gap-2 pt-1">
+            <div className="flex gap-2 pt-1">
               <Button
                 size="sm"
                 variant="outline"
-                className="flex-1 font-body text-[11px] sm:text-xs h-7 sm:h-8"
+                className="flex-1 font-body text-sm h-9 sm:h-10"
                 onClick={() => onRecordPayment(unit.id)}
               >
-                <Plus className="h-3 w-3 mr-1" />
+                <Plus className="h-4 w-4 mr-1.5" />
                 Payment
               </Button>
               <Button
                 size="sm"
                 variant="outline"
-                className="font-body text-[11px] sm:text-xs h-7 sm:h-8"
+                className="font-body text-sm h-9 sm:h-10"
                 onClick={() => onEditGuest(unit.id)}
               >
-                <Pencil className="h-3 w-3 mr-1" />
+                <Pencil className="h-4 w-4 mr-1.5" />
                 Edit
               </Button>
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-[11px] sm:text-xs text-destructive hover:text-destructive h-7 sm:h-8 px-2"
+                className="font-body text-sm text-destructive hover:text-destructive h-9 sm:h-10 px-3"
                 onClick={() => onRemoveGuest(unit.id)}
               >
-                End
+                End Lease
               </Button>
             </div>
           </>
         ) : isInactive ? (
-          <div className="py-3 text-center">
-            <p className="text-muted-foreground text-xs">{unit.status === 'storage' ? 'Storage / Bathroom' : 'Under planning'}</p>
+          <div className="py-4 text-center">
+            <p className="text-muted-foreground text-sm">{unit.status === 'storage' ? 'Storage / Bathroom' : 'Under planning'}</p>
           </div>
         ) : (
-          <div className="py-4 text-center space-y-2">
-            <p className="text-muted-foreground text-sm">No current guest</p>
+          <div className="py-5 text-center space-y-3">
+            <p className="text-muted-foreground text-base">No current guest</p>
             <Button
               size="sm"
-              className="font-body text-xs"
+              className="font-body text-sm h-9"
               onClick={() => onAddGuest(unit.id)}
             >
-              <Plus className="h-3.5 w-3.5 mr-1" />
+              <Plus className="h-4 w-4 mr-1.5" />
               Add Guest / Lease
             </Button>
           </div>
