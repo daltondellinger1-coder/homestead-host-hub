@@ -1,7 +1,7 @@
 import { Unit, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2 } from 'lucide-react';
+import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2, History } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface UnitCardProps {
@@ -14,6 +14,7 @@ interface UnitCardProps {
   onMarkPaid: (unitId: string, paymentId: string) => void;
   onRemoveGuest: (unitId: string) => void;
   onDeleteUnit: (unitId: string) => void;
+  onViewHistory: (unitId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -38,7 +39,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -67,6 +68,15 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               {SOURCE_LABELS[guest.source]}
             </Badge>
           )}
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+            onClick={() => onViewHistory(unit.id)}
+            title="Lease history"
+          >
+            <History className="h-3.5 w-3.5" />
+          </Button>
           <Button
             size="sm"
             variant="ghost"
