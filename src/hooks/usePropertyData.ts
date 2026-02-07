@@ -87,7 +87,10 @@ export function usePropertyData() {
       .channel('property-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'units' }, (payload) => {
         if (payload.eventType === 'INSERT') {
-          setDbUnits(prev => [...prev, payload.new as DbUnit]);
+          setDbUnits(prev => {
+            const newUnit = payload.new as DbUnit;
+            return prev.some(u => u.id === newUnit.id) ? prev : [...prev, newUnit];
+          });
         } else if (payload.eventType === 'UPDATE') {
           setDbUnits(prev => prev.map(u => u.id === (payload.new as DbUnit).id ? payload.new as DbUnit : u));
         } else if (payload.eventType === 'DELETE') {
@@ -98,7 +101,7 @@ export function usePropertyData() {
         const newGuest = payload.new as DbGuest;
         const oldGuest = payload.old as { id: string };
         if (payload.eventType === 'INSERT' && newGuest.is_current) {
-          setDbGuests(prev => [...prev, newGuest]);
+          setDbGuests(prev => prev.some(g => g.id === newGuest.id) ? prev : [...prev, newGuest]);
         } else if (payload.eventType === 'UPDATE') {
           if (newGuest.is_current) {
             setDbGuests(prev => {
@@ -115,7 +118,10 @@ export function usePropertyData() {
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'payments' }, (payload) => {
         if (payload.eventType === 'INSERT') {
-          setDbPayments(prev => [payload.new as DbPayment, ...prev]);
+          setDbPayments(prev => {
+            const newPayment = payload.new as DbPayment;
+            return prev.some(p => p.id === newPayment.id) ? prev : [newPayment, ...prev];
+          });
         } else if (payload.eventType === 'UPDATE') {
           setDbPayments(prev => prev.map(p => p.id === (payload.new as DbPayment).id ? payload.new as DbPayment : p));
         } else if (payload.eventType === 'DELETE') {
