@@ -4,8 +4,6 @@ import { Button } from '@/components/ui/button';
 import {
   LayoutGrid,
   CalendarDays,
-  BarChart3,
-  History,
   Plus,
   Users,
   DollarSign,
@@ -28,43 +26,37 @@ const steps: TutorialStep[] = [
     icon: <Mountain className="h-10 w-10 text-secondary" />,
     title: 'Welcome to Homestead Hill',
     description:
-      'Your property management dashboard — track units, guests, payments, and more all in one place.',
+      'Your property management dashboard — track units, guests, payments, and finances all in one place.',
   },
   {
     icon: <LayoutGrid className="h-10 w-10 text-secondary" />,
-    title: 'Units View',
+    title: 'Units Overview',
     description:
-      'The home screen shows all your rental units at a glance. Each card displays the current guest, rent amount, and payment status. Tap any card to manage it.',
+      'The home screen shows all your rental units with monthly income and occupancy stats at the top. Each card displays the current guest, rent amount, and payment status.',
   },
   {
     icon: <Plus className="h-10 w-10 text-secondary" />,
-    title: 'Adding Units & Guests',
+    title: 'Managing Units & Guests',
     description:
-      'Tap the gold "+" button (top-right) to add a new unit. Once a unit is created, tap its card and choose "Add Guest" to assign a tenant.',
-  },
-  {
-    icon: <DollarSign className="h-10 w-10 text-secondary" />,
-    title: 'Recording Payments',
-    description:
-      'On each unit card you\'ll see a "Record Payment" option. You can also mark upcoming payments as paid directly from the card or the calendar view.',
+      'Tap the gold "+" button to add a unit. On each unit card, use the buttons to add a guest, record payments, edit details, or view lease history.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
     title: 'Calendar View',
     description:
-      'Switch to Calendar (bottom nav or top toggle) to see all payments and lease timelines laid out by date. Great for planning ahead.',
+      'Switch to Calendar from the bottom nav to see all payments and move-in/move-out dates laid out by month. Tap any day to see details.',
   },
   {
-    icon: <BarChart3 className="h-10 w-10 text-secondary" />,
-    title: 'Reports & History',
+    icon: <DollarSign className="h-10 w-10 text-secondary" />,
+    title: 'Finances',
     description:
-      'Use the Reports tab for income breakdowns and the History tab to browse, filter, or bulk-delete past payment records.',
+      'Tap "Finances" in the bottom nav to see income reports, charts, and full payment history — all in one place with tabs to switch between them.',
   },
   {
     icon: <Users className="h-10 w-10 text-secondary" />,
     title: 'You\'re All Set!',
     description:
-      'You can replay this tutorial anytime from the Help button (?) in the header. Happy managing!',
+      'Replay this tutorial anytime from the Help button (?) in the header. Happy managing!',
   },
 ];
 
