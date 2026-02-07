@@ -3,7 +3,7 @@ import { usePropertyData } from '@/hooks/usePropertyData';
 import StatsOverview from '@/components/StatsOverview';
 import UnitCard from '@/components/UnitCard';
 import PaymentCalendar from '@/components/PaymentCalendar';
-import AddGuestDialog from '@/components/AddGuestDialog';
+import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import { Button } from '@/components/ui/button';
@@ -11,17 +11,27 @@ import { Plus, Mountain, LayoutGrid, CalendarDays } from 'lucide-react';
 import { Guest, Payment } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
+type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
-  const { units, addUnit, addGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents } = usePropertyData();
+  const { units, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents } = usePropertyData();
 
-  const [guestDialogUnit, setGuestDialogUnit] = useState<string | null>(null);
+  const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('units');
 
-  const activeGuestUnit = units.find(u => u.id === guestDialogUnit);
+  const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
+
+  const handleGuestSave = (guest: Guest) => {
+    if (!guestDialog) return;
+    if (guestDialog.mode === 'edit') {
+      updateGuest(guestDialog.unitId, guest);
+    } else {
+      addGuest(guestDialog.unitId, guest);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -38,7 +48,6 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {/* View toggle */}
             <div className="hidden sm:flex items-center bg-primary-foreground/10 rounded-lg p-0.5">
               <Button
                 size="sm"
@@ -105,7 +114,6 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Stats */}
         <StatsOverview
           totalMonthlyIncome={stats.totalMonthlyIncome}
           occupiedCount={stats.occupiedCount}
@@ -117,7 +125,6 @@ export default function Dashboard() {
 
         {viewMode === 'units' ? (
           <>
-            {/* Upcoming Payments */}
             {stats.upcomingPayments.length > 0 && (
               <div className="glass-card rounded-xl p-5">
                 <h2 className="font-heading text-base font-semibold mb-3">Upcoming Payments</h2>
@@ -142,7 +149,6 @@ export default function Dashboard() {
               </div>
             )}
 
-            {/* Unit Grid */}
             <div>
               <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -151,7 +157,8 @@ export default function Dashboard() {
                     key={unit.id}
                     unit={unit}
                     index={i}
-                    onAddGuest={id => setGuestDialogUnit(id)}
+                    onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
+                    onEditGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
                     onRecordPayment={id => setPaymentDialogUnit(id)}
                     onMarkPaid={markPaymentPaid}
                     onRemoveGuest={removeGuest}
@@ -166,11 +173,12 @@ export default function Dashboard() {
       </main>
 
       {/* Dialogs */}
-      <AddGuestDialog
-        open={!!guestDialogUnit}
-        onClose={() => setGuestDialogUnit(null)}
-        onSave={(guest: Guest) => guestDialogUnit && addGuest(guestDialogUnit, guest)}
+      <GuestDialog
+        open={!!guestDialog}
+        onClose={() => setGuestDialog(null)}
+        onSave={handleGuestSave}
         unitName={activeGuestUnit?.name ?? ''}
+        existingGuest={guestDialog?.mode === 'edit' ? activeGuestUnit?.currentGuest : null}
       />
 
       <RecordPaymentDialog

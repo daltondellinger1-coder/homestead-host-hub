@@ -1,20 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { Guest, BookingSource } from '@/types/property';
 
-interface AddGuestDialogProps {
+interface GuestDialogProps {
   open: boolean;
   onClose: () => void;
   onSave: (guest: Guest) => void;
   unitName: string;
+  existingGuest?: Guest | null;
 }
 
-export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddGuestDialogProps) {
+export default function GuestDialog({ open, onClose, onSave, unitName, existingGuest }: GuestDialogProps) {
+  const isEditing = !!existingGuest;
+
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
   const [checkIn, setCheckIn] = useState('');
@@ -22,6 +26,23 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
   const [monthlyRate, setMonthlyRate] = useState('');
   const [securityDeposit, setSecurityDeposit] = useState('');
   const [depositPaid, setDepositPaid] = useState(false);
+  const [notes, setNotes] = useState('');
+
+  // Populate fields when editing
+  useEffect(() => {
+    if (existingGuest && open) {
+      setName(existingGuest.name);
+      setSource(existingGuest.source);
+      setCheckIn(existingGuest.checkIn);
+      setCheckOut(existingGuest.checkOut);
+      setMonthlyRate(existingGuest.monthlyRate.toString());
+      setSecurityDeposit(existingGuest.securityDeposit > 0 ? existingGuest.securityDeposit.toString() : '');
+      setDepositPaid(existingGuest.securityDepositPaid);
+      setNotes(existingGuest.notes ?? '');
+    } else if (!existingGuest && open) {
+      reset();
+    }
+  }, [existingGuest, open]);
 
   const reset = () => {
     setName('');
@@ -31,10 +52,11 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
     setMonthlyRate('');
     setSecurityDeposit('');
     setDepositPaid(false);
+    setNotes('');
   };
 
   const handleSave = () => {
-    if (!name.trim() || !checkIn || !checkOut || !monthlyRate) return;
+    if (!name.trim() || !checkIn || !monthlyRate) return;
 
     const guest: Guest = {
       name: name.trim(),
@@ -44,7 +66,8 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
       monthlyRate: parseFloat(monthlyRate),
       securityDeposit: securityDeposit ? parseFloat(securityDeposit) : 0,
       securityDepositPaid: depositPaid,
-      payments: [],
+      payments: existingGuest?.payments ?? [],
+      notes: notes.trim() || undefined,
     };
 
     onSave(guest);
@@ -56,7 +79,9 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
     <Dialog open={open} onOpenChange={v => { if (!v) { reset(); onClose(); } }}>
       <DialogContent className="sm:max-w-md font-body">
         <DialogHeader>
-          <DialogTitle className="font-heading">Add Guest — {unitName}</DialogTitle>
+          <DialogTitle className="font-heading">
+            {isEditing ? 'Edit Guest' : 'Add Guest'} — {unitName}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -86,7 +111,7 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
               <Input id="check-in" type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="check-out">Check-out</Label>
+              <Label htmlFor="check-out">Check-out <span className="text-muted-foreground">(optional)</span></Label>
               <Input id="check-out" type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} />
             </div>
           </div>
@@ -107,14 +132,25 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
               <Switch id="deposit-paid" checked={depositPaid} onCheckedChange={setDepositPaid} />
             </div>
           )}
+
+          <div className="space-y-1.5">
+            <Label htmlFor="guest-notes">Notes <span className="text-muted-foreground">(optional)</span></Label>
+            <Textarea
+              id="guest-notes"
+              placeholder="e.g. Month-to-month lease, paid deposit on..."
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              className="resize-none h-20"
+            />
+          </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => { reset(); onClose(); }} className="font-body">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!name.trim() || !checkIn || !checkOut || !monthlyRate} className="font-body">
-            Save Guest
+          <Button onClick={handleSave} disabled={!name.trim() || !checkIn || !monthlyRate} className="font-body">
+            {isEditing ? 'Save Changes' : 'Save Guest'}
           </Button>
         </DialogFooter>
       </DialogContent>
