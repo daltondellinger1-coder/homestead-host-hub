@@ -311,6 +311,17 @@ export function usePropertyData() {
     if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
   }, []);
 
+  const bulkDeletePayments = useCallback(async (paymentIds: string[]) => {
+    if (paymentIds.length === 0) return;
+    // Delete in batches of 50 to avoid overly large queries
+    const batchSize = 50;
+    for (let i = 0; i < paymentIds.length; i += batchSize) {
+      const batch = paymentIds.slice(i, i + batchSize);
+      await supabase.from('payments').delete().in('id', batch);
+    }
+    setDbPayments(prev => prev.filter(p => !paymentIds.includes(p.id)));
+  }, []);
+
   // Computed stats
   const occupiedUnits = units.filter(u => u.status === 'occupied' || u.status === 'rented');
   const totalMonthlyIncome = occupiedUnits.reduce((sum, u) => sum + (u.currentGuest?.monthlyRate ?? 0), 0);
@@ -369,6 +380,7 @@ export function usePropertyData() {
     removeGuest,
     addPayment,
     markPaymentPaid,
+    bulkDeletePayments,
     stats: {
       totalMonthlyIncome,
       occupiedCount: occupiedUnits.length,
