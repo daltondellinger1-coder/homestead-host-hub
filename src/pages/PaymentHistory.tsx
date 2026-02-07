@@ -125,23 +125,23 @@ export default function PaymentHistory() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen pattern-bg">
       {/* Header */}
-      <header className="border-b border-border/50 navy-gradient sticky top-0 z-10">
+      <header className="border-b border-border/40 sticky top-0 z-10" style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to="/">
-              <Button size="sm" variant="ghost" className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 -ml-2">
+              <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-muted/50 -ml-2">
                 <ArrowLeft className="h-4 w-4 mr-1.5" />
                 Back
               </Button>
             </Link>
-            <div className="h-6 w-px bg-primary-foreground/20" />
+            <div className="h-6 w-px bg-border" />
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-secondary/20">
+              <div className="p-1.5 rounded-lg bg-secondary/15">
                 <Mountain className="h-5 w-5 text-secondary" />
               </div>
-              <h1 className="text-lg font-heading font-bold tracking-tight text-primary-foreground">Payment History</h1>
+              <h1 className="text-lg font-heading font-bold tracking-tight text-foreground">Payment History</h1>
             </div>
           </div>
         </div>

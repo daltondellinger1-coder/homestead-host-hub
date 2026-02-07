@@ -35,28 +35,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen pattern-bg">
       {/* Header */}
-      <header className="border-b border-border/50 navy-gradient sticky top-0 z-10">
+      <header className="border-b border-border/40 sticky top-0 z-10" style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-secondary/20">
+            <div className="p-2 rounded-lg bg-secondary/15">
               <Mountain className="h-6 w-6 text-secondary" />
             </div>
             <div>
-              <h1 className="text-xl font-heading font-bold tracking-tight text-primary-foreground">Homestead Hill</h1>
-              <p className="text-xs text-primary-foreground/60 font-body">Property Management</p>
+              <h1 className="text-xl font-heading font-bold tracking-tight text-foreground">Homestead Hill</h1>
+              <p className="text-[10px] text-muted-foreground font-body uppercase tracking-widest">Vincennes, Indiana</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center bg-primary-foreground/10 rounded-lg p-0.5">
+            <div className="hidden sm:flex items-center bg-muted/50 rounded-lg p-0.5">
               <Button
                 size="sm"
                 variant="ghost"
                 className={`h-8 px-3 font-body text-xs transition-colors ${
                   viewMode === 'units'
-                    ? 'bg-primary-foreground/20 text-primary-foreground'
-                    : 'text-primary-foreground/60 hover:text-primary-foreground hover:bg-transparent'
+                    ? 'bg-card text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
                 onClick={() => setViewMode('units')}
               >
@@ -68,8 +68,8 @@ export default function Dashboard() {
                 variant="ghost"
                 className={`h-8 px-3 font-body text-xs transition-colors ${
                   viewMode === 'calendar'
-                    ? 'bg-primary-foreground/20 text-primary-foreground'
-                    : 'text-primary-foreground/60 hover:text-primary-foreground hover:bg-transparent'
+                    ? 'bg-card text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
                 }`}
                 onClick={() => setViewMode('calendar')}
               >
@@ -81,7 +81,7 @@ export default function Dashboard() {
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50"
               >
                 <History className="h-4 w-4 mr-1.5" />
                 History
@@ -89,7 +89,7 @@ export default function Dashboard() {
             </Link>
             <Button
               size="sm"
-              className="font-body gold-gradient border-0 text-primary hover:opacity-90"
+              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90"
               onClick={() => setShowAddUnit(true)}
             >
               <Plus className="h-4 w-4 mr-1.5" />
@@ -141,7 +141,7 @@ export default function Dashboard() {
                 <h2 className="font-heading text-base font-semibold mb-3">Upcoming Payments</h2>
                 <div className="space-y-1.5">
                   {stats.upcomingPayments.slice(0, 8).map(p => (
-                    <div key={p.id} className="flex items-center justify-between text-xs bg-secondary/8 rounded-md px-4 py-2.5">
+                    <div key={p.id} className="flex items-center justify-between text-xs bg-muted/40 rounded-md px-4 py-2.5">
                       <div>
                         <span className="font-medium">{p.unitName}</span>
                         <span className="text-muted-foreground"> · {p.guestName}</span>

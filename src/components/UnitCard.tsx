@@ -124,7 +124,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onRecor
               <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
 
               {nextPayment && (
-                <div className="flex items-center justify-between text-xs bg-primary/5 rounded-md px-3 py-2">
+                <div className="flex items-center justify-between text-xs bg-muted/40 rounded-md px-3 py-2">
                   <div>
                     <span className="text-muted-foreground">Next: </span>
                     <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>

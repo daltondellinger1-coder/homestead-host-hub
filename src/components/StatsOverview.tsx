@@ -29,7 +29,7 @@ const StatCard = ({
     transition={{ duration: 0.4, delay }}
     className="glass-card stat-glow rounded-lg p-4 flex items-start gap-3"
   >
-    <div className="p-2 rounded-md bg-secondary/15">
+    <div className="p-2 rounded-md bg-secondary/10">
       <Icon className="h-4 w-4 text-secondary" />
     </div>
     <div>
