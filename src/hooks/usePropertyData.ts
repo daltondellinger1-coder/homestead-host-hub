@@ -154,6 +154,16 @@ export function usePropertyData() {
     if (data) setDbUnits(prev => [...prev, data]);
   }, [dbUnits]);
 
+  const updateUnit = useCallback(async (unitId: string, name: string, status: UnitStatus) => {
+    const { data } = await supabase
+      .from('units')
+      .update({ name, status })
+      .eq('id', unitId)
+      .select()
+      .single();
+    if (data) setDbUnits(prev => prev.map(u => u.id === unitId ? data : u));
+  }, []);
+
   const removeUnit = useCallback(async (unitId: string) => {
     await supabase.from('units').delete().eq('id', unitId);
     setDbUnits(prev => prev.filter(u => u.id !== unitId));
@@ -329,6 +339,7 @@ export function usePropertyData() {
     loading,
     refresh: fetchAll,
     addUnit,
+    updateUnit,
     removeUnit,
     addGuest,
     updateGuest,
