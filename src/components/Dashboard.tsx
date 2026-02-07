@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
+import { useAuth } from '@/hooks/useAuth';
 import StatsOverview from '@/components/StatsOverview';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
@@ -9,11 +10,12 @@ import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import EditUnitDialog from '@/components/EditUnitDialog';
 import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
+import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingTutorial';
 import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3, HelpCircle, LogOut } from 'lucide-react';
 import { Guest, Payment, UnitStatus } from '@/types/property';
 
 type ViewMode = 'units' | 'calendar';
@@ -26,6 +28,9 @@ interface DashboardProps {
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
   const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { signOut } = useAuth();
+  const { isComplete: onboardingComplete } = useOnboardingState();
+  const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
 
   const handleRefresh = useCallback(async () => {
     await refresh();
@@ -116,6 +121,24 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 History
               </Button>
             </Link>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-9 w-9 text-muted-foreground hover:text-foreground"
+              onClick={() => setShowOnboarding(true)}
+              title="Help / Tutorial"
+            >
+              <HelpCircle className="h-5 w-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="hidden sm:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground"
+              onClick={signOut}
+              title="Sign Out"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
             <Button
               size="sm"
               className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 h-9 w-9 sm:w-auto sm:h-auto p-0 sm:px-3 sm:py-1.5"
@@ -260,6 +283,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </AlertDialogFooter>
        </AlertDialogContent>
       </AlertDialog>
+
+      <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} />
 
       
     </div>
