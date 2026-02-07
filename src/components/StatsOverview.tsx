@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 
 interface StatsOverviewProps {
   totalMonthlyIncome: number;
-  occupiedUnits: number;
-  vacantUnits: number;
+  occupiedCount: number;
+  vacantCount: number;
+  totalUnits: number;
   totalDepositsHeld: number;
   nextVacancy?: { unitName: string; checkOut: string };
 }
@@ -26,40 +27,40 @@ const StatCard = ({
     initial={{ opacity: 0, y: 12 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4, delay }}
-    className="glass-card stat-glow rounded-lg p-5 flex items-start gap-4"
+    className="glass-card stat-glow rounded-lg p-4 flex items-start gap-3"
   >
-    <div className="p-2.5 rounded-md bg-primary/10">
-      <Icon className="h-5 w-5 text-primary" />
+    <div className="p-2 rounded-md bg-secondary/15">
+      <Icon className="h-4 w-4 text-secondary" />
     </div>
     <div>
-      <p className="text-sm text-muted-foreground font-body">{label}</p>
-      <p className="text-2xl font-heading font-semibold mt-0.5">{value}</p>
-      {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
+      <p className="text-xs text-muted-foreground font-body">{label}</p>
+      <p className="text-xl font-heading font-semibold mt-0.5">{value}</p>
+      {sub && <p className="text-[11px] text-muted-foreground mt-0.5">{sub}</p>}
     </div>
   </motion.div>
 );
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(amount);
 
 const formatDate = (iso: string) =>
   new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-export default function StatsOverview({ totalMonthlyIncome, occupiedUnits, vacantUnits, totalDepositsHeld, nextVacancy }: StatsOverviewProps) {
+export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacantCount, totalUnits, totalDepositsHeld, nextVacancy }: StatsOverviewProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <StatCard
         icon={DollarSign}
         label="Monthly Income"
         value={formatCurrency(totalMonthlyIncome)}
-        sub={`${occupiedUnits} units occupied`}
+        sub={`${occupiedCount} units generating revenue`}
         delay={0}
       />
       <StatCard
         icon={Home}
         label="Occupancy"
-        value={`${occupiedUnits} / ${occupiedUnits + vacantUnits}`}
-        sub={vacantUnits > 0 ? `${vacantUnits} vacant` : 'Fully occupied'}
+        value={`${occupiedCount} / ${totalUnits}`}
+        sub={vacantCount > 0 ? `${vacantCount} vacant` : 'Fully occupied'}
         delay={0.05}
       />
       <StatCard
