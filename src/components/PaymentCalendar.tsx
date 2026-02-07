@@ -1,8 +1,9 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { PaymentStatus, BookingSource, SOURCE_LABELS } from '@/types/property';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface PaymentEvent {
   id: string;
@@ -340,81 +341,76 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
         </div>
       </div>
 
-      {/* Selected day detail panel */}
-      <AnimatePresence>
-        {selectedDay !== null && selectedEvents.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            className="glass-card rounded-xl p-4 sm:p-5"
-          >
-            <h3 className="font-heading text-base font-semibold mb-3">
-              {new Date(year, month, selectedDay).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-            </h3>
-            <div className="space-y-2.5">
-              {selectedEvents.map((ev, idx) => {
-                if (ev.kind === 'booking') {
-                  const b = ev.data;
-                  const isCheckIn = b.type === 'checkin';
-                  return (
-                    <div
-                      key={`detail-b-${idx}`}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
-                        isCheckIn ? 'bg-success/8' : 'bg-destructive/8'
-                      }`}
-                    >
-                      <div className={`p-2 rounded-lg shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
-                        {isCheckIn ? (
-                          <LogIn className="h-4 w-4 text-success" />
-                        ) : (
-                          <LogOut className="h-4 w-4 text-destructive" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
-                        <p className="text-xs text-muted-foreground truncate mt-0.5">{b.guestName} · {b.unitName} · {SOURCE_LABELS[b.source]}</p>
-                      </div>
-                    </div>
-                  );
-                }
-                const p = ev.data;
+      {/* Selected day detail dialog */}
+      <Dialog open={selectedDay !== null && selectedEvents.length > 0} onOpenChange={(open) => { if (!open) setSelectedDay(null); }}>
+        <DialogContent className="glass-card border-border/60 max-w-md max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-heading text-base font-semibold">
+              {selectedDay !== null && new Date(year, month, selectedDay).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2.5">
+            {selectedEvents.map((ev, idx) => {
+              if (ev.kind === 'booking') {
+                const b = ev.data;
+                const isCheckIn = b.type === 'checkin';
                 return (
                   <div
-                    key={`detail-p-${p.id}`}
+                    key={`detail-b-${idx}`}
                     className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
-                      p.status === 'paid' ? 'bg-success/8' : 'bg-secondary/8'
+                      isCheckIn ? 'bg-success/8' : 'bg-destructive/8'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
-                      <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
+                    <div className={`p-2 rounded-lg shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
+                      {isCheckIn ? (
+                        <LogIn className="h-4 w-4 text-success" />
+                      ) : (
+                        <LogOut className="h-4 w-4 text-destructive" />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">
-                        {p.unitName} · {formatCurrency(p.amount)}
-                        <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
-                          {p.status}
-                        </span>
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
+                      <p className="font-medium text-sm">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">{b.guestName} · {b.unitName} · {SOURCE_LABELS[b.source]}</p>
                     </div>
-                    {p.status !== 'paid' && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-8 text-xs font-body shrink-0 px-3"
-                        onClick={() => onMarkPaid(p.unitId, p.id)}
-                      >
-                        Mark Paid
-                      </Button>
-                    )}
                   </div>
                 );
-              })}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              }
+              const p = ev.data;
+              return (
+                <div
+                  key={`detail-p-${p.id}`}
+                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
+                    p.status === 'paid' ? 'bg-success/8' : 'bg-secondary/8'
+                  }`}
+                >
+                  <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
+                    <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm">
+                      {p.unitName} · {formatCurrency(p.amount)}
+                      <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
+                        {p.status}
+                      </span>
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
+                  </div>
+                  {p.status !== 'paid' && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-8 text-xs font-body shrink-0 px-3"
+                      onClick={() => onMarkPaid(p.unitId, p.id)}
+                    >
+                      Mark Paid
+                    </Button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
