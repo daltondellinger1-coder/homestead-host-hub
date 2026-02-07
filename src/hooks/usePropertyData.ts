@@ -81,6 +81,52 @@ export function usePropertyData() {
 
   useEffect(() => {
     fetchAll();
+
+    // Subscribe to realtime changes
+    const channel = supabase
+      .channel('property-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'units' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          setDbUnits(prev => [...prev, payload.new as DbUnit]);
+        } else if (payload.eventType === 'UPDATE') {
+          setDbUnits(prev => prev.map(u => u.id === (payload.new as DbUnit).id ? payload.new as DbUnit : u));
+        } else if (payload.eventType === 'DELETE') {
+          setDbUnits(prev => prev.filter(u => u.id !== (payload.old as { id: string }).id));
+        }
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'guests' }, (payload) => {
+        const newGuest = payload.new as DbGuest;
+        const oldGuest = payload.old as { id: string };
+        if (payload.eventType === 'INSERT' && newGuest.is_current) {
+          setDbGuests(prev => [...prev, newGuest]);
+        } else if (payload.eventType === 'UPDATE') {
+          if (newGuest.is_current) {
+            setDbGuests(prev => {
+              const exists = prev.some(g => g.id === newGuest.id);
+              return exists ? prev.map(g => g.id === newGuest.id ? newGuest : g) : [...prev, newGuest];
+            });
+          } else {
+            // Guest marked as not current — remove from local state
+            setDbGuests(prev => prev.filter(g => g.id !== newGuest.id));
+          }
+        } else if (payload.eventType === 'DELETE') {
+          setDbGuests(prev => prev.filter(g => g.id !== oldGuest.id));
+        }
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'payments' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          setDbPayments(prev => [payload.new as DbPayment, ...prev]);
+        } else if (payload.eventType === 'UPDATE') {
+          setDbPayments(prev => prev.map(p => p.id === (payload.new as DbPayment).id ? payload.new as DbPayment : p));
+        } else if (payload.eventType === 'DELETE') {
+          setDbPayments(prev => prev.filter(p => p.id !== (payload.old as { id: string }).id));
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchAll]);
 
   // Assemble frontend shape
