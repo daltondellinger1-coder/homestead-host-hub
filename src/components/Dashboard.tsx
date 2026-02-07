@@ -8,6 +8,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import { Button } from '@/components/ui/button';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
 import { Guest, Payment } from '@/types/property';
 
@@ -15,13 +16,13 @@ type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
-  const { units, loading, addUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
-  
+  const { units, loading, addUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
 
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('units');
+  const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -190,6 +191,7 @@ export default function Dashboard() {
                     onRecordPayment={id => setPaymentDialogUnit(id)}
                     onMarkPaid={markPaymentPaid}
                     onRemoveGuest={removeGuest}
+                    onDeleteUnit={id => setDeleteUnitId(id)}
                   />
                 ))}
               </div>
@@ -224,6 +226,31 @@ export default function Dashboard() {
         onClose={() => setShowAddUnit(false)}
         onSave={addUnit}
       />
+
+      <AlertDialog open={!!deleteUnitId} onOpenChange={open => !open && setDeleteUnitId(null)}>
+        <AlertDialogContent className="glass-card border-border/60">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-heading">Delete Unit</AlertDialogTitle>
+            <AlertDialogDescription className="font-body text-sm">
+              Are you sure you want to delete <span className="font-semibold text-foreground">{units.find(u => u.id === deleteUnitId)?.name}</span>? This will also remove any associated guest and payment records. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-body text-xs">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="font-body text-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (deleteUnitId) {
+                  removeUnit(deleteUnitId);
+                  setDeleteUnitId(null);
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
