@@ -15,8 +15,9 @@ import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3, HelpCircle, LogOut } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3, HelpCircle, LogOut, Trash2 } from 'lucide-react';
 import { Guest, Payment, UnitStatus } from '@/types/property';
+import { toast } from 'sonner';
 
 type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
@@ -27,7 +28,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -42,6 +43,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [editUnitId, setEditUnitId] = useState<string | null>(null);
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -121,6 +123,15 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 History
               </Button>
             </Link>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-9 w-9 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
+              onClick={() => setShowResetConfirm(true)}
+              title="Reset All Data"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
             <Button
               size="icon"
               variant="ghost"
@@ -285,6 +296,30 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       </AlertDialog>
 
       <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} />
+
+      <AlertDialog open={showResetConfirm} onOpenChange={setShowResetConfirm}>
+        <AlertDialogContent className="glass-card border-border/60">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-heading">Reset All Data</AlertDialogTitle>
+            <AlertDialogDescription className="font-body text-sm">
+              This will permanently delete <span className="font-semibold text-foreground">all units, guests, and payment records</span>. You'll start with a completely clean slate. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-body text-xs">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="font-body text-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={async () => {
+                await resetAllData();
+                setShowResetConfirm(false);
+                toast.success('All data has been reset');
+              }}
+            >
+              Reset Everything
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       
     </div>
