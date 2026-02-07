@@ -1,7 +1,7 @@
-import { Unit, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
+import { Unit, FutureGuest, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2, History } from 'lucide-react';
+import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2, History, UserPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface UnitCardProps {
@@ -182,6 +182,34 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                 </div>
               )}
             </div>
+
+            {/* Future Guests */}
+            {unit.futureGuests.length > 0 && (
+              <div className="pt-3 border-t border-border/50 space-y-2">
+                <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <UserPlus className="h-3 w-3" />
+                  Upcoming Bookings ({unit.futureGuests.length})
+                </p>
+                {unit.futureGuests.map((fg) => (
+                  <div key={fg.id} className="bg-primary/5 border border-primary/10 rounded-lg px-3 py-2 space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-medium truncate">{fg.name}</span>
+                      <Badge variant="secondary" className="font-body text-[10px] py-0 shrink-0">
+                        {SOURCE_LABELS[fg.source]}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3 shrink-0" />
+                      <span>{formatDate(fg.checkIn)} — {formatDate(fg.checkOut)}</span>
+                    </div>
+                    <div className="text-xs">
+                      <span className="font-medium">{formatCurrency(fg.monthlyRate)}</span>
+                      <span className="text-muted-foreground"> /mo</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="flex flex-wrap gap-2 pt-1">
               <Button

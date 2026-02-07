@@ -24,11 +24,16 @@ export interface Guest {
   notes?: string;
 }
 
+export interface FutureGuest extends Guest {
+  id: string; // DB guest id, needed for operations
+}
+
 export interface Unit {
   id: string;
   name: string;
   status: UnitStatus;
   currentGuest: Guest | null;
+  futureGuests: FutureGuest[];
 }
 
 export const SOURCE_LABELS: Record<BookingSource, string> = {

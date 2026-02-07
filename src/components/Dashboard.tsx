@@ -11,12 +11,14 @@ import SchedulePaymentsDialog from '@/components/SchedulePaymentsDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import EditUnitDialog from '@/components/EditUnitDialog';
 import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
+import FutureGuestDialog from '@/components/FutureGuestDialog';
 import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingTutorial';
 import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2 } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus } from 'lucide-react';
 import { Guest, Payment, UnitStatus } from '@/types/property';
 import { toast } from 'sonner';
 
@@ -29,7 +31,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, updateGuest, removeGuest, addPayment, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateGuest, removeGuest, addPayment, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -46,6 +48,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
   const [schedulePaymentsUnitId, setSchedulePaymentsUnitId] = useState<string | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showFutureGuest, setShowFutureGuest] = useState(false);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -143,14 +146,27 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             >
               <LogOut className="h-4 w-4" />
             </Button>
-            <Button
-              size="sm"
-              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 h-9 w-9 sm:w-auto sm:h-auto p-0 sm:px-3 sm:py-1.5"
-              onClick={() => setShowAddUnit(true)}
-            >
-              <Plus className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-1.5" />
-              <span className="hidden sm:inline">Add Unit</span>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="sm"
+                  className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 h-9 w-9 sm:w-auto sm:h-auto p-0 sm:px-3 sm:py-1.5"
+                >
+                  <Plus className="h-5 w-5 sm:h-4 sm:w-4 sm:mr-1.5" />
+                  <span className="hidden sm:inline">Add</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="font-body">
+                <DropdownMenuItem onClick={() => setShowAddUnit(true)}>
+                  <Home className="h-4 w-4 mr-2" />
+                  Add Unit
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setShowFutureGuest(true)}>
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Book Future Guest
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -230,6 +246,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         open={showAddUnit}
         onClose={() => setShowAddUnit(false)}
         onSave={addUnit}
+      />
+
+      <FutureGuestDialog
+        open={showFutureGuest}
+        onClose={() => setShowFutureGuest(false)}
+        onSave={(unitId, guest) => {
+          addFutureGuest(unitId, guest);
+          toast.success(`Future booking added for ${guest.name}`);
+        }}
+        units={units}
       />
 
       <EditUnitDialog
