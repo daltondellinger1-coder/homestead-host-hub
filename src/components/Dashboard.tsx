@@ -130,14 +130,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </div>
         ) : (
         <>
-        <StatsOverview
-          totalMonthlyIncome={stats.totalMonthlyIncome}
-          occupiedCount={stats.occupiedCount}
-          vacantCount={stats.vacantCount}
-          totalUnits={stats.totalUnits}
-          totalDepositsHeld={stats.totalDepositsHeld}
-          nextVacancy={stats.nextVacancy}
-        />
+        {viewMode === 'units' && (
+          <StatsOverview
+            totalMonthlyIncome={stats.totalMonthlyIncome}
+            occupiedCount={stats.occupiedCount}
+            vacantCount={stats.vacantCount}
+            totalUnits={stats.totalUnits}
+            totalDepositsHeld={stats.totalDepositsHeld}
+            nextVacancy={stats.nextVacancy}
+          />
+        )}
 
         {viewMode === 'units' ? (
           <>
