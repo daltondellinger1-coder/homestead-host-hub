@@ -8,6 +8,7 @@ import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
 import EditUnitDialog from '@/components/EditUnitDialog';
+import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
 import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
@@ -35,10 +36,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [editUnitId, setEditUnitId] = useState<string | null>(null);
   const [deleteUnitId, setDeleteUnitId] = useState<string | null>(null);
+  const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
   const editUnit = units.find(u => u.id === editUnitId);
+  const historyUnit = units.find(u => u.id === historyUnitId);
 
   const handleGuestSave = (guest: Guest) => {
     if (!guestDialog) return;
@@ -182,6 +185,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 onMarkPaid={markPaymentPaid}
                 onRemoveGuest={removeGuest}
                 onDeleteUnit={id => setDeleteUnitId(id)}
+                onViewHistory={id => setHistoryUnitId(id)}
               />
             </div>
           </>
@@ -223,6 +227,13 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         }}
         currentName={editUnit?.name ?? ''}
         currentStatus={editUnit?.status ?? 'vacant'}
+      />
+
+      <LeaseHistoryDialog
+        open={!!historyUnitId}
+        onClose={() => setHistoryUnitId(null)}
+        unitId={historyUnitId ?? ''}
+        unitName={historyUnit?.name ?? ''}
       />
 
       <AlertDialog open={!!deleteUnitId} onOpenChange={open => !open && setDeleteUnitId(null)}>
