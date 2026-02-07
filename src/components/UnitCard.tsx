@@ -55,16 +55,16 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
       className={`glass-card rounded-xl overflow-hidden ${isInactive ? 'opacity-60' : ''}`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/50">
-        <div className="flex items-center gap-2.5">
-          <h3 className="font-heading text-base font-semibold">{unit.name}</h3>
-          <Badge variant="outline" className={`${colors.border} ${colors.text} font-body text-[11px] py-0`}>
+      <div className="flex items-center justify-between px-3.5 sm:px-5 py-3 sm:py-3.5 border-b border-border/50">
+        <div className="flex items-center gap-2 min-w-0">
+          <h3 className="font-heading text-sm sm:text-base font-semibold truncate">{unit.name}</h3>
+          <Badge variant="outline" className={`${colors.border} ${colors.text} font-body text-[10px] sm:text-[11px] py-0 shrink-0`}>
             {STATUS_LABELS[unit.status]}
           </Badge>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-0.5 sm:gap-1.5 shrink-0">
           {guest && (
-            <Badge variant="secondary" className="font-body text-[11px]">
+            <Badge variant="secondary" className="font-body text-[10px] sm:text-[11px] hidden sm:inline-flex">
               {SOURCE_LABELS[guest.source]}
             </Badge>
           )}
@@ -97,7 +97,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
       </div>
 
       {/* Body */}
-      <div className="px-5 py-3.5 space-y-3">
+      <div className="px-3.5 sm:px-5 py-3 sm:py-3.5 space-y-2.5 sm:space-y-3">
         {guest ? (
           <>
             <div className="flex items-center gap-2 text-sm">
@@ -154,8 +154,8 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
 
               {nextPayment && (
-                <div className="flex items-center justify-between text-xs bg-muted/40 rounded-md px-3 py-2">
-                  <div>
+                <div className="flex items-center justify-between text-[11px] sm:text-xs bg-muted/40 rounded-md px-2.5 sm:px-3 py-1.5 sm:py-2">
+                  <div className="min-w-0 truncate">
                     <span className="text-muted-foreground">Next: </span>
                     <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
                     <span className="text-muted-foreground"> · {formatDate(nextPayment.date)}</span>
@@ -163,7 +163,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-6 text-[11px] text-primary hover:text-primary px-2"
+                    className="h-6 text-[11px] text-primary hover:text-primary px-2 shrink-0"
                     onClick={() => onMarkPaid(unit.id, nextPayment.id)}
                   >
                     Mark Paid
@@ -172,17 +172,17 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               )}
 
               {lastPayment && (
-                <div className="text-xs text-muted-foreground px-3">
+                <div className="text-[11px] sm:text-xs text-muted-foreground px-2.5 sm:px-3">
                   Last: {formatCurrency(lastPayment.amount)} · {formatDate(lastPayment.date)}
                 </div>
               )}
             </div>
 
-            <div className="flex gap-2 pt-1">
+            <div className="flex gap-1.5 sm:gap-2 pt-1">
               <Button
                 size="sm"
                 variant="outline"
-                className="flex-1 font-body text-xs h-8"
+                className="flex-1 font-body text-[11px] sm:text-xs h-7 sm:h-8"
                 onClick={() => onRecordPayment(unit.id)}
               >
                 <Plus className="h-3 w-3 mr-1" />
@@ -191,7 +191,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               <Button
                 size="sm"
                 variant="outline"
-                className="font-body text-xs h-8"
+                className="font-body text-[11px] sm:text-xs h-7 sm:h-8"
                 onClick={() => onEditGuest(unit.id)}
               >
                 <Pencil className="h-3 w-3 mr-1" />
@@ -200,10 +200,10 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-xs text-destructive hover:text-destructive h-8"
+                className="font-body text-[11px] sm:text-xs text-destructive hover:text-destructive h-7 sm:h-8 px-2"
                 onClick={() => onRemoveGuest(unit.id)}
               >
-                End Lease
+                End
               </Button>
             </div>
           </>

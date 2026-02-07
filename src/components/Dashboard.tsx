@@ -57,14 +57,14 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <div className="min-h-screen pattern-bg">
       {/* Header */}
       <header className="border-b border-border/40 sticky top-0 z-10" style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-secondary/15">
-              <Mountain className="h-6 w-6 text-secondary" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 rounded-lg bg-secondary/15">
+              <Mountain className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
             </div>
             <div>
-              <h1 className="text-xl font-heading font-bold tracking-tight text-foreground">Homestead Hill</h1>
-              <p className="text-[10px] text-muted-foreground font-body uppercase tracking-widest">Vincennes, Indiana</p>
+              <h1 className="text-lg sm:text-xl font-heading font-bold tracking-tight text-foreground">Homestead Hill</h1>
+              <p className="text-[9px] sm:text-[10px] text-muted-foreground font-body uppercase tracking-widest">Vincennes, Indiana</p>
             </div>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
@@ -129,7 +129,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-6 space-y-6">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-6 space-y-4 sm:space-y-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-muted-foreground font-body text-sm animate-pulse">Loading property data...</div>
@@ -150,20 +150,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         {viewMode === 'units' ? (
           <>
             {stats.upcomingPayments.length > 0 && (
-              <div className="glass-card rounded-xl p-5">
-                <h2 className="font-heading text-base font-semibold mb-3">Upcoming Payments</h2>
-                <div className="space-y-1.5">
-                  {stats.upcomingPayments.slice(0, 8).map(p => (
-                    <div key={p.id} className="flex items-center justify-between text-xs bg-muted/40 rounded-md px-4 py-2.5">
-                      <div>
+              <div className="glass-card rounded-xl p-3.5 sm:p-5">
+                <h2 className="font-heading text-sm sm:text-base font-semibold mb-2.5 sm:mb-3">Upcoming Payments</h2>
+                <div className="space-y-1 sm:space-y-1.5">
+                  {stats.upcomingPayments.slice(0, 5).map(p => (
+                    <div key={p.id} className="flex items-center justify-between text-[11px] sm:text-xs bg-muted/40 rounded-md px-2.5 sm:px-4 py-2 sm:py-2.5">
+                      <div className="min-w-0 truncate">
                         <span className="font-medium">{p.unitName}</span>
                         <span className="text-muted-foreground"> · {p.guestName}</span>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right shrink-0 ml-2">
                         <span className="font-medium">
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(p.amount)}
+                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(p.amount)}
                         </span>
-                        <span className="text-muted-foreground ml-2">
+                        <span className="text-muted-foreground ml-1.5 sm:ml-2">
                           {new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </span>
                       </div>
@@ -174,7 +174,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             )}
 
             <div>
-              <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
+              <h2 className="font-heading text-sm sm:text-base font-semibold mb-3 sm:mb-4">All Units ({units.length})</h2>
               <SortableUnitGrid
                 units={units}
                 onReorder={reorderUnits}

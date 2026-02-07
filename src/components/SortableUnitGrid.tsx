@@ -90,7 +90,7 @@ export default function SortableUnitGrid({
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={units.map(u => u.id)} strategy={rectSortingStrategy}>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
           {units.map((unit, i) => (
             <SortableUnitCard
               key={unit.id}
