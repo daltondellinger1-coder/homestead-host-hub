@@ -151,27 +151,27 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
       className="space-y-4"
     >
       {/* Summary strip */}
-      <div className="grid grid-cols-4 gap-2 sm:gap-3">
-        <div className="glass-card rounded-xl px-3 py-3 sm:p-4">
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-muted-foreground font-body mb-0.5">Expected</p>
-          <p className="text-sm sm:text-lg font-heading font-semibold">{formatCurrency(totalExpected)}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
+          <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-muted-foreground font-body mb-0.5">Expected</p>
+          <p className="text-base sm:text-lg font-heading font-semibold">{formatCurrency(totalExpected)}</p>
         </div>
-        <div className="glass-card rounded-xl px-3 py-3 sm:p-4">
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-success font-body mb-0.5">Collected</p>
-          <p className="text-sm sm:text-lg font-heading font-semibold text-success">{formatCurrency(totalPaid)}</p>
+        <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
+          <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-success font-body mb-0.5">Collected</p>
+          <p className="text-base sm:text-lg font-heading font-semibold text-success">{formatCurrency(totalPaid)}</p>
         </div>
-        <div className="glass-card rounded-xl px-3 py-3 sm:p-4">
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-secondary font-body mb-0.5">Pending</p>
-          <p className="text-sm sm:text-lg font-heading font-semibold text-secondary">{formatCurrency(totalPending)}</p>
+        <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
+          <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-secondary font-body mb-0.5">Pending</p>
+          <p className="text-base sm:text-lg font-heading font-semibold text-secondary">{formatCurrency(totalPending)}</p>
         </div>
-        <div className="glass-card rounded-xl px-3 py-3 sm:p-4">
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-wider text-muted-foreground font-body mb-0.5">Activity</p>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span className="flex items-center gap-0.5 text-xs sm:text-sm font-body text-success">
-              <LogIn className="h-3 w-3 sm:h-3.5 sm:w-3.5" />{checkInCount}
+        <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
+          <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-muted-foreground font-body mb-0.5">Activity</p>
+          <div className="flex items-center gap-3 mt-1">
+            <span className="flex items-center gap-1 text-sm font-body text-success">
+              <LogIn className="h-3.5 w-3.5" />{checkInCount}
             </span>
-            <span className="flex items-center gap-0.5 text-xs sm:text-sm font-body text-destructive">
-              <LogOut className="h-3 w-3 sm:h-3.5 sm:w-3.5" />{checkOutCount}
+            <span className="flex items-center gap-1 text-sm font-body text-destructive">
+              <LogOut className="h-3.5 w-3.5" />{checkOutCount}
             </span>
           </div>
         </div>
@@ -183,43 +183,43 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
         onTouchEnd={handleTouchEnd}
       >
         {/* Navigation */}
-        <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
-          <div className="flex items-center gap-1.5 sm:gap-3">
-            <Button variant="ghost" size="sm" onClick={prevMonth} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg">
-              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+        <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Button variant="ghost" size="sm" onClick={prevMonth} className="h-9 w-9 p-0 rounded-lg">
+              <ChevronLeft className="h-5 w-5" />
             </Button>
-            <h2 className="font-heading text-base sm:text-xl font-semibold min-w-[140px] sm:min-w-[200px] text-center">
+            <h2 className="font-heading text-lg sm:text-xl font-semibold min-w-[160px] sm:min-w-[200px] text-center">
               {monthLabel}
             </h2>
-            <Button variant="ghost" size="sm" onClick={nextMonth} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg">
-              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Button variant="ghost" size="sm" onClick={nextMonth} className="h-9 w-9 p-0 rounded-lg">
+              <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
-          <Button variant="outline" size="sm" onClick={goToday} className="font-body text-[11px] sm:text-xs h-7 sm:h-8 px-2 sm:px-3">
+          <Button variant="outline" size="sm" onClick={goToday} className="font-body text-xs h-8 px-3">
             Today
           </Button>
         </div>
 
         {/* Compact legend */}
-        <div className="px-3 sm:px-5 py-2 border-b border-border/30 flex items-center gap-3 sm:gap-5 text-[10px] sm:text-xs font-body text-muted-foreground overflow-x-auto">
-          <span className="flex items-center gap-1 whitespace-nowrap">
-            <span className="h-2 w-2 rounded-full bg-success" /> Check-in
+        <div className="px-4 sm:px-5 py-2.5 border-b border-border/30 flex items-center gap-4 sm:gap-5 text-xs font-body text-muted-foreground overflow-x-auto">
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 rounded-full bg-success" /> Check-in
           </span>
-          <span className="flex items-center gap-1 whitespace-nowrap">
-            <span className="h-2 w-2 rounded-full bg-destructive" /> Check-out
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 rounded-full bg-destructive" /> Check-out
           </span>
-          <span className="flex items-center gap-1 whitespace-nowrap">
-            <span className="h-2 w-2 rounded-full bg-success/50" /> Paid
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 rounded-full bg-success/50" /> Paid
           </span>
-          <span className="flex items-center gap-1 whitespace-nowrap">
-            <span className="h-2 w-2 rounded-full bg-secondary" /> Due
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 rounded-full bg-secondary" /> Due
           </span>
         </div>
 
         {/* Day headers */}
         <div className="grid grid-cols-7 border-b border-border/50">
           {DAYS_SHORT.map((d, i) => (
-            <div key={`${d}-${i}`} className="text-center text-[11px] sm:text-xs font-semibold text-muted-foreground py-2.5 font-body">
+            <div key={`${d}-${i}`} className="text-center text-xs font-semibold text-muted-foreground py-2.5 font-body">
               <span className="sm:hidden">{d}</span>
               <span className="hidden sm:inline">{DAYS_MED[i]}</span>
             </div>
@@ -239,7 +239,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                 key={i}
                 onClick={() => day && dayEvents.length > 0 && setSelectedDay(isSelected ? null : day)}
                 className={`
-                  min-h-[80px] sm:min-h-[110px] border-b border-r border-border/20 p-1 sm:p-2 transition-all relative
+                  min-h-[88px] sm:min-h-[110px] border-b border-r border-border/20 p-1.5 sm:p-2 transition-all relative
                   ${day === null ? 'bg-muted/10' : ''}
                   ${isSelected ? 'bg-secondary/10 ring-1 ring-secondary/40 z-10' : ''}
                   ${day && dayEvents.length > 0 && !isSelected ? 'cursor-pointer hover:bg-muted/30' : ''}
@@ -250,32 +250,32 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                     {/* Day number */}
                     <div className="flex items-start justify-between">
                       {isToday(day) ? (
-                        <span className="font-bold text-[11px] sm:text-sm text-background bg-secondary rounded-full h-6 w-6 sm:h-7 sm:w-7 flex items-center justify-center font-body">
+                        <span className="font-bold text-xs sm:text-sm text-background bg-secondary rounded-full h-6 w-6 sm:h-7 sm:w-7 flex items-center justify-center font-body">
                           {day}
                         </span>
                       ) : (
-                        <span className={`text-[13px] sm:text-sm font-body leading-none pl-0.5 pt-0.5 ${hasDots ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
+                        <span className={`text-sm sm:text-sm font-body leading-none pl-0.5 pt-0.5 ${hasDots ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
                           {day}
                         </span>
                       )}
                     </div>
 
-                    {/* Event indicators - mobile: dots row, desktop: tags */}
+                    {/* Event indicators - mobile: dots + pills, desktop: tags */}
                     {hasDots && (
                       <>
                         {/* Mobile: colored dots under the number */}
-                        <div className="flex items-center gap-1 mt-1.5 sm:hidden flex-wrap">
+                        <div className="flex items-center gap-1.5 mt-1.5 sm:hidden flex-wrap">
                           {dots.hasCheckIn && (
-                            <span className="h-[7px] w-[7px] rounded-full bg-success ring-1 ring-success/30" />
+                            <span className="h-2 w-2 rounded-full bg-success ring-1 ring-success/30" />
                           )}
                           {dots.hasCheckOut && (
-                            <span className="h-[7px] w-[7px] rounded-full bg-destructive ring-1 ring-destructive/30" />
+                            <span className="h-2 w-2 rounded-full bg-destructive ring-1 ring-destructive/30" />
                           )}
                           {dots.hasPaidPayment && (
-                            <span className="h-[7px] w-[7px] rounded-full bg-success/50" />
+                            <span className="h-2 w-2 rounded-full bg-success/50" />
                           )}
                           {dots.hasUnpaidPayment && (
-                            <span className="h-[7px] w-[7px] rounded-full bg-secondary ring-1 ring-secondary/30" />
+                            <span className="h-2 w-2 rounded-full bg-secondary ring-1 ring-secondary/30" />
                           )}
                         </div>
 
@@ -288,7 +288,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                               return (
                                 <div
                                   key={`mb-${idx}`}
-                                  className={`rounded px-1 py-0.5 text-[9px] font-body font-medium truncate ${
+                                  className={`rounded px-1 py-0.5 text-[11px] font-body font-semibold truncate leading-tight ${
                                     isCheckIn
                                       ? 'bg-success/15 text-success'
                                       : 'bg-destructive/15 text-destructive'
@@ -302,7 +302,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                             return (
                               <div
                                 key={`mp-${idx}`}
-                                className={`rounded px-1 py-0.5 text-[9px] font-body font-medium truncate ${
+                                className={`rounded px-1 py-0.5 text-[11px] font-body font-semibold truncate leading-tight ${
                                   p.status === 'paid'
                                     ? 'bg-success/15 text-success'
                                     : 'bg-secondary/15 text-secondary'
@@ -313,7 +313,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                             );
                           })}
                           {dayEvents.length > 2 && (
-                            <span className="text-[9px] text-muted-foreground pl-0.5">+{dayEvents.length - 2}</span>
+                            <span className="text-[10px] text-muted-foreground pl-0.5 font-medium">+{dayEvents.length - 2}</span>
                           )}
                         </div>
 
@@ -382,10 +382,10 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
             exit={{ opacity: 0, y: 8 }}
             className="glass-card rounded-xl p-4 sm:p-5"
           >
-            <h3 className="font-heading text-sm sm:text-base font-semibold mb-3">
+            <h3 className="font-heading text-base font-semibold mb-3">
               {new Date(year, month, selectedDay).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {selectedEvents.map((ev, idx) => {
                 if (ev.kind === 'booking') {
                   const b = ev.data;
@@ -393,11 +393,11 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                   return (
                     <div
                       key={`detail-b-${idx}`}
-                      className={`flex items-center gap-3 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-body ${
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
                         isCheckIn ? 'bg-success/8' : 'bg-destructive/8'
                       }`}
                     >
-                      <div className={`p-1.5 sm:p-2 rounded-lg shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
+                      <div className={`p-2 rounded-lg shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
                         {isCheckIn ? (
                           <LogIn className="h-4 w-4 text-success" />
                         ) : (
@@ -405,8 +405,8 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-xs sm:text-sm">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
-                        <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{b.guestName} · {b.unitName} · {SOURCE_LABELS[b.source]}</p>
+                        <p className="font-medium text-sm">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
+                        <p className="text-xs text-muted-foreground truncate mt-0.5">{b.guestName} · {b.unitName} · {SOURCE_LABELS[b.source]}</p>
                       </div>
                     </div>
                   );
@@ -415,27 +415,27 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                 return (
                   <div
                     key={`detail-p-${p.id}`}
-                    className={`flex items-center gap-3 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm font-body ${
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
                       p.status === 'paid' ? 'bg-success/8' : 'bg-secondary/8'
                     }`}
                   >
-                    <div className={`p-1.5 sm:p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
+                    <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
                       <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-xs sm:text-sm">
+                      <p className="font-medium text-sm">
                         {p.unitName} · {formatCurrency(p.amount)}
-                        <span className={`ml-2 text-[10px] sm:text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
+                        <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
                           {p.status}
                         </span>
                       </p>
-                      <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
                     </div>
                     {p.status !== 'paid' && (
                       <Button
                         size="sm"
                         variant="outline"
-                        className="h-7 sm:h-8 text-[11px] sm:text-xs font-body shrink-0 px-2"
+                        className="h-8 text-xs font-body shrink-0 px-3"
                         onClick={() => onMarkPaid(p.unitId, p.id)}
                       >
                         Mark Paid
