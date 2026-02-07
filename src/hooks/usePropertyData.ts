@@ -164,6 +164,28 @@ export function usePropertyData() {
     if (data) setDbUnits(prev => prev.map(u => u.id === unitId ? data : u));
   }, []);
 
+  const reorderUnits = useCallback(async (activeId: string, overId: string) => {
+    const oldIndex = dbUnits.findIndex(u => u.id === activeId);
+    const newIndex = dbUnits.findIndex(u => u.id === overId);
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    // Reorder locally first for instant feedback
+    const reordered = [...dbUnits].sort((a, b) => a.sort_order - b.sort_order);
+    const [moved] = reordered.splice(oldIndex, 1);
+    reordered.splice(newIndex, 0, moved);
+
+    // Assign new sort_order values
+    const updated = reordered.map((u, i) => ({ ...u, sort_order: i }));
+    setDbUnits(updated);
+
+    // Persist to DB
+    await Promise.all(
+      updated.map(u =>
+        supabase.from('units').update({ sort_order: u.sort_order }).eq('id', u.id)
+      )
+    );
+  }, [dbUnits]);
+
   const removeUnit = useCallback(async (unitId: string) => {
     await supabase.from('units').delete().eq('id', unitId);
     setDbUnits(prev => prev.filter(u => u.id !== unitId));
@@ -340,6 +362,7 @@ export function usePropertyData() {
     refresh: fetchAll,
     addUnit,
     updateUnit,
+    reorderUnits,
     removeUnit,
     addGuest,
     updateGuest,
