@@ -190,7 +190,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             />
           </div>
         ) : (
-          <PaymentCalendar events={allPaymentEvents} bookingEvents={allBookingEvents} onMarkPaid={markPaymentPaid} />
+          <PaymentCalendar
+            events={allPaymentEvents}
+            bookingEvents={allBookingEvents}
+            onMarkPaid={markPaymentPaid}
+            onAddPayment={addPayment}
+            occupiedUnits={units
+              .filter(u => u.currentGuest)
+              .map(u => ({
+                unitId: u.id,
+                unitName: u.name,
+                guestName: u.currentGuest!.name,
+                monthlyRate: u.currentGuest!.monthlyRate,
+              }))}
+          />
         )}
         </>
         )}

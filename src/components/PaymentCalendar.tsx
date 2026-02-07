@@ -1,9 +1,13 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { PaymentStatus, BookingSource, SOURCE_LABELS } from '@/types/property';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PaymentStatus, BookingSource, SOURCE_LABELS, Payment } from '@/types/property';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface PaymentEvent {
   id: string;
@@ -26,10 +30,19 @@ interface BookingEvent {
   source: BookingSource;
 }
 
+interface OccupiedUnit {
+  unitId: string;
+  unitName: string;
+  guestName: string;
+  monthlyRate: number;
+}
+
 interface PaymentCalendarProps {
   events: PaymentEvent[];
   bookingEvents: BookingEvent[];
   onMarkPaid: (unitId: string, paymentId: string) => void;
+  onAddPayment: (unitId: string, payment: Payment) => void;
+  occupiedUnits: OccupiedUnit[];
 }
 
 type CalendarEvent =
@@ -42,9 +55,13 @@ const DAYS_MED = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
 
-export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: PaymentCalendarProps) {
+export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onAddPayment, occupiedUnits }: PaymentCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [showAddPayment, setShowAddPayment] = useState(false);
+  const [addPaymentUnitId, setAddPaymentUnitId] = useState('');
+  const [addPaymentAmount, setAddPaymentAmount] = useState('');
+  const [addPaymentNote, setAddPaymentNote] = useState('');
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -238,12 +255,12 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
             return (
               <div
                 key={i}
-                onClick={() => day && dayEvents.length > 0 && setSelectedDay(isSelected ? null : day)}
+                onClick={() => day && (dayEvents.length > 0 || occupiedUnits.length > 0) && setSelectedDay(isSelected ? null : day)}
                 className={`
                   min-h-[68px] sm:min-h-[110px] border-b border-r border-border/20 p-1.5 sm:p-2 transition-all relative
                   ${day === null ? 'bg-muted/10' : ''}
                   ${isSelected ? 'bg-secondary/10 ring-1 ring-secondary/40 z-10' : ''}
-                  ${day && dayEvents.length > 0 && !isSelected ? 'cursor-pointer hover:bg-muted/30' : ''}
+                  ${day && (dayEvents.length > 0 || occupiedUnits.length > 0) && !isSelected ? 'cursor-pointer hover:bg-muted/30' : ''}
                 `}
               >
                 {day !== null && (
@@ -342,7 +359,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
       </div>
 
       {/* Selected day detail dialog */}
-      <Dialog open={selectedDay !== null && selectedEvents.length > 0} onOpenChange={(open) => { if (!open) setSelectedDay(null); }}>
+      <Dialog open={selectedDay !== null} onOpenChange={(open) => { if (!open) { setSelectedDay(null); setShowAddPayment(false); } }}>
         <DialogContent className="glass-card border-border/60 max-w-md max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-heading text-base font-semibold">
@@ -408,6 +425,115 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                 </div>
               );
             })}
+
+            {/* Add payment inline form */}
+            {occupiedUnits.length > 0 && (
+              <>
+                {!showAddPayment ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full h-9 text-sm font-body mt-1"
+                    onClick={() => {
+                      setShowAddPayment(true);
+                      setAddPaymentUnitId(occupiedUnits[0].unitId);
+                      setAddPaymentAmount(occupiedUnits[0].monthlyRate.toString());
+                      setAddPaymentNote('');
+                    }}
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1.5" />
+                    Add Payment
+                  </Button>
+                ) : (
+                  <div className="space-y-3 p-3 rounded-lg bg-muted/30 border border-border/50 mt-1">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">New Payment</p>
+                    {occupiedUnits.length > 1 ? (
+                      <div className="space-y-1">
+                        <Label className="text-xs">Unit</Label>
+                        <Select
+                          value={addPaymentUnitId}
+                          onValueChange={v => {
+                            setAddPaymentUnitId(v);
+                            const u = occupiedUnits.find(ou => ou.unitId === v);
+                            if (u) setAddPaymentAmount(u.monthlyRate.toString());
+                          }}
+                        >
+                          <SelectTrigger className="h-9 text-sm"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            {occupiedUnits.map(u => (
+                              <SelectItem key={u.unitId} value={u.unitId}>
+                                {u.unitName} — {u.guestName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ) : (
+                      <p className="text-sm font-medium">{occupiedUnits[0].unitName} — {occupiedUnits[0].guestName}</p>
+                    )}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <Label className="text-xs">Amount ($)</Label>
+                        <Input
+                          type="number"
+                          value={addPaymentAmount}
+                          onChange={e => setAddPaymentAmount(e.target.value)}
+                          className="h-9 text-sm"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Note</Label>
+                        <Input
+                          placeholder="Optional"
+                          value={addPaymentNote}
+                          onChange={e => setAddPaymentNote(e.target.value)}
+                          className="h-9 text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        className="flex-1 h-9 text-sm font-body"
+                        disabled={!addPaymentAmount || !addPaymentUnitId}
+                        onClick={() => {
+                          if (!addPaymentAmount || !addPaymentUnitId || selectedDay === null) return;
+                          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+                          const payment: Payment = {
+                            id: crypto.randomUUID(),
+                            amount: parseFloat(addPaymentAmount),
+                            date: dateStr,
+                            status: 'upcoming',
+                            note: addPaymentNote.trim() || undefined,
+                          };
+                          onAddPayment(addPaymentUnitId, payment);
+                          const unitName = occupiedUnits.find(u => u.unitId === addPaymentUnitId)?.unitName ?? '';
+                          toast.success(`Payment added for ${unitName}`);
+                          setShowAddPayment(false);
+                          setAddPaymentAmount('');
+                          setAddPaymentNote('');
+                        }}
+                      >
+                        <Plus className="h-3.5 w-3.5 mr-1" />
+                        Add
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-9 text-sm font-body"
+                        onClick={() => setShowAddPayment(false)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
+            {selectedEvents.length === 0 && !showAddPayment && occupiedUnits.length === 0 && (
+              <p className="text-center text-muted-foreground text-sm py-4">No events on this day.</p>
+            )}
           </div>
         </DialogContent>
       </Dialog>
