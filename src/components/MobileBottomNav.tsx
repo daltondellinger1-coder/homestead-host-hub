@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, BarChart3, History } from 'lucide-react';
+import { LayoutGrid, CalendarDays, BarChart3, History, LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 
 interface MobileBottomNavProps {
@@ -9,6 +10,7 @@ interface MobileBottomNavProps {
 
 export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }: MobileBottomNavProps) {
   const location = useLocation();
+  const { signOut } = useAuth();
   const isDashboard = location.pathname === '/';
 
   const items = [
@@ -41,6 +43,13 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       icon: History,
       active: location.pathname === '/payments',
       to: '/payments',
+    },
+    {
+      label: 'Sign Out',
+      icon: LogOut,
+      active: false,
+      to: '#',
+      onClick: () => signOut(),
     },
   ];
 
