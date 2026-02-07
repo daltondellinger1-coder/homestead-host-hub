@@ -1,4 +1,6 @@
-export type BookingSource = 'airbnb' | 'furnished_finder' | 'direct' | 'other';
+export type BookingSource = 'airbnb' | 'furnished_finder' | 'direct' | 'long_term' | 'lease' | 'other';
+
+export type UnitStatus = 'occupied' | 'vacant' | 'rented' | 'planning' | 'storage';
 
 export type PaymentStatus = 'paid' | 'pending' | 'overdue' | 'upcoming';
 
@@ -14,23 +16,34 @@ export interface Guest {
   name: string;
   source: BookingSource;
   checkIn: string; // ISO date
-  checkOut: string; // ISO date
+  checkOut: string; // ISO date or empty for month-to-month
   monthlyRate: number;
   securityDeposit: number;
   securityDepositPaid: boolean;
   payments: Payment[];
+  notes?: string;
 }
 
 export interface Unit {
   id: string;
   name: string;
+  status: UnitStatus;
   currentGuest: Guest | null;
-  isVacant: boolean;
 }
 
 export const SOURCE_LABELS: Record<BookingSource, string> = {
   airbnb: 'Airbnb',
   furnished_finder: 'Furnished Finder',
   direct: 'Direct Booking',
+  long_term: 'Long Term',
+  lease: 'Lease',
   other: 'Other',
+};
+
+export const STATUS_LABELS: Record<UnitStatus, string> = {
+  occupied: 'Occupied',
+  vacant: 'Vacant',
+  rented: 'Rented',
+  planning: 'Planning',
+  storage: 'Storage',
 };

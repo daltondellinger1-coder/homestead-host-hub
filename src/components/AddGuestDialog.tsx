@@ -73,6 +73,8 @@ export default function AddGuestDialog({ open, onClose, onSave, unitName }: AddG
                 <SelectItem value="airbnb">Airbnb</SelectItem>
                 <SelectItem value="furnished_finder">Furnished Finder</SelectItem>
                 <SelectItem value="direct">Direct Booking</SelectItem>
+                <SelectItem value="long_term">Long Term</SelectItem>
+                <SelectItem value="lease">Lease</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
