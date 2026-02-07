@@ -334,6 +334,23 @@ export function usePropertyData() {
     if (data) setDbPayments(prev => [data, ...prev]);
   }, [guestIdByUnit]);
 
+  const addPaymentForGuest = useCallback(async (guestId: string, unitId: string, payment: Payment) => {
+    const { data } = await supabase
+      .from('payments')
+      .insert({
+        guest_id: guestId,
+        unit_id: unitId,
+        amount: payment.amount,
+        date: payment.date,
+        status: payment.status,
+        note: payment.note || null,
+      })
+      .select()
+      .single();
+
+    if (data) setDbPayments(prev => [data, ...prev]);
+  }, []);
+
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
     const today = new Date().toISOString().split('T')[0];
     const { data } = await supabase
@@ -406,16 +423,22 @@ export function usePropertyData() {
     .sort((a, b) => a.checkOut.localeCompare(b.checkOut))[0];
 
   const allPaymentEvents = units
-    .filter(u => u.currentGuest)
-    .flatMap(u =>
-      (u.currentGuest?.payments ?? []).map(p => ({
-        ...p,
-        unitId: u.id,
-        unitName: u.name,
-        guestName: u.currentGuest!.name,
-        source: u.currentGuest!.source,
-      }))
-    );
+    .flatMap(u => {
+      const events: Array<Payment & { unitId: string; unitName: string; guestName: string; source: BookingSource }> = [];
+      // Current guest payments
+      if (u.currentGuest) {
+        for (const p of u.currentGuest.payments) {
+          events.push({ ...p, unitId: u.id, unitName: u.name, guestName: u.currentGuest.name, source: u.currentGuest.source });
+        }
+      }
+      // Future guest payments
+      for (const fg of u.futureGuests) {
+        for (const p of fg.payments) {
+          events.push({ ...p, unitId: u.id, unitName: u.name, guestName: fg.name, source: fg.source });
+        }
+      }
+      return events;
+    });
 
   const allBookingEvents = units
     .flatMap(u => {
@@ -447,6 +470,7 @@ export function usePropertyData() {
     updateGuest,
     removeGuest,
     addPayment,
+    addPaymentForGuest,
     markPaymentPaid,
     updatePayment,
     deletePayment,

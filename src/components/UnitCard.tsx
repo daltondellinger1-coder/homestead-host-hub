@@ -1,7 +1,7 @@
 import { Unit, FutureGuest, SOURCE_LABELS, STATUS_LABELS, UnitStatus } from '@/types/property';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2, History, UserPlus } from 'lucide-react';
+import { Calendar, DollarSign, User, Clock, Shield, Plus, CheckCircle2, XCircle, StickyNote, Pencil, Trash2, History, UserPlus, CalendarDays } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface UnitCardProps {
@@ -15,7 +15,7 @@ interface UnitCardProps {
   onRemoveGuest: (unitId: string) => void;
   onDeleteUnit: (unitId: string) => void;
   onViewHistory: (unitId: string) => void;
-  onSchedulePayments: (unitId: string) => void;
+  onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -202,9 +202,20 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                       <Calendar className="h-3 w-3 shrink-0" />
                       <span>{formatDate(fg.checkIn)} — {formatDate(fg.checkOut)}</span>
                     </div>
-                    <div className="text-xs">
-                      <span className="font-medium">{formatCurrency(fg.monthlyRate)}</span>
-                      <span className="text-muted-foreground"> /mo</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-xs">
+                        <span className="font-medium">{formatCurrency(fg.monthlyRate)}</span>
+                        <span className="text-muted-foreground"> /mo</span>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-6 text-[10px] text-primary hover:text-primary px-1.5"
+                        onClick={() => onSchedulePayments(unit.id, fg.id)}
+                      >
+                        <CalendarDays className="h-3 w-3 mr-1" />
+                        Payments {fg.payments.length > 0 ? `(${fg.payments.length})` : ''}
+                      </Button>
                     </div>
                   </div>
                 ))}

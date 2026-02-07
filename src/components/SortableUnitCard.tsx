@@ -20,7 +20,7 @@ interface SortableUnitCardProps {
   onRemoveGuest: (unitId: string) => void;
   onDeleteUnit: (unitId: string) => void;
   onViewHistory: (unitId: string) => void;
-  onSchedulePayments: (unitId: string) => void;
+  onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
 }
 
 export default function SortableUnitCard({
