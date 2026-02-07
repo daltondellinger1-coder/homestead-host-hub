@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import StatsOverview from '@/components/StatsOverview';
@@ -7,6 +7,7 @@ import PaymentCalendar from '@/components/PaymentCalendar';
 import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import AddUnitDialog from '@/components/AddUnitDialog';
+import PullToRefresh from '@/components/PullToRefresh';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, History, BarChart3 } from 'lucide-react';
@@ -16,7 +17,11 @@ type ViewMode = 'units' | 'calendar';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 export default function Dashboard() {
-  const { units, loading, addUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, removeUnit, addGuest, updateGuest, removeGuest, addPayment, markPaymentPaid, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+
+  const handleRefresh = useCallback(async () => {
+    await refresh();
+  }, [refresh]);
 
   const [guestDialog, setGuestDialog] = useState<GuestDialogMode>(null);
   const [paymentDialogUnit, setPaymentDialogUnit] = useState<string | null>(null);
@@ -37,7 +42,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen pattern-bg">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen pattern-bg">
       {/* Header */}
       <header className="border-b border-border/40 sticky top-0 z-10" style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -252,5 +258,6 @@ export default function Dashboard() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+    </PullToRefresh>
   );
 }
