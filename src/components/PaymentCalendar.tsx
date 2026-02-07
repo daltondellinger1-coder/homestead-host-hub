@@ -239,7 +239,7 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                 key={i}
                 onClick={() => day && dayEvents.length > 0 && setSelectedDay(isSelected ? null : day)}
                 className={`
-                  min-h-[88px] sm:min-h-[110px] border-b border-r border-border/20 p-1.5 sm:p-2 transition-all relative
+                  min-h-[68px] sm:min-h-[110px] border-b border-r border-border/20 p-1.5 sm:p-2 transition-all relative
                   ${day === null ? 'bg-muted/10' : ''}
                   ${isSelected ? 'bg-secondary/10 ring-1 ring-secondary/40 z-10' : ''}
                   ${day && dayEvents.length > 0 && !isSelected ? 'cursor-pointer hover:bg-muted/30' : ''}
@@ -260,62 +260,29 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid }: P
                       )}
                     </div>
 
-                    {/* Event indicators - mobile: dots + pills, desktop: tags */}
+                    {/* Event indicators - mobile: dots only, desktop: tags */}
                     {hasDots && (
                       <>
-                        {/* Mobile: colored dots under the number */}
-                        <div className="flex items-center gap-1.5 mt-1.5 sm:hidden flex-wrap">
+                        {/* Mobile: colored dots only — tap day for details */}
+                        <div className="flex items-center gap-1.5 mt-2 sm:hidden flex-wrap">
                           {dots.hasCheckIn && (
-                            <span className="h-2 w-2 rounded-full bg-success ring-1 ring-success/30" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-success ring-1 ring-success/30" />
                           )}
                           {dots.hasCheckOut && (
-                            <span className="h-2 w-2 rounded-full bg-destructive ring-1 ring-destructive/30" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-destructive ring-1 ring-destructive/30" />
                           )}
                           {dots.hasPaidPayment && (
-                            <span className="h-2 w-2 rounded-full bg-success/50" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-success/50" />
                           )}
                           {dots.hasUnpaidPayment && (
-                            <span className="h-2 w-2 rounded-full bg-secondary ring-1 ring-secondary/30" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-secondary ring-1 ring-secondary/30" />
                           )}
                         </div>
-
-                        {/* Mobile: compact event pills */}
-                        <div className="flex flex-col gap-0.5 mt-1 sm:hidden">
-                          {dayEvents.slice(0, 2).map((ev, idx) => {
-                            if (ev.kind === 'booking') {
-                              const b = ev.data;
-                              const isCheckIn = b.type === 'checkin';
-                              return (
-                                <div
-                                  key={`mb-${idx}`}
-                                  className={`rounded px-1 py-0.5 text-[11px] font-body font-semibold truncate leading-tight ${
-                                    isCheckIn
-                                      ? 'bg-success/15 text-success'
-                                      : 'bg-destructive/15 text-destructive'
-                                  }`}
-                                >
-                                  {isCheckIn ? '→' : '←'} {b.unitName}
-                                </div>
-                              );
-                            }
-                            const p = ev.data;
-                            return (
-                              <div
-                                key={`mp-${idx}`}
-                                className={`rounded px-1 py-0.5 text-[11px] font-body font-semibold truncate leading-tight ${
-                                  p.status === 'paid'
-                                    ? 'bg-success/15 text-success'
-                                    : 'bg-secondary/15 text-secondary'
-                                }`}
-                              >
-                                {p.unitName}
-                              </div>
-                            );
-                          })}
-                          {dayEvents.length > 2 && (
-                            <span className="text-[10px] text-muted-foreground pl-0.5 font-medium">+{dayEvents.length - 2}</span>
-                          )}
-                        </div>
+                        {dayEvents.length > 0 && (
+                          <span className="text-[10px] text-muted-foreground mt-1 sm:hidden font-body">
+                            {dayEvents.length} event{dayEvents.length > 1 ? 's' : ''}
+                          </span>
+                        )}
 
                         {/* Desktop: full event tags */}
                         <div className="hidden sm:flex flex-col gap-1 mt-1.5">
