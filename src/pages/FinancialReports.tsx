@@ -203,9 +203,9 @@ export default function FinancialReports() {
                   <div className="p-2 rounded-md bg-secondary/10">
                     <card.icon className="h-4 w-4 text-secondary" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs text-muted-foreground font-body">{card.label}</p>
-                    <p className={`text-xl font-heading font-semibold mt-0.5 ${card.color}`}>{card.value}</p>
+                    <p className={`text-base sm:text-xl font-heading font-semibold mt-0.5 ${card.color}`}>{card.value}</p>
                   </div>
                 </motion.div>
               ))}
