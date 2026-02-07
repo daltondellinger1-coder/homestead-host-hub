@@ -50,7 +50,7 @@ export default function Dashboard() {
               <p className="text-[10px] text-muted-foreground font-body uppercase tracking-widest">Vincennes, Indiana</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <div className="hidden sm:flex items-center bg-muted/50 rounded-lg p-0.5">
               <Button
                 size="sm"
@@ -83,29 +83,29 @@ export default function Dashboard() {
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-2 sm:px-3"
               >
-                <BarChart3 className="h-4 w-4 mr-1.5" />
-                Reports
+                <BarChart3 className="h-4 w-4 sm:mr-1.5" />
+                <span className="hidden sm:inline">Reports</span>
               </Button>
             </Link>
             <Link to="/payments">
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-2 sm:px-3"
               >
-                <History className="h-4 w-4 mr-1.5" />
-                History
+                <History className="h-4 w-4 sm:mr-1.5" />
+                <span className="hidden sm:inline">History</span>
               </Button>
             </Link>
             <Button
               size="sm"
-              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90"
+              className="font-body gold-gradient border-0 text-background font-semibold hover:opacity-90 px-2 sm:px-3"
               onClick={() => setShowAddUnit(true)}
             >
-              <Plus className="h-4 w-4 mr-1.5" />
-              Add Unit
+              <Plus className="h-4 w-4 sm:mr-1.5" />
+              <span className="hidden sm:inline">Add Unit</span>
             </Button>
           </div>
         </div>
