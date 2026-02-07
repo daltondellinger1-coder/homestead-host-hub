@@ -180,29 +180,29 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               )}
             </div>
 
-            <div className="flex gap-2 pt-1">
+            <div className="grid grid-cols-3 gap-2 pt-1">
               <Button
                 size="sm"
                 variant="outline"
-                className="flex-1 font-body text-sm h-9 sm:h-10"
+                className="font-body text-sm h-10"
                 onClick={() => onRecordPayment(unit.id)}
               >
-                <Plus className="h-4 w-4 mr-1.5" />
+                <Plus className="h-4 w-4 mr-1" />
                 Payment
               </Button>
               <Button
                 size="sm"
                 variant="outline"
-                className="font-body text-sm h-9 sm:h-10"
+                className="font-body text-sm h-10"
                 onClick={() => onEditGuest(unit.id)}
               >
-                <Pencil className="h-4 w-4 mr-1.5" />
+                <Pencil className="h-4 w-4 mr-1" />
                 Edit
               </Button>
               <Button
                 size="sm"
                 variant="ghost"
-                className="font-body text-sm text-destructive hover:text-destructive h-9 sm:h-10 px-3"
+                className="font-body text-sm text-destructive hover:text-destructive h-10"
                 onClick={() => onRemoveGuest(unit.id)}
               >
                 End Lease
