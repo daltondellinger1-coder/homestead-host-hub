@@ -95,4 +95,8 @@
     background-image: radial-gradient(hsl(222 40% 18%) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
