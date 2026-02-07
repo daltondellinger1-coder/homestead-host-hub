@@ -327,6 +327,7 @@ export function usePropertyData() {
   return {
     units,
     loading,
+    refresh: fetchAll,
     addUnit,
     removeUnit,
     addGuest,
