@@ -23,6 +23,7 @@ interface SortableUnitCardProps {
   onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
   onEditFutureGuest: (unitId: string, futureGuestId: string) => void;
   onDeleteFutureGuest: (futureGuestId: string) => void;
+  onDeleteCurrentGuest: (unitId: string) => void;
 }
 
 export default function SortableUnitCard({
@@ -43,6 +44,7 @@ export default function SortableUnitCard({
   onSchedulePayments,
   onEditFutureGuest,
   onDeleteFutureGuest,
+  onDeleteCurrentGuest,
 }: SortableUnitCardProps) {
   const {
     attributes,
@@ -109,6 +111,7 @@ export default function SortableUnitCard({
           onSchedulePayments={onSchedulePayments}
           onEditFutureGuest={onEditFutureGuest}
           onDeleteFutureGuest={onDeleteFutureGuest}
+          onDeleteCurrentGuest={onDeleteCurrentGuest}
         />
       </div>
     </div>

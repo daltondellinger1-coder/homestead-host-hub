@@ -18,6 +18,7 @@ interface UnitCardProps {
   onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
   onEditFutureGuest: (unitId: string, futureGuestId: string) => void;
   onDeleteFutureGuest: (futureGuestId: string) => void;
+  onDeleteCurrentGuest: (unitId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -42,7 +43,7 @@ const statusColors: Record<UnitStatus, { border: string; text: string }> = {
   storage: { border: 'border-muted-foreground', text: 'text-muted-foreground' },
 };
 
-export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory, onSchedulePayments, onEditFutureGuest, onDeleteFutureGuest }: UnitCardProps) {
+export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditUnit, onRecordPayment, onMarkPaid, onRemoveGuest, onDeleteUnit, onViewHistory, onSchedulePayments, onEditFutureGuest, onDeleteFutureGuest, onDeleteCurrentGuest }: UnitCardProps) {
   const guest = unit.currentGuest;
   const lastPayment = guest?.payments.find(p => p.status === 'paid');
   const nextPayment = guest?.payments.find(p => p.status === 'upcoming' || p.status === 'pending');
@@ -88,8 +89,18 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
               variant="ghost"
               className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
               onClick={() => onEditUnit(unit.id)}
+              title="Edit unit"
             >
               <Pencil className="h-4 w-4" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+              onClick={() => onDeleteUnit(unit.id)}
+              title="Delete unit"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
@@ -275,8 +286,8 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                 size="sm"
                 variant="ghost"
                 className="font-body text-xs sm:text-sm text-muted-foreground hover:text-destructive h-9 px-3 ml-auto"
-                onClick={() => onDeleteUnit(unit.id)}
-                title="Delete unit"
+                onClick={() => onDeleteCurrentGuest(unit.id)}
+                title="Delete guest & all records"
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>
