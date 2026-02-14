@@ -310,7 +310,26 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (guestData) setDbGuests(prev => [...prev, guestData]);
+    if (guestData) {
+      setDbGuests(prev => [...prev, guestData]);
+
+      // Insert scheduled payments
+      if (guest.payments.length > 0) {
+        const paymentInserts = guest.payments.map(p => ({
+          guest_id: guestData.id,
+          unit_id: unitId,
+          amount: p.amount,
+          date: p.date,
+          status: p.status,
+          note: p.note || null,
+        }));
+        const { data: paymentData } = await supabase
+          .from('payments')
+          .insert(paymentInserts)
+          .select();
+        if (paymentData) setDbPayments(prev => [...paymentData, ...prev]);
+      }
+    }
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
   }, []);
 
@@ -332,10 +351,32 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (guestData) setDbGuests(prev => [...prev, guestData]);
+    if (guestData) {
+      setDbGuests(prev => [...prev, guestData]);
+
+      // Insert scheduled payments
+      if (guest.payments.length > 0) {
+        const paymentInserts = guest.payments.map(p => ({
+          guest_id: guestData.id,
+          unit_id: unitId,
+          amount: p.amount,
+          date: p.date,
+          status: p.status,
+          note: p.note || null,
+        }));
+        const { data: paymentData } = await supabase
+          .from('payments')
+          .insert(paymentInserts)
+          .select();
+        if (paymentData) setDbPayments(prev => [...paymentData, ...prev]);
+      }
+    }
   }, []);
 
-  const updateFutureGuest = useCallback(async (guestId: string, guest: Guest) => {
+  const updateFutureGuest = useCallback(async (guestId: string, guest: Guest, replacePayments = false) => {
+    const guestRecord = dbGuests.find(g => g.id === guestId);
+    const unitId = guestRecord?.unit_id;
+
     const { data: guestData } = await supabase
       .from('guests')
       .update({
@@ -353,7 +394,29 @@ export function usePropertyData() {
       .single();
 
     if (guestData) setDbGuests(prev => prev.map(g => g.id === guestId ? guestData : g));
-  }, []);
+
+    // Replace all payments for this guest if requested
+    if (replacePayments && unitId) {
+      await supabase.from('payments').delete().eq('guest_id', guestId);
+      setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
+
+      if (guest.payments.length > 0) {
+        const paymentInserts = guest.payments.map(p => ({
+          guest_id: guestId,
+          unit_id: unitId,
+          amount: p.amount,
+          date: p.date,
+          status: p.status,
+          note: p.note || null,
+        }));
+        const { data: paymentData } = await supabase
+          .from('payments')
+          .insert(paymentInserts)
+          .select();
+        if (paymentData) setDbPayments(prev => [...paymentData, ...prev]);
+      }
+    }
+  }, [dbGuests]);
 
   const deleteFutureGuest = useCallback(async (guestId: string) => {
     // Delete associated payments first
