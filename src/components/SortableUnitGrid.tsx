@@ -35,6 +35,7 @@ interface SortableUnitGridProps {
   onSchedulePayments: (unitId: string, futureGuestId?: string) => void;
   onEditFutureGuest: (unitId: string, futureGuestId: string) => void;
   onDeleteFutureGuest: (futureGuestId: string) => void;
+  onDeleteCurrentGuest: (unitId: string) => void;
 }
 
 export default function SortableUnitGrid({
@@ -51,6 +52,7 @@ export default function SortableUnitGrid({
   onSchedulePayments,
   onEditFutureGuest,
   onDeleteFutureGuest,
+  onDeleteCurrentGuest,
 }: SortableUnitGridProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const activeUnit = activeId ? units.find(u => u.id === activeId) : null;
@@ -133,6 +135,7 @@ export default function SortableUnitGrid({
               onSchedulePayments={onSchedulePayments}
               onEditFutureGuest={onEditFutureGuest}
               onDeleteFutureGuest={onDeleteFutureGuest}
+              onDeleteCurrentGuest={onDeleteCurrentGuest}
             />
           ))}
         </div>
@@ -155,6 +158,7 @@ export default function SortableUnitGrid({
               onSchedulePayments={() => {}}
               onEditFutureGuest={() => {}}
               onDeleteFutureGuest={() => {}}
+              onDeleteCurrentGuest={() => {}}
             />
           </div>
         ) : null}

@@ -50,6 +50,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string } | null>(null);
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
+  const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -209,6 +210,13 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               onSchedulePayments={(id, futureGuestId) => setSchedulePaymentsTarget({ unitId: id, futureGuestId })}
               onEditFutureGuest={(unitId, guestId) => setFutureGuestDialog({ unitId, guestId })}
               onDeleteFutureGuest={id => setDeleteFutureGuestId(id)}
+              onDeleteCurrentGuest={(unitId) => {
+                const unit = units.find(u => u.id === unitId) as any;
+                const guestId = unit?._guestDbId;
+                if (guestId) {
+                  setDeleteCurrentGuestTarget({ unitId, guestId, guestName: unit?.currentGuest?.name ?? 'this guest' });
+                }
+              }}
             />
           </div>
         ) : (
@@ -364,6 +372,32 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               }}
             >
               Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={!!deleteCurrentGuestTarget} onOpenChange={open => !open && setDeleteCurrentGuestTarget(null)}>
+        <AlertDialogContent className="glass-card border-border/60">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-heading">Delete Guest</AlertDialogTitle>
+            <AlertDialogDescription className="font-body text-sm">
+              This will permanently delete <span className="font-semibold text-foreground">{deleteCurrentGuestTarget?.guestName}</span> and all their payment records from everywhere — calendar, reports, and payment history. The unit will be set to vacant. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-body text-xs">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="font-body text-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (deleteCurrentGuestTarget) {
+                  deleteGuest(deleteCurrentGuestTarget.guestId);
+                  setDeleteCurrentGuestTarget(null);
+                  toast.success(`${deleteCurrentGuestTarget.guestName} deleted`);
+                }
+              }}
+            >
+              Delete Guest
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
