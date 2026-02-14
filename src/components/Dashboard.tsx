@@ -31,7 +31,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, deleteGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, markPaymentUnpaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
@@ -216,7 +216,11 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             events={allPaymentEvents}
             bookingEvents={allBookingEvents}
             onMarkPaid={markPaymentPaid}
+            onMarkUnpaid={markPaymentUnpaid}
+            onUpdatePayment={updatePayment}
+            onDeletePayment={deletePayment}
             onAddPayment={addPayment}
+            onDeleteGuest={deleteGuest}
             occupiedUnits={units
               .filter(u => u.currentGuest)
               .map(u => ({
@@ -290,6 +294,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         onClose={() => setHistoryUnitId(null)}
         unitId={historyUnitId ?? ''}
         unitName={historyUnit?.name ?? ''}
+        onDeleteGuest={deleteGuest}
       />
 
       <SchedulePaymentsDialog

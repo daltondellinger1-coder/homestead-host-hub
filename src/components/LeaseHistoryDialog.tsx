@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { SOURCE_LABELS, BookingSource } from '@/types/property';
-import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User } from 'lucide-react';
+import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface ArchivedGuest {
   id: string;
@@ -30,19 +33,21 @@ interface LeaseHistoryDialogProps {
   onClose: () => void;
   unitId: string;
   unitName: string;
+  onDeleteGuest: (guestId: string) => void;
 }
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(amount);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 
 const formatDate = (iso: string) => {
   if (!iso) return 'Month-to-month';
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-export default function LeaseHistoryDialog({ open, onClose, unitId, unitName }: LeaseHistoryDialogProps) {
+export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, onDeleteGuest }: LeaseHistoryDialogProps) {
   const [pastGuests, setPastGuests] = useState<ArchivedGuest[]>([]);
   const [loading, setLoading] = useState(false);
+  const [deleteGuestId, setDeleteGuestId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open || !unitId) return;
@@ -109,6 +114,7 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName }: 
   );
 
   return (
+    <>
     <Dialog open={open} onOpenChange={v => { if (!v) onClose(); }}>
       <DialogContent className="sm:max-w-lg font-body max-h-[85vh] flex flex-col">
         <DialogHeader>
@@ -147,9 +153,20 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName }: 
                         <User className="h-3.5 w-3.5 text-muted-foreground" />
                         <span className="font-medium text-sm">{guest.name}</span>
                       </div>
-                      <Badge variant="secondary" className="text-[11px]">
-                        {SOURCE_LABELS[guest.source]}
-                      </Badge>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant="secondary" className="text-[11px]">
+                          {SOURCE_LABELS[guest.source]}
+                        </Badge>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
+                          onClick={() => setDeleteGuestId(guest.id)}
+                          title="Delete guest record"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
                     </div>
 
                     {/* Dates */}
@@ -224,5 +241,33 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName }: 
         )}
       </DialogContent>
     </Dialog>
+
+    <AlertDialog open={!!deleteGuestId} onOpenChange={open => !open && setDeleteGuestId(null)}>
+      <AlertDialogContent className="glass-card border-border/60">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="font-heading">Delete Guest Record</AlertDialogTitle>
+          <AlertDialogDescription className="font-body text-sm">
+            This will permanently delete this guest and all their payment records from everywhere — calendar, reports, and payment history. This cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className="font-body text-xs">Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className="font-body text-xs bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={() => {
+              if (deleteGuestId) {
+                onDeleteGuest(deleteGuestId);
+                setPastGuests(prev => prev.filter(g => g.id !== deleteGuestId));
+                setDeleteGuestId(null);
+                toast.success('Guest record deleted');
+              }
+            }}
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }

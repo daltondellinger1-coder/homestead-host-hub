@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LogIn, LogOut, DollarSign, Plus, Pencil, Trash2, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -41,7 +41,11 @@ interface PaymentCalendarProps {
   events: PaymentEvent[];
   bookingEvents: BookingEvent[];
   onMarkPaid: (unitId: string, paymentId: string) => void;
+  onMarkUnpaid: (paymentId: string) => void;
+  onUpdatePayment: (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: PaymentStatus }) => void;
+  onDeletePayment: (paymentId: string) => void;
   onAddPayment: (unitId: string, payment: Payment) => void;
+  onDeleteGuest: (guestId: string) => void;
   occupiedUnits: OccupiedUnit[];
 }
 
@@ -55,13 +59,16 @@ const DAYS_MED = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
 
-export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onAddPayment, occupiedUnits }: PaymentCalendarProps) {
+export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onAddPayment, onDeleteGuest, occupiedUnits }: PaymentCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [showAddPayment, setShowAddPayment] = useState(false);
   const [addPaymentUnitId, setAddPaymentUnitId] = useState('');
   const [addPaymentAmount, setAddPaymentAmount] = useState('');
   const [addPaymentNote, setAddPaymentNote] = useState('');
+  const [editingPaymentId, setEditingPaymentId] = useState<string | null>(null);
+  const [editAmount, setEditAmount] = useState('');
+  const [editNote, setEditNote] = useState('');
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -393,34 +400,67 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onA
                 );
               }
               const p = ev.data;
+              const isEditing = editingPaymentId === p.id;
               return (
                 <div
                   key={`detail-p-${p.id}`}
-                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
+                  className={`rounded-lg px-4 py-3 font-body ${
                     p.status === 'paid' ? 'bg-success/8' : 'bg-secondary/8'
                   }`}
                 >
-                  <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
-                    <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm">
-                      {p.unitName} · {formatCurrency(p.amount)}
-                      <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
-                        {p.status}
-                      </span>
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
-                  </div>
-                  {p.status !== 'paid' && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="h-8 text-xs font-body shrink-0 px-3"
-                      onClick={() => onMarkPaid(p.unitId, p.id)}
-                    >
-                      Mark Paid
-                    </Button>
+                  {isEditing ? (
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="space-y-1">
+                          <Label className="text-xs">Amount ($)</Label>
+                          <Input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)} className="h-8 text-sm" autoFocus />
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Note</Label>
+                          <Input value={editNote} onChange={e => setEditNote(e.target.value)} className="h-8 text-sm" placeholder="Optional" />
+                        </div>
+                      </div>
+                      <div className="flex gap-1.5">
+                        <Button size="sm" className="h-7 text-xs px-2.5" onClick={() => {
+                          onUpdatePayment(p.id, { amount: parseFloat(editAmount), note: editNote.trim() || undefined });
+                          setEditingPaymentId(null);
+                          toast.success('Payment updated');
+                        }} disabled={!editAmount}>Save</Button>
+                        <Button size="sm" variant="ghost" className="h-7 text-xs px-2" onClick={() => setEditingPaymentId(null)}>Cancel</Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
+                        <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm">
+                          {p.unitName} · {formatCurrency(p.amount)}
+                          <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
+                            {p.status}
+                          </span>
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
+                      </div>
+                      <div className="flex items-center gap-0.5 shrink-0">
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground" onClick={() => { setEditingPaymentId(p.id); setEditAmount(p.amount.toString()); setEditNote(p.note ?? ''); }} title="Edit">
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
+                        {p.status === 'paid' ? (
+                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-secondary" onClick={() => { onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
+                            <Undo2 className="h-3.5 w-3.5" />
+                          </Button>
+                        ) : (
+                          <Button size="sm" variant="outline" className="h-7 text-xs font-body px-2" onClick={() => onMarkPaid(p.unitId, p.id)}>
+                            Paid
+                          </Button>
+                        )}
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive" onClick={() => { onDeletePayment(p.id); toast.success('Payment deleted'); }} title="Delete">
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
                   )}
                 </div>
               );

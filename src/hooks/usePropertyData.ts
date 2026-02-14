@@ -426,6 +426,26 @@ export function usePropertyData() {
     setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
   }, []);
 
+  // Delete any guest (current or past) and their payments — for cleanup/testing
+  const deleteGuest = useCallback(async (guestId: string) => {
+    const guest = dbGuests.find(g => g.id === guestId);
+    await supabase.from('payments').delete().eq('guest_id', guestId);
+    await supabase.from('guests').delete().eq('id', guestId);
+    setDbGuests(prev => prev.filter(g => g.id !== guestId));
+    setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
+
+    // If this was the current guest, set unit to vacant
+    if (guest?.is_current) {
+      const { data: unitData } = await supabase
+        .from('units')
+        .update({ status: 'vacant' as UnitStatus })
+        .eq('id', guest.unit_id)
+        .select()
+        .single();
+      if (unitData) setDbUnits(prev => prev.map(u => u.id === guest.unit_id ? unitData : u));
+    }
+  }, [dbGuests]);
+
   const updateGuest = useCallback(async (unitId: string, guest: Guest) => {
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
@@ -546,6 +566,17 @@ export function usePropertyData() {
     if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
   }, []);
 
+  const markPaymentUnpaid = useCallback(async (paymentId: string) => {
+    const { data } = await supabase
+      .from('payments')
+      .update({ status: 'upcoming' as const })
+      .eq('id', paymentId)
+      .select()
+      .single();
+
+    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+  }, []);
+
   const deletePayment = useCallback(async (paymentId: string) => {
     await supabase.from('payments').delete().eq('id', paymentId);
     setDbPayments(prev => prev.filter(p => p.id !== paymentId));
@@ -641,11 +672,13 @@ export function usePropertyData() {
     addFutureGuest,
     updateFutureGuest,
     deleteFutureGuest,
+    deleteGuest,
     updateGuest,
     removeGuest,
     addPayment,
     addPaymentForGuest,
     markPaymentPaid,
+    markPaymentUnpaid,
     updatePayment,
     deletePayment,
     bulkDeletePayments,
