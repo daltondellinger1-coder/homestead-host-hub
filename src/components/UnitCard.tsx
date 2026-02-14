@@ -21,7 +21,7 @@ interface UnitCardProps {
 }
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(amount);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 
 const formatDate = (iso: string) => {
   if (!iso) return 'Month-to-month';
@@ -161,11 +161,11 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
 
               {nextPayment && (
                 <div className="flex items-center justify-between gap-2 text-sm bg-muted/40 rounded-lg px-3 py-2.5">
-                  <div className="min-w-0 truncate">
+                  <div className="min-w-0 flex-1">
                     <span className="text-muted-foreground">Next: </span>
                     <span className="font-medium">{formatCurrency(nextPayment.amount)}</span>
                     <span className="text-muted-foreground"> · </span>
-                    <span className="text-muted-foreground">{formatDate(nextPayment.date)}</span>
+                    <span className="text-muted-foreground text-xs">{formatDate(nextPayment.date)}</span>
                   </div>
                   <Button
                     size="sm"
