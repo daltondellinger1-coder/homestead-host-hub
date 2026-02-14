@@ -501,8 +501,11 @@ export function usePropertyData() {
       .select()
       .single();
 
-    setDbGuests(prev => prev.filter(g => g.id !== guestId));
-    setDbPayments(prev => prev.filter(p => p.guest_id !== guestId));
+    // Update guest locally to reflect ended lease (keep in state for history/calendar)
+    setDbGuests(prev => prev.map(g => {
+      if (g.id !== guestId) return g;
+      return { ...g, is_current: false, check_out: updates.check_out ? updates.check_out as string : g.check_out };
+    }));
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
   }, [guestIdByUnit, dbGuests]);
 
