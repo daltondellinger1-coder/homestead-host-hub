@@ -52,6 +52,7 @@ export default function SchedulePaymentsDialog({
   const [newNote, setNewNote] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editAmount, setEditAmount] = useState('');
+  const [editDate, setEditDate] = useState('');
   const [editNote, setEditNote] = useState('');
 
   // Sort payments: upcoming/pending first (by date asc), then paid (by date desc)
@@ -88,13 +89,15 @@ export default function SchedulePaymentsDialog({
   const startEditing = (payment: Payment) => {
     setEditingId(payment.id);
     setEditAmount(payment.amount.toString());
+    setEditDate(payment.date);
     setEditNote(payment.note ?? '');
   };
 
   const saveEdit = (paymentId: string) => {
-    if (!editAmount) return;
+    if (!editAmount || !editDate) return;
     onUpdatePayment(paymentId, {
       amount: parseFloat(editAmount),
+      date: editDate,
       note: editNote.trim() || undefined,
     });
     setEditingId(null);
@@ -180,12 +183,18 @@ export default function SchedulePaymentsDialog({
                       <Icon className={`h-4 w-4 shrink-0 ${config.className}`} />
                       {isEditing ? (
                         <div className="flex-1 min-w-0 space-y-1.5">
-                          <div className="flex gap-2">
+                          <div className="grid grid-cols-2 gap-2">
+                            <Input
+                              type="date"
+                              value={editDate}
+                              onChange={e => setEditDate(e.target.value)}
+                              className="h-7 text-sm"
+                            />
                             <Input
                               type="number"
                               value={editAmount}
                               onChange={e => setEditAmount(e.target.value)}
-                              className="h-7 text-sm flex-1"
+                              className="h-7 text-sm"
                               autoFocus
                             />
                           </div>
