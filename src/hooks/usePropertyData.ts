@@ -544,10 +544,9 @@ export function usePropertyData() {
   }, []);
 
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
-    const today = new Date().toISOString().split('T')[0];
     const { data } = await supabase
       .from('payments')
-      .update({ status: 'paid' as const, date: today })
+      .update({ status: 'paid' as const })
       .eq('id', paymentId)
       .select()
       .single();

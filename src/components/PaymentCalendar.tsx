@@ -448,11 +448,11 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
                           <Pencil className="h-3.5 w-3.5" />
                         </Button>
                         {p.status === 'paid' ? (
-                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-secondary" onClick={() => { onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
+                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
                             <Undo2 className="h-3.5 w-3.5" />
                           </Button>
                         ) : (
-                          <Button size="sm" variant="outline" className="h-7 text-xs font-body px-2" onClick={() => onMarkPaid(p.unitId, p.id)}>
+                          <Button size="sm" variant="outline" className="h-7 text-xs font-body px-2" onClick={(e) => { e.stopPropagation(); onMarkPaid(p.unitId, p.id); toast.success('Marked as paid'); }}>
                             Paid
                           </Button>
                         )}
