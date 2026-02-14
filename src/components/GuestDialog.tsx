@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Guest, BookingSource } from '@/types/property';
+import InlinePaymentScheduler, { ScheduledPayment, scheduledToPayments } from '@/components/InlinePaymentScheduler';
 
 interface GuestDialogProps {
   open: boolean;
@@ -27,6 +28,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
   const [securityDeposit, setSecurityDeposit] = useState('');
   const [depositPaid, setDepositPaid] = useState(false);
   const [notes, setNotes] = useState('');
+  const [scheduledPayments, setScheduledPayments] = useState<ScheduledPayment[]>([]);
 
   // Populate fields when editing
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
       setSecurityDeposit(existingGuest.securityDeposit > 0 ? existingGuest.securityDeposit.toString() : '');
       setDepositPaid(existingGuest.securityDepositPaid);
       setNotes(existingGuest.notes ?? '');
+      setScheduledPayments([]);
     } else if (!existingGuest && open) {
       reset();
     }
@@ -53,6 +56,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
     setSecurityDeposit('');
     setDepositPaid(false);
     setNotes('');
+    setScheduledPayments([]);
   };
 
   const handleSave = () => {
@@ -66,7 +70,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
       monthlyRate: parseFloat(monthlyRate),
       securityDeposit: securityDeposit ? parseFloat(securityDeposit) : 0,
       securityDepositPaid: depositPaid,
-      payments: existingGuest?.payments ?? [],
+      payments: isEditing ? (existingGuest?.payments ?? []) : scheduledToPayments(scheduledPayments),
       notes: notes.trim() || undefined,
     };
 
@@ -77,14 +81,14 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
 
   return (
     <Dialog open={open} onOpenChange={v => { if (!v) { reset(); onClose(); } }}>
-      <DialogContent className="sm:max-w-md font-body">
+      <DialogContent className="sm:max-w-md font-body max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="font-heading">
             {isEditing ? 'Edit Guest' : 'Add Guest'} — {unitName}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 py-2">
+        <div className="flex-1 overflow-y-auto space-y-4 py-2 pr-1">
           <div className="space-y-1.5">
             <Label htmlFor="guest-name">Guest Name</Label>
             <Input id="guest-name" placeholder="e.g. Jane Smith" value={name} onChange={e => setName(e.target.value)} />
@@ -143,6 +147,18 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
               className="resize-none h-20"
             />
           </div>
+
+          {/* Inline payment scheduling - only for new guests */}
+          {!isEditing && (
+            <div className="pt-3 border-t border-border/50">
+              <InlinePaymentScheduler
+                payments={scheduledPayments}
+                onChange={setScheduledPayments}
+                defaultAmount={monthlyRate}
+                startDate={checkIn}
+              />
+            </div>
+          )}
         </div>
 
         <DialogFooter>
