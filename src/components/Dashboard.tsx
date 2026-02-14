@@ -259,7 +259,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         onClose={() => setFutureGuestDialog(null)}
         onSave={(unitId, guest) => {
           if (futureGuestDialog?.guestId) {
-            updateFutureGuest(futureGuestDialog.guestId, guest);
+            updateFutureGuest(futureGuestDialog.guestId, guest, true);
             toast.success(`Booking updated for ${guest.name}`);
           } else {
             addFutureGuest(unitId, guest);

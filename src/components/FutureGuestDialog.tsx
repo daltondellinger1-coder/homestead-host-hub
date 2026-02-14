@@ -47,7 +47,13 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       setSecurityDeposit(existingGuest.securityDeposit > 0 ? existingGuest.securityDeposit.toString() : '');
       setDepositPaid(existingGuest.securityDepositPaid);
       setNotes(existingGuest.notes ?? '');
-      setScheduledPayments([]);
+      setScheduledPayments(
+        existingGuest.payments.map(p => ({
+          date: p.date,
+          amount: p.amount.toString(),
+          note: p.note || '',
+        }))
+      );
     } else {
       reset();
       if (preselectedUnitId) {
@@ -89,7 +95,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       monthlyRate: parseFloat(monthlyRate),
       securityDeposit: securityDeposit ? parseFloat(securityDeposit) : 0,
       securityDepositPaid: depositPaid,
-      payments: isEditing ? [] : scheduledToPayments(scheduledPayments),
+      payments: scheduledToPayments(scheduledPayments),
       notes: notes.trim() || undefined,
     };
 
@@ -184,17 +190,15 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
             />
           </div>
 
-          {/* Inline payment scheduling - only for new future guests */}
-          {!isEditing && (
-            <div className="pt-3 border-t border-border/50">
-              <InlinePaymentScheduler
-                payments={scheduledPayments}
-                onChange={setScheduledPayments}
-                defaultAmount={monthlyRate}
-                startDate={checkIn}
-              />
-            </div>
-          )}
+          {/* Inline payment scheduling */}
+          <div className="pt-3 border-t border-border/50">
+            <InlinePaymentScheduler
+              payments={scheduledPayments}
+              onChange={setScheduledPayments}
+              defaultAmount={monthlyRate}
+              startDate={checkIn}
+            />
+          </div>
         </div>
 
         <DialogFooter>
