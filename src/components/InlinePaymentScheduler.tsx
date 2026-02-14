@@ -62,21 +62,20 @@ export default function InlinePaymentScheduler({ payments, onChange, defaultAmou
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-          Scheduled Payments ({payments.length})
-        </Label>
-        <Button type="button" size="sm" variant="ghost" className="h-6 text-xs px-2 text-primary" onClick={addRow}>
-          <Plus className="h-3 w-3 mr-1" />
-          Add
-        </Button>
-      </div>
+      <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        Scheduled Payments ({payments.length})
+      </Label>
 
       {payments.length === 0 && (
-        <p className="text-xs text-muted-foreground py-2">
-          No payments scheduled. Click "Add" to schedule payments, or add them later from the unit card.
+        <p className="text-xs text-muted-foreground py-1">
+          No payments scheduled yet. Add them now or later from the unit card.
         </p>
       )}
+
+      <Button type="button" size="sm" variant="outline" className="w-full h-9 text-sm font-body" onClick={addRow}>
+        <Plus className="h-3.5 w-3.5 mr-1.5" />
+        Add Scheduled Payment
+      </Button>
 
       {payments.map((p, i) => (
         <div key={i} className="flex items-start gap-1.5 bg-muted/30 rounded-lg p-2">
