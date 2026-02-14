@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Guest, BookingSource, Unit, FutureGuest } from '@/types/property';
+import InlinePaymentScheduler, { ScheduledPayment, scheduledToPayments } from '@/components/InlinePaymentScheduler';
 
 interface FutureGuestDialogProps {
   open: boolean;
@@ -27,6 +28,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
   const [securityDeposit, setSecurityDeposit] = useState('');
   const [depositPaid, setDepositPaid] = useState(false);
   const [notes, setNotes] = useState('');
+  const [scheduledPayments, setScheduledPayments] = useState<ScheduledPayment[]>([]);
 
   const isEditing = !!existingGuest;
 
@@ -35,7 +37,6 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     if (!open) return;
 
     if (existingGuest) {
-      // Find the unit this guest belongs to
       const ownerUnit = units.find(u => u.futureGuests.some(fg => fg.id === existingGuest.id));
       setUnitId(ownerUnit?.id ?? '');
       setName(existingGuest.name);
@@ -46,6 +47,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       setSecurityDeposit(existingGuest.securityDeposit > 0 ? existingGuest.securityDeposit.toString() : '');
       setDepositPaid(existingGuest.securityDepositPaid);
       setNotes(existingGuest.notes ?? '');
+      setScheduledPayments([]);
     } else {
       reset();
       if (preselectedUnitId) {
@@ -73,6 +75,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     setSecurityDeposit('');
     setDepositPaid(false);
     setNotes('');
+    setScheduledPayments([]);
   };
 
   const handleSave = () => {
@@ -86,7 +89,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       monthlyRate: parseFloat(monthlyRate),
       securityDeposit: securityDeposit ? parseFloat(securityDeposit) : 0,
       securityDepositPaid: depositPaid,
-      payments: [],
+      payments: isEditing ? [] : scheduledToPayments(scheduledPayments),
       notes: notes.trim() || undefined,
     };
 
@@ -95,19 +98,18 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     onClose();
   };
 
-  // Units that have a current guest (occupied/rented) are the main targets
   const eligibleUnits = units.filter(u => 
     u.status !== 'planning' && u.status !== 'storage'
   );
 
   return (
     <Dialog open={open} onOpenChange={v => { if (!v) { reset(); onClose(); } }}>
-      <DialogContent className="sm:max-w-md font-body max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md font-body max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="font-heading">{isEditing ? 'Edit Future Booking' : 'Book Future Guest'}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 py-2">
+        <div className="flex-1 overflow-y-auto space-y-4 py-2 pr-1">
           <div className="space-y-1.5">
             <Label>Unit</Label>
             <Select value={unitId} onValueChange={setUnitId} disabled={isEditing}>
@@ -181,6 +183,18 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
               className="resize-none h-20"
             />
           </div>
+
+          {/* Inline payment scheduling - only for new future guests */}
+          {!isEditing && (
+            <div className="pt-3 border-t border-border/50">
+              <InlinePaymentScheduler
+                payments={scheduledPayments}
+                onChange={setScheduledPayments}
+                defaultAmount={monthlyRate}
+                startDate={checkIn}
+              />
+            </div>
+          )}
         </div>
 
         <DialogFooter>
