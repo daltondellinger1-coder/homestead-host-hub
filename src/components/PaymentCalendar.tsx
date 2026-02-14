@@ -366,14 +366,14 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
       </div>
 
       {/* Selected day detail dialog */}
-      <Dialog open={selectedDay !== null} onOpenChange={(open) => { if (!open) { setSelectedDay(null); setShowAddPayment(false); } }}>
-        <DialogContent className="glass-card border-border/60 max-w-md max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-heading text-base font-semibold">
+      <Dialog open={selectedDay !== null} onOpenChange={(open) => { if (!open) { setSelectedDay(null); setShowAddPayment(false); setEditingPaymentId(null); } }}>
+        <DialogContent className="glass-card border-border/60 max-w-md max-h-[70vh] flex flex-col p-0">
+          <DialogHeader className="px-4 pt-4 pb-2 shrink-0">
+            <DialogTitle className="font-heading text-sm font-semibold">
               {selectedDay !== null && new Date(year, month, selectedDay).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-2.5">
+          <div className="space-y-1.5 overflow-y-auto px-4 pb-4 flex-1 min-h-0">
             {selectedEvents.map((ev, idx) => {
               if (ev.kind === 'booking') {
                 const b = ev.data;
@@ -381,20 +381,16 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
                 return (
                   <div
                     key={`detail-b-${idx}`}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-body ${
+                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 font-body ${
                       isCheckIn ? 'bg-success/8' : 'bg-destructive/8'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
-                      {isCheckIn ? (
-                        <LogIn className="h-4 w-4 text-success" />
-                      ) : (
-                        <LogOut className="h-4 w-4 text-destructive" />
-                      )}
+                    <div className={`p-1.5 rounded-md shrink-0 ${isCheckIn ? 'bg-success/15' : 'bg-destructive/15'}`}>
+                      {isCheckIn ? <LogIn className="h-3.5 w-3.5 text-success" /> : <LogOut className="h-3.5 w-3.5 text-destructive" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">{b.guestName} · {b.unitName} · {SOURCE_LABELS[b.source]}</p>
+                      <p className="font-medium text-xs">{isCheckIn ? 'Check-in' : 'Check-out'}</p>
+                      <p className="text-[11px] text-muted-foreground truncate">{b.guestName} · {b.unitName}</p>
                     </div>
                   </div>
                 );
@@ -404,60 +400,60 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
               return (
                 <div
                   key={`detail-p-${p.id}`}
-                  className={`rounded-lg px-4 py-3 font-body ${
+                  className={`rounded-lg px-3 py-2 font-body ${
                     p.status === 'paid' ? 'bg-success/8' : 'bg-secondary/8'
                   }`}
                 >
                   {isEditing ? (
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="space-y-1">
-                          <Label className="text-xs">Amount ($)</Label>
-                          <Input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)} className="h-8 text-sm" autoFocus />
+                    <div className="space-y-1.5">
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <div className="space-y-0.5">
+                          <Label className="text-[10px]">Amount ($)</Label>
+                          <Input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)} className="h-7 text-xs" autoFocus />
                         </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs">Note</Label>
-                          <Input value={editNote} onChange={e => setEditNote(e.target.value)} className="h-8 text-sm" placeholder="Optional" />
+                        <div className="space-y-0.5">
+                          <Label className="text-[10px]">Note</Label>
+                          <Input value={editNote} onChange={e => setEditNote(e.target.value)} className="h-7 text-xs" placeholder="Optional" />
                         </div>
                       </div>
-                      <div className="flex gap-1.5">
-                        <Button size="sm" className="h-7 text-xs px-2.5" onClick={() => {
+                      <div className="flex gap-1">
+                        <Button size="sm" className="h-6 text-[11px] px-2" onClick={() => {
                           onUpdatePayment(p.id, { amount: parseFloat(editAmount), note: editNote.trim() || undefined });
                           setEditingPaymentId(null);
                           toast.success('Payment updated');
                         }} disabled={!editAmount}>Save</Button>
-                        <Button size="sm" variant="ghost" className="h-7 text-xs px-2" onClick={() => setEditingPaymentId(null)}>Cancel</Button>
+                        <Button size="sm" variant="ghost" className="h-6 text-[11px] px-1.5" onClick={() => setEditingPaymentId(null)}>Cancel</Button>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
-                        <DollarSign className={`h-4 w-4 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
+                    <div className="flex items-center gap-2.5">
+                      <div className={`p-1.5 rounded-md shrink-0 ${p.status === 'paid' ? 'bg-success/15' : 'bg-secondary/15'}`}>
+                        <DollarSign className={`h-3.5 w-3.5 ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm">
+                        <p className="font-medium text-xs">
                           {p.unitName} · {formatCurrency(p.amount)}
-                          <span className={`ml-2 text-xs capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
+                          <span className={`ml-1.5 text-[11px] capitalize ${p.status === 'paid' ? 'text-success' : 'text-secondary'}`}>
                             {p.status}
                           </span>
                         </p>
-                        <p className="text-xs text-muted-foreground truncate mt-0.5">{p.guestName} · {SOURCE_LABELS[p.source]}{p.note ? ` · ${p.note}` : ''}</p>
+                        <p className="text-[11px] text-muted-foreground truncate">{p.guestName}{p.note ? ` · ${p.note}` : ''}</p>
                       </div>
-                      <div className="flex items-center gap-0.5 shrink-0">
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground" onClick={() => { setEditingPaymentId(p.id); setEditAmount(p.amount.toString()); setEditNote(p.note ?? ''); }} title="Edit">
-                          <Pencil className="h-3.5 w-3.5" />
+                      <div className="flex items-center gap-0 shrink-0">
+                        <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground" onClick={() => { setEditingPaymentId(p.id); setEditAmount(p.amount.toString()); setEditNote(p.note ?? ''); }} title="Edit">
+                          <Pencil className="h-3 w-3" />
                         </Button>
                         {p.status === 'paid' ? (
-                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
-                            <Undo2 className="h-3.5 w-3.5" />
+                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
+                            <Undo2 className="h-3 w-3" />
                           </Button>
                         ) : (
-                          <Button size="sm" variant="outline" className="h-7 text-xs font-body px-2" onClick={(e) => { e.stopPropagation(); onMarkPaid(p.unitId, p.id); toast.success('Marked as paid'); }}>
+                          <Button size="sm" variant="ghost" className="h-6 text-[11px] font-body px-1.5 text-secondary hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkPaid(p.unitId, p.id); toast.success('Marked as paid'); }}>
                             Paid
                           </Button>
                         )}
-                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive" onClick={() => { onDeletePayment(p.id); toast.success('Payment deleted'); }} title="Delete">
-                          <Trash2 className="h-3.5 w-3.5" />
+                        <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => { onDeletePayment(p.id); toast.success('Payment deleted'); }} title="Delete">
+                          <Trash2 className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
