@@ -266,18 +266,77 @@ export default function SchedulePaymentsDialog({
                 Paid ({paidPayments.length})
               </p>
               <div className="space-y-1.5">
-                {paidPayments.map(p => (
-                  <div key={p.id} className="flex items-center gap-2 text-sm px-3 py-2 text-muted-foreground">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-medium text-foreground">{formatCurrency(p.amount)}</span>
-                        <span className="text-xs">· {formatDate(p.date)}</span>
-                      </div>
-                      {p.note && <p className="text-xs truncate">{p.note}</p>}
+                {paidPayments.map(p => {
+                  const isEditing = editingId === p.id;
+                  return (
+                    <div key={p.id} className="flex items-center gap-2 text-sm bg-muted/20 rounded-lg px-3 py-2.5">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
+                      {isEditing ? (
+                        <div className="flex-1 min-w-0 space-y-1.5">
+                          <div className="grid grid-cols-2 gap-2">
+                            <Input
+                              type="date"
+                              value={editDate}
+                              onChange={e => setEditDate(e.target.value)}
+                              className="h-7 text-sm"
+                            />
+                            <Input
+                              type="number"
+                              value={editAmount}
+                              onChange={e => setEditAmount(e.target.value)}
+                              className="h-7 text-sm"
+                              autoFocus
+                            />
+                          </div>
+                          <Input
+                            placeholder="Note (optional)"
+                            value={editNote}
+                            onChange={e => setEditNote(e.target.value)}
+                            className="h-7 text-xs"
+                          />
+                          <div className="flex gap-1.5">
+                            <Button size="sm" variant="default" className="h-6 text-xs px-2" onClick={() => saveEdit(p.id)}>
+                              Save
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-6 text-xs px-2" onClick={cancelEdit}>
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-baseline gap-1.5">
+                              <span className="font-medium text-foreground">{formatCurrency(p.amount)}</span>
+                              <span className="text-muted-foreground text-xs">· {formatDate(p.date)}</span>
+                            </div>
+                            {p.note && <p className="text-xs text-muted-foreground truncate">{p.note}</p>}
+                          </div>
+                          <div className="flex items-center gap-0.5 shrink-0">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+                              onClick={() => startEditing(p)}
+                              title="Edit payment"
+                            >
+                              <Pencil className="h-3.5 w-3.5" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                              onClick={() => onDeletePayment(p.id)}
+                              title="Delete payment"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

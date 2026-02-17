@@ -167,7 +167,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
             >
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
-                <span className="text-[10px] text-primary font-medium">Manage →</span>
+                <span className="text-xs text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded">Manage →</span>
               </div>
 
               {nextPayment && (
@@ -180,8 +180,8 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                   </div>
                   <Button
                     size="sm"
-                    variant="ghost"
-                    className="h-7 text-xs text-primary hover:text-primary px-2 shrink-0"
+                    variant="default"
+                    className="h-7 text-xs px-3 shrink-0 font-semibold"
                     onClick={(e) => { e.stopPropagation(); onMarkPaid(unit.id, nextPayment.id); }}
                   >
                     Mark Paid
