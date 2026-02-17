@@ -167,7 +167,9 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
             >
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
-                <span className="text-xs text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded">Manage →</span>
+                <Button size="sm" variant="outline" className="h-6 text-xs px-2.5 font-semibold text-primary border-primary/30 hover:bg-primary/10" onClick={(e) => { e.stopPropagation(); onSchedulePayments(unit.id); }}>
+                  Manage
+                </Button>
               </div>
 
               {nextPayment && (
