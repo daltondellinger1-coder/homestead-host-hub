@@ -167,8 +167,8 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
             >
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Payments</p>
-                <Button size="sm" variant="default" className="h-7 text-xs px-3 font-semibold" onClick={(e) => { e.stopPropagation(); onSchedulePayments(unit.id); }}>
-                  Manage
+                <Button size="sm" variant="secondary" className="h-7 text-xs px-3 font-semibold" onClick={(e) => { e.stopPropagation(); onSchedulePayments(unit.id); }}>
+                  Manage Payments
                 </Button>
               </div>
 
@@ -182,7 +182,7 @@ export default function UnitCard({ unit, index, onAddGuest, onEditGuest, onEditU
                   </div>
                   <Button
                     size="sm"
-                    variant="default"
+                    variant="secondary"
                     className="h-7 text-xs px-3 shrink-0 font-semibold"
                     onClick={(e) => { e.stopPropagation(); onMarkPaid(unit.id, nextPayment.id); }}
                   >
