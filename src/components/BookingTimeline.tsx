@@ -77,18 +77,25 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
   const nextMonth = useCallback(() => setCurrentDate(new Date(year, month + 1, 1)), [year, month]);
   const goToday = () => setCurrentDate(new Date());
 
-  // Swipe
+  // Swipe — only on the nav area, not the scrollable timeline content
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
+    // Only track swipes that start on the sticky nav area
+    if (navRef.current && navRef.current.contains(e.target as Node)) {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    } else {
+      touchStartX.current = null;
+      touchStartY.current = null;
+    }
   }, []);
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (touchStartX.current === null || touchStartY.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
     const dy = e.changedTouches[0].clientY - touchStartY.current;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2) {
       if (dx > 0) prevMonth(); else nextMonth();
     }
     touchStartX.current = null;
@@ -226,7 +233,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
       onTouchEnd={handleTouchEnd}
     >
       {/* Sticky Navigation */}
-      <div className="glass-card rounded-xl overflow-hidden sticky top-[57px] sm:top-[65px] z-20">
+      <div ref={navRef} className="glass-card rounded-xl overflow-hidden sticky top-[57px] sm:top-[65px] z-20">
         <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
             <Button variant="ghost" size="sm" onClick={prevMonth} className="h-9 w-9 p-0 rounded-lg">
