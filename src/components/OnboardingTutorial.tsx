@@ -32,7 +32,7 @@ const steps: TutorialStep[] = [
     icon: <LayoutGrid className="h-10 w-10 text-secondary" />,
     title: 'Unit Cards',
     description:
-      'Each card shows the guest name, rent, and next payment at a glance. Tap "More details" to expand dates, deposit info, notes, and upcoming bookings.',
+      'Each card shows the guest name, rent, and next payment at a glance. Tap "More details" to expand dates, deposit info, notes, and upcoming bookings. Drag the grip handle to reorder units.',
   },
   {
     icon: <MoreHorizontal className="h-10 w-10 text-secondary" />,
@@ -50,13 +50,19 @@ const steps: TutorialStep[] = [
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
     title: 'Calendar View',
     description:
-      'Switch to Calendar from the bottom nav to see bookings and payments on a timeline. Tap any payment marker for details.',
+      'Switch to Calendar to see bookings on a scrollable timeline. Use the arrows to change months and tap "Today" to jump back. Pull down anywhere to refresh data.',
   },
   {
     icon: <DollarSign className="h-10 w-10 text-secondary" />,
+    title: 'Finances & Reports',
+    description:
+      'View collected vs expected income, filter by month, year, or custom range, and compare against the previous period with percentage-change indicators.',
+  },
+  {
+    icon: <Mountain className="h-10 w-10 text-secondary" />,
     title: 'You\'re All Set!',
     description:
-      'Tap ⋮ in the header to replay this tutorial, sign out, or reset data. Happy managing!',
+      'Tap ⋮ in the header to replay this tutorial anytime. Happy managing!',
   },
 ];
 
