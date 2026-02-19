@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Unit, Guest, FutureGuest, Payment, UnitStatus, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
+import { toast } from 'sonner';
 
 type DbUnit = Tables<'units'>;
 type DbGuest = Tables<'guests'>;
@@ -526,7 +527,10 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (data) setDbPayments(prev => [data, ...prev]);
+    if (data) {
+      setDbPayments(prev => [data, ...prev]);
+      toast.success('Payment recorded');
+    }
   }, [guestIdByUnit]);
 
   const addPaymentForGuest = useCallback(async (guestId: string, unitId: string, payment: Payment) => {
@@ -543,7 +547,10 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (data) setDbPayments(prev => [data, ...prev]);
+    if (data) {
+      setDbPayments(prev => [data, ...prev]);
+      toast.success('Payment added');
+    }
   }, []);
 
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
@@ -554,7 +561,10 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+    if (data) {
+      setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+      toast.success('Payment marked as paid ✓');
+    }
   }, []);
 
   const updatePayment = useCallback(async (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: Payment['status'] }) => {
@@ -565,7 +575,10 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+    if (data) {
+      setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+      toast.success('Payment updated');
+    }
   }, []);
 
   const markPaymentUnpaid = useCallback(async (paymentId: string) => {
@@ -576,12 +589,16 @@ export function usePropertyData() {
       .select()
       .single();
 
-    if (data) setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+    if (data) {
+      setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+      toast.success('Payment marked as unpaid');
+    }
   }, []);
 
   const deletePayment = useCallback(async (paymentId: string) => {
     await supabase.from('payments').delete().eq('id', paymentId);
     setDbPayments(prev => prev.filter(p => p.id !== paymentId));
+    toast.success('Payment deleted');
   }, []);
 
   const bulkDeletePayments = useCallback(async (paymentIds: string[]) => {

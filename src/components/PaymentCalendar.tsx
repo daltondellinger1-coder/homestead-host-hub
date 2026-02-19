@@ -444,15 +444,15 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
                           <Pencil className="h-3 w-3" />
                         </Button>
                         {p.status === 'paid' ? (
-                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkUnpaid(p.id); toast.success('Marked as unpaid'); }} title="Mark Unpaid">
+                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkUnpaid(p.id); }} title="Mark Unpaid">
                             <Undo2 className="h-3 w-3" />
                           </Button>
                         ) : (
-                          <Button size="sm" variant="ghost" className="h-6 text-[11px] font-body px-1.5 text-secondary hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkPaid(p.unitId, p.id); toast.success('Marked as paid'); }}>
+                          <Button size="sm" variant="ghost" className="h-6 text-[11px] font-body px-1.5 text-secondary hover:text-secondary" onClick={(e) => { e.stopPropagation(); onMarkPaid(p.unitId, p.id); }}>
                             Paid
                           </Button>
                         )}
-                        <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => { onDeletePayment(p.id); toast.success('Payment deleted'); }} title="Delete">
+                        <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive" onClick={() => { onDeletePayment(p.id); }} title="Delete">
                           <Trash2 className="h-3 w-3" />
                         </Button>
                       </div>
