@@ -222,7 +222,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </div>
         ) : (
           <div className="space-y-6">
-            <BookingTimeline units={units} />
+            <BookingTimeline units={units} paymentEvents={allPaymentEvents} onMarkPaid={markPaymentPaid} />
             <PaymentCalendar
               events={allPaymentEvents}
               bookingEvents={allBookingEvents}
