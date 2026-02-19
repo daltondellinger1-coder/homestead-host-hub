@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { TrendingUp, PieChart as PieIcon, BarChart3, DollarSign, CalendarIcon } from 'lucide-react';
+import { TrendingUp, TrendingDown, PieChart as PieIcon, BarChart3, DollarSign, CalendarIcon, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -85,6 +85,44 @@ export default function FinancialReportsContent() {
     });
   }, [allPaymentEvents, filterMode, selectedYear, selectedMonth, customFrom, customTo]);
 
+  // Compute the previous period for comparison
+  const previousPeriodFiltered = useMemo(() => {
+    return allPaymentEvents.filter(e => {
+      const d = new Date(e.date + 'T00:00:00');
+      switch (filterMode) {
+        case 'all': return false; // no comparison for all time
+        case 'year': return d.getFullYear() === selectedYear - 1;
+        case 'month': {
+          const prevMonth = selectedMonth === 0 ? 11 : selectedMonth - 1;
+          const prevYear = selectedMonth === 0 ? selectedYear - 1 : selectedYear;
+          return d.getFullYear() === prevYear && d.getMonth() === prevMonth;
+        }
+        case 'custom': {
+          if (!customFrom || !customTo) return false;
+          const durationMs = customTo.getTime() - customFrom.getTime();
+          const prevFrom = new Date(customFrom.getTime() - durationMs - 86400000);
+          const prevTo = new Date(customFrom.getTime() - 86400000);
+          return d >= prevFrom && d <= prevTo;
+        }
+      }
+    });
+  }, [allPaymentEvents, filterMode, selectedYear, selectedMonth, customFrom, customTo]);
+
+  const previousPeriodLabel = useMemo(() => {
+    switch (filterMode) {
+      case 'all': return '';
+      case 'year': return String(selectedYear - 1);
+      case 'month': {
+        const prevMonth = selectedMonth === 0 ? 11 : selectedMonth - 1;
+        const prevYear = selectedMonth === 0 ? selectedYear - 1 : selectedYear;
+        return `${MONTH_NAMES[prevMonth]} ${prevYear}`;
+      }
+      case 'custom': return 'previous period';
+    }
+  }, [filterMode, selectedYear, selectedMonth]);
+
+  const prevPaidEvents = useMemo(() => previousPeriodFiltered.filter(e => e.status === 'paid'), [previousPeriodFiltered]);
+
   const paidEvents = useMemo(() => filtered.filter(e => e.status === 'paid'), [filtered]);
 
   const monthlyData = useMemo(() => {
@@ -136,6 +174,51 @@ export default function FinancialReportsContent() {
   const avgMonthly = monthlyData.length > 0
     ? monthlyData.reduce((s, m) => s + m.paid, 0) / monthlyData.filter(m => m.paid > 0).length
     : 0;
+
+  // Previous period stats
+  const prevCollected = prevPaidEvents.reduce((s, e) => s + e.amount, 0);
+  const prevExpected = previousPeriodFiltered.reduce((s, e) => s + e.amount, 0);
+  const prevOutstanding = prevExpected - prevCollected;
+  const prevMonthlyMap = new Map<string, number>();
+  previousPeriodFiltered.filter(e => e.status === 'paid').forEach(e => {
+    const d = new Date(e.date + 'T00:00:00');
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    prevMonthlyMap.set(key, (prevMonthlyMap.get(key) ?? 0) + e.amount);
+  });
+  const prevAvgMonthly = prevMonthlyMap.size > 0
+    ? Array.from(prevMonthlyMap.values()).reduce((s, v) => s + v, 0) / prevMonthlyMap.size
+    : 0;
+
+  const hasPrevPeriod = filterMode !== 'all' && previousPeriodFiltered.length > 0;
+
+  const pctChange = (current: number, previous: number) => {
+    if (previous === 0) return current > 0 ? 100 : 0;
+    return ((current - previous) / previous) * 100;
+  };
+
+  const ChangeIndicator = ({ current, previous, invert = false }: { current: number; previous: number; invert?: boolean }) => {
+    if (!hasPrevPeriod) return null;
+    const change = pctChange(current, previous);
+    if (Math.abs(change) < 0.5) {
+      return (
+        <span className="flex items-center gap-0.5 text-[10px] font-body text-muted-foreground">
+          <Minus className="h-3 w-3" /> 0%
+        </span>
+      );
+    }
+    const isPositive = change > 0;
+    // For "outstanding", going up is bad (invert)
+    const isGood = invert ? !isPositive : isPositive;
+    return (
+      <span className={cn(
+        'flex items-center gap-0.5 text-[10px] font-body font-semibold',
+        isGood ? 'text-[hsl(var(--success))]' : 'text-[hsl(var(--destructive))]'
+      )}>
+        {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+        {Math.abs(change).toFixed(0)}%
+      </span>
+    );
+  };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
@@ -255,15 +338,20 @@ export default function FinancialReportsContent() {
       </div>
 
       {/* Period label */}
-      <p className="text-xs text-muted-foreground font-body">Showing: <span className="text-foreground font-medium">{filterLabel}</span></p>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <p className="text-xs text-muted-foreground font-body">Showing: <span className="text-foreground font-medium">{filterLabel}</span></p>
+        {hasPrevPeriod && (
+          <p className="text-[10px] text-muted-foreground/70 font-body">vs {previousPeriodLabel}</p>
+        )}
+      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { icon: DollarSign, label: 'Collected', value: fmtFull(totalCollected), color: 'text-[hsl(var(--success))]' },
-          { icon: TrendingUp, label: 'Expected', value: fmtFull(totalExpected), color: 'text-foreground' },
-          { icon: BarChart3, label: 'Outstanding', value: fmtFull(totalOutstanding), color: totalOutstanding > 0 ? 'text-[hsl(var(--warning))]' : 'text-[hsl(var(--success))]' },
-          { icon: PieIcon, label: 'Avg Monthly', value: fmt(avgMonthly), color: 'text-secondary' },
+          { icon: DollarSign, label: 'Collected', value: fmtFull(totalCollected), color: 'text-[hsl(var(--success))]', current: totalCollected, previous: prevCollected, invert: false },
+          { icon: TrendingUp, label: 'Expected', value: fmtFull(totalExpected), color: 'text-foreground', current: totalExpected, previous: prevExpected, invert: false },
+          { icon: BarChart3, label: 'Outstanding', value: fmtFull(totalOutstanding), color: totalOutstanding > 0 ? 'text-[hsl(var(--warning))]' : 'text-[hsl(var(--success))]', current: totalOutstanding, previous: prevOutstanding, invert: true },
+          { icon: PieIcon, label: 'Avg Monthly', value: fmt(avgMonthly), color: 'text-secondary', current: avgMonthly, previous: prevAvgMonthly, invert: false },
         ].map((card, i) => (
           <motion.div
             key={card.label}
@@ -275,9 +363,17 @@ export default function FinancialReportsContent() {
             <div className="p-2 rounded-md bg-secondary/10">
               <card.icon className="h-4 w-4 text-secondary" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="text-[11px] sm:text-xs text-muted-foreground font-body">{card.label}</p>
-              <p className={`text-base sm:text-xl font-heading font-semibold mt-0.5 ${card.color}`}>{card.value}</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <p className={`text-base sm:text-xl font-heading font-semibold ${card.color}`}>{card.value}</p>
+                <ChangeIndicator current={card.current} previous={card.previous} invert={card.invert} />
+              </div>
+              {hasPrevPeriod && (
+                <p className="text-[9px] text-muted-foreground/60 font-body mt-0.5">
+                  prev: {card.label === 'Avg Monthly' ? fmt(card.previous) : fmtFull(card.previous)}
+                </p>
+              )}
             </div>
           </motion.div>
         ))}
