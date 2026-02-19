@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import StatsOverview from '@/components/StatsOverview';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
+import BookingTimeline from '@/components/BookingTimeline';
 import GuestDialog from '@/components/GuestDialog';
 import RecordPaymentDialog from '@/components/RecordPaymentDialog';
 import SchedulePaymentsDialog from '@/components/SchedulePaymentsDialog';
@@ -220,24 +221,27 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             />
           </div>
         ) : (
-          <PaymentCalendar
-            events={allPaymentEvents}
-            bookingEvents={allBookingEvents}
-            onMarkPaid={markPaymentPaid}
-            onMarkUnpaid={markPaymentUnpaid}
-            onUpdatePayment={updatePayment}
-            onDeletePayment={deletePayment}
-            onAddPayment={addPayment}
-            onDeleteGuest={deleteGuest}
-            occupiedUnits={units
-              .filter(u => u.currentGuest)
-              .map(u => ({
-                unitId: u.id,
-                unitName: u.name,
-                guestName: u.currentGuest!.name,
-                monthlyRate: u.currentGuest!.monthlyRate,
-              }))}
-          />
+          <div className="space-y-6">
+            <BookingTimeline units={units} />
+            <PaymentCalendar
+              events={allPaymentEvents}
+              bookingEvents={allBookingEvents}
+              onMarkPaid={markPaymentPaid}
+              onMarkUnpaid={markPaymentUnpaid}
+              onUpdatePayment={updatePayment}
+              onDeletePayment={deletePayment}
+              onAddPayment={addPayment}
+              onDeleteGuest={deleteGuest}
+              occupiedUnits={units
+                .filter(u => u.currentGuest)
+                .map(u => ({
+                  unitId: u.id,
+                  unitName: u.name,
+                  guestName: u.currentGuest!.name,
+                  monthlyRate: u.currentGuest!.monthlyRate,
+                }))}
+            />
+          </div>
         )}
         </>
         )}
