@@ -36,7 +36,7 @@ type FilterMode = 'month' | 'year' | 'custom' | 'all';
 export default function FinancialReportsContent() {
   const { allPaymentEvents, loading } = usePropertyData();
 
-  const [filterMode, setFilterMode] = useState<FilterMode>('year');
+  const [filterMode, setFilterMode] = useState<FilterMode>('month');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [customFrom, setCustomFrom] = useState<Date | undefined>(undefined);
