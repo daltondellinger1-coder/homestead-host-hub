@@ -222,7 +222,13 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </div>
         ) : (
           <div className="space-y-6">
-            <BookingTimeline units={units} paymentEvents={allPaymentEvents} onMarkPaid={markPaymentPaid} />
+            <BookingTimeline
+              units={units}
+              paymentEvents={allPaymentEvents}
+              onMarkPaid={markPaymentPaid}
+              onEditCurrentGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
+              onEditFutureGuest={(unitId, guestId) => setFutureGuestDialog({ unitId, guestId })}
+            />
             <PaymentCalendar
               events={allPaymentEvents}
               bookingEvents={allBookingEvents}

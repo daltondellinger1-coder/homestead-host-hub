@@ -1,8 +1,9 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Home, DollarSign } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, DollarSign, Pencil, CalendarDays, User, Tag, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Unit, SOURCE_LABELS, STATUS_LABELS, Payment, PaymentStatus } from '@/types/property';
-import { motion } from 'framer-motion';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Unit, SOURCE_LABELS, STATUS_LABELS, Payment, PaymentStatus, BookingSource, Guest, FutureGuest } from '@/types/property';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface PaymentEvent {
@@ -20,6 +21,8 @@ interface BookingTimelineProps {
   units: Unit[];
   paymentEvents: PaymentEvent[];
   onMarkPaid?: (unitId: string, paymentId: string) => void;
+  onEditCurrentGuest?: (unitId: string) => void;
+  onEditFutureGuest?: (unitId: string, guestId: string) => void;
 }
 
 interface BookingBar {
@@ -28,6 +31,12 @@ interface BookingBar {
   checkIn: Date;
   checkOut: Date | null;
   isCurrent: boolean;
+  unitId: string;
+  monthlyRate: number;
+  securityDeposit: number;
+  securityDepositPaid: boolean;
+  notes?: string;
+  futureGuestId?: string; // for future guests
 }
 
 const CELL_WIDTH = 44;
@@ -35,8 +44,12 @@ const CELL_WIDTH = 44;
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
 
-export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: BookingTimelineProps) {
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEditCurrentGuest, onEditFutureGuest }: BookingTimelineProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedBar, setSelectedBar] = useState<{ unitId: string; bar: BookingBar } | null>(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -78,16 +91,32 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
     return units.map(unit => {
       const bars: BookingBar[] = [];
 
-      const addGuest = (g: { name: string; source: string; checkIn: string; checkOut: string }, isCurrent: boolean) => {
+      const addGuest = (
+        g: { name: string; source: string; checkIn: string; checkOut: string; monthlyRate: number; securityDeposit: number; securityDepositPaid: boolean; notes?: string },
+        isCurrent: boolean,
+        futureGuestId?: string,
+      ) => {
         const ci = new Date(g.checkIn + 'T00:00:00');
         const co = g.checkOut ? new Date(g.checkOut + 'T00:00:00') : null;
         if (co && co < monthStart) return;
         if (ci > monthEnd) return;
-        bars.push({ guestName: g.name, source: g.source, checkIn: ci, checkOut: co, isCurrent });
+        bars.push({
+          guestName: g.name,
+          source: g.source,
+          checkIn: ci,
+          checkOut: co,
+          isCurrent,
+          unitId: unit.id,
+          monthlyRate: g.monthlyRate,
+          securityDeposit: g.securityDeposit,
+          securityDepositPaid: g.securityDepositPaid,
+          notes: g.notes,
+          futureGuestId,
+        });
       };
 
       if (unit.currentGuest) addGuest(unit.currentGuest, true);
-      unit.futureGuests.forEach(fg => addGuest(fg, false));
+      unit.futureGuests.forEach(fg => addGuest(fg, false, fg.id));
 
       // Payments for this unit in this month
       const unitPayments = paymentEvents.filter(p => {
@@ -96,7 +125,6 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
         return d.getFullYear() === year && d.getMonth() === month;
       });
 
-      // Group payments by day
       const paymentsByDay = new Map<number, PaymentEvent[]>();
       unitPayments.forEach(p => {
         const day = new Date(p.date + 'T00:00:00').getDate();
@@ -133,7 +161,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
 
     return {
       left,
-      width: Math.min(width, gridWidth - left), // clamp to grid
+      width: Math.min(width, gridWidth - left),
       startsBeforeMonth,
       endsAfterMonth,
     };
@@ -141,6 +169,21 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
 
   const barRowHeight = 28;
   const paymentRowHeight = 28;
+
+  const handleBarClick = (unitId: string, bar: BookingBar) => {
+    setSelectedBar({ unitId, bar });
+  };
+
+  const handleEdit = () => {
+    if (!selectedBar) return;
+    const { unitId, bar } = selectedBar;
+    if (bar.isCurrent && onEditCurrentGuest) {
+      onEditCurrentGuest(unitId);
+    } else if (!bar.isCurrent && bar.futureGuestId && onEditFutureGuest) {
+      onEditFutureGuest(unitId, bar.futureGuestId);
+    }
+    setSelectedBar(null);
+  };
 
   return (
     <motion.div
@@ -279,10 +322,10 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
                         <div
                           key={`bar-${bar.guestName}-${idx}`}
                           className={cn(
-                            'absolute flex items-center px-2.5 z-20 shadow-sm',
+                            'absolute flex items-center px-2.5 z-20 shadow-sm cursor-pointer transition-all',
                             bar.isCurrent
-                              ? 'bg-secondary/70 text-secondary-foreground'
-                              : 'bg-muted/60 border border-border/40 text-foreground'
+                              ? 'bg-secondary/70 text-secondary-foreground hover:bg-secondary/85'
+                              : 'bg-muted/60 border border-border/40 text-foreground hover:bg-muted/80'
                           )}
                           style={{
                             left: `${s.left}px`,
@@ -294,7 +337,8 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
                             borderTopRightRadius: s.endsAfterMonth ? 0 : 6,
                             borderBottomRightRadius: s.endsAfterMonth ? 0 : 6,
                           }}
-                          title={`${bar.guestName} · ${SOURCE_LABELS[bar.source as keyof typeof SOURCE_LABELS] ?? bar.source}`}
+                          onClick={() => handleBarClick(unit.id, bar)}
+                          title="Tap to view details"
                         >
                           <span className="text-[10px] font-body font-semibold truncate whitespace-nowrap">
                             {bar.guestName}
@@ -312,7 +356,6 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
                     {/* Payment markers row */}
                     {hasPayments && (
                       <>
-                        {/* Separator line */}
                         <div
                           className="absolute left-0 right-0 border-t border-border/20"
                           style={{ top: `${barsHeight - 2}px` }}
@@ -327,9 +370,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
                           return (
                             <div
                               key={`pay-${d}`}
-                              className={cn(
-                                'absolute z-20 flex flex-col items-center justify-center cursor-pointer group',
-                              )}
+                              className="absolute z-20 flex flex-col items-center justify-center cursor-pointer group"
                               style={{
                                 left: `${(d - 1) * CELL_WIDTH}px`,
                                 width: `${CELL_WIDTH}px`,
@@ -376,6 +417,98 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid }: Bo
           <p className="text-muted-foreground font-body text-sm">No units yet. Add a unit to see the booking timeline.</p>
         </div>
       )}
+
+      {/* Guest detail dialog */}
+      <Dialog open={!!selectedBar} onOpenChange={open => { if (!open) setSelectedBar(null); }}>
+        <DialogContent className="glass-card border-border/60 max-w-sm p-0">
+          {selectedBar && (
+            <>
+              <DialogHeader className="px-5 pt-5 pb-0">
+                <DialogTitle className="font-heading text-base flex items-center gap-2">
+                  <User className="h-4 w-4 text-secondary" />
+                  {selectedBar.bar.guestName}
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="px-5 pb-5 space-y-4">
+                {/* Status badge */}
+                <div className="flex items-center gap-2">
+                  <span className={cn(
+                    'text-[10px] font-body font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full',
+                    selectedBar.bar.isCurrent
+                      ? 'bg-secondary/20 text-secondary'
+                      : 'bg-muted text-muted-foreground'
+                  )}>
+                    {selectedBar.bar.isCurrent ? 'Current Guest' : 'Future Booking'}
+                  </span>
+                  <span className="text-[10px] font-body text-muted-foreground">
+                    {SOURCE_LABELS[selectedBar.bar.source as keyof typeof SOURCE_LABELS] ?? selectedBar.bar.source}
+                  </span>
+                </div>
+
+                {/* Details grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">Check-in</p>
+                    <div className="flex items-center gap-1.5">
+                      <CalendarDays className="h-3.5 w-3.5 text-success" />
+                      <span className="text-xs font-body font-medium">{formatDate(selectedBar.bar.checkIn)}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">Check-out</p>
+                    <div className="flex items-center gap-1.5">
+                      <CalendarDays className="h-3.5 w-3.5 text-destructive" />
+                      <span className="text-xs font-body font-medium">
+                        {selectedBar.bar.checkOut ? formatDate(selectedBar.bar.checkOut) : 'Month-to-month'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">Monthly Rate</p>
+                    <div className="flex items-center gap-1.5">
+                      <DollarSign className="h-3.5 w-3.5 text-secondary" />
+                      <span className="text-xs font-body font-semibold">{formatCurrency(selectedBar.bar.monthlyRate)}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">Deposit</p>
+                    <div className="flex items-center gap-1.5">
+                      <Tag className="h-3.5 w-3.5 text-muted-foreground" />
+                      <span className="text-xs font-body">
+                        {selectedBar.bar.securityDeposit > 0
+                          ? `${formatCurrency(selectedBar.bar.securityDeposit)} ${selectedBar.bar.securityDepositPaid ? '✓' : '(unpaid)'}`
+                          : 'None'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Notes */}
+                {selectedBar.bar.notes && (
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-body text-muted-foreground uppercase tracking-wider">Notes</p>
+                    <p className="text-xs font-body text-foreground/80 bg-muted/30 rounded-lg px-3 py-2">
+                      {selectedBar.bar.notes}
+                    </p>
+                  </div>
+                )}
+
+                {/* Edit button */}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="w-full font-body font-semibold h-9"
+                  onClick={handleEdit}
+                >
+                  <Pencil className="h-3.5 w-3.5 mr-1.5" />
+                  Edit Guest Details
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 }
