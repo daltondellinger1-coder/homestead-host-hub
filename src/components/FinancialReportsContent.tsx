@@ -5,7 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { TrendingUp, TrendingDown, PieChart as PieIcon, BarChart3, DollarSign, CalendarIcon, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { TrendingUp, TrendingDown, PieChart as PieIcon, BarChart3, DollarSign, CalendarIcon, ArrowUpRight, ArrowDownRight, Minus, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -33,6 +35,146 @@ const fmtFull = (n: number) =>
 
 type FilterMode = 'month' | 'year' | 'custom' | 'all';
 
+type DrillDownType = 'collected' | 'expected' | 'outstanding' | 'avg' | null;
+
+interface PaymentEventRow {
+  id: string;
+  amount: number;
+  date: string;
+  status: string;
+  note?: string;
+  unitId: string;
+  unitName: string;
+  guestName: string;
+  source: BookingSource;
+}
+
+function DrillDownDialog({
+  type,
+  onClose,
+  filtered,
+  paidEvents,
+  filterLabel,
+  monthlyData,
+  avgMonthly,
+}: {
+  type: DrillDownType;
+  onClose: () => void;
+  filtered: PaymentEventRow[];
+  paidEvents: PaymentEventRow[];
+  filterLabel: string;
+  monthlyData: { month: string; paid: number; upcoming: number; sortKey: string }[];
+  avgMonthly: number;
+}) {
+  if (!type) return null;
+
+  const formatDate = (iso: string) =>
+    new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const titles: Record<NonNullable<DrillDownType>, string> = {
+    collected: 'Collected Payments',
+    expected: 'All Expected Payments',
+    outstanding: 'Outstanding Payments',
+    avg: 'Average Monthly Breakdown',
+  };
+
+  const descriptions: Record<NonNullable<DrillDownType>, string> = {
+    collected: 'Payments marked as paid in this period',
+    expected: 'All scheduled payments in this period',
+    outstanding: 'Payments not yet collected in this period',
+    avg: 'Monthly collection averages for this period',
+  };
+
+  // Get relevant payments
+  const relevantPayments = type === 'collected'
+    ? paidEvents
+    : type === 'outstanding'
+    ? filtered.filter(e => e.status !== 'paid')
+    : type === 'expected'
+    ? filtered
+    : [];
+
+  // Group by unit
+  const byUnit = new Map<string, { unitName: string; total: number; payments: PaymentEventRow[] }>();
+  relevantPayments.forEach(p => {
+    if (!byUnit.has(p.unitName)) byUnit.set(p.unitName, { unitName: p.unitName, total: 0, payments: [] });
+    const entry = byUnit.get(p.unitName)!;
+    entry.total += p.amount;
+    entry.payments.push(p);
+  });
+  const unitGroups = Array.from(byUnit.values()).sort((a, b) => b.total - a.total);
+
+  const statusIcon = (status: string) => {
+    if (status === 'paid') return <CheckCircle2 className="h-3.5 w-3.5 text-[hsl(var(--success))] shrink-0" />;
+    if (status === 'overdue') return <AlertCircle className="h-3.5 w-3.5 text-[hsl(var(--destructive))] shrink-0" />;
+    return <Clock className="h-3.5 w-3.5 text-[hsl(var(--warning))] shrink-0" />;
+  };
+
+  return (
+    <Dialog open={!!type} onOpenChange={o => { if (!o) onClose(); }}>
+      <DialogContent className="glass-card border-border/60 sm:max-w-lg p-0 overflow-hidden max-h-[85vh]">
+        <DialogHeader className="px-5 pt-5 pb-0">
+          <DialogTitle className="font-heading text-lg">{titles[type]}</DialogTitle>
+          <p className="text-xs text-muted-foreground font-body">{descriptions[type]} · {filterLabel}</p>
+        </DialogHeader>
+
+        <ScrollArea className="px-5 pb-5 max-h-[65vh]">
+          {type === 'avg' ? (
+            <div className="space-y-3 pt-3">
+              <div className="flex items-center justify-between text-sm font-body border-b border-border/50 pb-2">
+                <span className="text-muted-foreground">Average</span>
+                <span className="font-heading font-semibold text-secondary">{fmt(avgMonthly)}<span className="text-muted-foreground text-xs font-normal"> /mo</span></span>
+              </div>
+              {monthlyData.map(m => (
+                <div key={m.sortKey} className="flex items-center justify-between text-sm font-body">
+                  <span>{m.month}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[hsl(var(--success))] font-medium tabular-nums">{fmt(m.paid)}</span>
+                    {m.upcoming > 0 && (
+                      <span className="text-[hsl(var(--warning))] text-xs tabular-nums">+{fmt(m.upcoming)} due</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {monthlyData.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-8">No data for this period</p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4 pt-3">
+              {unitGroups.map(group => (
+                <div key={group.unitName} className="space-y-1.5">
+                  <div className="flex items-center justify-between border-b border-border/50 pb-1.5">
+                    <span className="text-sm font-heading font-semibold">{group.unitName}</span>
+                    <span className="text-sm font-body font-medium tabular-nums">{fmtFull(group.total)}</span>
+                  </div>
+                  {group.payments
+                    .sort((a, b) => a.date.localeCompare(b.date))
+                    .map(p => (
+                    <div key={p.id} className="flex items-center gap-2 text-xs font-body pl-1">
+                      {statusIcon(p.status)}
+                      <span className="text-muted-foreground min-w-[70px]">{formatDate(p.date)}</span>
+                      <span className="truncate flex-1 text-muted-foreground">{p.guestName}</span>
+                      <span className="font-medium tabular-nums shrink-0">{fmtFull(p.amount)}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              {unitGroups.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-8">No payments in this category</p>
+              )}
+              <div className="border-t border-border/50 pt-2 flex items-center justify-between text-sm font-body">
+                <span className="text-muted-foreground">{relevantPayments.length} payment{relevantPayments.length !== 1 ? 's' : ''}</span>
+                <span className="font-heading font-semibold">{fmtFull(relevantPayments.reduce((s, p) => s + p.amount, 0))}</span>
+              </div>
+            </div>
+          )}
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function FinancialReportsContent() {
   const { allPaymentEvents, loading } = usePropertyData();
 
@@ -41,6 +183,7 @@ export default function FinancialReportsContent() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [customFrom, setCustomFrom] = useState<Date | undefined>(undefined);
   const [customTo, setCustomTo] = useState<Date | undefined>(undefined);
+  const [drillDown, setDrillDown] = useState<DrillDownType>(null);
 
   const years = useMemo(() => {
     const ySet = new Set<number>();
@@ -348,18 +491,19 @@ export default function FinancialReportsContent() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {[
-          { icon: DollarSign, label: 'Collected', value: fmtFull(totalCollected), color: 'text-[hsl(var(--success))]', current: totalCollected, previous: prevCollected, invert: false },
-          { icon: TrendingUp, label: 'Expected', value: fmtFull(totalExpected), color: 'text-foreground', current: totalExpected, previous: prevExpected, invert: false },
-          { icon: BarChart3, label: 'Outstanding', value: fmtFull(totalOutstanding), color: totalOutstanding > 0 ? 'text-[hsl(var(--warning))]' : 'text-[hsl(var(--success))]', current: totalOutstanding, previous: prevOutstanding, invert: true },
-          { icon: PieIcon, label: 'Avg Monthly', value: fmt(avgMonthly), color: 'text-secondary', current: avgMonthly, previous: prevAvgMonthly, invert: false },
-        ].map((card, i) => (
-          <motion.div
+        {([
+          { icon: DollarSign, label: 'Collected', value: fmtFull(totalCollected), color: 'text-[hsl(var(--success))]', current: totalCollected, previous: prevCollected, invert: false, drillKey: 'collected' as DrillDownType },
+          { icon: TrendingUp, label: 'Expected', value: fmtFull(totalExpected), color: 'text-foreground', current: totalExpected, previous: prevExpected, invert: false, drillKey: 'expected' as DrillDownType },
+          { icon: BarChart3, label: 'Outstanding', value: fmtFull(totalOutstanding), color: totalOutstanding > 0 ? 'text-[hsl(var(--warning))]' : 'text-[hsl(var(--success))]', current: totalOutstanding, previous: prevOutstanding, invert: true, drillKey: 'outstanding' as DrillDownType },
+          { icon: PieIcon, label: 'Avg Monthly', value: fmt(avgMonthly), color: 'text-secondary', current: avgMonthly, previous: prevAvgMonthly, invert: false, drillKey: 'avg' as DrillDownType },
+        ]).map((card, i) => (
+          <motion.button
             key={card.label}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="glass-card stat-glow rounded-lg p-3 sm:p-4"
+            className="glass-card stat-glow rounded-lg p-3 sm:p-4 text-left cursor-pointer hover:border-secondary/30 transition-colors"
+            onClick={() => setDrillDown(card.drillKey)}
           >
             <div className="flex items-center gap-2 mb-1.5">
               <div className="p-1.5 rounded-md bg-secondary/10 shrink-0">
@@ -378,9 +522,20 @@ export default function FinancialReportsContent() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
+
+      {/* Drill-down Dialog */}
+      <DrillDownDialog
+        type={drillDown}
+        onClose={() => setDrillDown(null)}
+        filtered={filtered}
+        paidEvents={paidEvents}
+        filterLabel={filterLabel}
+        monthlyData={monthlyData}
+        avgMonthly={avgMonthly}
+      />
 
       {/* Monthly Income Bar Chart */}
       <motion.div
