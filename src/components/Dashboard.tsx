@@ -228,6 +228,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               onMarkPaid={markPaymentPaid}
               onEditCurrentGuest={id => setGuestDialog({ unitId: id, mode: 'edit' })}
               onEditFutureGuest={(unitId, guestId) => setFutureGuestDialog({ unitId, guestId })}
+              onAddGuest={id => setGuestDialog({ unitId: id, mode: 'add' })}
+              onAddFutureGuest={id => setFutureGuestDialog({ unitId: id })}
             />
             <PaymentCalendar
               events={allPaymentEvents}
