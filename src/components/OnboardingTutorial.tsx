@@ -5,12 +5,12 @@ import {
   LayoutGrid,
   CalendarDays,
   Plus,
-  Users,
   DollarSign,
   Mountain,
   ArrowRight,
   ArrowLeft,
   HelpCircle,
+  MoreHorizontal,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
@@ -30,33 +30,33 @@ const steps: TutorialStep[] = [
   },
   {
     icon: <LayoutGrid className="h-10 w-10 text-secondary" />,
-    title: 'Units Overview',
+    title: 'Unit Cards',
     description:
-      'The home screen shows all your rental units with monthly income and occupancy stats at the top. Each card displays the current guest, rent amount, and payment status.',
+      'Each card shows the guest name, rent, and next payment at a glance. Tap "More details" to expand dates, deposit info, notes, and upcoming bookings.',
+  },
+  {
+    icon: <MoreHorizontal className="h-10 w-10 text-secondary" />,
+    title: 'Quick Actions',
+    description:
+      'Tap the ⋯ menu on any unit card to edit the unit, view lease history, manage the guest, record payments, or end a lease — all in one place.',
   },
   {
     icon: <Plus className="h-10 w-10 text-secondary" />,
-    title: 'Managing Units & Guests',
+    title: 'Adding Units & Guests',
     description:
-      'Tap the gold "+" button to add a unit. On each unit card, use the buttons to add a guest, record payments, edit details, or view lease history.',
+      'Use the gold "+" button in the header to add a unit or book a future guest. Vacant cards show an "Add Guest" button front and center.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
     title: 'Calendar View',
     description:
-      'Switch to Calendar from the bottom nav to see all payments and move-in/move-out dates laid out by month. Tap any day to see details.',
+      'Switch to Calendar from the bottom nav to see bookings and payments on a timeline. Tap any payment marker for details.',
   },
   {
     icon: <DollarSign className="h-10 w-10 text-secondary" />,
-    title: 'Finances',
-    description:
-      'Tap "Finances" in the bottom nav to see income reports, charts, and full payment history — all in one place with tabs to switch between them.',
-  },
-  {
-    icon: <Users className="h-10 w-10 text-secondary" />,
     title: 'You\'re All Set!',
     description:
-      'Replay this tutorial anytime from the Help button (?) in the header. Happy managing!',
+      'Tap ⋮ in the header to replay this tutorial, sign out, or reset data. Happy managing!',
   },
 ];
 

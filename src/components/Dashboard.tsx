@@ -17,9 +17,9 @@ import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingT
 import PullToRefresh from '@/components/PullToRefresh';
 
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical } from 'lucide-react';
 import { Guest, Payment, UnitStatus } from '@/types/property';
 import { toast } from 'sonner';
 
@@ -125,33 +125,6 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Finances
               </Button>
             </Link>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-9 w-9 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
-              onClick={() => setShowResetConfirm(true)}
-              title="Reset All Data"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-9 w-9 text-muted-foreground hover:text-foreground"
-              onClick={() => setShowOnboarding(true)}
-              title="Help / Tutorial"
-            >
-              <HelpCircle className="h-5 w-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="hidden sm:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground"
-              onClick={signOut}
-              title="Sign Out"
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -170,6 +143,32 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 <DropdownMenuItem onClick={() => setFutureGuestDialog({ unitId: '' })}>
                   <UserPlus className="h-4 w-4 mr-2" />
                   Book Future Guest
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                >
+                  <MoreVertical className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="font-body">
+                <DropdownMenuItem onClick={() => setShowOnboarding(true)}>
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  Help / Tutorial
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hidden sm:flex" onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setShowResetConfirm(true)}>
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Reset All Data
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
