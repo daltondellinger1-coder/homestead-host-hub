@@ -2,8 +2,13 @@ import { useState, useMemo } from 'react';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { SOURCE_LABELS, BookingSource } from '@/types/property';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { TrendingUp, PieChart as PieIcon, BarChart3, DollarSign } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { TrendingUp, PieChart as PieIcon, BarChart3, DollarSign, CalendarIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
@@ -26,11 +31,16 @@ const fmt = (n: number) =>
 const fmtFull = (n: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n);
 
-type YearOption = number | 'all';
+type FilterMode = 'month' | 'year' | 'custom' | 'all';
 
 export default function FinancialReportsContent() {
   const { allPaymentEvents, loading } = usePropertyData();
-  const [selectedYear, setSelectedYear] = useState<YearOption>(2026);
+
+  const [filterMode, setFilterMode] = useState<FilterMode>('year');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [customFrom, setCustomFrom] = useState<Date | undefined>(undefined);
+  const [customTo, setCustomTo] = useState<Date | undefined>(undefined);
 
   const years = useMemo(() => {
     const ySet = new Set<number>();
@@ -38,13 +48,42 @@ export default function FinancialReportsContent() {
       const y = new Date(e.date + 'T00:00:00').getFullYear();
       ySet.add(y);
     });
+    const currentYear = new Date().getFullYear();
+    ySet.add(currentYear);
     return Array.from(ySet).sort((a, b) => b - a);
   }, [allPaymentEvents]);
 
+  const filterLabel = useMemo(() => {
+    switch (filterMode) {
+      case 'all': return 'All Time';
+      case 'year': return String(selectedYear);
+      case 'month': return `${MONTH_NAMES[selectedMonth]} ${selectedYear}`;
+      case 'custom':
+        if (customFrom && customTo) return `${format(customFrom, 'MMM d')} – ${format(customTo, 'MMM d, yyyy')}`;
+        if (customFrom) return `From ${format(customFrom, 'MMM d, yyyy')}`;
+        return 'Custom Range';
+    }
+  }, [filterMode, selectedYear, selectedMonth, customFrom, customTo]);
+
   const filtered = useMemo(() => {
-    if (selectedYear === 'all') return allPaymentEvents;
-    return allPaymentEvents.filter(e => new Date(e.date + 'T00:00:00').getFullYear() === selectedYear);
-  }, [allPaymentEvents, selectedYear]);
+    return allPaymentEvents.filter(e => {
+      const d = new Date(e.date + 'T00:00:00');
+      switch (filterMode) {
+        case 'all': return true;
+        case 'year': return d.getFullYear() === selectedYear;
+        case 'month': return d.getFullYear() === selectedYear && d.getMonth() === selectedMonth;
+        case 'custom': {
+          if (customFrom && d < customFrom) return false;
+          if (customTo) {
+            const endOfDay = new Date(customTo);
+            endOfDay.setHours(23, 59, 59, 999);
+            if (d > endOfDay) return false;
+          }
+          return true;
+        }
+      }
+    });
+  }, [allPaymentEvents, filterMode, selectedYear, selectedMonth, customFrom, customTo]);
 
   const paidEvents = useMemo(() => filtered.filter(e => e.status === 'paid'), [filtered]);
 
@@ -53,7 +92,9 @@ export default function FinancialReportsContent() {
     filtered.forEach(e => {
       const d = new Date(e.date + 'T00:00:00');
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      const label = selectedYear === 'all'
+      const label = filterMode === 'month'
+        ? `Week ${Math.ceil(d.getDate() / 7)}`
+        : filterMode === 'all' || filterMode === 'custom'
         ? `${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`
         : MONTH_NAMES[d.getMonth()];
       if (!map.has(key)) map.set(key, { month: label, paid: 0, upcoming: 0, sortKey: key });
@@ -62,7 +103,7 @@ export default function FinancialReportsContent() {
       else entry.upcoming += e.amount;
     });
     return Array.from(map.values()).sort((a, b) => a.sortKey.localeCompare(b.sortKey));
-  }, [filtered, selectedYear]);
+  }, [filtered, filterMode]);
 
   const sourceData = useMemo(() => {
     const map = new Map<BookingSource, number>();
@@ -133,23 +174,88 @@ export default function FinancialReportsContent() {
 
   return (
     <div className="space-y-6">
-      {/* Year filter */}
-      <div className="flex justify-end">
-        <Select
-          value={String(selectedYear)}
-          onValueChange={v => setSelectedYear(v === 'all' ? 'all' : parseInt(v))}
-        >
-          <SelectTrigger className="w-[120px] h-9 text-xs font-body">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Time</SelectItem>
-            {years.map(y => (
-              <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      {/* Date filter controls */}
+      <div className="flex flex-wrap items-center gap-2">
+        {/* Mode selector */}
+        <div className="flex items-center bg-muted/50 rounded-lg p-0.5">
+          {(['month', 'year', 'custom', 'all'] as FilterMode[]).map(mode => (
+            <Button
+              key={mode}
+              size="sm"
+              variant="ghost"
+              className={cn(
+                'h-8 px-3 font-body text-xs capitalize transition-colors',
+                filterMode === mode
+                  ? 'bg-card text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
+              )}
+              onClick={() => setFilterMode(mode)}
+            >
+              {mode === 'all' ? 'All Time' : mode}
+            </Button>
+          ))}
+        </div>
+
+        {/* Year picker (for month and year modes) */}
+        {(filterMode === 'year' || filterMode === 'month') && (
+          <Select value={String(selectedYear)} onValueChange={v => setSelectedYear(parseInt(v))}>
+            <SelectTrigger className="w-[90px] h-9 text-xs font-body">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {years.map(y => (
+                <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
+        {/* Month picker */}
+        {filterMode === 'month' && (
+          <Select value={String(selectedMonth)} onValueChange={v => setSelectedMonth(parseInt(v))}>
+            <SelectTrigger className="w-[100px] h-9 text-xs font-body">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {MONTH_NAMES.map((m, i) => (
+                <SelectItem key={i} value={String(i)}>{m}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
+        {/* Custom date range */}
+        {filterMode === 'custom' && (
+          <div className="flex items-center gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className={cn('h-9 text-xs font-body gap-1.5', !customFrom && 'text-muted-foreground')}>
+                  <CalendarIcon className="h-3.5 w-3.5" />
+                  {customFrom ? format(customFrom, 'MMM d, yyyy') : 'Start date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={customFrom} onSelect={setCustomFrom} initialFocus className={cn("p-3 pointer-events-auto")} />
+              </PopoverContent>
+            </Popover>
+            <span className="text-xs text-muted-foreground">to</span>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className={cn('h-9 text-xs font-body gap-1.5', !customTo && 'text-muted-foreground')}>
+                  <CalendarIcon className="h-3.5 w-3.5" />
+                  {customTo ? format(customTo, 'MMM d, yyyy') : 'End date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={customTo} onSelect={setCustomTo} initialFocus className={cn("p-3 pointer-events-auto")} />
+              </PopoverContent>
+            </Popover>
+          </div>
+        )}
       </div>
+
+      {/* Period label */}
+      <p className="text-xs text-muted-foreground font-body">Showing: <span className="text-foreground font-medium">{filterLabel}</span></p>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
