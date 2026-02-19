@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Home, DollarSign, Pencil, CalendarDays, User, Tag, Trash2, Check, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -73,9 +73,35 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
   const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
   const todayDay = isCurrentMonth ? today.getDate() : null;
 
+  const scrollContainersRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const resetScroll = useCallback(() => {
+    scrollContainersRef.current.forEach(el => {
+      if (el) el.scrollLeft = 0;
+    });
+  }, []);
+
+  const scrollToToday = useCallback(() => {
+    if (!todayDay) return;
+    const targetLeft = Math.max((todayDay - 3) * CELL_WIDTH, 0);
+    scrollContainersRef.current.forEach(el => {
+      if (el) el.scrollLeft = targetLeft;
+    });
+  }, [todayDay]);
+
   const prevMonth = useCallback(() => setCurrentDate(new Date(year, month - 1, 1)), [year, month]);
   const nextMonth = useCallback(() => setCurrentDate(new Date(year, month + 1, 1)), [year, month]);
   const goToday = () => setCurrentDate(new Date());
+
+  // Reset scroll on month change, scroll to today if current month
+  useEffect(() => {
+    if (isCurrentMonth) {
+      // Small delay to let DOM update with new month's content
+      requestAnimationFrame(() => scrollToToday());
+    } else {
+      requestAnimationFrame(() => resetScroll());
+    }
+  }, [year, month, isCurrentMonth, scrollToToday, resetScroll]);
 
   // Swipe — only on the nav area, not the scrollable timeline content
   const touchStartX = useRef<number | null>(null);
@@ -299,7 +325,13 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
               </div>
 
               {/* Scrollable timeline */}
-              <div className="overflow-x-auto">
+              <div
+                className="overflow-x-auto"
+                ref={el => {
+                  const idx = unitData.findIndex(d => d.unit.id === unit.id);
+                  scrollContainersRef.current[idx] = el;
+                }}
+              >
                 <div style={{ width: `${gridWidth}px` }}>
                   {/* Day headers */}
                   <div className="flex border-b border-border/30 sticky top-0 z-10" style={{ background: 'inherit' }}>
