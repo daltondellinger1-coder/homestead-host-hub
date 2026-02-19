@@ -260,19 +260,19 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
     >
       {/* Sticky Navigation */}
       <div ref={navRef} className="glass-card rounded-xl overflow-hidden sticky top-[57px] sm:top-[65px] z-20">
-        <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Button variant="ghost" size="sm" onClick={prevMonth} className="h-9 w-9 p-0 rounded-lg">
+        <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1 sm:gap-3 min-w-0 flex-1">
+            <Button variant="ghost" size="sm" onClick={prevMonth} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg shrink-0">
               <ChevronLeft className="h-5 w-5" />
             </Button>
-            <h2 className="font-heading text-lg sm:text-xl font-semibold min-w-[160px] sm:min-w-[200px] text-center">
+            <h2 className="font-heading text-base sm:text-xl font-semibold text-center flex-1 truncate">
               {monthLabel}
             </h2>
-            <Button variant="ghost" size="sm" onClick={nextMonth} className="h-9 w-9 p-0 rounded-lg">
+            <Button variant="ghost" size="sm" onClick={nextMonth} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg shrink-0">
               <ChevronRight className="h-5 w-5" />
             </Button>
           </div>
-          <Button variant="outline" size="sm" onClick={goToday} className="font-body text-xs h-8 px-3">
+          <Button variant="outline" size="sm" onClick={goToday} className="font-body text-xs h-8 px-3 shrink-0">
             Today
           </Button>
         </div>
