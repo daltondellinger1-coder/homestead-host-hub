@@ -225,8 +225,8 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Navigation */}
-      <div className="glass-card rounded-xl overflow-hidden">
+      {/* Sticky Navigation */}
+      <div className="glass-card rounded-xl overflow-hidden sticky top-[57px] sm:top-[65px] z-20">
         <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-border/50 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
             <Button variant="ghost" size="sm" onClick={prevMonth} className="h-9 w-9 p-0 rounded-lg">
@@ -245,7 +245,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
         </div>
 
         {/* Legend */}
-        <div className="px-4 sm:px-5 py-2 border-b border-border/30 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-body text-muted-foreground">
+        <div className="px-4 sm:px-5 py-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-body text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="h-3 w-8 rounded-sm bg-secondary/70" /> Current Guest
           </span>
@@ -295,33 +295,38 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMa
               <div className="overflow-x-auto">
                 <div style={{ width: `${gridWidth}px` }}>
                   {/* Day headers */}
-                  <div className="flex border-b border-border/20">
-                    {days.map(d => (
-                      <div
-                        key={d}
-                        className={cn(
-                          'flex flex-col items-center justify-center shrink-0 py-1',
-                          isWeekend(d) && 'bg-muted/20',
-                          todayDay === d && 'bg-secondary/10',
-                        )}
-                        style={{ width: `${CELL_WIDTH}px` }}
-                      >
-                        <span className={cn(
-                          'text-[9px] font-body text-muted-foreground',
-                          todayDay === d && 'text-secondary font-bold'
-                        )}>
-                          {['S','M','T','W','T','F','S'][dayOfWeek(d)]}
-                        </span>
-                        <span className={cn(
-                          'text-[11px] font-body leading-none',
-                          todayDay === d
-                            ? 'bg-secondary text-secondary-foreground rounded-full h-5 w-5 flex items-center justify-center font-bold'
-                            : 'text-muted-foreground'
-                        )}>
-                          {d}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="flex border-b border-border/30 sticky top-0 z-10" style={{ background: 'inherit' }}>
+                    {days.map(d => {
+                      const isToday = todayDay === d;
+                      const weekend = isWeekend(d);
+                      const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayOfWeek(d)];
+                      return (
+                        <div
+                          key={d}
+                          className={cn(
+                            'flex flex-col items-center justify-center shrink-0 py-1.5',
+                            weekend && 'bg-muted/20',
+                            isToday && 'bg-secondary/10',
+                          )}
+                          style={{ width: `${CELL_WIDTH}px` }}
+                        >
+                          <span className={cn(
+                            'text-[9px] font-body uppercase tracking-wider',
+                            isToday ? 'text-secondary font-bold' : weekend ? 'text-muted-foreground/60' : 'text-muted-foreground/80'
+                          )}>
+                            {dayName}
+                          </span>
+                          <span className={cn(
+                            'text-xs font-body leading-none mt-0.5 font-medium',
+                            isToday
+                              ? 'bg-secondary text-secondary-foreground rounded-full h-5 w-5 flex items-center justify-center font-bold'
+                              : weekend ? 'text-muted-foreground/50' : 'text-foreground/80'
+                          )}>
+                            {d}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* Content area: bars + payments */}
