@@ -171,8 +171,9 @@ export default function FinancialReportsContent() {
   const totalCollected = paidEvents.reduce((s, e) => s + e.amount, 0);
   const totalExpected = filtered.reduce((s, e) => s + e.amount, 0);
   const totalOutstanding = totalExpected - totalCollected;
-  const avgMonthly = monthlyData.length > 0
-    ? monthlyData.reduce((s, m) => s + m.paid, 0) / monthlyData.filter(m => m.paid > 0).length
+  const paidMonthsWithData = monthlyData.filter(m => m.paid > 0);
+  const avgMonthly = paidMonthsWithData.length > 0
+    ? paidMonthsWithData.reduce((s, m) => s + m.paid, 0) / paidMonthsWithData.length
     : 0;
 
   // Previous period stats
@@ -358,21 +359,23 @@ export default function FinancialReportsContent() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="glass-card stat-glow rounded-lg p-3.5 sm:p-4 flex items-start gap-2.5 sm:gap-3"
+            className="glass-card stat-glow rounded-lg p-3 sm:p-4"
           >
-            <div className="p-2 rounded-md bg-secondary/10">
-              <card.icon className="h-4 w-4 text-secondary" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] sm:text-xs text-muted-foreground font-body">{card.label}</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <p className={`text-base sm:text-xl font-heading font-semibold ${card.color}`}>{card.value}</p>
-                <ChangeIndicator current={card.current} previous={card.previous} invert={card.invert} />
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="p-1.5 rounded-md bg-secondary/10 shrink-0">
+                <card.icon className="h-3.5 w-3.5 text-secondary" />
               </div>
+              <p className="text-[11px] sm:text-xs text-muted-foreground font-body truncate">{card.label}</p>
+            </div>
+            <div className="min-w-0">
+              <p className={`text-sm sm:text-lg font-heading font-semibold truncate ${card.color}`}>{card.value}</p>
               {hasPrevPeriod && (
-                <p className="text-[9px] text-muted-foreground/60 font-body mt-0.5">
-                  prev: {card.label === 'Avg Monthly' ? fmt(card.previous) : fmtFull(card.previous)}
-                </p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <ChangeIndicator current={card.current} previous={card.previous} invert={card.invert} />
+                  <span className="text-[9px] text-muted-foreground/60 font-body truncate">
+                    vs {card.label === 'Avg Monthly' ? fmt(card.previous) : fmtFull(card.previous)}
+                  </span>
+                </div>
               )}
             </div>
           </motion.div>
