@@ -23,6 +23,8 @@ interface BookingTimelineProps {
   onMarkPaid?: (unitId: string, paymentId: string) => void;
   onEditCurrentGuest?: (unitId: string) => void;
   onEditFutureGuest?: (unitId: string, guestId: string) => void;
+  onAddGuest?: (unitId: string) => void;
+  onAddFutureGuest?: (unitId: string) => void;
 }
 
 interface BookingBar {
@@ -47,7 +49,7 @@ const formatCurrency = (amount: number) =>
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEditCurrentGuest, onEditFutureGuest }: BookingTimelineProps) {
+export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedBar, setSelectedBar] = useState<{ unitId: string; bar: BookingBar } | null>(null);
 
@@ -133,13 +135,32 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
         paymentsByDay.set(day, list);
       });
 
-      return { unit, bars, paymentsByDay };
+      // Compute booked days set for quick lookup
+      const bookedDays = new Set<number>();
+      for (const bar of bars) {
+        const barMonthStart = new Date(year, month, 1);
+        const barMonthEnd = new Date(year, month, daysInMonth);
+        const startD = bar.checkIn < barMonthStart ? 1 : bar.checkIn.getDate();
+        const endD = (bar.checkOut && bar.checkOut <= barMonthEnd) ? bar.checkOut.getDate() : daysInMonth;
+        for (let d = startD; d <= endD; d++) bookedDays.add(d);
+      }
+
+      return { unit, bars, paymentsByDay, bookedDays };
     });
   }, [units, paymentEvents, year, month]);
 
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const dayOfWeek = (d: number) => new Date(year, month, d).getDay();
   const isWeekend = (d: number) => { const dow = dayOfWeek(d); return dow === 0 || dow === 6; };
+
+  const handleEmptyDayClick = (unit: Unit) => {
+    const hasCurrentGuest = !!unit.currentGuest;
+    if (hasCurrentGuest && onAddFutureGuest) {
+      onAddFutureGuest(unit.id);
+    } else if (!hasCurrentGuest && onAddGuest) {
+      onAddGuest(unit.id);
+    }
+  };
 
   const getBarStyle = (bar: BookingBar) => {
     const monthStart = new Date(year, month, 1);
@@ -232,7 +253,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
 
       {/* Unit timeline cards */}
       <div className="space-y-2.5">
-        {unitData.map(({ unit, bars, paymentsByDay }) => {
+        {unitData.map(({ unit, bars, paymentsByDay, bookedDays }) => {
           const hasPayments = paymentsByDay.size > 0;
           const totalRows = Math.max(bars.length, 1);
           const barsHeight = totalRows * barRowHeight + 8;
@@ -295,17 +316,34 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
 
                   {/* Content area: bars + payments */}
                   <div style={{ height: `${contentHeight}px`, position: 'relative', width: `${gridWidth}px` }}>
-                    {/* Grid columns background */}
-                    {days.map(d => (
-                      <div
-                        key={d}
-                        className={cn(
-                          'absolute top-0 bottom-0 border-r border-border/10',
-                          isWeekend(d) && 'bg-muted/10',
-                        )}
-                        style={{ left: `${(d - 1) * CELL_WIDTH}px`, width: `${CELL_WIDTH}px` }}
-                      />
-                    ))}
+                    {/* Grid columns background — clickable on empty days */}
+                    {days.map(d => {
+                      const isBooked = bookedDays.has(d);
+                      const canAdd = !isBooked && (onAddGuest || onAddFutureGuest);
+                      return (
+                        <div
+                          key={d}
+                          className={cn(
+                            'absolute top-0 border-r border-border/10 group/cell',
+                            isWeekend(d) && 'bg-muted/10',
+                            canAdd && 'cursor-pointer hover:bg-secondary/5',
+                          )}
+                          style={{
+                            left: `${(d - 1) * CELL_WIDTH}px`,
+                            width: `${CELL_WIDTH}px`,
+                            height: `${barsHeight}px`,
+                          }}
+                          onClick={() => canAdd && handleEmptyDayClick(unit)}
+                          title={canAdd ? `Book ${unit.currentGuest ? 'future guest' : 'new guest'}` : undefined}
+                        >
+                          {canAdd && (
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/cell:opacity-100 transition-opacity">
+                              <span className="h-5 w-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-xs font-bold">+</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
 
                     {/* Today line */}
                     {todayDay && (
@@ -348,8 +386,14 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
                     })}
 
                     {bars.length === 0 && !hasPayments && (
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span className="text-[10px] font-body text-muted-foreground/40">No bookings this month</span>
+                      <div
+                        className="absolute inset-0 flex items-center justify-center cursor-pointer hover:bg-secondary/5 transition-colors"
+                        onClick={() => handleEmptyDayClick(unit)}
+                      >
+                        <span className="text-[10px] font-body text-muted-foreground/60 flex items-center gap-1">
+                          <span className="h-4 w-4 rounded-full bg-secondary/15 text-secondary flex items-center justify-center text-[10px] font-bold">+</span>
+                          Add booking
+                        </span>
                       </div>
                     )}
 
