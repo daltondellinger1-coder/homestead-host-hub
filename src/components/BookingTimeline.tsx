@@ -1,7 +1,9 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Home, DollarSign, Pencil, CalendarDays, User, Tag, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, DollarSign, Pencil, CalendarDays, User, Tag, Trash2, Check, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Unit, SOURCE_LABELS, STATUS_LABELS, Payment, PaymentStatus, BookingSource, Guest, FutureGuest } from '@/types/property';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -21,6 +23,9 @@ interface BookingTimelineProps {
   units: Unit[];
   paymentEvents: PaymentEvent[];
   onMarkPaid?: (unitId: string, paymentId: string) => void;
+  onMarkUnpaid?: (paymentId: string) => void;
+  onUpdatePayment?: (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: PaymentStatus }) => void;
+  onDeletePayment?: (paymentId: string) => void;
   onEditCurrentGuest?: (unitId: string) => void;
   onEditFutureGuest?: (unitId: string, guestId: string) => void;
   onAddGuest?: (unitId: string) => void;
@@ -49,9 +54,14 @@ const formatCurrency = (amount: number) =>
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
+export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedBar, setSelectedBar] = useState<{ unitId: string; bar: BookingBar } | null>(null);
+  const [selectedPayments, setSelectedPayments] = useState<PaymentEvent[] | null>(null);
+  const [editingPaymentId, setEditingPaymentId] = useState<string | null>(null);
+  const [editAmount, setEditAmount] = useState('');
+  const [editDate, setEditDate] = useState('');
+  const [editNote, setEditNote] = useState('');
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -411,7 +421,7 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
                           const allPaid = dayPayments.every(p => p.status === 'paid');
                           const totalAmount = dayPayments.reduce((s, p) => s + p.amount, 0);
 
-                          return (
+                           return (
                             <div
                               key={`pay-${d}`}
                               className="absolute z-20 flex flex-col items-center justify-center cursor-pointer group"
@@ -421,13 +431,8 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
                                 top: `${barsHeight}px`,
                                 height: `${paymentRowHeight}px`,
                               }}
-                              onClick={() => {
-                                if (onMarkPaid && !allPaid) {
-                                  const unpaid = dayPayments.find(p => p.status !== 'paid');
-                                  if (unpaid) onMarkPaid(unpaid.unitId, unpaid.id);
-                                }
-                              }}
-                              title={`${formatCurrency(totalAmount)} · ${dayPayments.map(p => `${p.guestName} (${p.status})`).join(', ')}`}
+                              onClick={() => setSelectedPayments(dayPayments)}
+                              title="Tap to view payment details"
                             >
                               <div className={cn(
                                 'h-5 w-5 rounded-full flex items-center justify-center transition-transform group-hover:scale-110',
@@ -548,6 +553,182 @@ export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onEd
                   <Pencil className="h-3.5 w-3.5 mr-1.5" />
                   Edit Guest Details
                 </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Payment detail dialog */}
+      <Dialog open={!!selectedPayments} onOpenChange={open => { if (!open) { setSelectedPayments(null); setEditingPaymentId(null); } }}>
+        <DialogContent className="glass-card border-border/60 max-w-sm p-0 max-h-[80vh] flex flex-col">
+          {selectedPayments && (
+            <>
+              <DialogHeader className="px-5 pt-5 pb-3 shrink-0 border-b border-border/30">
+                <DialogTitle className="font-heading text-base flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-secondary" />
+                  Payment Details
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="flex-1 overflow-y-auto px-5 py-3 space-y-3">
+                {selectedPayments.map(p => {
+                  const isPaid = p.status === 'paid';
+                  const isEditing = editingPaymentId === p.id;
+
+                  if (isEditing) {
+                    return (
+                      <div key={p.id} className="rounded-lg border border-secondary/30 bg-secondary/5 p-3 space-y-3">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="space-y-1">
+                            <Label className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">Amount</Label>
+                            <Input
+                              type="number"
+                              value={editAmount}
+                              onChange={e => setEditAmount(e.target.value)}
+                              className="h-8 text-sm font-body"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">Date</Label>
+                            <Input
+                              type="date"
+                              value={editDate}
+                              onChange={e => setEditDate(e.target.value)}
+                              className="h-8 text-sm font-body"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">Note</Label>
+                          <Input
+                            value={editNote}
+                            onChange={e => setEditNote(e.target.value)}
+                            placeholder="Optional note"
+                            className="h-8 text-sm font-body"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="flex-1 h-8 text-xs font-body font-semibold"
+                            onClick={() => {
+                              if (onUpdatePayment) {
+                                const updates: { amount?: number; date?: string; note?: string } = {};
+                                if (editAmount && parseFloat(editAmount) !== p.amount) updates.amount = parseFloat(editAmount);
+                                if (editDate && editDate !== p.date) updates.date = editDate;
+                                if (editNote !== (p.note ?? '')) updates.note = editNote;
+                                if (Object.keys(updates).length > 0) onUpdatePayment(p.id, updates);
+                              }
+                              setEditingPaymentId(null);
+                            }}
+                          >
+                            <Check className="h-3 w-3 mr-1" /> Save
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-8 text-xs font-body"
+                            onClick={() => setEditingPaymentId(null)}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={p.id} className={cn(
+                      'rounded-lg border p-3 space-y-2',
+                      isPaid ? 'border-success/20 bg-success/5' : 'border-secondary/20 bg-secondary/5'
+                    )}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className={cn(
+                            'text-[10px] font-body font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded',
+                            isPaid ? 'bg-success/15 text-success' : 'bg-secondary/15 text-secondary'
+                          )}>
+                            {p.status}
+                          </span>
+                          <span className="text-sm font-heading font-semibold">{formatCurrency(p.amount)}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3 text-xs font-body text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <CalendarDays className="h-3 w-3" />
+                          {new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <User className="h-3 w-3" />
+                          {p.guestName}
+                        </span>
+                        <span className="text-muted-foreground/60">·</span>
+                        <span>{p.unitName}</span>
+                      </div>
+
+                      {p.note && (
+                        <p className="text-[11px] font-body text-foreground/70 bg-muted/20 rounded px-2 py-1">
+                          {p.note}
+                        </p>
+                      )}
+
+                      <div className="flex items-center gap-1.5 pt-1">
+                        {isPaid ? (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-[11px] font-body"
+                            onClick={() => onMarkUnpaid?.(p.id)}
+                          >
+                            <Undo2 className="h-3 w-3 mr-1" /> Mark Unpaid
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="h-7 text-[11px] font-body font-semibold"
+                            onClick={() => onMarkPaid?.(p.unitId, p.id)}
+                          >
+                            <Check className="h-3 w-3 mr-1" /> Mark Paid
+                          </Button>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 text-[11px] font-body"
+                          onClick={() => {
+                            setEditingPaymentId(p.id);
+                            setEditAmount(p.amount.toString());
+                            setEditDate(p.date);
+                            setEditNote(p.note ?? '');
+                          }}
+                        >
+                          <Pencil className="h-3 w-3 mr-1" /> Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 text-[11px] font-body text-destructive hover:bg-destructive/10 hover:text-destructive"
+                          onClick={() => {
+                            onDeletePayment?.(p.id);
+                            setSelectedPayments(prev =>
+                              prev ? prev.filter(x => x.id !== p.id) : null
+                            );
+                          }}
+                        >
+                          <Trash2 className="h-3 w-3 mr-1" /> Delete
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {selectedPayments.length === 0 && (
+                  <p className="text-xs font-body text-muted-foreground text-center py-4">No payments remaining.</p>
+                )}
               </div>
             </>
           )}
