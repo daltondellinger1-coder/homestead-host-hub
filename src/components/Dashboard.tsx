@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical } from 'lucide-react';
-import { Guest, Payment, UnitStatus, UnitType } from '@/types/property';
+import { Guest, Payment, UnitStatus, UnitType, UNIT_TYPE_LABELS } from '@/types/property';
 import { toast } from 'sonner';
 
 type ViewMode = 'units' | 'calendar';
@@ -52,6 +52,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string } | null>(null);
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
   const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
+  const [calendarUnitTypeFilter, setCalendarUnitTypeFilter] = useState<UnitType | null>(null);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -191,6 +192,10 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             vacantCount={stats.vacantCount}
             totalUnits={stats.totalUnits}
             units={units}
+            onUnitTypeClick={(type) => {
+              setCalendarUnitTypeFilter(type);
+              onViewModeChange('calendar');
+            }}
           />
         )}
 
@@ -222,8 +227,18 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </div>
         ) : (
           <div className="space-y-6">
+            {calendarUnitTypeFilter && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-body text-muted-foreground">
+                  Showing: <span className="text-foreground font-medium">{UNIT_TYPE_LABELS[calendarUnitTypeFilter]}</span>
+                </span>
+                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs font-body" onClick={() => setCalendarUnitTypeFilter(null)}>
+                  Show all
+                </Button>
+              </div>
+            )}
             <BookingTimeline
-              units={units}
+              units={calendarUnitTypeFilter ? units.filter(u => u.unitType === calendarUnitTypeFilter && !['planning', 'storage'].includes(u.status)) : units}
               paymentEvents={allPaymentEvents}
               onMarkPaid={markPaymentPaid}
               onMarkUnpaid={markPaymentUnpaid}
