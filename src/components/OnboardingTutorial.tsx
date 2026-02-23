@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   HelpCircle,
   MoreHorizontal,
+  BedDouble,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
@@ -44,7 +45,13 @@ const steps: TutorialStep[] = [
     icon: <Plus className="h-10 w-10 text-secondary" />,
     title: 'Adding Units & Guests',
     description:
-      'Use the gold "+" button in the header to add a unit or book a future guest. Vacant cards show an "Add Guest" button front and center.',
+      'Use the gold "+" button in the header to add a unit or book a future guest. When adding a unit, choose its type (1BR, 2BR, or Cottage). Vacant cards show an "Add Guest" button front and center.',
+  },
+  {
+    icon: <BedDouble className="h-10 w-10 text-secondary" />,
+    title: 'Next Available Units',
+    description:
+      'Three cards at the top of the dashboard show the next available unit for each type — 1 Bedroom, 2 Bedroom, and Cottage. Tap any card to jump to the calendar view filtered to that unit type.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
