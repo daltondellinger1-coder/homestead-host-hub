@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical } from 'lucide-react';
-import { Guest, Payment, UnitStatus } from '@/types/property';
+import { Guest, Payment, UnitStatus, UnitType } from '@/types/property';
 import { toast } from 'sonner';
 
 type ViewMode = 'units' | 'calendar';
@@ -190,6 +190,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             occupiedCount={stats.occupiedCount}
             vacantCount={stats.vacantCount}
             totalUnits={stats.totalUnits}
+            units={units}
           />
         )}
 
@@ -304,11 +305,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <EditUnitDialog
         open={!!editUnitId}
         onClose={() => setEditUnitId(null)}
-        onSave={(name: string, status: UnitStatus) => {
-          if (editUnitId) updateUnit(editUnitId, name, status);
+        onSave={(name: string, status: UnitStatus, unitType: UnitType) => {
+          if (editUnitId) updateUnit(editUnitId, name, status, unitType);
         }}
         currentName={editUnit?.name ?? ''}
         currentStatus={editUnit?.status ?? 'vacant'}
+        currentUnitType={editUnit?.unitType ?? '1br'}
       />
 
       <LeaseHistoryDialog

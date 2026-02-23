@@ -4,32 +4,35 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { UnitStatus, STATUS_LABELS } from '@/types/property';
+import { UnitStatus, UnitType, STATUS_LABELS, UNIT_TYPE_LABELS, UNIT_TYPES } from '@/types/property';
 
 interface EditUnitDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (name: string, status: UnitStatus) => void;
+  onSave: (name: string, status: UnitStatus, unitType: UnitType) => void;
   currentName: string;
   currentStatus: UnitStatus;
+  currentUnitType: UnitType;
 }
 
 const EDITABLE_STATUSES: UnitStatus[] = ['vacant', 'occupied', 'rented', 'planning', 'storage'];
 
-export default function EditUnitDialog({ open, onClose, currentName, currentStatus, onSave }: EditUnitDialogProps) {
+export default function EditUnitDialog({ open, onClose, currentName, currentStatus, currentUnitType, onSave }: EditUnitDialogProps) {
   const [name, setName] = useState(currentName);
   const [status, setStatus] = useState<UnitStatus>(currentStatus);
+  const [unitType, setUnitType] = useState<UnitType>(currentUnitType);
 
   useEffect(() => {
     if (open) {
       setName(currentName);
       setStatus(currentStatus);
+      setUnitType(currentUnitType);
     }
-  }, [open, currentName, currentStatus]);
+  }, [open, currentName, currentStatus, currentUnitType]);
 
   const handleSave = () => {
     if (!name.trim()) return;
-    onSave(name.trim(), status);
+    onSave(name.trim(), status, unitType);
     onClose();
   };
 
@@ -50,6 +53,20 @@ export default function EditUnitDialog({ open, onClose, currentName, currentStat
               onChange={e => setName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSave()}
             />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="edit-unit-type">Unit Type</Label>
+            <Select value={unitType} onValueChange={v => setUnitType(v as UnitType)}>
+              <SelectTrigger id="edit-unit-type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {UNIT_TYPES.map(t => (
+                  <SelectItem key={t} value={t}>{UNIT_TYPE_LABELS[t]}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-1.5">

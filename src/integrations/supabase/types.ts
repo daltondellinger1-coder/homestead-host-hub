@@ -128,6 +128,7 @@ export type Database = {
           name: string
           sort_order: number
           status: Database["public"]["Enums"]["unit_status"]
+          unit_type: Database["public"]["Enums"]["unit_type"]
           updated_at: string
         }
         Insert: {
@@ -136,6 +137,7 @@ export type Database = {
           name: string
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
+          unit_type?: Database["public"]["Enums"]["unit_type"]
           updated_at?: string
         }
         Update: {
@@ -144,6 +146,7 @@ export type Database = {
           name?: string
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
+          unit_type?: Database["public"]["Enums"]["unit_type"]
           updated_at?: string
         }
         Relationships: []
@@ -165,6 +168,7 @@ export type Database = {
         | "other"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
+      unit_type: "1br" | "2br" | "cottage"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -302,6 +306,7 @@ export const Constants = {
       ],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
+      unit_type: ["1br", "2br", "cottage"],
     },
   },
 } as const
