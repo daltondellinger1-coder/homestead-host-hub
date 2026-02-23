@@ -1,0 +1,1 @@
+ALTER TYPE public.booking_source ADD VALUE 'vrbo';

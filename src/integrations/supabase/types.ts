@@ -166,6 +166,7 @@ export type Database = {
         | "long_term"
         | "lease"
         | "other"
+        | "vrbo"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -303,6 +304,7 @@ export const Constants = {
         "long_term",
         "lease",
         "other",
+        "vrbo",
       ],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
