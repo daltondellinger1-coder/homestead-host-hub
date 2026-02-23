@@ -1,4 +1,4 @@
-export type BookingSource = 'airbnb' | 'furnished_finder' | 'direct' | 'long_term' | 'lease' | 'other';
+export type BookingSource = 'airbnb' | 'vrbo' | 'furnished_finder' | 'direct' | 'long_term' | 'lease' | 'other';
 
 export type UnitStatus = 'occupied' | 'vacant' | 'rented' | 'planning' | 'storage';
 
@@ -41,6 +41,7 @@ export interface Unit {
 
 export const SOURCE_LABELS: Record<BookingSource, string> = {
   airbnb: 'Airbnb',
+  vrbo: 'VRBO',
   furnished_finder: 'Furnished Finder',
   direct: 'Direct Booking',
   long_term: 'Long Term',
