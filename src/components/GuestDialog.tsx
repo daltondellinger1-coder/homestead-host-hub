@@ -100,6 +100,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="airbnb">Airbnb</SelectItem>
+                <SelectItem value="vrbo">VRBO</SelectItem>
                 <SelectItem value="furnished_finder">Furnished Finder</SelectItem>
                 <SelectItem value="direct">Direct Booking</SelectItem>
                 <SelectItem value="long_term">Long Term</SelectItem>
