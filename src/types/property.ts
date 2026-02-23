@@ -2,6 +2,8 @@ export type BookingSource = 'airbnb' | 'furnished_finder' | 'direct' | 'long_ter
 
 export type UnitStatus = 'occupied' | 'vacant' | 'rented' | 'planning' | 'storage';
 
+export type UnitType = '1br' | '2br' | 'cottage';
+
 export type PaymentStatus = 'paid' | 'pending' | 'overdue' | 'upcoming';
 
 export interface Payment {
@@ -32,6 +34,7 @@ export interface Unit {
   id: string;
   name: string;
   status: UnitStatus;
+  unitType: UnitType;
   currentGuest: Guest | null;
   futureGuests: FutureGuest[];
 }
@@ -52,3 +55,11 @@ export const STATUS_LABELS: Record<UnitStatus, string> = {
   planning: 'Planning',
   storage: 'Storage',
 };
+
+export const UNIT_TYPE_LABELS: Record<UnitType, string> = {
+  '1br': '1 Bedroom',
+  '2br': '2 Bedroom',
+  cottage: 'Cottage',
+};
+
+export const UNIT_TYPES: UnitType[] = ['1br', '2br', 'cottage'];

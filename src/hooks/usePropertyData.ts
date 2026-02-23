@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Unit, Guest, FutureGuest, Payment, UnitStatus, BookingSource } from '@/types/property';
+import { Unit, Guest, FutureGuest, Payment, UnitStatus, UnitType, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
 
@@ -72,6 +72,7 @@ function assembleUnits(
         id: u.id,
         name: u.name,
         status: u.status as UnitStatus,
+        unitType: (u as any).unit_type as UnitType ?? '1br',
         currentGuest: guest ? { ...guest, dbId: undefined, id: undefined } as unknown as Guest : null,
         futureGuests,
         _guestDbId: guest?.dbId,
@@ -233,20 +234,22 @@ export function usePropertyData() {
     return m;
   }, [dbGuests]);
 
-  const addUnit = useCallback(async (name: string, status: UnitStatus = 'vacant') => {
+  const addUnit = useCallback(async (name: string, status: UnitStatus = 'vacant', unitType: UnitType = '1br') => {
     const maxOrder = dbUnits.reduce((max, u) => Math.max(max, u.sort_order), 0);
     const { data } = await supabase
       .from('units')
-      .insert({ name, status, sort_order: maxOrder + 1 })
+      .insert({ name, status, sort_order: maxOrder + 1, unit_type: unitType } as any)
       .select()
       .single();
     if (data) setDbUnits(prev => [...prev, data]);
   }, [dbUnits]);
 
-  const updateUnit = useCallback(async (unitId: string, name: string, status: UnitStatus) => {
+  const updateUnit = useCallback(async (unitId: string, name: string, status: UnitStatus, unitType?: UnitType) => {
+    const updates: any = { name, status };
+    if (unitType) updates.unit_type = unitType;
     const { data } = await supabase
       .from('units')
-      .update({ name, status })
+      .update(updates)
       .eq('id', unitId)
       .select()
       .single();
