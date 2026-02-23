@@ -9,6 +9,7 @@ interface StatsOverviewProps {
   vacantCount: number;
   totalUnits: number;
   units: Unit[];
+  onUnitTypeClick?: (type: UnitType) => void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -66,7 +67,7 @@ function getAvailability(units: Unit[], type: UnitType): AvailabilityInfo {
   };
 }
 
-export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacantCount, totalUnits, units }: StatsOverviewProps) {
+export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacantCount, totalUnits, units, onUnitTypeClick }: StatsOverviewProps) {
   return (
     <div className="space-y-3 sm:space-y-4">
       {/* Next Available Cards */}
@@ -80,7 +81,8 @@ export default function StatsOverview({ totalMonthlyIncome, occupiedCount, vacan
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="glass-card rounded-lg p-2.5 sm:p-3.5"
+              className="glass-card rounded-lg p-2.5 sm:p-3.5 cursor-pointer hover:ring-1 hover:ring-secondary/30 transition-all"
+              onClick={() => onUnitTypeClick?.(type)}
             >
               <div className="flex items-center gap-1.5 mb-1.5">
                 <Icon className="h-3.5 w-3.5 text-secondary shrink-0" />
