@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FinancialReportsContent from '@/components/FinancialReportsContent';
 import PaymentHistoryContent from '@/components/PaymentHistoryContent';
 import ManagementDashboard from '@/components/ManagementDashboard';
+import WeeklyReport from '@/components/WeeklyReport';
 
 export default function Finances() {
   const [tab, setTab] = useState('reports');
