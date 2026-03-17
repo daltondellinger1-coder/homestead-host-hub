@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { TrendingUp, TrendingDown, DollarSign, Home, Target, Save, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, Home, Target, Save, ChevronLeft, ChevronRight, Pencil } from 'lucide-react';
 import { format, startOfMonth, endOfMonth, addMonths, subMonths, eachDayOfInterval, isWithinInterval, parseISO } from 'date-fns';
 
 interface RevenueTarget {
@@ -35,6 +35,8 @@ export default function ManagementDashboard() {
   const [feePercentage, setFeePercentage] = useState('5');
   const [feeNotes, setFeeNotes] = useState('');
   const [saving, setSaving] = useState(false);
+  const [editingTargetUnit, setEditingTargetUnit] = useState<string | null>(null);
+  const [editingTargetValue, setEditingTargetValue] = useState('');
 
   const monthStart = useMemo(() => parseISO(selectedMonth), [selectedMonth]);
   const monthEnd = useMemo(() => endOfMonth(monthStart), [monthStart]);
@@ -150,6 +152,29 @@ export default function ManagementDashboard() {
     }
     setSaving(false);
   }, [feeRecord, selectedMonth, grossCollected, feePercentage, calculatedFee, feeNotes, monthLabel]);
+
+  const saveTarget = useCallback(async (unitId: string) => {
+    const value = parseFloat(editingTargetValue);
+    if (isNaN(value) || value < 0) {
+      setEditingTargetUnit(null);
+      return;
+    }
+    const existing = revenueTargets.find(t => t.unit_id === unitId);
+    if (existing) {
+      await supabase.from('revenue_targets').update({ monthly_target: value }).eq('id', existing.id);
+      setRevenueTargets(prev => prev.map(t => t.id === existing.id ? { ...t, monthly_target: value } : t));
+    } else {
+      const { data } = await supabase.from('revenue_targets').insert({ unit_id: unitId, monthly_target: value }).select().single();
+      if (data) setRevenueTargets(prev => [...prev, data as unknown as RevenueTarget]);
+    }
+    toast.success('Revenue target updated');
+    setEditingTargetUnit(null);
+  }, [editingTargetValue, revenueTargets]);
+
+  const startEditTarget = (unitId: string, currentTarget: number | null) => {
+    setEditingTargetUnit(unitId);
+    setEditingTargetValue(currentTarget ? String(currentTarget) : '');
+  };
 
   const navigateMonth = (dir: 'prev' | 'next') => {
     const fn = dir === 'prev' ? subMonths : addMonths;
@@ -293,7 +318,28 @@ export default function ManagementDashboard() {
               return (
                 <TableRow key={u.id}>
                   <TableCell className="text-xs font-body font-medium">{u.name}</TableCell>
-                  <TableCell className="text-xs font-body text-right tabular-nums">{u.target ? fmt(u.target) : '—'}</TableCell>
+                  <TableCell className="text-xs font-body text-right tabular-nums">
+                    {editingTargetUnit === u.id ? (
+                      <Input
+                        type="number"
+                        value={editingTargetValue}
+                        onChange={e => setEditingTargetValue(e.target.value)}
+                        onBlur={() => saveTarget(u.id)}
+                        onKeyDown={e => { if (e.key === 'Enter') saveTarget(u.id); if (e.key === 'Escape') setEditingTargetUnit(null); }}
+                        className="h-7 w-24 text-xs font-body text-right ml-auto"
+                        autoFocus
+                        placeholder="0"
+                      />
+                    ) : (
+                      <button
+                        onClick={() => startEditTarget(u.id, u.target)}
+                        className="inline-flex items-center gap-1 hover:text-foreground text-muted-foreground transition-colors group"
+                      >
+                        {u.target ? fmt(u.target) : <span className="italic">Set</span>}
+                        <Pencil className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    )}
+                  </TableCell>
                   <TableCell className={`text-xs font-body text-right tabular-nums font-medium ${revenueColor(u.collected, u.target)}`}>
                     {fmt(u.collected)}
                   </TableCell>
