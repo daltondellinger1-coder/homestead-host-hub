@@ -318,7 +318,28 @@ export default function ManagementDashboard() {
               return (
                 <TableRow key={u.id}>
                   <TableCell className="text-xs font-body font-medium">{u.name}</TableCell>
-                  <TableCell className="text-xs font-body text-right tabular-nums">{u.target ? fmt(u.target) : '—'}</TableCell>
+                  <TableCell className="text-xs font-body text-right tabular-nums">
+                    {editingTargetUnit === u.id ? (
+                      <Input
+                        type="number"
+                        value={editingTargetValue}
+                        onChange={e => setEditingTargetValue(e.target.value)}
+                        onBlur={() => saveTarget(u.id)}
+                        onKeyDown={e => { if (e.key === 'Enter') saveTarget(u.id); if (e.key === 'Escape') setEditingTargetUnit(null); }}
+                        className="h-7 w-24 text-xs font-body text-right ml-auto"
+                        autoFocus
+                        placeholder="0"
+                      />
+                    ) : (
+                      <button
+                        onClick={() => startEditTarget(u.id, u.target)}
+                        className="inline-flex items-center gap-1 hover:text-foreground text-muted-foreground transition-colors group"
+                      >
+                        {u.target ? fmt(u.target) : <span className="italic">Set</span>}
+                        <Pencil className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    )}
+                  </TableCell>
                   <TableCell className={`text-xs font-body text-right tabular-nums font-medium ${revenueColor(u.collected, u.target)}`}>
                     {fmt(u.collected)}
                   </TableCell>
