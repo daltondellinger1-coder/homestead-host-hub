@@ -67,6 +67,12 @@ const steps: TutorialStep[] = [
       'View collected vs expected income, filter by month, year, or custom range, and compare against the previous period with percentage-change indicators.',
   },
   {
+    icon: <Target className="h-10 w-10 text-secondary" />,
+    title: 'Management & Weekly Reports',
+    description:
+      'The Management tab tracks monthly KPIs — revenue vs targets, occupancy rates, and Hannah\'s management fee with manual tier selection. The Weekly tab generates a Friday report with collected revenue, 30–60 day booking outlook, and vacancy gaps.',
+  },
+  {
     icon: <Mountain className="h-10 w-10 text-secondary" />,
     title: 'You\'re All Set!',
     description:
