@@ -34,7 +34,7 @@ export default function ManagementDashboard() {
   const [feeRecord, setFeeRecord] = useState<ManagementFee | null>(null);
   const [feePercentage, setFeePercentage] = useState('5');
   const [feeNotes, setFeeNotes] = useState('');
-  const [saving, setSaving] = false;
+  const [saving, setSaving] = useState(false);
   const [editingTargetUnit, setEditingTargetUnit] = useState<string | null>(null);
   const [editingTargetValue, setEditingTargetValue] = useState('');
 
