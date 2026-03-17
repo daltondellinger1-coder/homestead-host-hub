@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { TrendingUp, TrendingDown, DollarSign, Home, Target, Save, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, Home, Target, Save, ChevronLeft, ChevronRight, Pencil } from 'lucide-react';
 import { format, startOfMonth, endOfMonth, addMonths, subMonths, eachDayOfInterval, isWithinInterval, parseISO } from 'date-fns';
 
 interface RevenueTarget {
