@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FinancialReportsContent from '@/components/FinancialReportsContent';
 import PaymentHistoryContent from '@/components/PaymentHistoryContent';
+import ManagementDashboard from '@/components/ManagementDashboard';
 
 export default function Finances() {
   const [tab, setTab] = useState('reports');
@@ -33,13 +34,18 @@ export default function Finances() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-6">
         <Tabs value={tab} onValueChange={setTab} className="space-y-5">
-          <TabsList className="grid w-full max-w-xs grid-cols-2 bg-muted/50">
+          <TabsList className="grid w-full max-w-md grid-cols-3 bg-muted/50">
             <TabsTrigger value="reports" className="font-body text-xs">Reports</TabsTrigger>
+            <TabsTrigger value="management" className="font-body text-xs">Management</TabsTrigger>
             <TabsTrigger value="history" className="font-body text-xs">History</TabsTrigger>
           </TabsList>
 
           <TabsContent value="reports" className="mt-0">
             <FinancialReportsContent />
+          </TabsContent>
+
+          <TabsContent value="management" className="mt-0">
+            <ManagementDashboard />
           </TabsContent>
 
           <TabsContent value="history" className="mt-0">

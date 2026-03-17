@@ -70,6 +70,39 @@ export type Database = {
           },
         ]
       }
+      management_fees: {
+        Row: {
+          created_at: string
+          fee_amount: number
+          fee_percentage: number
+          gross_collected: number
+          id: string
+          month: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          fee_amount?: number
+          fee_percentage?: number
+          gross_collected?: number
+          id?: string
+          month: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          fee_amount?: number
+          fee_percentage?: number
+          gross_collected?: number
+          id?: string
+          month?: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -114,6 +147,41 @@ export type Database = {
           },
           {
             foreignKeyName: "payments_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      revenue_targets: {
+        Row: {
+          created_at: string
+          effective_from: string
+          id: string
+          monthly_target: number
+          unit_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          effective_from?: string
+          id?: string
+          monthly_target: number
+          unit_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          effective_from?: string
+          id?: string
+          monthly_target?: number
+          unit_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revenue_targets_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
