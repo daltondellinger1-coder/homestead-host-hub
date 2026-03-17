@@ -12,6 +12,7 @@ import {
   HelpCircle,
   MoreHorizontal,
   BedDouble,
+  Target,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
