@@ -34,7 +34,9 @@ export default function ManagementDashboard() {
   const [feeRecord, setFeeRecord] = useState<ManagementFee | null>(null);
   const [feePercentage, setFeePercentage] = useState('5');
   const [feeNotes, setFeeNotes] = useState('');
-  const [saving, setSaving] = useState(false);
+  const [saving, setSaving] = false;
+  const [editingTargetUnit, setEditingTargetUnit] = useState<string | null>(null);
+  const [editingTargetValue, setEditingTargetValue] = useState('');
 
   const monthStart = useMemo(() => parseISO(selectedMonth), [selectedMonth]);
   const monthEnd = useMemo(() => endOfMonth(monthStart), [monthStart]);
