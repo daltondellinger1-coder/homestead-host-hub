@@ -24,6 +24,7 @@ interface ManagementFee {
   fee_percentage: number;
   fee_amount: number;
   notes: string | null;
+  created_at: string;
 }
 
 export default function ManagementDashboard() {
