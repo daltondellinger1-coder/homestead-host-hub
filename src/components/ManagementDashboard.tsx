@@ -153,6 +153,29 @@ export default function ManagementDashboard() {
     setSaving(false);
   }, [feeRecord, selectedMonth, grossCollected, feePercentage, calculatedFee, feeNotes, monthLabel]);
 
+  const saveTarget = useCallback(async (unitId: string) => {
+    const value = parseFloat(editingTargetValue);
+    if (isNaN(value) || value < 0) {
+      setEditingTargetUnit(null);
+      return;
+    }
+    const existing = revenueTargets.find(t => t.unit_id === unitId);
+    if (existing) {
+      await supabase.from('revenue_targets').update({ monthly_target: value }).eq('id', existing.id);
+      setRevenueTargets(prev => prev.map(t => t.id === existing.id ? { ...t, monthly_target: value } : t));
+    } else {
+      const { data } = await supabase.from('revenue_targets').insert({ unit_id: unitId, monthly_target: value }).select().single();
+      if (data) setRevenueTargets(prev => [...prev, data as unknown as RevenueTarget]);
+    }
+    toast.success('Revenue target updated');
+    setEditingTargetUnit(null);
+  }, [editingTargetValue, revenueTargets]);
+
+  const startEditTarget = (unitId: string, currentTarget: number | null) => {
+    setEditingTargetUnit(unitId);
+    setEditingTargetValue(currentTarget ? String(currentTarget) : '');
+  };
+
   const navigateMonth = (dir: 'prev' | 'next') => {
     const fn = dir === 'prev' ? subMonths : addMonths;
     setSelectedMonth(format(fn(monthStart, 1), 'yyyy-MM-dd'));
