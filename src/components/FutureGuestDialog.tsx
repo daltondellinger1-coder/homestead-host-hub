@@ -15,6 +15,8 @@ interface FutureGuestDialogProps {
   onSave: (unitId: string, guest: Guest) => void;
   units: Unit[];
   preselectedUnitId?: string | null;
+  prefillCheckIn?: string;
+  prefillCheckOut?: string;
   existingGuest?: FutureGuest | null;
 }
 
