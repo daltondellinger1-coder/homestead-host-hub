@@ -50,7 +50,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
   const [schedulePaymentsTarget, setSchedulePaymentsTarget] = useState<{ unitId: string; futureGuestId?: string } | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string } | null>(null);
+  const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string; prefillCheckIn?: string; prefillCheckOut?: string } | null>(null);
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
   const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
   const [calendarUnitTypeFilter, setCalendarUnitTypeFilter] = useState<UnitType | null>(null);
