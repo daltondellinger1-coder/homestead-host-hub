@@ -22,6 +22,7 @@ interface PaymentEvent {
 interface BookingTimelineProps {
   units: Unit[];
   paymentEvents: PaymentEvent[];
+  initialDate?: Date;
   onMarkPaid?: (unitId: string, paymentId: string) => void;
   onMarkUnpaid?: (paymentId: string) => void;
   onUpdatePayment?: (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: PaymentStatus }) => void;
