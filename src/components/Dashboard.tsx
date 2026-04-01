@@ -326,6 +326,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         }}
         units={units}
         preselectedUnitId={futureGuestDialog?.unitId || null}
+        prefillCheckIn={futureGuestDialog?.prefillCheckIn}
+        prefillCheckOut={futureGuestDialog?.prefillCheckOut}
         existingGuest={
           futureGuestDialog?.guestId
             ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null

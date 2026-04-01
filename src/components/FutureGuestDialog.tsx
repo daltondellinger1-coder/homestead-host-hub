@@ -20,7 +20,7 @@ interface FutureGuestDialogProps {
   existingGuest?: FutureGuest | null;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, existingGuest }: FutureGuestDialogProps) {
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, existingGuest }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
