@@ -9,7 +9,7 @@ import { format, parseISO, isBefore, isAfter, differenceInCalendarDays } from 'd
 
 interface AvailabilitySearchProps {
   units: Unit[];
-  onViewUnit?: (unitId: string) => void;
+  onViewUnit?: (unitId: string, checkInDate: string) => void;
   onBookUnit?: (unitId: string, checkIn: string, checkOut: string) => void;
 }
 
@@ -150,7 +150,12 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                   <Input
                     type="date"
                     value={checkIn}
-                    onChange={e => setCheckIn(e.target.value)}
+                    onChange={e => {
+                      setCheckIn(e.target.value);
+                      if (checkOut && e.target.value && checkOut <= e.target.value) {
+                        setCheckOut('');
+                      }
+                    }}
                     className="h-9 text-sm"
                   />
                 </div>
@@ -159,6 +164,7 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                   <Input
                     type="date"
                     value={checkOut}
+                    min={checkIn || undefined}
                     onChange={e => setCheckOut(e.target.value)}
                     className="h-9 text-sm"
                   />
@@ -247,7 +253,7 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                                       variant="ghost"
                                       size="sm"
                                       className="h-6 px-2 text-[10px] text-muted-foreground hover:text-foreground gap-1"
-                                      onClick={() => onViewUnit?.(unit.id)}
+                                      onClick={() => onViewUnit?.(unit.id, checkIn)}
                                     >
                                       <CalendarDays className="h-3 w-3" />
                                       View Calendar

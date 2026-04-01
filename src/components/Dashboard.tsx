@@ -54,6 +54,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
   const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
   const [calendarUnitTypeFilter, setCalendarUnitTypeFilter] = useState<UnitType | null>(null);
+  const [calendarInitialDate, setCalendarInitialDate] = useState<Date | undefined>(undefined);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
@@ -201,10 +202,11 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             />
             <AvailabilitySearch
               units={units}
-              onViewUnit={(unitId) => {
+              onViewUnit={(unitId, checkInDate) => {
                 const unit = units.find(u => u.id === unitId);
                 if (unit) {
                   setCalendarUnitTypeFilter(unit.unitType);
+                  setCalendarInitialDate(new Date(checkInDate + 'T00:00:00'));
                   onViewModeChange('calendar');
                 }
               }}
@@ -254,8 +256,10 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               </div>
             )}
             <BookingTimeline
+              key={calendarInitialDate?.getTime() ?? 'default'}
               units={calendarUnitTypeFilter ? units.filter(u => u.unitType === calendarUnitTypeFilter && !['planning', 'storage'].includes(u.status)) : units}
               paymentEvents={allPaymentEvents}
+              initialDate={calendarInitialDate}
               onMarkPaid={markPaymentPaid}
               onMarkUnpaid={markPaymentUnpaid}
               onUpdatePayment={updatePayment}
