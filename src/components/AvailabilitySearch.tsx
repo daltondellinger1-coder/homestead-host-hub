@@ -150,7 +150,12 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                   <Input
                     type="date"
                     value={checkIn}
-                    onChange={e => setCheckIn(e.target.value)}
+                    onChange={e => {
+                      setCheckIn(e.target.value);
+                      if (checkOut && e.target.value && checkOut <= e.target.value) {
+                        setCheckOut('');
+                      }
+                    }}
                     className="h-9 text-sm"
                   />
                 </div>
