@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { useAuth } from '@/hooks/useAuth';
 import StatsOverview from '@/components/StatsOverview';
+import AvailabilitySearch from '@/components/AvailabilitySearch';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
 import BookingTimeline from '@/components/BookingTimeline';
@@ -186,17 +187,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         ) : (
         <>
         {viewMode === 'units' && (
-          <StatsOverview
-            totalMonthlyIncome={stats.totalMonthlyIncome}
-            occupiedCount={stats.occupiedCount}
-            vacantCount={stats.vacantCount}
-            totalUnits={stats.totalUnits}
-            units={units}
-            onUnitTypeClick={(type) => {
-              setCalendarUnitTypeFilter(type);
-              onViewModeChange('calendar');
-            }}
-          />
+          <>
+            <StatsOverview
+              totalMonthlyIncome={stats.totalMonthlyIncome}
+              occupiedCount={stats.occupiedCount}
+              vacantCount={stats.vacantCount}
+              totalUnits={stats.totalUnits}
+              units={units}
+              onUnitTypeClick={(type) => {
+                setCalendarUnitTypeFilter(type);
+                onViewModeChange('calendar');
+              }}
+            />
+            <AvailabilitySearch units={units} />
+          </>
         )}
 
         {viewMode === 'units' ? (
