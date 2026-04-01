@@ -159,6 +159,7 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                   <Input
                     type="date"
                     value={checkOut}
+                    min={checkIn || undefined}
                     onChange={e => setCheckOut(e.target.value)}
                     className="h-9 text-sm"
                   />
