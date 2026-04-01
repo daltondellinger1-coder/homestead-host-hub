@@ -13,6 +13,7 @@ import {
   MoreHorizontal,
   BedDouble,
   Target,
+  Search,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
