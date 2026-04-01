@@ -199,7 +199,19 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 onViewModeChange('calendar');
               }}
             />
-            <AvailabilitySearch units={units} />
+            <AvailabilitySearch
+              units={units}
+              onViewUnit={(unitId) => {
+                const unit = units.find(u => u.id === unitId);
+                if (unit) {
+                  setCalendarUnitTypeFilter(unit.unitType);
+                  onViewModeChange('calendar');
+                }
+              }}
+              onBookUnit={(unitId, ci, co) => {
+                setFutureGuestDialog({ unitId, prefillCheckIn: ci, prefillCheckOut: co });
+              }}
+            />
           </>
         )}
 
