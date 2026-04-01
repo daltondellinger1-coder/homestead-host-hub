@@ -202,10 +202,11 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             />
             <AvailabilitySearch
               units={units}
-              onViewUnit={(unitId) => {
+              onViewUnit={(unitId, checkInDate) => {
                 const unit = units.find(u => u.id === unitId);
                 if (unit) {
                   setCalendarUnitTypeFilter(unit.unitType);
+                  setCalendarInitialDate(parseISO(checkInDate));
                   onViewModeChange('calendar');
                 }
               }}
