@@ -29,61 +29,61 @@ const steps: TutorialStep[] = [
     icon: <Mountain className="h-10 w-10 text-secondary" />,
     title: 'Welcome to Homestead Hill',
     description:
-      'Your property management dashboard — track units, guests, payments, and finances all in one place.',
+      'This is your home base for managing everything — units, guests, payments, and money. Let\'s walk through it real quick.',
   },
   {
     icon: <LayoutGrid className="h-10 w-10 text-secondary" />,
     title: 'Unit Cards',
     description:
-      'Each card shows the guest name, rent, and next payment at a glance. Tap "More details" to expand dates, deposit info, notes, and upcoming bookings. Drag the grip handle to reorder units.',
+      'Each card shows you who\'s in the unit, what they pay, and when the next payment is due. Tap "More details" to see check-in/out dates, deposit info, and future bookings. You can drag cards around to put them in whatever order you want.',
   },
   {
     icon: <MoreHorizontal className="h-10 w-10 text-secondary" />,
     title: 'Quick Actions',
     description:
-      'Tap the ⋯ menu on any unit card to edit the unit, view lease history, manage the guest, record payments, or end a lease — all in one place.',
+      'Tap the three dots (⋯) on any unit card to do stuff like edit the unit, check lease history, add or change a guest, record a payment, or end a lease.',
   },
   {
     icon: <Plus className="h-10 w-10 text-secondary" />,
     title: 'Adding Units & Guests',
     description:
-      'Use the gold "+" button in the header to add a unit or book a future guest. When adding a unit, choose its type (1BR, 2BR, or Cottage). Vacant cards show an "Add Guest" button front and center.',
+      'Hit the gold "+" button at the top to add a new unit or book a future guest. Pick whether it\'s a 1BR, 2BR, or Cottage. If a unit is empty, you\'ll see a big "Add Guest" button right on the card.',
   },
   {
     icon: <BedDouble className="h-10 w-10 text-secondary" />,
     title: 'Next Available Units',
     description:
-      'Three cards at the top of the dashboard show the next available unit for each type — 1 Bedroom, 2 Bedroom, and Cottage. Tap any card to jump to the calendar view filtered to that unit type.',
+      'At the top of the dashboard you\'ll see three cards showing the next open unit for each type — 1 Bedroom, 2 Bedroom, and Cottage. Tap one to jump straight to the calendar for that type.',
   },
   {
     icon: <Search className="h-10 w-10 text-secondary" />,
-    title: 'Availability Search',
+    title: 'Find Open Units',
     description:
-      'Got a booking request? Tap "Find Available Units by Date" on the dashboard, enter the dates, and instantly see which units are open — grouped by type with night count, estimated revenue, and who\'s before/after. Book directly from results or jump to the calendar.',
+      'Got a booking request? Tap "Find Available Units by Date," plug in the dates, and you\'ll see every open unit right away. It shows you how many nights, the estimated cost, and who\'s booked before and after. You can book the unit right from there or jump to the calendar.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
     title: 'Calendar View',
     description:
-      'Switch to Calendar to see bookings on a scrollable timeline. Use the arrows to change months and tap "Today" to jump back. Pull down anywhere to refresh data.',
+      'Tap Calendar at the bottom to see all your bookings laid out on a timeline. Use the arrows to flip between months and hit "Today" to snap back to the current date. Pull down to refresh.',
   },
   {
     icon: <DollarSign className="h-10 w-10 text-secondary" />,
-    title: 'Finances & Reports',
+    title: 'Finances',
     description:
-      'View collected vs expected income, filter by month, year, or custom range, and compare against the previous period with percentage-change indicators.',
+      'See how much money has come in vs what\'s expected. You can filter by month, year, or a custom date range, and it\'ll show you how things compare to the last period.',
   },
   {
     icon: <Target className="h-10 w-10 text-secondary" />,
     title: 'Management & Weekly Reports',
     description:
-      'The Management tab tracks monthly KPIs — revenue vs targets, occupancy rates, and Hannah\'s management fee with manual tier selection. The Weekly tab generates a Friday report with collected revenue, 30–60 day booking outlook, and vacancy gaps.',
+      'The Management tab shows how each unit is doing against its revenue target, occupancy, and Hannah\'s management fee. The Weekly tab gives you a Friday summary — what came in this week, what\'s booked for the next 30–60 days, and any gaps that need filling.',
   },
   {
     icon: <Mountain className="h-10 w-10 text-secondary" />,
-    title: 'You\'re All Set!',
+    title: 'You\'re Good to Go!',
     description:
-      'Tap ⋮ in the header to replay this tutorial anytime. Happy managing!',
+      'That\'s everything! Tap the three dots (⋮) in the top-right corner anytime to see this walkthrough again.',
   },
 ];
 
