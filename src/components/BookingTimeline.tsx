@@ -55,8 +55,8 @@ const formatCurrency = (amount: number) =>
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-export default function BookingTimeline({ units, paymentEvents, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
-  const [currentDate, setCurrentDate] = useState(new Date());
+export default function BookingTimeline({ units, paymentEvents, initialDate, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
+  const [currentDate, setCurrentDate] = useState(initialDate ?? new Date());
   const [selectedBar, setSelectedBar] = useState<{ unitId: string; bar: BookingBar } | null>(null);
   const [selectedPayments, setSelectedPayments] = useState<PaymentEvent[] | null>(null);
   const [editingPaymentId, setEditingPaymentId] = useState<string | null>(null);

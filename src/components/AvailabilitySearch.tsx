@@ -248,7 +248,7 @@ export default function AvailabilitySearch({ units, onViewUnit, onBookUnit }: Av
                                       variant="ghost"
                                       size="sm"
                                       className="h-6 px-2 text-[10px] text-muted-foreground hover:text-foreground gap-1"
-                                      onClick={() => onViewUnit?.(unit.id)}
+                                      onClick={() => onViewUnit?.(unit.id, checkIn)}
                                     >
                                       <CalendarDays className="h-3 w-3" />
                                       View Calendar
