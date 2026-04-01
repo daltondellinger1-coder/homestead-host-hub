@@ -187,17 +187,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         ) : (
         <>
         {viewMode === 'units' && (
-          <StatsOverview
-            totalMonthlyIncome={stats.totalMonthlyIncome}
-            occupiedCount={stats.occupiedCount}
-            vacantCount={stats.vacantCount}
-            totalUnits={stats.totalUnits}
-            units={units}
-            onUnitTypeClick={(type) => {
-              setCalendarUnitTypeFilter(type);
-              onViewModeChange('calendar');
-            }}
-          />
+          <>
+            <StatsOverview
+              totalMonthlyIncome={stats.totalMonthlyIncome}
+              occupiedCount={stats.occupiedCount}
+              vacantCount={stats.vacantCount}
+              totalUnits={stats.totalUnits}
+              units={units}
+              onUnitTypeClick={(type) => {
+                setCalendarUnitTypeFilter(type);
+                onViewModeChange('calendar');
+              }}
+            />
+            <AvailabilitySearch units={units} />
+          </>
         )}
 
         {viewMode === 'units' ? (
