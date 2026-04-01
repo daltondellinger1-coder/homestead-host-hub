@@ -9,7 +9,7 @@ import { format, parseISO, isBefore, isAfter, differenceInCalendarDays } from 'd
 
 interface AvailabilitySearchProps {
   units: Unit[];
-  onViewUnit?: (unitId: string) => void;
+  onViewUnit?: (unitId: string, checkInDate: string) => void;
   onBookUnit?: (unitId: string, checkIn: string, checkOut: string) => void;
 }
 
