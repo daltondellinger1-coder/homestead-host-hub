@@ -256,8 +256,10 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               </div>
             )}
             <BookingTimeline
+              key={calendarInitialDate?.getTime() ?? 'default'}
               units={calendarUnitTypeFilter ? units.filter(u => u.unitType === calendarUnitTypeFilter && !['planning', 'storage'].includes(u.status)) : units}
               paymentEvents={allPaymentEvents}
+              initialDate={calendarInitialDate}
               onMarkPaid={markPaymentPaid}
               onMarkUnpaid={markPaymentUnpaid}
               onUpdatePayment={updatePayment}
