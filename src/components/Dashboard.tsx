@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { useAuth } from '@/hooks/useAuth';
 import StatsOverview from '@/components/StatsOverview';
+import AvailabilitySearch from '@/components/AvailabilitySearch';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
 import PaymentCalendar from '@/components/PaymentCalendar';
 import BookingTimeline from '@/components/BookingTimeline';
