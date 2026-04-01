@@ -54,6 +54,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
   const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
   const [calendarUnitTypeFilter, setCalendarUnitTypeFilter] = useState<UnitType | null>(null);
+  const [calendarInitialDate, setCalendarInitialDate] = useState<Date | undefined>(undefined);
 
   const activeGuestUnit = guestDialog ? units.find(u => u.id === guestDialog.unitId) : null;
   const activePaymentUnit = units.find(u => u.id === paymentDialogUnit);
