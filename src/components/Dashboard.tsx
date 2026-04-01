@@ -50,7 +50,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const [historyUnitId, setHistoryUnitId] = useState<string | null>(null);
   const [schedulePaymentsTarget, setSchedulePaymentsTarget] = useState<{ unitId: string; futureGuestId?: string } | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string } | null>(null);
+  const [futureGuestDialog, setFutureGuestDialog] = useState<{ unitId: string; guestId?: string; prefillCheckIn?: string; prefillCheckOut?: string } | null>(null);
   const [deleteFutureGuestId, setDeleteFutureGuestId] = useState<string | null>(null);
   const [deleteCurrentGuestTarget, setDeleteCurrentGuestTarget] = useState<{ unitId: string; guestId: string; guestName: string } | null>(null);
   const [calendarUnitTypeFilter, setCalendarUnitTypeFilter] = useState<UnitType | null>(null);
@@ -199,7 +199,19 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 onViewModeChange('calendar');
               }}
             />
-            <AvailabilitySearch units={units} />
+            <AvailabilitySearch
+              units={units}
+              onViewUnit={(unitId) => {
+                const unit = units.find(u => u.id === unitId);
+                if (unit) {
+                  setCalendarUnitTypeFilter(unit.unitType);
+                  onViewModeChange('calendar');
+                }
+              }}
+              onBookUnit={(unitId, ci, co) => {
+                setFutureGuestDialog({ unitId, prefillCheckIn: ci, prefillCheckOut: co });
+              }}
+            />
           </>
         )}
 
@@ -314,6 +326,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         }}
         units={units}
         preselectedUnitId={futureGuestDialog?.unitId || null}
+        prefillCheckIn={futureGuestDialog?.prefillCheckIn}
+        prefillCheckOut={futureGuestDialog?.prefillCheckOut}
         existingGuest={
           futureGuestDialog?.guestId
             ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null

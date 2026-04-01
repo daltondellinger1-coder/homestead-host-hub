@@ -15,10 +15,12 @@ interface FutureGuestDialogProps {
   onSave: (unitId: string, guest: Guest) => void;
   units: Unit[];
   preselectedUnitId?: string | null;
+  prefillCheckIn?: string;
+  prefillCheckOut?: string;
   existingGuest?: FutureGuest | null;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, existingGuest }: FutureGuestDialogProps) {
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, existingGuest }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
@@ -59,8 +61,14 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       if (preselectedUnitId) {
         setUnitId(preselectedUnitId);
       }
+      if (prefillCheckIn) {
+        setCheckIn(prefillCheckIn);
+      }
+      if (prefillCheckOut) {
+        setCheckOut(prefillCheckOut);
+      }
     }
-  }, [open, existingGuest, preselectedUnitId]);
+  }, [open, existingGuest, preselectedUnitId, prefillCheckIn, prefillCheckOut]);
 
   // Pre-fill check-in from current guest's checkout when selecting a unit (only for new bookings)
   const selectedUnit = units.find(u => u.id === unitId);
