@@ -13,6 +13,7 @@ import {
   MoreHorizontal,
   BedDouble,
   Target,
+  Search,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
@@ -53,6 +54,12 @@ const steps: TutorialStep[] = [
     title: 'Next Available Units',
     description:
       'Three cards at the top of the dashboard show the next available unit for each type — 1 Bedroom, 2 Bedroom, and Cottage. Tap any card to jump to the calendar view filtered to that unit type.',
+  },
+  {
+    icon: <Search className="h-10 w-10 text-secondary" />,
+    title: 'Availability Search',
+    description:
+      'Got a booking request? Tap "Find Available Units by Date" on the dashboard, enter the dates, and instantly see which units are open — grouped by type with night count, estimated revenue, and who\'s before/after. Book directly from results or jump to the calendar.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
