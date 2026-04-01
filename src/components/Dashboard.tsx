@@ -206,7 +206,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 const unit = units.find(u => u.id === unitId);
                 if (unit) {
                   setCalendarUnitTypeFilter(unit.unitType);
-                  setCalendarInitialDate(parseISO(checkInDate));
+                  setCalendarInitialDate(new Date(checkInDate + 'T00:00:00'));
                   onViewModeChange('calendar');
                 }
               }}
