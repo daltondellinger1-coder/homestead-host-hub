@@ -399,6 +399,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         preselectedUnitId={futureGuestDialog?.unitId || null}
         prefillCheckIn={futureGuestDialog?.prefillCheckIn}
         prefillCheckOut={futureGuestDialog?.prefillCheckOut}
+        prefillName={pendingApprovalRequest?.name}
+        prefillNotes={
+          pendingApprovalRequest
+            ? `Approved from booking request${pendingApprovalRequest.email ? ` · ${pendingApprovalRequest.email}` : ''}${pendingApprovalRequest.phone ? ` · ${pendingApprovalRequest.phone}` : ''}${pendingApprovalRequest.notes ? `\n\n${pendingApprovalRequest.notes}` : ''}`
+            : undefined
+        }
         existingGuest={
           futureGuestDialog?.guestId
             ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null
