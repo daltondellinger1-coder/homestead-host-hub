@@ -69,8 +69,14 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       if (prefillCheckOut) {
         setCheckOut(prefillCheckOut);
       }
+      if (prefillName) {
+        setName(prefillName);
+      }
+      if (prefillNotes) {
+        setNotes(prefillNotes);
+      }
     }
-  }, [open, existingGuest, preselectedUnitId, prefillCheckIn, prefillCheckOut]);
+  }, [open, existingGuest, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes]);
 
   // Pre-fill check-in from current guest's checkout when selecting a unit (only for new bookings)
   const selectedUnit = units.find(u => u.id === unitId);
