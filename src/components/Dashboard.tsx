@@ -377,14 +377,22 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
 
       <FutureGuestDialog
         open={!!futureGuestDialog}
-        onClose={() => setFutureGuestDialog(null)}
-        onSave={(unitId, guest) => {
+        onClose={() => {
+          setFutureGuestDialog(null);
+          setPendingApprovalRequest(null);
+        }}
+        onSave={async (unitId, guest) => {
           if (futureGuestDialog?.guestId) {
             updateFutureGuest(futureGuestDialog.guestId, guest, true);
             toast.success(`Booking updated for ${guest.name}`);
           } else {
             addFutureGuest(unitId, guest);
             toast.success(`Future booking added for ${guest.name}`);
+            if (pendingApprovalRequest) {
+              await markRequestApproved(pendingApprovalRequest.id, unitId);
+              toast.success(`Request from ${pendingApprovalRequest.name} approved`);
+              setPendingApprovalRequest(null);
+            }
           }
         }}
         units={units}
