@@ -1,40 +1,60 @@
 
 
-## Add Unit Types and "Next Available" Quick-Glance Cards
+## Plan: Connect homestead-hill.com to this app for booking requests
 
-### What This Does
-When you get a booking email, you'll see three cards at the top of the dashboard — one for each unit type (1BR, 2BR, Cottage) — instantly showing you the next available unit and when it opens up. No scrolling or scanning needed.
+### What this does
+Your existing **homestead-hill.com** site hosts the public booking form (since the branding/emails are already set up there). When a guest submits a request, it lands in **this app's** Requests inbox where you approve or deny. Approving creates the booking on your calendar instantly.
 
-### How It Works
+### How the two projects connect
+Both projects are on Lovable Cloud, so they each have their own backend. We have two options for sharing booking requests between them:
 
-1. **Add a "unit type" field to units** — a new database column with three options: `1br`, `2br`, `cottage`. Existing units will default to `1br` (you can re-assign them afterward via Edit Unit).
+**Option A — Shared database table (cleanest):** The website writes booking requests directly into *this* app's database via the public Supabase API (using this project's URL + anon key). One source of truth, no syncing needed.
 
-2. **Update the Add Unit and Edit Unit dialogs** — both will include a "Unit Type" dropdown so you can categorize each unit when creating or editing.
+**Option B — Webhook:** Website keeps its own data and POSTs to an edge function on this app whenever a request comes in. More moving parts.
 
-3. **Build "Next Available" summary cards** — three new cards will appear at the top of the dashboard (above the existing Monthly Income / Occupancy stats). Each card shows:
-   - The unit type label (e.g. "1 Bedroom")
-   - The name of the next available unit (vacant now, or soonest checkout)
-   - When it's available ("Available now" or "Opens Mar 15")
-   - A count like "2 of 5 vacant"
+I'd recommend **Option A** — simpler, real-time, and matches how the rest of this app already works.
 
-4. **Availability logic** — for each unit type, the system will:
-   - First look for units that are currently vacant (immediately available)
-   - If none are vacant, find the occupied/rented unit with the earliest checkout date
-   - Skip units in "planning" or "storage" status
+### What gets built here (this app)
+1. **`booking_requests` table** with public INSERT (so the website can submit) and full RLS for you to read/update.
+   - Fields: name, email, phone, check_in, check_out, num_guests, preferred_unit_type, source, notes, status (pending/approved/declined), assigned_unit_id, decline_reason, timestamps
+2. **Requests inbox** — new tab + pending-count badge on the Units dashboard
+3. **Request card** — shows guest details, # of nights, live availability check (which units are free for those dates), Approve / Decline buttons
+4. **Approve flow** — opens the existing Future Guest dialog pre-filled with the request's data; you pick the unit + rate, save → booking created, request marked approved
+5. **Decline flow** — optional reason, marks declined
+6. **Realtime updates** — new requests appear instantly without refresh
+7. **Tutorial step** explaining the new inbox
 
-### Technical Details
+### What gets built on homestead-hill.com (separate project)
+A booking request form page (e.g. `/book`) that:
+- Collects: name, email, phone, dates, # guests, unit preference, source, notes
+- On submit → inserts into this app's `booking_requests` table using this project's public anon key
+- Sends the existing branded confirmation email from the website's email setup
+- Shows a "We got it!" success page
 
-**Database Migration:**
-- Add `unit_type` enum type: `1br`, `2br`, `cottage`
-- Add `unit_type` column to `units` table, defaulting to `1br`, not null
+I'll build the form there in a separate step **after** the inbox here is working — that way you can test end-to-end with a real submission.
 
-**Files to modify:**
-- `src/types/property.ts` — add `UnitType` type and labels map
-- `src/components/AddUnitDialog.tsx` — add unit type selector, pass type to `onSave`
-- `src/components/EditUnitDialog.tsx` — add unit type selector
-- `src/hooks/usePropertyData.ts` — include `unit_type` in add/update unit functions; expose unit type data
-- `src/components/StatsOverview.tsx` — add three "Next Available" cards below the existing two stats cards, computing availability per type from the units array
-- `src/components/Dashboard.tsx` — pass units data to StatsOverview for availability computation
+### Email confirmation
+Since homestead-hill.com already has email set up, the **guest confirmation email** ("we received your request") sends from there on submit — no email setup needed in this app. If you later want an **approval email** ("your booking is confirmed") to go out when you click approve here, we can add that as a follow-up (would need email setup in this app, or we can have this app ping the website to send it).
 
-**No new pages or tabs** — everything stays on the dashboard, visible at a glance.
+### Files in this project
+**New:**
+- `src/components/RequestsInbox.tsx`
+- `src/components/RequestCard.tsx`
+- `src/hooks/useBookingRequests.ts`
+- DB migration for `booking_requests` table + RLS
+
+**Modified:**
+- `src/components/Dashboard.tsx` — add Requests view + pending badge
+- `src/components/MobileBottomNav.tsx` — add Requests entry
+- `src/components/FutureGuestDialog.tsx` — accept optional prefill from a request + callback to mark request approved on save
+- `src/components/OnboardingTutorial.tsx` — new step
+
+### Order
+1. Build inbox + table + approval flow here (this project)
+2. You confirm it looks good
+3. Switch to homestead-hill.com project to add the form that writes here
+
+### Heads-up
+- The website will need this project's Supabase URL + anon key (both are public, safe to use in frontend code) — I'll grab them when we switch projects.
+- No accounts needed on either side; matches your existing public-RLS pattern.
 
