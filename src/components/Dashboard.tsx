@@ -211,6 +211,27 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         <>
         {viewMode === 'units' && (
           <>
+            {pendingRequestsCount > 0 && (
+              <button
+                onClick={() => onViewModeChange('requests')}
+                className="w-full flex items-center justify-between gap-3 rounded-lg border border-secondary/30 bg-secondary/10 hover:bg-secondary/15 transition-colors px-4 py-3 text-left"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="p-1.5 rounded-md bg-secondary/20 shrink-0">
+                    <Inbox className="h-4 w-4 text-secondary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-body font-semibold text-foreground">
+                      {pendingRequestsCount} new booking {pendingRequestsCount === 1 ? 'request' : 'requests'}
+                    </p>
+                    <p className="text-xs font-body text-muted-foreground truncate">
+                      Tap to review and approve
+                    </p>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-secondary shrink-0" />
+              </button>
+            )}
             <StatsOverview
               totalMonthlyIncome={stats.totalMonthlyIncome}
               occupiedCount={stats.occupiedCount}
@@ -239,7 +260,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </>
         )}
 
-        {viewMode === 'units' ? (
+        {viewMode === 'units' && (
           <div>
             <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
             <SortableUnitGrid
@@ -265,7 +286,9 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               }}
             />
           </div>
-        ) : (
+        )}
+
+        {viewMode === 'calendar' && (
           <div className="space-y-6">
             {calendarUnitTypeFilter && (
               <div className="flex items-center gap-2">
@@ -310,6 +333,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 }))}
             />
           </div>
+        )}
+
+        {viewMode === 'requests' && (
+          <RequestsInbox
+            units={units}
+            onApprove={(req) => {
+              setPendingApprovalRequest(req);
+              setFutureGuestDialog({
+                unitId: '',
+                prefillCheckIn: req.check_in,
+                prefillCheckOut: req.check_out,
+              });
+            }}
+          />
         )}
         </>
         )}
