@@ -16,15 +16,17 @@ import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
 import FutureGuestDialog from '@/components/FutureGuestDialog';
 import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingTutorial';
 import PullToRefresh from '@/components/PullToRefresh';
+import RequestsInbox from '@/components/RequestsInbox';
+import { useBookingRequests, BookingRequest } from '@/hooks/useBookingRequests';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight } from 'lucide-react';
 import { Guest, Payment, UnitStatus, UnitType, UNIT_TYPE_LABELS } from '@/types/property';
 import { toast } from 'sonner';
 
-type ViewMode = 'units' | 'calendar';
+type ViewMode = 'units' | 'calendar' | 'requests';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 interface DashboardProps {
