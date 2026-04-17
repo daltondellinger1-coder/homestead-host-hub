@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      booking_requests: {
+        Row: {
+          assigned_unit_id: string | null
+          check_in: string
+          check_out: string
+          created_at: string
+          decline_reason: string | null
+          email: string
+          id: string
+          name: string
+          notes: string | null
+          num_guests: number
+          phone: string | null
+          preferred_unit_type: Database["public"]["Enums"]["unit_type"] | null
+          reviewed_at: string | null
+          source: Database["public"]["Enums"]["booking_source"]
+          status: Database["public"]["Enums"]["booking_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          assigned_unit_id?: string | null
+          check_in: string
+          check_out: string
+          created_at?: string
+          decline_reason?: string | null
+          email: string
+          id?: string
+          name: string
+          notes?: string | null
+          num_guests?: number
+          phone?: string | null
+          preferred_unit_type?: Database["public"]["Enums"]["unit_type"] | null
+          reviewed_at?: string | null
+          source?: Database["public"]["Enums"]["booking_source"]
+          status?: Database["public"]["Enums"]["booking_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          assigned_unit_id?: string | null
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          decline_reason?: string | null
+          email?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          num_guests?: number
+          phone?: string | null
+          preferred_unit_type?: Database["public"]["Enums"]["unit_type"] | null
+          reviewed_at?: string | null
+          source?: Database["public"]["Enums"]["booking_source"]
+          status?: Database["public"]["Enums"]["booking_request_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       guests: {
         Row: {
           check_in: string
@@ -227,6 +284,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      booking_request_status: "pending" | "approved" | "declined"
       booking_source:
         | "airbnb"
         | "furnished_finder"
@@ -365,6 +423,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      booking_request_status: ["pending", "approved", "declined"],
       booking_source: [
         "airbnb",
         "furnished_finder",

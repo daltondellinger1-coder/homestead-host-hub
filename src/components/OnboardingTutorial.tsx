@@ -14,6 +14,7 @@ import {
   BedDouble,
   Target,
   Search,
+  Inbox,
 } from 'lucide-react';
 
 const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
@@ -60,6 +61,12 @@ const steps: TutorialStep[] = [
     title: 'Find Open Units',
     description:
       'Got a booking request? Tap "Find Available Units by Date," plug in the dates, and you\'ll see every open unit right away. It shows you how many nights, the estimated cost, and who\'s booked before and after. You can book the unit right from there or jump to the calendar.',
+  },
+  {
+    icon: <Inbox className="h-10 w-10 text-secondary" />,
+    title: 'Booking Requests Inbox',
+    description:
+      'Guests can request a stay through homestead-hill.com and those requests land in the Requests tab. You\'ll see a banner on the dashboard when new ones come in. Tap "Approve & Book" to add them to the calendar in one shot, or "Decline" if it doesn\'t work out.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,

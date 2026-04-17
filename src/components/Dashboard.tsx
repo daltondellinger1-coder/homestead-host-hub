@@ -16,15 +16,17 @@ import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
 import FutureGuestDialog from '@/components/FutureGuestDialog';
 import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingTutorial';
 import PullToRefresh from '@/components/PullToRefresh';
+import RequestsInbox from '@/components/RequestsInbox';
+import { useBookingRequests, BookingRequest } from '@/hooks/useBookingRequests';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight } from 'lucide-react';
 import { Guest, Payment, UnitStatus, UnitType, UNIT_TYPE_LABELS } from '@/types/property';
 import { toast } from 'sonner';
 
-type ViewMode = 'units' | 'calendar';
+type ViewMode = 'units' | 'calendar' | 'requests';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
 interface DashboardProps {
@@ -37,6 +39,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
+  const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved } = useBookingRequests();
+  const [pendingApprovalRequest, setPendingApprovalRequest] = useState<BookingRequest | null>(null);
 
   const handleRefresh = useCallback(async () => {
     await refresh();
@@ -117,6 +121,24 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
                 Calendar
               </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`h-8 px-3 font-body text-xs transition-colors relative ${
+                  viewMode === 'requests'
+                    ? 'bg-card text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
+                }`}
+                onClick={() => onViewModeChange('requests')}
+              >
+                <Inbox className="h-3.5 w-3.5 mr-1.5" />
+                Requests
+                {pendingRequestsCount > 0 && (
+                  <span className="ml-1.5 min-w-[16px] h-[16px] px-1 rounded-full bg-secondary text-background text-[9px] font-bold flex items-center justify-center">
+                    {pendingRequestsCount > 9 ? '9+' : pendingRequestsCount}
+                  </span>
+                )}
+              </Button>
             </div>
             <Link to="/finances" className="hidden sm:block">
               <Button
@@ -189,6 +211,27 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         <>
         {viewMode === 'units' && (
           <>
+            {pendingRequestsCount > 0 && (
+              <button
+                onClick={() => onViewModeChange('requests')}
+                className="w-full flex items-center justify-between gap-3 rounded-lg border border-secondary/30 bg-secondary/10 hover:bg-secondary/15 transition-colors px-4 py-3 text-left"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="p-1.5 rounded-md bg-secondary/20 shrink-0">
+                    <Inbox className="h-4 w-4 text-secondary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-body font-semibold text-foreground">
+                      {pendingRequestsCount} new booking {pendingRequestsCount === 1 ? 'request' : 'requests'}
+                    </p>
+                    <p className="text-xs font-body text-muted-foreground truncate">
+                      Tap to review and approve
+                    </p>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-secondary shrink-0" />
+              </button>
+            )}
             <StatsOverview
               totalMonthlyIncome={stats.totalMonthlyIncome}
               occupiedCount={stats.occupiedCount}
@@ -217,7 +260,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
           </>
         )}
 
-        {viewMode === 'units' ? (
+        {viewMode === 'units' && (
           <div>
             <h2 className="font-heading text-base font-semibold mb-4">All Units ({units.length})</h2>
             <SortableUnitGrid
@@ -243,7 +286,9 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               }}
             />
           </div>
-        ) : (
+        )}
+
+        {viewMode === 'calendar' && (
           <div className="space-y-6">
             {calendarUnitTypeFilter && (
               <div className="flex items-center gap-2">
@@ -289,6 +334,20 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             />
           </div>
         )}
+
+        {viewMode === 'requests' && (
+          <RequestsInbox
+            units={units}
+            onApprove={(req) => {
+              setPendingApprovalRequest(req);
+              setFutureGuestDialog({
+                unitId: '',
+                prefillCheckIn: req.check_in,
+                prefillCheckOut: req.check_out,
+              });
+            }}
+          />
+        )}
         </>
         )}
       </main>
@@ -318,20 +377,34 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
 
       <FutureGuestDialog
         open={!!futureGuestDialog}
-        onClose={() => setFutureGuestDialog(null)}
-        onSave={(unitId, guest) => {
+        onClose={() => {
+          setFutureGuestDialog(null);
+          setPendingApprovalRequest(null);
+        }}
+        onSave={async (unitId, guest) => {
           if (futureGuestDialog?.guestId) {
             updateFutureGuest(futureGuestDialog.guestId, guest, true);
             toast.success(`Booking updated for ${guest.name}`);
           } else {
             addFutureGuest(unitId, guest);
             toast.success(`Future booking added for ${guest.name}`);
+            if (pendingApprovalRequest) {
+              await markRequestApproved(pendingApprovalRequest.id, unitId);
+              toast.success(`Request from ${pendingApprovalRequest.name} approved`);
+              setPendingApprovalRequest(null);
+            }
           }
         }}
         units={units}
         preselectedUnitId={futureGuestDialog?.unitId || null}
         prefillCheckIn={futureGuestDialog?.prefillCheckIn}
         prefillCheckOut={futureGuestDialog?.prefillCheckOut}
+        prefillName={pendingApprovalRequest?.name}
+        prefillNotes={
+          pendingApprovalRequest
+            ? `Approved from booking request${pendingApprovalRequest.email ? ` · ${pendingApprovalRequest.email}` : ''}${pendingApprovalRequest.phone ? ` · ${pendingApprovalRequest.phone}` : ''}${pendingApprovalRequest.notes ? `\n\n${pendingApprovalRequest.notes}` : ''}`
+            : undefined
+        }
         existingGuest={
           futureGuestDialog?.guestId
             ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null

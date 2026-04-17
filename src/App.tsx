@@ -13,7 +13,7 @@ import MobileBottomNav from "./components/MobileBottomNav";
 
 const queryClient = new QueryClient();
 
-type ViewMode = 'units' | 'calendar';
+type ViewMode = 'units' | 'calendar' | 'requests';
 
 function AuthenticatedApp() {
   const [viewMode, setViewMode] = useState<ViewMode>('units');
