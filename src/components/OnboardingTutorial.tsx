@@ -66,7 +66,7 @@ const steps: TutorialStep[] = [
     icon: <Inbox className="h-10 w-10 text-secondary" />,
     title: 'Booking Requests Inbox',
     description:
-      'Guests can request a stay through homestead-hill.com and those requests land in the Requests tab. You\'ll see a banner on the dashboard when new ones come in. Tap "Approve & Book" to add them to the calendar in one shot, or "Decline" if it doesn\'t work out.',
+      'Guests can request a stay through homestead-hill.com and those requests land in the Requests tab. You\'ll see a banner on the dashboard when new ones come in. Tap "Approve & Book" and the unit dropdown will only show units that are actually free for those exact dates — no double-booking. Tap "Decline" if it doesn\'t work out.',
   },
   {
     icon: <CalendarDays className="h-10 w-10 text-secondary" />,
