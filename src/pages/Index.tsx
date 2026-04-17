@@ -1,6 +1,6 @@
 import Dashboard from '@/components/Dashboard';
 
-type ViewMode = 'units' | 'calendar';
+type ViewMode = 'units' | 'calendar' | 'requests';
 
 interface IndexProps {
   viewMode: ViewMode;
