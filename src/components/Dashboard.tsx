@@ -410,6 +410,11 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             ? units.flatMap(u => u.futureGuests).find(fg => fg.id === futureGuestDialog.guestId) ?? null
             : null
         }
+        availabilityWindow={
+          pendingApprovalRequest
+            ? { checkIn: pendingApprovalRequest.check_in, checkOut: pendingApprovalRequest.check_out }
+            : null
+        }
       />
 
       <EditUnitDialog
