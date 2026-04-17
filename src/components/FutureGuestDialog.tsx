@@ -17,10 +17,12 @@ interface FutureGuestDialogProps {
   preselectedUnitId?: string | null;
   prefillCheckIn?: string;
   prefillCheckOut?: string;
+  prefillName?: string;
+  prefillNotes?: string;
   existingGuest?: FutureGuest | null;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, existingGuest }: FutureGuestDialogProps) {
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, existingGuest }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
