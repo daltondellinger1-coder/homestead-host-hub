@@ -88,14 +88,17 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     }
   }, [open, existingGuest, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes]);
 
-  // Pre-fill check-in from current guest's checkout when selecting a unit (only for new bookings)
+  // Pre-fill check-in from current guest's checkout when selecting a unit
+  // (only for brand-new bookings without a prefilled check-in date)
   const selectedUnit = units.find(u => u.id === unitId);
 
   useEffect(() => {
-    if (!isEditing && selectedUnit?.currentGuest?.checkOut) {
+    if (isEditing) return;
+    if (prefillCheckIn) return; // respect prefilled date from booking request
+    if (selectedUnit?.currentGuest?.checkOut) {
       setCheckIn(selectedUnit.currentGuest.checkOut);
     }
-  }, [unitId, selectedUnit?.currentGuest?.checkOut, isEditing]);
+  }, [unitId, selectedUnit?.currentGuest?.checkOut, isEditing, prefillCheckIn]);
 
   const reset = () => {
     setUnitId('');
