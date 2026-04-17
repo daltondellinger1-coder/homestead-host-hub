@@ -20,9 +20,19 @@ interface FutureGuestDialogProps {
   prefillName?: string;
   prefillNotes?: string;
   existingGuest?: FutureGuest | null;
+  /** When set, only units with no booking conflict during this window are shown. */
+  availabilityWindow?: { checkIn: string; checkOut: string } | null;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, existingGuest }: FutureGuestDialogProps) {
+// Two date ranges overlap if start1 < end2 AND start2 < end1.
+// Open-ended ranges (no checkOut) are treated as extending indefinitely.
+function rangesOverlap(aStart: string, aEnd: string | null | undefined, bStart: string, bEnd: string | null | undefined): boolean {
+  const aEndEff = aEnd && aEnd.length > 0 ? aEnd : '9999-12-31';
+  const bEndEff = bEnd && bEnd.length > 0 ? bEnd : '9999-12-31';
+  return aStart < bEndEff && bStart < aEndEff;
+}
+
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, existingGuest, availabilityWindow }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
@@ -120,9 +130,28 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     onClose();
   };
 
-  const eligibleUnits = units.filter(u => 
-    u.status !== 'planning' && u.status !== 'storage'
-  );
+  const eligibleUnits = units.filter(u => {
+    if (u.status === 'planning' || u.status === 'storage') return false;
+    if (!availabilityWindow || !availabilityWindow.checkIn) return true;
+
+    const winStart = availabilityWindow.checkIn;
+    const winEnd = availabilityWindow.checkOut || winStart;
+
+    // Conflict with current guest
+    if (u.currentGuest) {
+      if (rangesOverlap(winStart, winEnd, u.currentGuest.checkIn, u.currentGuest.checkOut)) {
+        return false;
+      }
+    }
+    // Conflict with any future booking (excluding the one being edited)
+    const conflictsFuture = u.futureGuests.some(fg => {
+      if (existingGuest && fg.id === existingGuest.id) return false;
+      return rangesOverlap(winStart, winEnd, fg.checkIn, fg.checkOut);
+    });
+    if (conflictsFuture) return false;
+
+    return true;
+  });
 
   return (
     <Dialog open={open} onOpenChange={v => { if (!v) { reset(); onClose(); } }}>
