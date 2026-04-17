@@ -121,6 +121,24 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
                 Calendar
               </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`h-8 px-3 font-body text-xs transition-colors relative ${
+                  viewMode === 'requests'
+                    ? 'bg-card text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
+                }`}
+                onClick={() => onViewModeChange('requests')}
+              >
+                <Inbox className="h-3.5 w-3.5 mr-1.5" />
+                Requests
+                {pendingRequestsCount > 0 && (
+                  <span className="ml-1.5 min-w-[16px] h-[16px] px-1 rounded-full bg-secondary text-background text-[9px] font-bold flex items-center justify-center">
+                    {pendingRequestsCount > 9 ? '9+' : pendingRequestsCount}
+                  </span>
+                )}
+              </Button>
             </div>
             <Link to="/finances" className="hidden sm:block">
               <Button
