@@ -166,7 +166,11 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
             <Select value={unitId} onValueChange={setUnitId} disabled={isEditing}>
               <SelectTrigger><SelectValue placeholder="Select a unit..." /></SelectTrigger>
               <SelectContent>
-                {eligibleUnits.map(u => (
+                {eligibleUnits.length === 0 ? (
+                  <div className="px-2 py-3 text-xs text-muted-foreground text-center">
+                    No units available for these dates
+                  </div>
+                ) : eligibleUnits.map(u => (
                   <SelectItem key={u.id} value={u.id}>
                     {u.name}
                     {u.currentGuest ? ` (${u.currentGuest.name}${u.currentGuest.checkOut ? ` → out ${new Date(u.currentGuest.checkOut + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : ''})` : ' (vacant)'}
