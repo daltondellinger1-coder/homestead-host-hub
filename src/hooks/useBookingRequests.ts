@@ -44,7 +44,7 @@ export function useBookingRequests() {
     };
   }, [fetchRequests]);
 
-  const markApproved = useCallback(async (id: string, assignedUnitId: string) => {
+  const markApproved = useCallback(async (id: string, assignedUnitId: string, unitName: string) => {
     const { error } = await supabase
       .from('booking_requests')
       .update({
@@ -57,8 +57,32 @@ export function useBookingRequests() {
       toast.error('Failed to update request');
       return false;
     }
+
+    // Fire-and-forget approval email via the website's edge function.
+    // The website project owns the Resend sender domain, so emails go out
+    // branded as booking@homestead-hill.com. Failures here are logged
+    // but never fail the approval itself.
+    const request = requests.find(r => r.id === id);
+    if (request) {
+      fetch(
+        'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/send-booking-approval-email',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: request.name,
+            email: request.email,
+            unit_name: unitName,
+            check_in: request.check_in,
+            check_out: request.check_out,
+            num_guests: request.num_guests,
+          }),
+        }
+      ).catch(err => console.error('Approval email send failed (non-fatal):', err));
+    }
+
     return true;
-  }, []);
+  }, [requests]);
 
   const markDeclined = useCallback(async (id: string, reason?: string) => {
     const { error } = await supabase

@@ -389,7 +389,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             addFutureGuest(unitId, guest);
             toast.success(`Future booking added for ${guest.name}`);
             if (pendingApprovalRequest) {
-              await markRequestApproved(pendingApprovalRequest.id, unitId);
+              const approvalUnit = units.find(u => u.id === unitId);
+              await markRequestApproved(pendingApprovalRequest.id, unitId, approvalUnit?.name ?? 'your unit');
               toast.success(`Request from ${pendingApprovalRequest.name} approved`);
               setPendingApprovalRequest(null);
             }
