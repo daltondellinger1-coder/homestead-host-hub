@@ -18,6 +18,7 @@ import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingT
 import PullToRefresh from '@/components/PullToRefresh';
 import RequestsInbox from '@/components/RequestsInbox';
 import { useBookingRequests, BookingRequest } from '@/hooks/useBookingRequests';
+import { useAirbnbBlocks } from '@/hooks/useAirbnbBlocks';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
@@ -40,6 +41,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
   const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved } = useBookingRequests();
+  const { blocksByUnit: airbnbBlocksByUnit } = useAirbnbBlocks();
   const [pendingApprovalRequest, setPendingApprovalRequest] = useState<BookingRequest | null>(null);
 
   const handleRefresh = useCallback(async () => {
@@ -304,6 +306,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               key={calendarInitialDate?.getTime() ?? 'default'}
               units={calendarUnitTypeFilter ? units.filter(u => u.unitType === calendarUnitTypeFilter && !['planning', 'storage'].includes(u.status)) : units}
               paymentEvents={allPaymentEvents}
+              airbnbBlocksByUnit={airbnbBlocksByUnit}
               initialDate={calendarInitialDate}
               onMarkPaid={markPaymentPaid}
               onMarkUnpaid={markPaymentUnpaid}
@@ -338,6 +341,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         {viewMode === 'requests' && (
           <RequestsInbox
             units={units}
+            airbnbBlocksByUnit={airbnbBlocksByUnit}
             onApprove={(req) => {
               setPendingApprovalRequest(req);
               setFutureGuestDialog({

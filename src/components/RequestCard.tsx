@@ -26,6 +26,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { BookingRequest } from '@/hooks/useBookingRequests';
+import { AirbnbBlock } from '@/hooks/useAirbnbBlocks';
 import { Unit, UNIT_TYPE_LABELS, SOURCE_LABELS } from '@/types/property';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +36,7 @@ interface RequestCardProps {
   onApprove: (request: BookingRequest) => void;
   onDecline: (id: string, reason?: string) => void;
   onDelete: (id: string) => void;
+  airbnbBlocksByUnit?: Map<string, AirbnbBlock[]>;
 }
 
 function formatDate(d: string) {
@@ -56,7 +58,13 @@ function getNights(ci: string, co: string) {
  * A unit is available if neither its current guest nor any future guest's
  * stay overlaps the requested range.
  */
-function getAvailableUnits(units: Unit[], checkIn: string, checkOut: string, preferredType: string | null): Unit[] {
+function getAvailableUnits(
+  units: Unit[],
+  checkIn: string,
+  checkOut: string,
+  preferredType: string | null,
+  airbnbBlocksByUnit?: Map<string, AirbnbBlock[]>,
+): Unit[] {
   const reqStart = checkIn;
   const reqEnd = checkOut;
 
@@ -80,11 +88,16 @@ function getAvailableUnits(units: Unit[], checkIn: string, checkOut: string, pre
     for (const fg of unit.futureGuests) {
       if (overlaps(fg.checkIn, fg.checkOut)) return false;
     }
+    // Airbnb blocks from the website's calendar_events feed (cross-project).
+    const airbnbBlocks = airbnbBlocksByUnit?.get(unit.id) ?? [];
+    for (const b of airbnbBlocks) {
+      if (overlaps(b.checkIn, b.checkOut)) return false;
+    }
     return true;
   });
 }
 
-export default function RequestCard({ request, units, onApprove, onDecline, onDelete }: RequestCardProps) {
+export default function RequestCard({ request, units, onApprove, onDecline, onDelete, airbnbBlocksByUnit }: RequestCardProps) {
   const [declineOpen, setDeclineOpen] = useState(false);
   const [declineReason, setDeclineReason] = useState('');
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -93,7 +106,7 @@ export default function RequestCard({ request, units, onApprove, onDecline, onDe
   const isPending = request.status === 'pending';
 
   const availableUnits = isPending
-    ? getAvailableUnits(units, request.check_in, request.check_out, request.preferred_unit_type)
+    ? getAvailableUnits(units, request.check_in, request.check_out, request.preferred_unit_type, airbnbBlocksByUnit)
     : [];
 
   const assignedUnit = request.assigned_unit_id

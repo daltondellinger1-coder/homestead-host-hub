@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Unit, SOURCE_LABELS, STATUS_LABELS, Payment, PaymentStatus, BookingSource, Guest, FutureGuest } from '@/types/property';
+import { AirbnbBlock } from '@/hooks/useAirbnbBlocks';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -22,6 +23,7 @@ interface PaymentEvent {
 interface BookingTimelineProps {
   units: Unit[];
   paymentEvents: PaymentEvent[];
+  airbnbBlocksByUnit?: Map<string, AirbnbBlock[]>;
   initialDate?: Date;
   onMarkPaid?: (unitId: string, paymentId: string) => void;
   onMarkUnpaid?: (paymentId: string) => void;
@@ -45,6 +47,7 @@ interface BookingBar {
   securityDepositPaid: boolean;
   notes?: string;
   futureGuestId?: string; // for future guests
+  external?: boolean; // synthetic bar from cross-project Airbnb calendar
 }
 
 const CELL_WIDTH = 44;
@@ -55,7 +58,7 @@ const formatCurrency = (amount: number) =>
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-export default function BookingTimeline({ units, paymentEvents, initialDate, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
+export default function BookingTimeline({ units, paymentEvents, airbnbBlocksByUnit, initialDate, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onEditCurrentGuest, onEditFutureGuest, onAddGuest, onAddFutureGuest }: BookingTimelineProps) {
   const [currentDate, setCurrentDate] = useState(initialDate ?? new Date());
   const [selectedBar, setSelectedBar] = useState<{ unitId: string; bar: BookingBar } | null>(null);
   const [selectedPayments, setSelectedPayments] = useState<PaymentEvent[] | null>(null);
@@ -163,6 +166,28 @@ export default function BookingTimeline({ units, paymentEvents, initialDate, onM
 
       if (unit.currentGuest) addGuest(unit.currentGuest, true);
       unit.futureGuests.forEach(fg => addGuest(fg, false, fg.id));
+
+      // Cross-project Airbnb blocks (read-only overlay — source of truth
+      // is the website's calendar_events table via sync-calendar).
+      const externalBlocks = airbnbBlocksByUnit?.get(unit.id) ?? [];
+      for (const b of externalBlocks) {
+        const ci = new Date(b.checkIn + 'T00:00:00');
+        const co = new Date(b.checkOut + 'T00:00:00');
+        if (co < monthStart) continue;
+        if (ci > monthEnd) continue;
+        bars.push({
+          guestName: b.summary || 'Airbnb',
+          source: 'airbnb',
+          checkIn: ci,
+          checkOut: co,
+          isCurrent: false,
+          unitId: unit.id,
+          monthlyRate: 0,
+          securityDeposit: 0,
+          securityDepositPaid: false,
+          external: true,
+        });
+      }
 
       // Payments for this unit in this month
       const unitPayments = paymentEvents.filter(p => {
@@ -415,10 +440,16 @@ export default function BookingTimeline({ units, paymentEvents, initialDate, onM
                         <div
                           key={`bar-${bar.guestName}-${idx}`}
                           className={cn(
-                            'absolute flex items-center px-2.5 z-20 shadow-sm cursor-pointer transition-all',
-                            bar.isCurrent
+                            'absolute flex items-center px-2.5 z-20 shadow-sm transition-all',
+                            bar.external
+                              ? 'bg-amber-500/15 border border-amber-500/40 text-amber-300 cursor-default'
+                              : 'cursor-pointer',
+                            !bar.external && bar.isCurrent
                               ? 'bg-secondary/70 text-secondary-foreground hover:bg-secondary/85'
-                              : 'bg-muted/60 border border-border/40 text-foreground hover:bg-muted/80'
+                              : '',
+                            !bar.external && !bar.isCurrent
+                              ? 'bg-muted/60 border border-border/40 text-foreground hover:bg-muted/80'
+                              : ''
                           )}
                           style={{
                             left: `${s.left}px`,
@@ -430,8 +461,8 @@ export default function BookingTimeline({ units, paymentEvents, initialDate, onM
                             borderTopRightRadius: s.endsAfterMonth ? 0 : 6,
                             borderBottomRightRadius: s.endsAfterMonth ? 0 : 6,
                           }}
-                          onClick={() => handleBarClick(unit.id, bar)}
-                          title="Tap to view details"
+                          onClick={() => !bar.external && handleBarClick(unit.id, bar)}
+                          title={bar.external ? 'Airbnb booking (read-only)' : 'Tap to view details'}
                         >
                           <span className="text-[10px] font-body font-semibold truncate whitespace-nowrap">
                             {bar.guestName}

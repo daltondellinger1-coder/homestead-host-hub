@@ -4,13 +4,15 @@ import RequestCard from '@/components/RequestCard';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Inbox } from 'lucide-react';
 import { Unit } from '@/types/property';
+import { AirbnbBlock } from '@/hooks/useAirbnbBlocks';
 
 interface RequestsInboxProps {
   units: Unit[];
   onApprove: (request: BookingRequest) => void;
+  airbnbBlocksByUnit?: Map<string, AirbnbBlock[]>;
 }
 
-export default function RequestsInbox({ units, onApprove }: RequestsInboxProps) {
+export default function RequestsInbox({ units, onApprove, airbnbBlocksByUnit }: RequestsInboxProps) {
   const { requests, loading, markDeclined, deleteRequest, pendingCount } = useBookingRequests();
   const [tab, setTab] = useState<BookingRequestStatus>('pending');
 
@@ -68,6 +70,7 @@ export default function RequestsInbox({ units, onApprove }: RequestsInboxProps) 
                 onApprove={onApprove}
                 onDecline={markDeclined}
                 onDelete={deleteRequest}
+                airbnbBlocksByUnit={airbnbBlocksByUnit}
               />
             ))
           )}
