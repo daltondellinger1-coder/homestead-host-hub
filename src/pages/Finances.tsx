@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Mountain, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,7 +9,9 @@ import ManagementDashboard from '@/components/ManagementDashboard';
 import WeeklyReport from '@/components/WeeklyReport';
 
 export default function Finances() {
-  const [tab, setTab] = useState('reports');
+  const location = useLocation();
+  const hasFilterParams = location.search.length > 0;
+  const [tab, setTab] = useState(hasFilterParams ? 'history' : 'reports');
 
   return (
     <div className="min-h-screen pattern-bg">
