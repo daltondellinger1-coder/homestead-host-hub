@@ -61,6 +61,7 @@ const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
 
 export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onMarkUnpaid, onUpdatePayment, onDeletePayment, onAddPayment, onDeleteGuest, occupiedUnits }: PaymentCalendarProps) {
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [showAddPayment, setShowAddPayment] = useState(false);
