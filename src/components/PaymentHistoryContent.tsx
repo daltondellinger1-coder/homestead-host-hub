@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { SOURCE_LABELS } from '@/types/property';
 import { Button } from '@/components/ui/button';
@@ -16,15 +17,22 @@ type SortDir = 'asc' | 'desc';
 export default function PaymentHistoryContent() {
   const { units, loading, allPaymentEvents, bulkDeletePayments } = usePropertyData();
   const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  const initialStatus = searchParams.get('status') ?? 'all';
+  const initialFrom = searchParams.get('from') ?? '';
+  const initialTo = searchParams.get('to') ?? '';
+  const initialSort = (searchParams.get('sort') as SortField) ?? 'date';
+  const initialDir = (searchParams.get('dir') as SortDir) ?? 'desc';
 
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>(initialStatus);
+  const [dateFrom, setDateFrom] = useState(initialFrom);
+  const [dateTo, setDateTo] = useState(initialTo);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortField, setSortField] = useState<SortField>('date');
-  const [sortDir, setSortDir] = useState<SortDir>('desc');
+  const [sortField, setSortField] = useState<SortField>(initialSort);
+  const [sortDir, setSortDir] = useState<SortDir>(initialDir);
 
   const uniqueUnits = useMemo(() => {
     const names = [...new Set(allPaymentEvents.map(e => e.unitName))];
