@@ -183,10 +183,21 @@ export default function PaymentCalendar({ events, bookingEvents, onMarkPaid, onM
           <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-muted-foreground font-body mb-0.5">Expected</p>
           <p className="text-base sm:text-lg font-heading font-semibold">{formatCurrency(totalExpected)}</p>
         </div>
-        <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
+        <button
+          type="button"
+          onClick={() => {
+            const pad = (n: number) => String(n).padStart(2, '0');
+            const from = `${year}-${pad(month + 1)}-01`;
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            const to = `${year}-${pad(month + 1)}-${pad(lastDay)}`;
+            navigate(`/payments?status=paid&from=${from}&to=${to}&sort=unit&dir=asc`);
+          }}
+          className="glass-card rounded-xl px-3.5 py-3 sm:p-4 text-left transition-all hover:bg-success/5 hover:border-success/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          aria-label="View collected payments by unit"
+        >
           <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-success font-body mb-0.5">Collected</p>
           <p className="text-base sm:text-lg font-heading font-semibold text-success">{formatCurrency(totalPaid)}</p>
-        </div>
+        </button>
         <div className="glass-card rounded-xl px-3.5 py-3 sm:p-4">
           <p className="text-[10px] sm:text-[10px] uppercase tracking-wider text-secondary font-body mb-0.5">Pending</p>
           <p className="text-base sm:text-lg font-heading font-semibold text-secondary">{formatCurrency(totalPending)}</p>
