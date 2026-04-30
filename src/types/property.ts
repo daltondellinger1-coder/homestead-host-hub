@@ -1,4 +1,4 @@
-export type BookingSource = 'airbnb' | 'vrbo' | 'furnished_finder' | 'direct' | 'long_term' | 'lease' | 'other';
+export type BookingSource = 'airbnb' | 'vrbo' | 'furnished_finder' | 'direct' | 'long_term' | 'lease' | 'other' | 'extension';
 
 export type UnitStatus = 'occupied' | 'vacant' | 'rented' | 'planning' | 'storage';
 
