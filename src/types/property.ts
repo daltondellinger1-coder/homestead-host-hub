@@ -47,6 +47,7 @@ export const SOURCE_LABELS: Record<BookingSource, string> = {
   long_term: 'Long Term',
   lease: 'Lease',
   other: 'Other',
+  extension: 'Stay Extension',
 };
 
 export const STATUS_LABELS: Record<UnitStatus, string> = {
