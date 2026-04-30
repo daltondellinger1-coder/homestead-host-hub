@@ -40,7 +40,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
-  const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved } = useBookingRequests();
+  const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved, approveExtension } = useBookingRequests();
   const { blocksByUnit: airbnbBlocksByUnit } = useAirbnbBlocks();
   const [pendingApprovalRequest, setPendingApprovalRequest] = useState<BookingRequest | null>(null);
 
