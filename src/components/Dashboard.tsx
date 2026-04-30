@@ -40,7 +40,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
-  const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved } = useBookingRequests();
+  const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved, approveExtension } = useBookingRequests();
   const { blocksByUnit: airbnbBlocksByUnit } = useAirbnbBlocks();
   const [pendingApprovalRequest, setPendingApprovalRequest] = useState<BookingRequest | null>(null);
 
@@ -349,6 +349,58 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 prefillCheckIn: req.check_in,
                 prefillCheckOut: req.check_out,
               });
+            }}
+            onApproveExtensionSameUnit={async (req, unit, params) => {
+              const guest = unit.currentGuest;
+              if (!guest) {
+                toast.error('No current guest to extend');
+                return;
+              }
+              const slug = unit.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              const ok = await approveExtension(req.id, {
+                unitId: unit.id,
+                unitName: unit.name,
+                unitSlug: slug,
+                startDate: params.startDate,
+                endDate: params.endDate,
+                amount: params.amount,
+              });
+              if (!ok) return;
+              // Extend the guest's check_out date in place.
+              await updateGuest(unit.id, { ...guest, checkOut: params.endDate });
+              toast.success(`Extension approved for ${req.name}`);
+            }}
+            onApproveExtensionSwitch={async (req, fromUnit, toUnit, params) => {
+              const guest = fromUnit.currentGuest;
+              if (!guest) {
+                toast.error('No current guest to switch');
+                return;
+              }
+              const slug = toUnit.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+              const ok = await approveExtension(req.id, {
+                unitId: toUnit.id,
+                unitName: toUnit.name,
+                unitSlug: slug,
+                startDate: params.startDate,
+                endDate: params.endDate,
+                amount: params.amount,
+              });
+              if (!ok) return;
+              // End current stay and start a new stay in the destination unit
+              // covering the extension window only.
+              await removeGuest(fromUnit.id);
+              await addGuest(toUnit.id, {
+                name: guest.name,
+                source: 'extension',
+                checkIn: params.startDate,
+                checkOut: params.endDate,
+                monthlyRate: guest.monthlyRate,
+                securityDeposit: 0,
+                securityDepositPaid: true,
+                payments: [],
+                notes: `Stay extension switched from ${fromUnit.name}. Original notes: ${guest.notes ?? '—'}`,
+              });
+              toast.success(`Extension approved — ${req.name} moved to ${toUnit.name}`);
             }}
           />
         )}

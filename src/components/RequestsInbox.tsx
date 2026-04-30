@@ -1,22 +1,35 @@
 import { useState } from 'react';
 import { useBookingRequests, BookingRequest, BookingRequestStatus } from '@/hooks/useBookingRequests';
 import RequestCard from '@/components/RequestCard';
+import ExtensionRequestCard from '@/components/ExtensionRequestCard';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Inbox } from 'lucide-react';
+import { Inbox, RefreshCw } from 'lucide-react';
 import { Unit } from '@/types/property';
 import { AirbnbBlock } from '@/hooks/useAirbnbBlocks';
 
 interface RequestsInboxProps {
   units: Unit[];
   onApprove: (request: BookingRequest) => void;
+  onApproveExtensionSameUnit: (request: BookingRequest, unit: Unit, params: { startDate: string; endDate: string; amount: number }) => void;
+  onApproveExtensionSwitch: (request: BookingRequest, fromUnit: Unit, toUnit: Unit, params: { startDate: string; endDate: string; amount: number }) => void;
   airbnbBlocksByUnit?: Map<string, AirbnbBlock[]>;
 }
 
-export default function RequestsInbox({ units, onApprove, airbnbBlocksByUnit }: RequestsInboxProps) {
+export default function RequestsInbox({
+  units,
+  onApprove,
+  onApproveExtensionSameUnit,
+  onApproveExtensionSwitch,
+  airbnbBlocksByUnit,
+}: RequestsInboxProps) {
   const { requests, loading, markDeclined, deleteRequest, pendingCount } = useBookingRequests();
   const [tab, setTab] = useState<BookingRequestStatus>('pending');
 
   const filtered = requests.filter(r => r.status === tab);
+  const extensions = filtered.filter(r => r.source === 'extension');
+  const newBookings = filtered.filter(r => r.source !== 'extension');
+
+  const pendingExtensions = requests.filter(r => r.status === 'pending' && r.source === 'extension').length;
 
   if (loading) {
     return (
@@ -31,7 +44,7 @@ export default function RequestsInbox({ units, onApprove, airbnbBlocksByUnit }: 
       <div className="flex items-center justify-between">
         <h2 className="font-heading text-base font-semibold">Booking Requests</h2>
         <span className="text-xs font-body text-muted-foreground">
-          {pendingCount} pending
+          {pendingCount} pending{pendingExtensions > 0 && ` · ${pendingExtensions} extension${pendingExtensions === 1 ? '' : 's'}`}
         </span>
       </div>
 
@@ -44,7 +57,7 @@ export default function RequestsInbox({ units, onApprove, airbnbBlocksByUnit }: 
           <TabsTrigger value="declined" className="font-body text-xs">Declined</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={tab} className="mt-4 space-y-3">
+        <TabsContent value={tab} className="mt-4 space-y-6">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center space-y-2">
               <div className="p-3 rounded-2xl bg-muted/30">
@@ -62,17 +75,53 @@ export default function RequestsInbox({ units, onApprove, airbnbBlocksByUnit }: 
               )}
             </div>
           ) : (
-            filtered.map(req => (
-              <RequestCard
-                key={req.id}
-                request={req}
-                units={units}
-                onApprove={onApprove}
-                onDecline={markDeclined}
-                onDelete={deleteRequest}
-                airbnbBlocksByUnit={airbnbBlocksByUnit}
-              />
-            ))
+            <>
+              {extensions.length > 0 && (
+                <section className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="h-3.5 w-3.5 text-secondary" />
+                    <h3 className="font-heading text-sm font-semibold text-secondary">
+                      Stay Extensions ({extensions.length})
+                    </h3>
+                  </div>
+                  {extensions.map(req => (
+                    <ExtensionRequestCard
+                      key={req.id}
+                      request={req}
+                      units={units}
+                      airbnbBlocksByUnit={airbnbBlocksByUnit}
+                      onApproveSameUnit={onApproveExtensionSameUnit}
+                      onApproveSwitchUnit={onApproveExtensionSwitch}
+                      onDecline={markDeclined}
+                      onDelete={deleteRequest}
+                    />
+                  ))}
+                </section>
+              )}
+              {newBookings.length > 0 && (
+                <section className="space-y-3">
+                  {extensions.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Inbox className="h-3.5 w-3.5 text-muted-foreground" />
+                      <h3 className="font-heading text-sm font-semibold">
+                        New Bookings ({newBookings.length})
+                      </h3>
+                    </div>
+                  )}
+                  {newBookings.map(req => (
+                    <RequestCard
+                      key={req.id}
+                      request={req}
+                      units={units}
+                      onApprove={onApprove}
+                      onDecline={markDeclined}
+                      onDelete={deleteRequest}
+                      airbnbBlocksByUnit={airbnbBlocksByUnit}
+                    />
+                  ))}
+                </section>
+              )}
+            </>
           )}
         </TabsContent>
       </Tabs>
