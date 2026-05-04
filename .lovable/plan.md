@@ -1,60 +1,98 @@
+## Maintenance Work Order System
 
+You picked the lightest path. The tenant-facing form is a third-party tool (Tally, Jotform, or Google Forms with file upload). Host Hub gets a simple **Maintenance** tab to track open/in-progress/done work orders. No website changes, no edge functions for the form itself, no photo storage to set up — the form vendor stores the photos and links them in the email.
 
-## Plan: Connect homestead-hill.com to this app for booking requests
+### How it flows
 
-### What this does
-Your existing **homestead-hill.com** site hosts the public booking form (since the branding/emails are already set up there). When a guest submits a request, it lands in **this app's** Requests inbox where you approve or deny. Approving creates the booking on your calendar instantly.
+```text
+Tenant scans QR in unit
+        ↓
+Third-party form (per-unit URL with unit prefilled)
+        ↓
+Form vendor emails: you + maintenance contact
+   (subject + photos + unit + description)
+        ↓
+You open Host Hub → Maintenance tab
+        ↓
+Click "+ Log request" → paste/type details, attach link
+        ↓
+Track: New → In Progress → Done (+ notes)
+```
 
-### How the two projects connect
-Both projects are on Lovable Cloud, so they each have their own backend. We have two options for sharing booking requests between them:
+### What I'll build in Host Hub
 
-**Option A — Shared database table (cleanest):** The website writes booking requests directly into *this* app's database via the public Supabase API (using this project's URL + anon key). One source of truth, no syncing needed.
+**1. New `maintenance_requests` table**
+- `id`, `unit_id` (FK to units), `title`, `description`, `status` (`new` | `in_progress` | `done`), `reported_at`, `completed_at`, `notes`, `photo_url` (optional text — paste the link from the form email), `reporter_name`, `created_at`, `updated_at`
+- Public RLS (matches the rest of your tables)
 
-**Option B — Webhook:** Website keeps its own data and POSTs to an edge function on this app whenever a request comes in. More moving parts.
+**2. Maintenance page (`/maintenance`)**
+- Three sections: **New**, **In Progress**, **Done** (collapsible, recent first)
+- Each card shows: unit name, title, reported date, photo thumbnail (if URL pasted)
+- Tap a card → dialog with full description, notes field, status toggle, delete
+- Filter by unit
+- Empty state explains the QR/form workflow
 
-I'd recommend **Option A** — simpler, real-time, and matches how the rest of this app already works.
+**3. Bottom nav + desktop nav entry**
+- Add "Maintenance" with a wrench icon
+- Badge with count of `new` requests (red dot, like an inbox)
 
-### What gets built here (this app)
-1. **`booking_requests` table** with public INSERT (so the website can submit) and full RLS for you to read/update.
-   - Fields: name, email, phone, check_in, check_out, num_guests, preferred_unit_type, source, notes, status (pending/approved/declined), assigned_unit_id, decline_reason, timestamps
-2. **Requests inbox** — new tab + pending-count badge on the Units dashboard
-3. **Request card** — shows guest details, # of nights, live availability check (which units are free for those dates), Approve / Decline buttons
-4. **Approve flow** — opens the existing Future Guest dialog pre-filled with the request's data; you pick the unit + rate, save → booking created, request marked approved
-5. **Decline flow** — optional reason, marks declined
-6. **Realtime updates** — new requests appear instantly without refresh
-7. **Tutorial step** explaining the new inbox
+**4. "Log request" dialog**
+- Unit picker (defaults to most-recent), title, description, optional photo URL, reporter name
+- Lets you quickly turn an email/text/call into a tracked work order
 
-### What gets built on homestead-hill.com (separate project)
-A booking request form page (e.g. `/book`) that:
-- Collects: name, email, phone, dates, # guests, unit preference, source, notes
-- On submit → inserts into this app's `booking_requests` table using this project's public anon key
-- Sends the existing branded confirmation email from the website's email setup
-- Shows a "We got it!" success page
+**5. Unit card integration**
+- On each unit card, small indicator if that unit has open maintenance ("🔧 2 open")
+- Tap → filters Maintenance page to that unit
 
-I'll build the form there in a separate step **after** the inbox here is working — that way you can test end-to-end with a real submission.
+### What you set up outside the app (one-time, ~15 min)
 
-### Email confirmation
-Since homestead-hill.com already has email set up, the **guest confirmation email** ("we received your request") sends from there on submit — no email setup needed in this app. If you later want an **approval email** ("your booking is confirmed") to go out when you click approve here, we can add that as a follow-up (would need email setup in this app, or we can have this app ping the website to send it).
+I'll give you exact step-by-step instructions in chat after the build, but the gist:
 
-### Files in this project
+1. **Pick a form tool**:
+   - **Tally** (recommended — free, generous, supports file uploads, hidden fields, email notifications)
+   - **Jotform** (free tier supports photos, slicker)
+   - **Google Forms** (free, photos work but uglier and requires Google sign-in for uploads — not great for tenants)
+2. **Build one form** with fields: Name, Issue title, Description, Photos (required, allow multiple), Unit (hidden field, prefilled from URL)
+3. **Configure two email notifications** on submit: one to you, one to maintenance contact. Email includes all answers + photo links.
+4. **Generate 13 QR codes** (one per rentable unit, excluding 12 and 15) — each QR encodes the form URL with `?unit=Unit+1` etc. so the unit field auto-fills. I'll provide a script that generates all 13 QR PNGs at once for printing.
+5. Print + post in each unit (laminated card on fridge or inside cabinet door is typical).
+
+### Why this approach over building a custom form
+
+- **Zero infrastructure** for photo storage (Tally/Jotform handle it; photos stay accessible via link in email)
+- **Built-in email notifications** to multiple recipients with zero edge-function work
+- **You can change the form** (add fields, tweak wording) without touching the app
+- **Tenants get a polished, mobile-optimized form** for free
+- Tradeoff: you manually log requests into Host Hub from the email. For ~15 units this is seconds per request and gives you a clean tracker without the maintenance burden.
+
+### Out of scope (not building)
+
+- Auto-creating Host Hub records from form submissions (would need website edge function + webhook — say the word later if email-to-app gets tedious)
+- Priority levels, assignee field, cost tracking, recurring/preventive maintenance
+- SMS notifications
+- Vendor directory
+
+### Files I'll create/edit
+
 **New:**
-- `src/components/RequestsInbox.tsx`
-- `src/components/RequestCard.tsx`
-- `src/hooks/useBookingRequests.ts`
-- DB migration for `booking_requests` table + RLS
+- `supabase/migrations/<timestamp>_maintenance_requests.sql` — table + RLS
+- `src/hooks/useMaintenanceRequests.ts` — CRUD hook with realtime
+- `src/pages/Maintenance.tsx` — main page
+- `src/components/MaintenanceRequestCard.tsx` — list card
+- `src/components/MaintenanceRequestDialog.tsx` — detail/edit dialog
+- `src/components/LogMaintenanceDialog.tsx` — quick-add form
+- `scripts/generate-qr-codes.md` — one-time QR generation instructions (using a free online QR generator since you only do this once)
 
-**Modified:**
-- `src/components/Dashboard.tsx` — add Requests view + pending badge
-- `src/components/MobileBottomNav.tsx` — add Requests entry
-- `src/components/FutureGuestDialog.tsx` — accept optional prefill from a request + callback to mark request approved on save
-- `src/components/OnboardingTutorial.tsx` — new step
+**Edited:**
+- `src/integrations/supabase/types.ts` (auto)
+- `src/components/MobileBottomNav.tsx` — add Maintenance tab + badge
+- `src/App.tsx` — add `/maintenance` route
+- `src/components/UnitCard.tsx` — small open-requests indicator
 
-### Order
-1. Build inbox + table + approval flow here (this project)
-2. You confirm it looks good
-3. Switch to homestead-hill.com project to add the form that writes here
+### After I ship
 
-### Heads-up
-- The website will need this project's Supabase URL + anon key (both are public, safe to use in frontend code) — I'll grab them when we switch projects.
-- No accounts needed on either side; matches your existing public-RLS pattern.
-
+I'll give you a chat message with:
+1. A direct link to sign up for Tally and a screenshot-by-screenshot guide to building the form (5 min)
+2. The exact URL format with the `?unit=` parameter
+3. A free QR generator link + the 13 URLs ready to paste
+4. A printable PDF template suggestion for the in-unit cards
