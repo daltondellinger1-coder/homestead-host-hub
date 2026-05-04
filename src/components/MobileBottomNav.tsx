@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, DollarSign, LogOut, Inbox } from 'lucide-react';
+import { LayoutGrid, CalendarDays, DollarSign, LogOut, Inbox, Wrench } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useBookingRequests } from '@/hooks/useBookingRequests';
+import { useMaintenanceRequests } from '@/hooks/useMaintenanceRequests';
 import { cn } from '@/lib/utils';
 
 type NavViewMode = 'units' | 'calendar' | 'requests';
@@ -15,6 +16,7 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
   const location = useLocation();
   const { signOut } = useAuth();
   const { pendingCount } = useBookingRequests();
+  const { newCount: maintenanceNewCount } = useMaintenanceRequests();
   const isDashboard = location.pathname === '/';
 
   const items = [
@@ -54,6 +56,13 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       active: location.pathname === '/finances' || location.pathname === '/reports' || location.pathname === '/payments',
       to: '/finances',
       badge: 0,
+    },
+    {
+      label: 'Fix',
+      icon: Wrench,
+      active: location.pathname === '/maintenance',
+      to: '/maintenance',
+      badge: maintenanceNewCount,
     },
     {
       label: 'Sign Out',
