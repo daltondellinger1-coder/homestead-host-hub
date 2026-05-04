@@ -23,7 +23,7 @@ import { useAirbnbBlocks } from '@/hooks/useAirbnbBlocks';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight, Wrench } from 'lucide-react';
 import { Guest, Payment, UnitStatus, UnitType, UNIT_TYPE_LABELS } from '@/types/property';
 import { toast } from 'sonner';
 
@@ -150,6 +150,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               >
                 <DollarSign className="h-4 w-4 mr-1.5" />
                 Finances
+              </Button>
+            </Link>
+            <Link to="/maintenance" className="hidden sm:block">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
+              >
+                <Wrench className="h-4 w-4 mr-1.5" />
+                Maintenance
               </Button>
             </Link>
             <DropdownMenu>
