@@ -30,9 +30,11 @@ export default function Maintenance() {
     return requests.filter(r => r.unit_id === unitFilter);
   }, [requests, unitFilter]);
 
-  const newReqs = filtered.filter(r => r.status === 'new');
-  const inProgress = filtered.filter(r => r.status === 'in_progress');
+  const newReqs = filtered.filter(r => r.status === 'new').sort((a, b) => Number(b.priority_urgent) - Number(a.priority_urgent));
+  const inProgress = filtered.filter(r => r.status === 'in_progress').sort((a, b) => Number(b.priority_urgent) - Number(a.priority_urgent));
   const done = filtered.filter(r => r.status === 'done');
+  const archived = filtered.filter(r => r.status === 'archived');
+  const [archivedOpen, setArchivedOpen] = useState(false);
 
   return (
     <div className="min-h-screen pattern-bg">
@@ -149,6 +151,29 @@ export default function Maintenance() {
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-2 mt-2">
                   {done.map(r => (
+                    <MaintenanceRequestCard
+                      key={r.id}
+                      request={r}
+                      unitName={unitNameById[r.unit_id] ?? 'Unknown unit'}
+                      onClick={() => setSelected(r)}
+                    />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            {/* Archived (collapsible) */}
+            {archived.length > 0 && (
+              <Collapsible open={archivedOpen} onOpenChange={setArchivedOpen}>
+                <CollapsibleTrigger className="w-full flex items-center justify-between text-xs uppercase tracking-wider font-body text-muted-foreground hover:text-foreground transition-colors">
+                  <span className="flex items-center gap-2">
+                    Archived
+                    <span className="text-muted-foreground font-semibold">{archived.length}</span>
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${archivedOpen ? 'rotate-180' : ''}`} />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-2 mt-2 opacity-70">
+                  {archived.map(r => (
                     <MaintenanceRequestCard
                       key={r.id}
                       request={r}

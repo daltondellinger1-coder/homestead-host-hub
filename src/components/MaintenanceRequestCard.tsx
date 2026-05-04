@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
-import { ImageIcon, User, Clock } from 'lucide-react';
+import { ImageIcon, User, Clock, AlertTriangle } from 'lucide-react';
 import type { MaintenanceRequest } from '@/hooks/useMaintenanceRequests';
+
+const photoCount = (r: MaintenanceRequest) => {
+  const arr = (r.photo_urls ?? []) as string[];
+  if (arr.length) return arr.length;
+  return r.photo_url ? 1 : 0;
+};
 
 interface MaintenanceRequestCardProps {
   request: MaintenanceRequest;
@@ -31,9 +37,18 @@ export default function MaintenanceRequestCard({ request, unitName, onClick }: M
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className="text-xs font-body text-secondary font-semibold">{unitName}</span>
-            {request.photo_url && <ImageIcon className="h-3 w-3 text-muted-foreground" />}
+            {request.priority_urgent && (
+              <span className="inline-flex items-center gap-0.5 text-[10px] font-body font-semibold text-destructive uppercase">
+                <AlertTriangle className="h-3 w-3" /> Urgent
+              </span>
+            )}
+            {photoCount(request) > 0 && (
+              <span className="inline-flex items-center gap-0.5 text-[11px] text-muted-foreground">
+                <ImageIcon className="h-3 w-3" />{photoCount(request) > 1 ? photoCount(request) : ''}
+              </span>
+            )}
           </div>
           <h3 className="font-body text-sm text-foreground font-medium truncate">{request.title}</h3>
           {request.description && (

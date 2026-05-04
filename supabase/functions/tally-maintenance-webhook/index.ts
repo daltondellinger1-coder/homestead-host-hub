@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const SHARED_SECRET = Deno.env.get("TALLY_WEBHOOK_SECRET"); // optional
+const SHARED_SECRET = Deno.env.get("TALLY_WEBHOOK_SECRET");
 
 function findField(fields: any[], matchers: string[]): any {
   return fields.find((f) => {
@@ -25,7 +25,6 @@ function fieldString(f: any): string | undefined {
   if (v == null) return undefined;
   if (typeof v === "string") return v.trim() || undefined;
   if (Array.isArray(v)) {
-    // multi-select / hidden could be string array
     const joined = v.map((x) => (typeof x === "string" ? x : x?.text ?? x?.label ?? "")).filter(Boolean).join(", ");
     return joined || undefined;
   }
@@ -40,12 +39,36 @@ function fieldFiles(f: any): string[] {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+  let rawPayload: any = null;
+  let logStatus: "ok" | "duplicate" | "rejected_secret" | "error" = "ok";
+  let logError: string | null = null;
+  let relatedRequestId: string | null = null;
+
+  const writeLog = async () => {
+    try {
+      await supabase.from("webhook_payload_log").insert({
+        source: "tally",
+        raw_payload: rawPayload,
+        processed_status: logStatus,
+        error_text: logError,
+        related_request_id: relatedRequestId,
+      });
+    } catch (e) {
+      console.error("Failed to write webhook log:", e);
+    }
+  };
+
   try {
-    // Optional shared-secret check (set TALLY_WEBHOOK_SECRET and pass ?secret= in webhook URL)
+    // Shared-secret check (required if secret is set)
     if (SHARED_SECRET) {
       const url = new URL(req.url);
       const provided = url.searchParams.get("secret") ?? req.headers.get("x-webhook-secret");
       if (provided !== SHARED_SECRET) {
+        logStatus = "rejected_secret";
+        logError = "Invalid or missing secret";
+        try { rawPayload = await req.json(); } catch { /* ignore */ }
+        await writeLog();
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
           status: 401,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -53,11 +76,31 @@ Deno.serve(async (req) => {
       }
     }
 
-    const payload = await req.json();
-    console.log("Tally webhook received:", JSON.stringify(payload).slice(0, 1000));
+    rawPayload = await req.json();
+    console.log("Tally webhook received:", JSON.stringify(rawPayload).slice(0, 500));
 
-    const data = payload?.data ?? payload;
+    const data = rawPayload?.data ?? rawPayload;
     const fields: any[] = data?.fields ?? [];
+    const eventId: string | null =
+      rawPayload?.eventId ?? data?.submissionId ?? data?.responseId ?? null;
+
+    // Dedupe by Tally event/submission ID
+    if (eventId) {
+      const { data: existing } = await supabase
+        .from("maintenance_requests")
+        .select("id")
+        .eq("tally_event_id", eventId)
+        .maybeSingle();
+      if (existing) {
+        logStatus = "duplicate";
+        relatedRequestId = existing.id;
+        await writeLog();
+        return new Response(JSON.stringify({ success: true, duplicate: true, id: existing.id }), {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
 
     const unitField = findField(fields, ["unit"]);
     const titleField = findField(fields, ["issue title", "title"]);
@@ -74,14 +117,14 @@ Deno.serve(async (req) => {
     const photoUrls = fieldFiles(photoField);
 
     if (!unitName) {
-      console.error("Missing unit field in submission");
+      logStatus = "error";
+      logError = "Missing unit field";
+      await writeLog();
       return new Response(JSON.stringify({ error: "Missing unit field" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     const { data: unit, error: unitErr } = await supabase
       .from("units")
@@ -90,17 +133,17 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (unitErr || !unit) {
-      console.error("Unit not found:", unitName, unitErr);
+      logStatus = "error";
+      logError = `Unit not found: ${unitName}`;
+      await writeLog();
       return new Response(JSON.stringify({ error: `Unit not found: ${unitName}` }), {
         status: 404,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const photoUrl = photoUrls[0] ?? null;
-    const extraPhotos = photoUrls.length > 1 ? `\n\nAdditional photos:\n${photoUrls.slice(1).join("\n")}` : "";
     const phoneLine = phone ? `\n\nPhone: ${phone}` : "";
-    const fullDescription = `${description ?? ""}${phoneLine}${extraPhotos}`.trim() || null;
+    const fullDescription = `${description ?? ""}${phoneLine}`.trim() || null;
 
     const { data: inserted, error: insErr } = await supabase
       .from("maintenance_requests")
@@ -108,28 +151,37 @@ Deno.serve(async (req) => {
         unit_id: unit.id,
         title: title.slice(0, 200),
         description: fullDescription,
-        photo_url: photoUrl,
+        photo_url: photoUrls[0] ?? null,
+        photo_urls: photoUrls,
         reporter_name: reporterName ?? null,
         status: "new",
+        tally_event_id: eventId,
       })
       .select()
       .single();
 
     if (insErr) {
-      console.error("Insert failed:", insErr);
+      logStatus = "error";
+      logError = insErr.message;
+      await writeLog();
       return new Response(JSON.stringify({ error: insErr.message }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    relatedRequestId = inserted.id;
+    await writeLog();
     return new Response(JSON.stringify({ success: true, id: inserted.id }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    logStatus = "error";
+    logError = e instanceof Error ? e.message : "Unknown error";
     console.error("Webhook error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    await writeLog();
+    return new Response(JSON.stringify({ error: logError }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

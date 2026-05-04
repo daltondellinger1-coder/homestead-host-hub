@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Trash2, AlertTriangle, Archive } from 'lucide-react';
 import { useMaintenanceRequests, type MaintenanceRequest, type MaintenanceStatus } from '@/hooks/useMaintenanceRequests';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
@@ -73,20 +74,51 @@ export default function MaintenanceRequestDialog({ request, unitName, open, onOp
             </div>
           )}
 
-          {request.photo_url && (
-            <div>
-              <Label className="text-xs text-muted-foreground">Photo</Label>
-              <a
-                href={request.photo_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 flex items-center gap-1.5 text-sm text-secondary hover:underline font-body break-all"
-              >
-                <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">{request.photo_url}</span>
-              </a>
-            </div>
-          )}
+          {(() => {
+            const photos = ((request.photo_urls ?? []) as string[]).length
+              ? (request.photo_urls as string[])
+              : (request.photo_url ? [request.photo_url] : []);
+            if (!photos.length) return null;
+            return (
+              <div>
+                <Label className="text-xs text-muted-foreground">
+                  Photos {photos.length > 1 && <span className="text-secondary">({photos.length})</span>}
+                </Label>
+                <div className="mt-1.5 grid grid-cols-2 gap-2">
+                  {photos.map((url, i) => (
+                    <a
+                      key={i}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block aspect-square rounded-md overflow-hidden border border-border/40 bg-muted/30 hover:border-secondary/60 transition-colors"
+                    >
+                      <img
+                        src={url}
+                        alt={`Photo ${i + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="flex items-center justify-between rounded-md border border-border/40 bg-card/40 px-3 py-2">
+            <Label className="flex items-center gap-2 text-sm font-body cursor-pointer" htmlFor="urgent-toggle">
+              <AlertTriangle className={`h-4 w-4 ${request.priority_urgent ? 'text-destructive' : 'text-muted-foreground'}`} />
+              Mark as urgent
+            </Label>
+            <Switch
+              id="urgent-toggle"
+              checked={!!request.priority_urgent}
+              onCheckedChange={(checked) => updateRequest(request.id, { priority_urgent: checked })}
+            />
+          </div>
 
           <div>
             <Label className="text-xs text-muted-foreground">Status</Label>
@@ -132,24 +164,44 @@ export default function MaintenanceRequestDialog({ request, unitName, open, onOp
           </div>
         </div>
 
-        <DialogFooter className="flex-row justify-between sm:justify-between">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
-                <Trash2 className="h-4 w-4 mr-1.5" /> Delete
+        <DialogFooter className="flex-row justify-between sm:justify-between gap-2">
+          <div className="flex items-center gap-1">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                  <Trash2 className="h-4 w-4 mr-1.5" /> Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete this request?</AlertDialogTitle>
+                  <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            {request.status !== 'archived' ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+                onClick={() => updateRequest(request.id, { status: 'archived' })}
+              >
+                <Archive className="h-4 w-4 mr-1.5" /> Archive
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete this request?</AlertDialogTitle>
-                <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => updateRequest(request.id, { status: 'new' })}
+              >
+                <Archive className="h-4 w-4 mr-1.5" /> Unarchive
+              </Button>
+            )}
+          </div>
           <Button onClick={() => onOpenChange(false)}>Close</Button>
         </DialogFooter>
       </DialogContent>
