@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { ExternalLink, Trash2, AlertTriangle, Archive } from 'lucide-react';
+import { Trash2, AlertTriangle, Archive } from 'lucide-react';
 import { useMaintenanceRequests, type MaintenanceRequest, type MaintenanceStatus } from '@/hooks/useMaintenanceRequests';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
