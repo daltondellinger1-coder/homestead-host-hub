@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, tally-signature",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, tally-signature, x-tally-secret, x-webhook-secret",
 };
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
@@ -63,7 +63,10 @@ Deno.serve(async (req) => {
     // Shared-secret check (required if secret is set)
     if (SHARED_SECRET) {
       const url = new URL(req.url);
-      const provided = url.searchParams.get("secret") ?? req.headers.get("x-webhook-secret");
+        const provided =
+          url.searchParams.get("secret") ??
+          req.headers.get("x-tally-secret") ??
+          req.headers.get("x-webhook-secret");
       if (provided !== SHARED_SECRET) {
         logStatus = "rejected_secret";
         logError = "Invalid or missing secret";
