@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Finances from "./pages/Finances";
+import Maintenance from "./pages/Maintenance";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 
@@ -25,6 +26,7 @@ function AuthenticatedApp() {
         <Route path="/finances" element={<Finances />} />
         <Route path="/payments" element={<Finances />} />
         <Route path="/reports" element={<Finances />} />
+        <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/auth" element={<Navigate to="/" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
