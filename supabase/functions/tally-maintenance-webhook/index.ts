@@ -63,7 +63,10 @@ Deno.serve(async (req) => {
     // Shared-secret check (required if secret is set)
     if (SHARED_SECRET) {
       const url = new URL(req.url);
-      const provided = url.searchParams.get("secret") ?? req.headers.get("x-webhook-secret");
+        const provided =
+          url.searchParams.get("secret") ??
+          req.headers.get("x-tally-secret") ??
+          req.headers.get("x-webhook-secret");
       if (provided !== SHARED_SECRET) {
         logStatus = "rejected_secret";
         logError = "Invalid or missing secret";
