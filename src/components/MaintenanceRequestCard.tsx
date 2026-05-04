@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
-import { ImageIcon, User, Clock } from 'lucide-react';
+import { ImageIcon, User, Clock, AlertTriangle } from 'lucide-react';
 import type { MaintenanceRequest } from '@/hooks/useMaintenanceRequests';
+
+const photoCount = (r: MaintenanceRequest) => {
+  const arr = (r.photo_urls ?? []) as string[];
+  if (arr.length) return arr.length;
+  return r.photo_url ? 1 : 0;
+};
 
 interface MaintenanceRequestCardProps {
   request: MaintenanceRequest;
