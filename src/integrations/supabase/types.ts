@@ -127,6 +127,59 @@ export type Database = {
           },
         ]
       }
+      maintenance_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          id: string
+          notes: string | null
+          photo_url: string | null
+          reported_at: string
+          reporter_name: string | null
+          status: Database["public"]["Enums"]["maintenance_status"]
+          title: string
+          unit_id: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          photo_url?: string | null
+          reported_at?: string
+          reporter_name?: string | null
+          status?: Database["public"]["Enums"]["maintenance_status"]
+          title: string
+          unit_id: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          photo_url?: string | null
+          reported_at?: string
+          reporter_name?: string | null
+          status?: Database["public"]["Enums"]["maintenance_status"]
+          title?: string
+          unit_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       management_fees: {
         Row: {
           created_at: string
@@ -294,6 +347,7 @@ export type Database = {
         | "other"
         | "vrbo"
         | "extension"
+      maintenance_status: "new" | "in_progress" | "done"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -435,6 +489,7 @@ export const Constants = {
         "vrbo",
         "extension",
       ],
+      maintenance_status: ["new", "in_progress", "done"],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
       unit_type: ["1br", "2br", "cottage"],
