@@ -135,9 +135,12 @@ export type Database = {
           id: string
           notes: string | null
           photo_url: string | null
+          photo_urls: string[]
+          priority_urgent: boolean
           reported_at: string
           reporter_name: string | null
           status: Database["public"]["Enums"]["maintenance_status"]
+          tally_event_id: string | null
           title: string
           unit_id: string
           updated_at: string
@@ -149,9 +152,12 @@ export type Database = {
           id?: string
           notes?: string | null
           photo_url?: string | null
+          photo_urls?: string[]
+          priority_urgent?: boolean
           reported_at?: string
           reporter_name?: string | null
           status?: Database["public"]["Enums"]["maintenance_status"]
+          tally_event_id?: string | null
           title: string
           unit_id: string
           updated_at?: string
@@ -163,9 +169,12 @@ export type Database = {
           id?: string
           notes?: string | null
           photo_url?: string | null
+          photo_urls?: string[]
+          priority_urgent?: boolean
           reported_at?: string
           reporter_name?: string | null
           status?: Database["public"]["Enums"]["maintenance_status"]
+          tally_event_id?: string | null
           title?: string
           unit_id?: string
           updated_at?: string
@@ -329,6 +338,36 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_payload_log: {
+        Row: {
+          error_text: string | null
+          id: string
+          processed_status: string
+          raw_payload: Json | null
+          received_at: string
+          related_request_id: string | null
+          source: string
+        }
+        Insert: {
+          error_text?: string | null
+          id?: string
+          processed_status: string
+          raw_payload?: Json | null
+          received_at?: string
+          related_request_id?: string | null
+          source?: string
+        }
+        Update: {
+          error_text?: string | null
+          id?: string
+          processed_status?: string
+          raw_payload?: Json | null
+          received_at?: string
+          related_request_id?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -347,7 +386,7 @@ export type Database = {
         | "other"
         | "vrbo"
         | "extension"
-      maintenance_status: "new" | "in_progress" | "done"
+      maintenance_status: "new" | "in_progress" | "done" | "archived"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -489,7 +528,7 @@ export const Constants = {
         "vrbo",
         "extension",
       ],
-      maintenance_status: ["new", "in_progress", "done"],
+      maintenance_status: ["new", "in_progress", "done", "archived"],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
       unit_type: ["1br", "2br", "cottage"],
