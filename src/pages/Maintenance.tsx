@@ -30,9 +30,11 @@ export default function Maintenance() {
     return requests.filter(r => r.unit_id === unitFilter);
   }, [requests, unitFilter]);
 
-  const newReqs = filtered.filter(r => r.status === 'new');
-  const inProgress = filtered.filter(r => r.status === 'in_progress');
+  const newReqs = filtered.filter(r => r.status === 'new').sort((a, b) => Number(b.priority_urgent) - Number(a.priority_urgent));
+  const inProgress = filtered.filter(r => r.status === 'in_progress').sort((a, b) => Number(b.priority_urgent) - Number(a.priority_urgent));
   const done = filtered.filter(r => r.status === 'done');
+  const archived = filtered.filter(r => r.status === 'archived');
+  const [archivedOpen, setArchivedOpen] = useState(false);
 
   return (
     <div className="min-h-screen pattern-bg">
