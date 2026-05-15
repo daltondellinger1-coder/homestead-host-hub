@@ -647,22 +647,24 @@ export function usePropertyData() {
     .map(u => ({ unitName: u.name, checkOut: u.currentGuest!.checkOut }))
     .sort((a, b) => a.checkOut.localeCompare(b.checkOut))[0];
 
-  const allPaymentEvents = units
-    .flatMap(u => {
-      const events: Array<Payment & { unitId: string; unitName: string; guestName: string; source: BookingSource }> = [];
-      // Current guest payments
-      if (u.currentGuest) {
-        for (const p of u.currentGuest.payments) {
-          events.push({ ...p, unitId: u.id, unitName: u.name, guestName: u.currentGuest.name, source: u.currentGuest.source });
-        }
-      }
-      // Future guest payments
-      for (const fg of u.futureGuests) {
-        for (const p of fg.payments) {
-          events.push({ ...p, unitId: u.id, unitName: u.name, guestName: fg.name, source: fg.source });
-        }
-      }
-      return events;
+  const allPaymentEvents = dbPayments
+    .flatMap(p => {
+      const unit = dbUnits.find(u => u.id === p.unit_id);
+      const guest = dbGuests.find(g => g.id === p.guest_id);
+
+      if (!unit || !guest) return [];
+
+      return [{
+        id: p.id,
+        amount: Number(p.amount),
+        date: p.date,
+        status: p.status,
+        note: p.note ?? undefined,
+        unitId: p.unit_id,
+        unitName: unit.name,
+        guestName: guest.name,
+        source: guest.source as BookingSource,
+      }];
     });
 
   const allBookingEvents = units
