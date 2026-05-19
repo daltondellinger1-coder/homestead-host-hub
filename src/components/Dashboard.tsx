@@ -30,6 +30,14 @@ import { toast } from 'sonner';
 type ViewMode = 'units' | 'calendar' | 'requests';
 type GuestDialogMode = { unitId: string; mode: 'add' | 'edit' } | null;
 
+function parseEstimatedTotal(notes?: string | null): number | null {
+  if (!notes) return null;
+  const match = notes.match(/Estimated total:\s*\$?([0-9,]+(?:\.\d+)?)/i);
+  if (!match) return null;
+  const value = Number(match[1].replace(/,/g, ''));
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
 interface DashboardProps {
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
@@ -452,7 +460,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
             updateFutureGuest(futureGuestDialog.guestId, guest, true);
             toast.success(`Booking updated for ${guest.name}`);
           } else {
-            addFutureGuest(unitId, guest);
+            const createdGuest = await addFutureGuest(unitId, guest);
+            if (!createdGuest) return;
             toast.success(`Future booking added for ${guest.name}`);
             if (pendingApprovalRequest) {
               const approvalUnit = units.find(u => u.id === unitId);
@@ -467,6 +476,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         prefillCheckIn={futureGuestDialog?.prefillCheckIn}
         prefillCheckOut={futureGuestDialog?.prefillCheckOut}
         prefillName={pendingApprovalRequest?.name}
+        prefillRate={parseEstimatedTotal(pendingApprovalRequest?.notes)}
+        prefillScheduledPayment={!!parseEstimatedTotal(pendingApprovalRequest?.notes)}
         prefillNotes={
           pendingApprovalRequest
             ? `Approved from booking request${pendingApprovalRequest.email ? ` · ${pendingApprovalRequest.email}` : ''}${pendingApprovalRequest.phone ? ` · ${pendingApprovalRequest.phone}` : ''}${pendingApprovalRequest.notes ? `\n\n${pendingApprovalRequest.notes}` : ''}`

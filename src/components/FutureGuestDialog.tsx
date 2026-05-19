@@ -19,6 +19,8 @@ interface FutureGuestDialogProps {
   prefillCheckOut?: string;
   prefillName?: string;
   prefillNotes?: string;
+  prefillRate?: number | string | null;
+  prefillScheduledPayment?: boolean;
   existingGuest?: FutureGuest | null;
   /** When set, only units with no booking conflict during this window are shown. */
   availabilityWindow?: { checkIn: string; checkOut: string } | null;
@@ -32,7 +34,7 @@ function rangesOverlap(aStart: string, aEnd: string | null | undefined, bStart: 
   return aStart < bEndEff && bStart < aEndEff;
 }
 
-export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, existingGuest, availabilityWindow }: FutureGuestDialogProps) {
+export default function FutureGuestDialog({ open, onClose, onSave, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, prefillRate, prefillScheduledPayment, existingGuest, availabilityWindow }: FutureGuestDialogProps) {
   const [unitId, setUnitId] = useState('');
   const [name, setName] = useState('');
   const [source, setSource] = useState<BookingSource>('direct');
@@ -85,8 +87,15 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       if (prefillNotes) {
         setNotes(prefillNotes);
       }
+      if (prefillRate !== undefined && prefillRate !== null && Number(prefillRate) > 0) {
+        const amount = String(prefillRate);
+        setMonthlyRate(amount);
+        if (prefillScheduledPayment && prefillCheckIn) {
+          setScheduledPayments([{ date: prefillCheckIn, amount, note: 'Due at booking/check-in' }]);
+        }
+      }
     }
-  }, [open, existingGuest, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes]);
+  }, [open, existingGuest, units, preselectedUnitId, prefillCheckIn, prefillCheckOut, prefillName, prefillNotes, prefillRate, prefillScheduledPayment]);
 
   // Pre-fill check-in from current guest's checkout when selecting a unit
   // (only for brand-new bookings without a prefilled check-in date)
