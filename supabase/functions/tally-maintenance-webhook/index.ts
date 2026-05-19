@@ -111,6 +111,7 @@ Deno.serve(async (req) => {
     const nameField = findField(fields, ["your name", "name"]);
     const phoneField = findField(fields, ["phone"]);
     const photoField = findField(fields, ["photo"]);
+    const urgentField = findField(fields, ["urgent", "emergency", "priority"]);
 
     const unitName = fieldString(unitField);
     const title = fieldString(titleField) ?? "Maintenance request";
@@ -118,6 +119,10 @@ Deno.serve(async (req) => {
     const reporterName = fieldString(nameField);
     const phone = fieldString(phoneField);
     const photoUrls = fieldFiles(photoField);
+    const urgentText = (fieldString(urgentField) ?? "").toLowerCase();
+    const priorityUrgent = ["yes", "urgent", "emergency", "active leak", "no heat", "safety"].some((signal) =>
+      urgentText.includes(signal)
+    );
 
     if (!unitName) {
       logStatus = "error";
@@ -159,6 +164,7 @@ Deno.serve(async (req) => {
         reporter_name: reporterName ?? null,
         status: "new",
         tally_event_id: eventId,
+        priority_urgent: priorityUrgent,
       })
       .select()
       .single();
