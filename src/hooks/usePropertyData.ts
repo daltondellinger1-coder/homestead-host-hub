@@ -289,7 +289,7 @@ export function usePropertyData() {
     const unitStatus: UnitStatus = guest.source === 'long_term' ? 'rented' : 'occupied';
 
     // Insert guest
-    const { data: guestData } = await supabase
+    const { data: guestData, error: guestError } = await supabase
       .from('guests')
       .insert({
         unit_id: unitId,
@@ -306,13 +306,24 @@ export function usePropertyData() {
       .select()
       .single();
 
+    if (guestError) {
+      console.error('Failed to add guest', guestError);
+      toast.error('Failed to add guest');
+      return null;
+    }
+
     // Update unit status
-    const { data: unitData } = await supabase
+    const { data: unitData, error: unitError } = await supabase
       .from('units')
       .update({ status: unitStatus })
       .eq('id', unitId)
       .select()
       .single();
+
+    if (unitError) {
+      console.error('Guest added but unit status update failed', unitError);
+      toast.error('Guest added, but unit status update failed');
+    }
 
     if (guestData) {
       setDbGuests(prev => [...prev, guestData]);
@@ -327,18 +338,23 @@ export function usePropertyData() {
           status: p.status,
           note: p.note || null,
         }));
-        const { data: paymentData } = await supabase
+        const { data: paymentData, error: paymentError } = await supabase
           .from('payments')
           .insert(paymentInserts)
           .select();
+        if (paymentError) {
+          console.error('Guest added but scheduled payments failed', paymentError);
+          toast.error('Guest added, but scheduled payments failed');
+        }
         if (paymentData) setDbPayments(prev => [...paymentData, ...prev]);
       }
     }
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
+    return guestData ?? null;
   }, []);
 
   const addFutureGuest = useCallback(async (unitId: string, guest: Guest) => {
-    const { data: guestData } = await supabase
+    const { data: guestData, error: guestError } = await supabase
       .from('guests')
       .insert({
         unit_id: unitId,
@@ -355,6 +371,12 @@ export function usePropertyData() {
       .select()
       .single();
 
+    if (guestError) {
+      console.error('Failed to add future guest', guestError);
+      toast.error('Failed to create guest/booking');
+      return null;
+    }
+
     if (guestData) {
       setDbGuests(prev => [...prev, guestData]);
 
@@ -368,13 +390,18 @@ export function usePropertyData() {
           status: p.status,
           note: p.note || null,
         }));
-        const { data: paymentData } = await supabase
+        const { data: paymentData, error: paymentError } = await supabase
           .from('payments')
           .insert(paymentInserts)
           .select();
+        if (paymentError) {
+          console.error('Guest added but scheduled payments failed', paymentError);
+          toast.error('Guest added, but scheduled payments failed');
+        }
         if (paymentData) setDbPayments(prev => [...paymentData, ...prev]);
       }
     }
+    return guestData ?? null;
   }, []);
 
   const updateFutureGuest = useCallback(async (guestId: string, guest: Guest, replacePayments = false) => {
