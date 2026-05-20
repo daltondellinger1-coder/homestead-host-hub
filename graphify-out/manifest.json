@@ -1,0 +1,772 @@
+{
+  "/home/dalton/projects/homestead-host-hub/tsconfig.json": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "bb72695c901d34a52a46196ba258371d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/vite.config.ts": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "774eae282d56d8e48932967d1eb3a476",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/package.json": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "21506043da326a99a764b5590f4eb48f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/components.json": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "a547944ace00dc5d5373aaca70a40bc4",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/eslint.config.js": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "31c0881fdd8500aa4d0aa963079713ae",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/tsconfig.app.json": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "9036c95ea413f9a07f9aa5c7650861a6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/tailwind.config.ts": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "9e519362488aecbdfa1bddf6d3d7a022",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/postcss.config.js": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "c735540bb63936a123bc867d950c9f69",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/vitest.config.ts": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "9285ab80c07d5cd1a71aa20c1687352a",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/tsconfig.node.json": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "1417fb05378a1d1102f085e60b20db0e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/scripts/generate-maintenance-qr-codes.py": {
+    "mtime": 1779220573.3618586,
+    "ast_hash": "c109c2898e5d8251b0be1312ea2a667d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260504171417_52f660d4-7247-4ed5-b819-8419272c5c6a.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "935b785c755db14d27d27e1a86e9fb5e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260504123042_0760fe56-6a03-434c-95e2-7648ffc98b85.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "034004acbf3958bebf1e4b4679ed8356",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260223003248_e3cb8e69-694e-4034-90e4-7d3de7769cd3.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "515afaaf743f22d516d07bfae052310d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260207015739_fa5122db-8ee0-4f21-b2da-a5962f8b3bd6.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "1842a5c9c54a4d348e5576654ba1327c",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260207035646_49f993a6-bdaa-4eec-a4a0-88b52c402771.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "41c55e8512e10a66ac084502969e5154",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260317174004_77b61fcf-e951-41ba-9a60-247bd612e1fb.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "3bebc7e330b8bb9cbbaa6f7bff219175",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260223001919_e2591aa2-d21f-4e7e-a1b0-2244ee5f430d.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "3525b4023815d85e2a1a1fc9e6bfb121",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260417022459_b1c8e6d2-5ddd-4f09-b4c4-e5947d059db1.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "333b0bd4c3c10862e3925e7254627c26",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260207040106_fe083058-842c-4211-b05c-3537b2b6ef7e.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "8856f8be984c2625a2513fef0a9eedc4",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260430153459_4744f738-de47-42be-b658-35b5c99a2adf.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "2603c0126a02f57be9ab8ef54ce1d5bb",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/migrations/20260207040426_f0b5acaf-90f1-4f00-b9c0-849edaacb451.sql": {
+    "mtime": 1779208742.5601907,
+    "ast_hash": "8ca933116bf26e91cebcda2cf9be4434",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/supabase/functions/tally-maintenance-webhook/index.ts": {
+    "mtime": 1779220573.3618586,
+    "ast_hash": "c4df98492e8ec1279c5e9748c497985d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/.codex/hooks.json": {
+    "mtime": 1779298370.5641983,
+    "ast_hash": "64f20859725922c2a625402a84444ef8",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/.claude/settings.json": {
+    "mtime": 1779298370.5074043,
+    "ast_hash": "9276b535256dc065bd7b8b84e15abd95",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/main.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "092c6937f28c1dff19a7d561f5f98360",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/vite-env.d.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "0352474ba2918efe13895edbc3780d94",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/App.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "b6f2a48f4b170a7e10f9b63991299c40",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/test/example.test.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "f7aec10728902324d57cf05ee8a8e57e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/test/setup.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "3ed816a7adf0e76610ce76bd32744ea0",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/OnboardingTutorial.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "0f7aea2722f757bfe5047d7f56a6ca43",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/RequestCard.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f6f67c0798bc212060ec237ed15533b3",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/MobileBottomNav.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f0db0f9109da7eb1678d337a02b8d0bc",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "8798af1132f4a69d5976b4e7ccc44b42",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "1be3f6bbfae91bedeeccd1a61b8411a6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/RequestsInbox.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "44013e112193efc3a3dd7b87d66b1bc1",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ExtensionRequestCard.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "f15c89c88d301c530ad42766d709df57",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ManagementDashboard.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "274ebd1186f00874d0bce6120df5dd1c",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitGrid.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "60d29241bc56065bdc21950cd25d4271",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/FinancialReportsContent.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "61bd18b87eef750fee970c86ab71649e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "07830dc33585fc87cd3b53c8eb8b9264",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/Dashboard.tsx": {
+    "mtime": 1779212557.1244853,
+    "ast_hash": "99fd61063ba69d49cbaabd706fc8d0bf",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/RecordPaymentDialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f7ad9a1bea58eca578c2de8251f04f49",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/WeeklyReport.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "82b5ae9d7454c213632022d09952c5c8",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx": {
+    "mtime": 1779212557.1244853,
+    "ast_hash": "548049320401bbb1527db06e2fc69d45",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/LeaseHistoryDialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "15428111973b95061b6715a7c9d7500f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/PullToRefresh.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "3e3b21c7c1abf58aced578e561c8fd5d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "3cead065baa56f5b91a9996169fbc913",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/UnitCard.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "5cf7501543cf122ea7a93a981f5dc6ea",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "e5bc8b8f4b59065f8cc12553f39333e2",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "0a021fc90a8cac3bb477995ee2718c79",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "f6ea7ce87fabdb86ca79107548dbaeb4",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "c01dda7913c41e5c1712e34711842c11",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "a1be1417199f8e3f3d09e7436d0d186f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f4c15c1d9514f1e7d599d58589125cd6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "aa1dcd3b3971314b798b29f55a555306",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/NavLink.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "8f7c178b4776787e58e1011855ca28f6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "2540715c021682447fe6733ad47793d3",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "d4b869f17ea0a10475073075ece4b7c9",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestDialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "546c9c756dac99d772f7e24f028a91ef",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/PaymentHistoryContent.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "6347d61d27d14cfa8958c70bb68e36f2",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/card.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "202402023747c80d975f48b906e6eb1b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/skeleton.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "c55f76f4faa1d6e888dbc51d41eaa586",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/chart.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "29cfd7470f3197deccd58b2b4f00fbae",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/alert-dialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "2ee6c5e5e070315114319bc060d17a52",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/toaster.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "1903846ab268620de6356ef667e3fa21",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/collapsible.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "934b00582dae08af749fb55469081de6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/sidebar.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "9eab1256b1ffe3f1336eebfd07b319c9",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/drawer.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "05e2b536fe11649e9b4c6e73678e32a6",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/toast.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "7c08b5cb6026058514672a4ebc53847e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "354d0206f924d48bcebbb023c3940a6b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/pagination.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "a3ced9f9b19826b467d788b1bf01746f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "b59f5a3c54b63cf3ea4eb2523151f617",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/toggle-group.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "e82bf234e3877ad708ea3d1dba614def",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/checkbox.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "cb12d2f3410761f7a678add95c90ac5d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/sheet.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "3660be09e2e40467a22fd46b354c1b50",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/progress.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "9a8b05beca19e008a562a10e489f5968",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "1da7a387f28cdb11722da319c0295a6c",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/sonner.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "88644703cc00886c56e0e3b7df0e21d8",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/dropdown-menu.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f308eb98a2e21bf8bd1e30dbcb741dc0",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/menubar.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "163c3fa58a2b4ea2caa00166f4d862c7",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/tooltip.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "d7e923341b9e91d77db45ba5f2fa0cf9",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/use-toast.ts": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "4f094014a1315ca1081cbdc7f78d55cc",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "fc3a9626ba52435552c93ac3a74374ec",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/accordion.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f9ebb6ee913b44e5f3e06fe1d9679784",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/command.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "e911f182b4136a63c601c3fc48b2e9c7",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/avatar.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "53921dca0903c74cd72fada89388d9f8",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/popover.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "c056d22288a642b756b77c7691ad4532",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/input-otp.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "3fb5994635434d5168bee869689fc2aa",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/navigation-menu.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "77e94b0c299d10c3763d2755bf556916",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/slider.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "e3bf7b6116ddbdbe8c7b3597d07daee0",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "26b15e1ffce0f831be4da95b8f8a43df",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/hover-card.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "f77f80ed64ff8f3549e5d7e9d837e08e",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "29ab470ee59e9da5070d4fba251bce81",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/resizable.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "ec681e92cbe705b5571ded11b5227a2a",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/separator.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "ed1101f185e9dc801712593e3330a75d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/switch.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "eccd8c41c46e782eaaa1f8be0111e089",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/toggle.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "ff7a7deebff23c3488e79ad72ee47e4b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/scroll-area.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "cfbc224001af0e6daba676de225a2a47",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "d0ff87c4734c23839337811378ad07df",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "c200fc41e9b214ebb6ccd19a300c42c5",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/aspect-ratio.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "c5c364545e1b25a94e9e752cd67ad048",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/context-menu.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "9b8e8efdf0456cd542e32d341b071cac",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/carousel.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "63a7442a3088b58113c8a8cfc1defe26",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/radio-group.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "3773798b5b2f334a5db0dc9c8d06f1b8",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/badge.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "8db4e6d330f88f4041f81e7cde43782b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "25de64d0126624cbd8efa50cfb64bd21",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/form.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "4bb820d59aad3ee5bc78097596298ace",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/label.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "cd2b2255bbe519cb0865dfeaa6615797",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/components/ui/input.tsx": {
+    "mtime": 1779208742.5493906,
+    "ast_hash": "b8279d768c2a1ce78a05a369a0502877",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/types/property.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "20ee99634825ffa603b785c43c915bd5",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/integrations/supabase/types.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "8f65f1eaf6ce2df0e87a1bc70d132b03",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/integrations/supabase/client.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "f699d6047d16b2838b95d1a496861f53",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/Maintenance.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "71d9017239e6344679fc131b37cb2ebc",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/NotFound.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "233617e24ded7876ea905f003f0f2889",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/PaymentHistory.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "6f5630c705bda331be3ec605518e7ae4",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "fea9caf8d48fa9ece634451b0554fceb",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/Index.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "fcccfce50cac590af7b423d3ee85fd99",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/Auth.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "139edeba5f60202b6b5862679f2d8c02",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/pages/Finances.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "0e4fb5b7fa22b899931edfd711ea7c4f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/usePropertyData.ts": {
+    "mtime": 1779212557.1244853,
+    "ast_hash": "4dadd79b42480279a3be1be5f9c3ac95",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/use-toast.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "e706bc004c87e17db559a113637eddea",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "e5546f51e3c6b3a58ab25bffc396c010",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/useAuth.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "dc1735cb474c119bb0989821ec79a9b4",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/useMaintenanceRequests.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "1584cc88d71b790d934b4fb37022defb",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/use-mobile.tsx": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "c0a0bdd4638c391a1dd06ac82074e60b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/hooks/useBookingRequests.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "7a1126becfb293efbaf0baf3a95d5972",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/lib/utils.ts": {
+    "mtime": 1779208742.5529907,
+    "ast_hash": "d9837f38cc05303254571985e3164050",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/lib/maintenanceWebhook.ts": {
+    "mtime": 1779220573.3618586,
+    "ast_hash": "d8a88ef7fb51b9f26b03de390f1a1537",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/lib/maintenanceWebhook.test.ts": {
+    "mtime": 1779220573.3618586,
+    "ast_hash": "163955d12c771f74c31fc1e322d17751",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/AGENTS.md": {
+    "mtime": 1779298370.5641983,
+    "ast_hash": "a993bd9a8466b705f520b2a269a544bc",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/CLAUDE.md": {
+    "mtime": 1779298370.5074043,
+    "ast_hash": "da79aa9343cd2b362206f03762160abc",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/README.md": {
+    "mtime": 1779208742.5421906,
+    "ast_hash": "f4883400a888785b401ba15288cda0f7",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/index.html": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "04937add643707323322945c9530d6f9",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/qr-target-urls.txt": {
+    "mtime": 1779217447.2230847,
+    "ast_hash": "323bc92cd8f44e29fbe51be7aaf0d3d2",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/scripts/maintenance-qr-setup.md": {
+    "mtime": 1779220573.3618586,
+    "ast_hash": "a85a83ac155420cc4dd415de37c9480b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/.lovable/plan.md": {
+    "mtime": 1779208742.5421906,
+    "ast_hash": "d6b37632d154c45039192d4299f4e004",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/public/robots.txt": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "f9dff89adf98833e676de2205921996a",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-6.png": {
+    "mtime": 1779217446.3302846,
+    "ast_hash": "ccbdc0362eb72269fc2048f7d26d0125",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-7.png": {
+    "mtime": 1779217446.4634848,
+    "ast_hash": "c5c8a672be1dbfc5315f3f05ecbeaafb",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-14.png": {
+    "mtime": 1779217447.2194848,
+    "ast_hash": "fdcd861fe40fc2920a95e405af3a5485",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-11.png": {
+    "mtime": 1779217446.9638846,
+    "ast_hash": "de8912de5dd1e1207bede63c59b88490",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/contact-sheet.png": {
+    "mtime": 1779217447.7306848,
+    "ast_hash": "3c9389e2649eaa461d9a3eb059a29974",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-1.png": {
+    "mtime": 1779217445.6390846,
+    "ast_hash": "0937d0714143460713c8471f20920e87",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-13.png": {
+    "mtime": 1779217447.0862846,
+    "ast_hash": "eb3045030b539785a04de64f55636226",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-5.png": {
+    "mtime": 1779217446.1970847,
+    "ast_hash": "36e1e4f738ee9f1f7c1a30ceca0add43",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-2.png": {
+    "mtime": 1779217445.7902846,
+    "ast_hash": "d8003f41f296daf1ffe5d1d8bc01550a",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-10.png": {
+    "mtime": 1779217446.8270848,
+    "ast_hash": "2c8a0a03a35aaa27bde71d4e0899102c",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-4.png": {
+    "mtime": 1779217446.0602846,
+    "ast_hash": "508b4f0b14a0cce60eeb42b59784ba2d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-8.png": {
+    "mtime": 1779217446.5786846,
+    "ast_hash": "8b353d6cdf85ae4de972379a3bd2209b",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-3.png": {
+    "mtime": 1779217445.9306846,
+    "ast_hash": "f77461e4d91cd5102080ae735e1c9f01",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/maintenance-qr-codes/homestead-hill-maintenance-unit-9.png": {
+    "mtime": 1779217446.7046847,
+    "ast_hash": "b495e83d4f605b44e3e3ad81a47ac434",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/public/placeholder.svg": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "35707bd9960ba5281c72af927b79291f",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/public/pwa-icon-512.png": {
+    "mtime": 1779208742.5457907,
+    "ast_hash": "f37447f3bcf99e731c275f82002116da",
+    "semantic_hash": ""
+  }
+}
