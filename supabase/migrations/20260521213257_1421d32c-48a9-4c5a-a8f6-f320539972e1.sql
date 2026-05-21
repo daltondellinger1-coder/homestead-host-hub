@@ -1,0 +1,3 @@
+DELETE FROM public.webhook_payload_log WHERE related_request_id = '56e59b2f-f731-4f5c-903f-f3240b607001' OR raw_payload->>'eventId' = 'hermes-live-verify-62983a24e2dd';
+DELETE FROM public.maintenance_updates WHERE request_id = '56e59b2f-f731-4f5c-903f-f3240b607001';
+DELETE FROM public.maintenance_requests WHERE id = '56e59b2f-f731-4f5c-903f-f3240b607001' AND title = 'AUTOMATION TEST ONLY - portal verification';
