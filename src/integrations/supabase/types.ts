@@ -129,6 +129,10 @@ export type Database = {
       }
       maintenance_requests: {
         Row: {
+          assigned_to_email: string | null
+          assigned_to_name: string | null
+          assigned_to_user_id: string | null
+          closed_at: string | null
           completed_at: string | null
           created_at: string
           description: string | null
@@ -146,6 +150,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          assigned_to_email?: string | null
+          assigned_to_name?: string | null
+          assigned_to_user_id?: string | null
+          closed_at?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null
@@ -163,6 +171,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          assigned_to_email?: string | null
+          assigned_to_name?: string | null
+          assigned_to_user_id?: string | null
+          closed_at?: string | null
           completed_at?: string | null
           created_at?: string
           description?: string | null
@@ -185,6 +197,50 @@ export type Database = {
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_updates: {
+        Row: {
+          author_name: string | null
+          author_user_id: string | null
+          created_at: string
+          id: string
+          note: string | null
+          photo_urls: string[]
+          request_id: string
+          status_from: Database["public"]["Enums"]["maintenance_status"] | null
+          status_to: Database["public"]["Enums"]["maintenance_status"] | null
+        }
+        Insert: {
+          author_name?: string | null
+          author_user_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          photo_urls?: string[]
+          request_id: string
+          status_from?: Database["public"]["Enums"]["maintenance_status"] | null
+          status_to?: Database["public"]["Enums"]["maintenance_status"] | null
+        }
+        Update: {
+          author_name?: string | null
+          author_user_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          photo_urls?: string[]
+          request_id?: string
+          status_from?: Database["public"]["Enums"]["maintenance_status"] | null
+          status_to?: Database["public"]["Enums"]["maintenance_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_updates_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -338,6 +394,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          active: boolean
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       webhook_payload_log: {
         Row: {
           error_text: string | null
@@ -373,9 +462,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_admin_if_first: { Args: never; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      link_pending_roles_for_current_user: { Args: never; Returns: number }
     }
     Enums: {
+      app_role: "admin" | "maintenance"
       booking_request_status: "pending" | "approved" | "declined"
       booking_source:
         | "airbnb"
@@ -386,7 +484,16 @@ export type Database = {
         | "other"
         | "vrbo"
         | "extension"
-      maintenance_status: "new" | "in_progress" | "done" | "archived"
+      maintenance_status:
+        | "new"
+        | "in_progress"
+        | "done"
+        | "archived"
+        | "assigned"
+        | "waiting_on_tenant"
+        | "waiting_on_parts"
+        | "completed"
+        | "closed_verified"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -517,6 +624,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "maintenance"],
       booking_request_status: ["pending", "approved", "declined"],
       booking_source: [
         "airbnb",
@@ -528,7 +636,17 @@ export const Constants = {
         "vrbo",
         "extension",
       ],
-      maintenance_status: ["new", "in_progress", "done", "archived"],
+      maintenance_status: [
+        "new",
+        "in_progress",
+        "done",
+        "archived",
+        "assigned",
+        "waiting_on_tenant",
+        "waiting_on_parts",
+        "completed",
+        "closed_verified",
+      ],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
       unit_type: ["1br", "2br", "cottage"],
