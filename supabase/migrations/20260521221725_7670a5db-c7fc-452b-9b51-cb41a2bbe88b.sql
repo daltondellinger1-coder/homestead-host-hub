@@ -1,0 +1,3 @@
+DELETE FROM maintenance_updates WHERE request_id = '77777777-0000-0000-0000-000000000777';
+DELETE FROM webhook_payload_log WHERE related_request_id = '77777777-0000-0000-0000-000000000777';
+DELETE FROM maintenance_requests WHERE id = '77777777-0000-0000-0000-000000000777';
