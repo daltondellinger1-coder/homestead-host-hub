@@ -181,6 +181,19 @@ Deno.serve(async (req) => {
 
     relatedRequestId = inserted.id;
     await writeLog();
+
+    // Fire-and-forget notification email (never blocks/breaks the webhook)
+    try {
+      const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+      await fetch(`${SUPABASE_URL}/functions/v1/maintenance-notifications`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${anonKey}`, "apikey": anonKey },
+        body: JSON.stringify({ event: "new_request", request_id: inserted.id }),
+      }).catch((e) => console.error("notify dispatch failed:", e));
+    } catch (e) {
+      console.error("notify dispatch failed:", e);
+    }
+
     return new Response(JSON.stringify({ success: true, id: inserted.id }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
