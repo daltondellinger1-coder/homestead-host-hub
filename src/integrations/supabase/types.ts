@@ -386,7 +386,16 @@ export type Database = {
         | "other"
         | "vrbo"
         | "extension"
-      maintenance_status: "new" | "in_progress" | "done" | "archived"
+      maintenance_status:
+        | "new"
+        | "in_progress"
+        | "done"
+        | "archived"
+        | "assigned"
+        | "waiting_on_tenant"
+        | "waiting_on_parts"
+        | "completed"
+        | "closed_verified"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -528,7 +537,17 @@ export const Constants = {
         "vrbo",
         "extension",
       ],
-      maintenance_status: ["new", "in_progress", "done", "archived"],
+      maintenance_status: [
+        "new",
+        "in_progress",
+        "done",
+        "archived",
+        "assigned",
+        "waiting_on_tenant",
+        "waiting_on_parts",
+        "completed",
+        "closed_verified",
+      ],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
       unit_type: ["1br", "2br", "cottage"],
