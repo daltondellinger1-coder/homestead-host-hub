@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Mountain, ArrowLeft, Plus, Wrench, Filter } from 'lucide-react';
+import { ArrowLeft, LogOut, Plus, Wrench, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -10,8 +10,14 @@ import { useMaintenanceRequests, type MaintenanceRequest } from '@/hooks/useMain
 import MaintenanceRequestCard from '@/components/MaintenanceRequestCard';
 import MaintenanceRequestDialog from '@/components/MaintenanceRequestDialog';
 import LogMaintenanceDialog from '@/components/LogMaintenanceDialog';
+import { useAuth } from '@/hooks/useAuth';
 
-export default function Maintenance() {
+interface MaintenanceProps {
+  portalMode?: boolean;
+}
+
+export default function Maintenance({ portalMode = false }: MaintenanceProps) {
+  const { signOut } = useAuth();
   const { units } = usePropertyData();
   const { requests, loading } = useMaintenanceRequests();
   const [unitFilter, setUnitFilter] = useState<string>('all');
@@ -44,24 +50,40 @@ export default function Maintenance() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 min-w-0">
-            <Link to="/">
-              <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-muted/50 -ml-2">
-                <ArrowLeft className="h-4 w-4 mr-1.5" />
-                Back
-              </Button>
-            </Link>
-            <div className="h-6 w-px bg-border" />
+            {!portalMode && (
+              <Link to="/">
+                <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-muted/50 -ml-2">
+                  <ArrowLeft className="h-4 w-4 mr-1.5" />
+                  Back
+                </Button>
+              </Link>
+            )}
+            {!portalMode && <div className="h-6 w-px bg-border" />}
             <div className="flex items-center gap-2 min-w-0">
               <div className="p-1.5 rounded-lg bg-secondary/15">
                 <Wrench className="h-5 w-5 text-secondary" />
               </div>
-              <h1 className="text-lg font-heading font-bold tracking-tight text-foreground truncate">Maintenance</h1>
+              <div className="min-w-0">
+                <h1 className="text-lg font-heading font-bold tracking-tight text-foreground truncate">
+                  {portalMode ? 'Maintenance Portal' : 'Maintenance'}
+                </h1>
+                {portalMode && (
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-body">Work orders only</p>
+                )}
+              </div>
             </div>
           </div>
-          <Button size="sm" onClick={() => setLogOpen(true)} className="shrink-0">
-            <Plus className="h-4 w-4 sm:mr-1.5" />
-            <span className="hidden sm:inline">Log Request</span>
-          </Button>
+          {portalMode ? (
+            <Button size="sm" variant="ghost" onClick={signOut} className="text-muted-foreground hover:text-foreground">
+              <LogOut className="h-4 w-4 mr-1.5" />
+              Sign Out
+            </Button>
+          ) : (
+            <Button size="sm" onClick={() => setLogOpen(true)} className="shrink-0">
+              <Plus className="h-4 w-4 sm:mr-1.5" />
+              <span className="hidden sm:inline">Log Request</span>
+            </Button>
+          )}
         </div>
       </header>
 
@@ -89,8 +111,9 @@ export default function Maintenance() {
             <Wrench className="h-8 w-8 text-muted-foreground mx-auto" />
             <h2 className="font-heading text-base text-foreground">No maintenance requests yet</h2>
             <p className="text-sm font-body text-muted-foreground">
-              When a tenant scans the QR code in their unit and submits the form, the request will appear here automatically and an email goes to you and your maintenance contact.
-              You can also use <span className="text-secondary">Log Request</span> to add one manually.
+              {portalMode
+                ? 'Open work orders assigned to maintenance will appear here automatically.'
+                : 'When a tenant scans the QR code in their unit and submits the form, the request will appear here automatically and an email goes to you and your maintenance contact. You can also use Log Request to add one manually.'}
             </p>
           </div>
         ) : (
