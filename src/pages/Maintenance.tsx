@@ -89,8 +89,8 @@ export default function Maintenance() {
             <Wrench className="h-8 w-8 text-muted-foreground mx-auto" />
             <h2 className="font-heading text-base text-foreground">No maintenance requests yet</h2>
             <p className="text-sm font-body text-muted-foreground">
-              Tenants scan the QR code in their unit, fill out a form, and you and your maintenance contact get an email.
-              Then click <span className="text-secondary">Log Request</span> to track it here.
+              When a tenant scans the QR code in their unit and submits the form, the request will appear here automatically and an email goes to you and your maintenance contact.
+              You can also use <span className="text-secondary">Log Request</span> to add one manually.
             </p>
           </div>
         ) : (
