@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, LogOut, Plus, Wrench, Filter } from 'lucide-react';
+import { ArrowLeft, HelpCircle, LogOut, Plus, Wrench, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -11,6 +11,7 @@ import MaintenanceRequestCard from '@/components/MaintenanceRequestCard';
 import MaintenanceRequestDialog from '@/components/MaintenanceRequestDialog';
 import LogMaintenanceDialog from '@/components/LogMaintenanceDialog';
 import { useAuth } from '@/hooks/useAuth';
+import { MaintenanceTutorial, useMaintenanceOnboardingState } from '@/components/OnboardingTutorial';
 
 interface MaintenanceProps {
   portalMode?: boolean;
@@ -18,8 +19,10 @@ interface MaintenanceProps {
 
 export default function Maintenance({ portalMode = false }: MaintenanceProps) {
   const { signOut } = useAuth();
+  const { isComplete: maintenanceOnboardingComplete } = useMaintenanceOnboardingState();
   const { units } = usePropertyData();
   const { requests, loading } = useMaintenanceRequests();
+  const [showTutorial, setShowTutorial] = useState(portalMode && !maintenanceOnboardingComplete);
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [logOpen, setLogOpen] = useState(false);
   const [selected, setSelected] = useState<MaintenanceRequest | null>(null);
@@ -74,15 +77,27 @@ export default function Maintenance({ portalMode = false }: MaintenanceProps) {
             </div>
           </div>
           {portalMode ? (
-            <Button size="sm" variant="ghost" onClick={signOut} className="text-muted-foreground hover:text-foreground">
-              <LogOut className="h-4 w-4 mr-1.5" />
-              Sign Out
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button size="sm" variant="ghost" onClick={() => setShowTutorial(true)} className="text-muted-foreground hover:text-foreground">
+                <HelpCircle className="h-4 w-4 sm:mr-1.5" />
+                <span className="hidden sm:inline">Tutorial</span>
+              </Button>
+              <Button size="sm" variant="ghost" onClick={signOut} className="text-muted-foreground hover:text-foreground">
+                <LogOut className="h-4 w-4 mr-1.5" />
+                Sign Out
+              </Button>
+            </div>
           ) : (
-            <Button size="sm" onClick={() => setLogOpen(true)} className="shrink-0">
-              <Plus className="h-4 w-4 sm:mr-1.5" />
-              <span className="hidden sm:inline">Log Request</span>
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button size="sm" variant="ghost" onClick={() => setShowTutorial(true)} className="text-muted-foreground hover:text-foreground">
+                <HelpCircle className="h-4 w-4 sm:mr-1.5" />
+                <span className="hidden sm:inline">Tutorial</span>
+              </Button>
+              <Button size="sm" onClick={() => setLogOpen(true)} className="shrink-0">
+                <Plus className="h-4 w-4 sm:mr-1.5" />
+                <span className="hidden sm:inline">Log Request</span>
+              </Button>
+            </div>
           )}
         </div>
       </header>
@@ -210,6 +225,8 @@ export default function Maintenance({ portalMode = false }: MaintenanceProps) {
           </>
         )}
       </main>
+
+      <MaintenanceTutorial open={showTutorial} onClose={() => setShowTutorial(false)} />
 
       <LogMaintenanceDialog
         open={logOpen}
