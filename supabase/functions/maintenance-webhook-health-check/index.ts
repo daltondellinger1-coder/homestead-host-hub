@@ -10,7 +10,11 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const TALLY_SECRET = Deno.env.get("TALLY_MAINTENANCE_WEBHOOK_SECRET") ?? Deno.env.get("MAINTENANCE_WEBHOOK_SECRET") ?? "";
+const TALLY_SECRET =
+  Deno.env.get("TALLY_WEBHOOK_SECRET") ??
+  Deno.env.get("TALLY_MAINTENANCE_WEBHOOK_SECRET") ??
+  Deno.env.get("MAINTENANCE_WEBHOOK_SECRET") ??
+  "";
 const TEST_MARKER = "AUTOMATION TEST ONLY";
 
 type Action = "run_test" | "cleanup";
@@ -102,7 +106,7 @@ async function runTest(service: any, unitName: string) {
     request_id: requestId,
     webhook_log_id: log?.id ?? null,
     processed_status: log?.processed_status ?? null,
-    notification_sent: body?.notification_sent ?? !body?.duplicate,
+    notification_sent: response.ok ? (body?.notification_sent ?? !body?.duplicate) : false,
     duplicate: Boolean(body?.duplicate),
     event_id: eventId,
     request,

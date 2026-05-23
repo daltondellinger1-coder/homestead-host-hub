@@ -11,7 +11,9 @@ describe('admin maintenance webhook health-check function contract', () => {
     expect(source).toContain('run_test');
     expect(source).toContain('cleanup');
     expect(source).toContain('tally-maintenance-webhook');
-    expect(source).toContain('AUTOMATION TEST ONLY');
+    expect(source).toContain('TALLY_WEBHOOK_SECRET');
+    expect(source).toContain('TALLY_MAINTENANCE_WEBHOOK_SECRET');
+    expect(source).toContain('response.ok ?');
   });
 
   it('requires an active admin role and uses service role only inside the Edge Function', () => {
