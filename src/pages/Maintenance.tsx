@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, HelpCircle, LogOut, Plus, Wrench, Filter } from 'lucide-react';
+import { ArrowLeft, HelpCircle, LogOut, Plus, Wrench, Filter, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -89,6 +89,12 @@ export default function Maintenance({ portalMode = false }: MaintenanceProps) {
             </div>
           ) : (
             <div className="flex items-center gap-1">
+              <Link to="/maintenance/health">
+                <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
+                  <Activity className="h-4 w-4 sm:mr-1.5" />
+                  <span className="hidden sm:inline">Webhook Health</span>
+                </Button>
+              </Link>
               <Button size="sm" variant="ghost" onClick={() => setShowTutorial(true)} className="text-muted-foreground hover:text-foreground">
                 <HelpCircle className="h-4 w-4 sm:mr-1.5" />
                 <span className="hidden sm:inline">Tutorial</span>

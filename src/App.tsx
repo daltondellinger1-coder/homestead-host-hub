@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Finances from "./pages/Finances";
 import Maintenance from "./pages/Maintenance";
+import MaintenanceHealth from "./pages/MaintenanceHealth";
 import MaintenancePortal from "./pages/MaintenancePortal";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
@@ -52,6 +53,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/payments" element={<Finances />} />
         <Route path="/reports" element={<Finances />} />
         <Route path="/maintenance" element={<Maintenance />} />
+        <Route path="/maintenance/health" element={<MaintenanceHealth />} />
         <Route path="/maintenance-portal" element={<MaintenancePortal />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/auth" element={<Navigate to={getPostLoginPath(roles, getStoredLoginLane())} replace />} />
