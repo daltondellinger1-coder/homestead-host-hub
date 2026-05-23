@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import type { AppRole } from '@/lib/roleRouting';
+import { getStoredLoginLane, type AppRole } from '@/lib/roleRouting';
 
 export function useAuthRoles(userId?: string) {
   const [roles, setRoles] = useState<AppRole[]>([]);
@@ -29,9 +29,26 @@ export function useAuthRoles(userId?: string) {
 
         if (error) throw error;
 
-        const nextRoles = ((data ?? []) as { role: AppRole }[])
+        let nextRoles = ((data ?? []) as { role: AppRole }[])
           .map(row => row.role)
           .filter((role): role is AppRole => role === 'admin' || role === 'maintenance');
+
+        if (nextRoles.length === 0 && getStoredLoginLane() === 'property-manager') {
+          const { error: claimError } = await (supabase as any).rpc('claim_admin_if_first');
+          if (claimError) throw claimError;
+
+          const { data: claimedData, error: claimedRolesError } = await (supabase as any)
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', userId)
+            .eq('active', true);
+
+          if (claimedRolesError) throw claimedRolesError;
+
+          nextRoles = ((claimedData ?? []) as { role: AppRole }[])
+            .map(row => row.role)
+            .filter((role): role is AppRole => role === 'admin' || role === 'maintenance');
+        }
 
         if (!cancelled) setRoles(Array.from(new Set(nextRoles)));
       } catch (error) {
