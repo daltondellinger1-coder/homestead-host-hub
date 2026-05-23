@@ -23,6 +23,10 @@ describe('maintenance webhook health view contract', () => {
     expect(pageSource).toContain('processed_status');
     expect(pageSource).toContain('related_request_id');
     expect(pageSource).toContain('Refresh');
+    expect(pageSource).toContain('maintenance-webhook-health-check');
+    expect(pageSource).toContain('Run Unit 5 re-test');
+    expect(pageSource).toContain('Cleanup synthetic row');
+    expect(pageSource).toContain('AUTOMATION TEST ONLY');
     expect(pageSource).not.toMatch(/secret|api[_-]?key|token/i);
   });
 });

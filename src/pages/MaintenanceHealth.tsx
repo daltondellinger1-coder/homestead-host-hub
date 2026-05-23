@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, RefreshCcw, Activity, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
+import { ArrowLeft, RefreshCcw, Activity, AlertTriangle, CheckCircle2, Clock, FlaskConical, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +15,19 @@ type HealthLog = {
   error_text?: string | null;
   related_request_id?: string | null;
   raw_payload?: unknown;
+};
+
+type QaResult = {
+  ok?: boolean;
+  http_status?: number;
+  request_id?: string | null;
+  webhook_log_id?: string | null;
+  processed_status?: string | null;
+  notification_sent?: boolean;
+  duplicate?: boolean;
+  event_id?: string;
+  deleted_requests?: number;
+  deleted_logs?: number;
 };
 
 function formatDate(value?: string) {
@@ -45,6 +58,8 @@ function getPayloadSummary(payload: unknown) {
 export default function MaintenanceHealth() {
   const [logs, setLogs] = useState<HealthLog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [qaRunning, setQaRunning] = useState(false);
+  const [qaResult, setQaResult] = useState<QaResult | null>(null);
 
   const loadLogs = useCallback(async () => {
     setLoading(true);
@@ -68,6 +83,44 @@ export default function MaintenanceHealth() {
   useEffect(() => {
     loadLogs();
   }, [loadLogs]);
+
+  const runWebhookRetest = useCallback(async () => {
+    setQaRunning(true);
+    const { data, error } = await supabase.functions.invoke('maintenance-webhook-health-check', {
+      body: { action: 'run_test', unitName: 'Unit 5' },
+    });
+    setQaRunning(false);
+    if (error) {
+      console.error('Maintenance webhook re-test failed', error);
+      toast.error('Webhook re-test failed');
+      setQaResult({ ok: false, http_status: 500 });
+      return;
+    }
+    setQaResult(data as QaResult);
+    if ((data as QaResult)?.ok) toast.success('Webhook re-test passed');
+    else toast.error('Webhook re-test returned a failure');
+    loadLogs();
+  }, [loadLogs]);
+
+  const cleanupSynthetic = useCallback(async () => {
+    if (!qaResult?.request_id) {
+      toast.error('Run a re-test first so cleanup knows which synthetic row to remove');
+      return;
+    }
+    setQaRunning(true);
+    const { data, error } = await supabase.functions.invoke('maintenance-webhook-health-check', {
+      body: { action: 'cleanup', requestIds: [qaResult.request_id] },
+    });
+    setQaRunning(false);
+    if (error) {
+      console.error('Synthetic maintenance cleanup failed', error);
+      toast.error('Synthetic cleanup failed');
+      return;
+    }
+    setQaResult({ ...qaResult, ...(data as QaResult) });
+    toast.success('Synthetic maintenance cleanup finished');
+    loadLogs();
+  }, [loadLogs, qaResult]);
 
   const totals = useMemo(() => {
     const tally = logs.filter((log) => log.source === 'tally').length;
@@ -127,6 +180,39 @@ export default function MaintenanceHealth() {
             <CardContent className="text-2xl font-heading font-semibold">{totals.issues}</CardContent>
           </Card>
         </section>
+
+        <Card className="bg-card/60 border-border/40">
+          <CardHeader>
+            <CardTitle className="text-base font-heading flex items-center gap-2"><FlaskConical className="h-4 w-4 text-secondary" /> Admin webhook re-test</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground font-body">
+              Runs one Unit 5 synthetic Tally-style request through the deployed webhook, verifies the request/log response, and keeps it marked as AUTOMATION TEST ONLY for safe cleanup.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm" onClick={runWebhookRetest} disabled={qaRunning}>
+                <FlaskConical className="h-4 w-4 mr-1.5" /> Run Unit 5 re-test
+              </Button>
+              <Button size="sm" variant="outline" onClick={cleanupSynthetic} disabled={qaRunning || !qaResult?.request_id}>
+                <Trash2 className="h-4 w-4 mr-1.5" /> Cleanup synthetic row
+              </Button>
+            </div>
+            {qaResult && (
+              <div className="rounded-lg border border-border/40 bg-background/40 p-3 text-xs font-body space-y-1">
+                <div className="flex flex-wrap gap-2 items-center">
+                  <Badge variant={qaResult.ok ? 'default' : 'destructive'}>{qaResult.ok ? 'pass' : 'review'}</Badge>
+                  {qaResult.http_status && <Badge variant="outline">HTTP {qaResult.http_status}</Badge>}
+                  {qaResult.processed_status && <Badge variant="secondary">{qaResult.processed_status}</Badge>}
+                  {qaResult.duplicate && <Badge variant="secondary">duplicate ignored</Badge>}
+                </div>
+                {qaResult.request_id && <p className="font-mono break-all text-muted-foreground">request_id: {qaResult.request_id}</p>}
+                {qaResult.webhook_log_id && <p className="font-mono break-all text-muted-foreground">webhook_log_id: {qaResult.webhook_log_id}</p>}
+                {typeof qaResult.notification_sent === 'boolean' && <p className="text-muted-foreground">notification_sent: {String(qaResult.notification_sent)}</p>}
+                {typeof qaResult.deleted_requests === 'number' && <p className="text-muted-foreground">cleanup: deleted {qaResult.deleted_requests} request(s), {qaResult.deleted_logs ?? 0} log(s)</p>}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         <Card className="bg-card/60 border-border/40">
           <CardHeader>

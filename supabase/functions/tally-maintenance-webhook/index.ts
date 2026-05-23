@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
   let rawPayload: any = null;
-  let logStatus: "ok" | "duplicate" | "rejected_secret" | "error" = "ok";
+  let logStatus: "ok" | "duplicate_ignored" | "rejected_secret" | "error" = "ok";
   let logError: string | null = null;
   let relatedRequestId: string | null = null;
 
@@ -95,10 +95,10 @@ Deno.serve(async (req) => {
         .eq("tally_event_id", eventId)
         .maybeSingle();
       if (existing) {
-        logStatus = "duplicate";
+        logStatus = "duplicate_ignored";
         relatedRequestId = existing.id;
         await writeLog();
-        return new Response(JSON.stringify({ success: true, duplicate: true, id: existing.id }), {
+        return new Response(JSON.stringify({ success: true, duplicate: true, id: existing.id, notification_sent: false }), {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });

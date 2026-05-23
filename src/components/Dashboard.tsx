@@ -19,6 +19,7 @@ import PullToRefresh from '@/components/PullToRefresh';
 import RequestsInbox from '@/components/RequestsInbox';
 import { useBookingRequests, BookingRequest } from '@/hooks/useBookingRequests';
 import { useAirbnbBlocks } from '@/hooks/useAirbnbBlocks';
+import CalendarSyncHealth from '@/components/CalendarSyncHealth';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
@@ -49,7 +50,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
   const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved, approveExtension } = useBookingRequests();
-  const { blocksByUnit: airbnbBlocksByUnit } = useAirbnbBlocks();
+  const { blocksByUnit: airbnbBlocksByUnit, loading: calendarSyncLoading, error: calendarSyncError } = useAirbnbBlocks();
   const [pendingApprovalRequest, setPendingApprovalRequest] = useState<BookingRequest | null>(null);
 
   const handleRefresh = useCallback(async () => {
@@ -320,6 +321,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 </Button>
               </div>
             )}
+            <CalendarSyncHealth
+              units={units.map(u => ({ id: u.id, name: u.name }))}
+              blocksByUnit={airbnbBlocksByUnit}
+              loading={calendarSyncLoading}
+              error={calendarSyncError}
+            />
             <BookingTimeline
               key={calendarInitialDate?.getTime() ?? 'default'}
               units={calendarUnitTypeFilter ? units.filter(u => u.unitType === calendarUnitTypeFilter && !['planning', 'storage'].includes(u.status)) : units}

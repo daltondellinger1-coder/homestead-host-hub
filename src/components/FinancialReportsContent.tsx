@@ -104,6 +104,16 @@ function DrillDownDialog({
   });
   const unitGroups = Array.from(byUnit.values()).sort((a, b) => b.total - a.total);
 
+  const byGuest = new Map<string, { guestName: string; total: number; payments: PaymentEventRow[] }>();
+  relevantPayments.forEach(p => {
+    const guestKey = p.guestName || 'Unknown guest';
+    if (!byGuest.has(guestKey)) byGuest.set(guestKey, { guestName: guestKey, total: 0, payments: [] });
+    const entry = byGuest.get(guestKey)!;
+    entry.total += p.amount;
+    entry.payments.push(p);
+  });
+  const guestGroups = Array.from(byGuest.values()).sort((a, b) => b.total - a.total);
+
   const statusIcon = (status: string) => {
     if (status === 'paid') return <CheckCircle2 className="h-3.5 w-3.5 text-[hsl(var(--success))] shrink-0" />;
     if (status === 'overdue') return <AlertCircle className="h-3.5 w-3.5 text-[hsl(var(--destructive))] shrink-0" />;
@@ -142,6 +152,17 @@ function DrillDownDialog({
             </div>
           ) : (
             <div className="space-y-4 pt-3">
+              {type === 'outstanding' && guestGroups.length > 0 && (
+                <div className="rounded-lg border border-border/50 bg-background/40 p-3 space-y-2">
+                  <h3 className="text-xs uppercase tracking-wider text-muted-foreground font-body">Outstanding by guest</h3>
+                  {guestGroups.map(group => (
+                    <div key={group.guestName} className="flex items-center justify-between text-xs font-body">
+                      <span className="truncate pr-3">{group.guestName}</span>
+                      <span className="font-medium tabular-nums shrink-0">{fmtFull(group.total)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
               {unitGroups.map(group => (
                 <div key={group.unitName} className="space-y-1.5">
                   <div className="flex items-center justify-between border-b border-border/50 pb-1.5">
@@ -547,6 +568,11 @@ export default function FinancialReportsContent() {
         <div className="flex items-center gap-2 mb-5">
           <BarChart3 className="h-4 w-4 text-secondary" />
           <h2 className="font-heading text-base font-semibold">Monthly Income</h2>
+        </div>
+        {/* Monthly Income legend */}
+        <div className="flex flex-wrap items-center gap-4 mb-4 text-xs font-body text-muted-foreground">
+          <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'hsl(152, 55%, 40%)' }} /> Collected</span>
+          <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'hsl(38, 60%, 55%)' }} /> Upcoming / unpaid</span>
         </div>
         {monthlyData.length > 0 ? (
           <ResponsiveContainer width="100%" height={320}>
