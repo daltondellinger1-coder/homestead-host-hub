@@ -19,4 +19,10 @@ describe('role-based login routing', () => {
     expect(getPostLoginPath(['admin', 'maintenance'], 'maintenance')).toBe('/maintenance-portal');
     expect(getPostLoginPath(['admin', 'maintenance'], 'property-manager')).toBe('/');
   });
+
+  it('does not leave assigned users stranded on the unauthorized page after roles load', () => {
+    expect(canAccessPath('/unauthorized', ['admin'])).toBe(false);
+    expect(canAccessPath('/unauthorized', ['maintenance'])).toBe(false);
+    expect(canAccessPath('/unauthorized', [])).toBe(true);
+  });
 });

@@ -31,6 +31,9 @@ export function canAccessPath(pathname: string, roles: AppRole[]) {
   const hasAdmin = roles.includes('admin');
   const hasMaintenance = roles.includes('maintenance');
 
+  if (pathname.startsWith('/unauthorized')) {
+    return !hasAdmin && !hasMaintenance;
+  }
   if (hasAdmin) return true;
   if (hasMaintenance) {
     return pathname.startsWith(MAINTENANCE_HOME) || pathname.startsWith('/auth');
