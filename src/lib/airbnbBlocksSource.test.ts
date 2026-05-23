@@ -7,6 +7,8 @@ const source = readFileSync(resolve(process.cwd(), 'src/hooks/useAirbnbBlocks.ts
 describe('public channel block feed source', () => {
   it('uses the public sanitized blocked-ranges RPC instead of direct calendar_events SELECT', () => {
     expect(source).toContain('get_all_blocked_ranges');
+    expect(source).toContain('sort_order');
+    expect(source).toContain('unit-${u.sort_order}');
     expect(source).not.toContain("from('calendar_events')");
     expect(source).not.toContain('source=eq.airbnb');
   });

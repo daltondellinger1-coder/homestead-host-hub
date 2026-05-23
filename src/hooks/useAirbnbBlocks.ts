@@ -53,12 +53,17 @@ export function useAirbnbBlocks() {
         // 1. Fetch the app's units so we can map slug → UUID.
         const { data: units, error: unitsErr } = await appSupabase
           .from('units')
-          .select('id, name');
+          .select('id, name, sort_order');
         if (unitsErr) throw new Error(`units fetch: ${unitsErr.message}`);
 
         const slugToUnitId = new Map<string, string>();
         for (const u of units ?? []) {
+          // Website calendar rows use stable slugs like unit-5. Host Hub unit
+          // names can be user-facing labels, so map both name slug and sort order.
           slugToUnitId.set(slugifyUnitName(u.name), u.id);
+          if (typeof u.sort_order === 'number') {
+            slugToUnitId.set(`unit-${u.sort_order}`, u.id);
+          }
         }
 
         // 2. Cross-project fetch through the public sanitized blocked-range RPC.
