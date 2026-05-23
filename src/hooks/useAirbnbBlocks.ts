@@ -7,7 +7,7 @@ import { supabase as appSupabase } from '@/integrations/supabase/client';
 // return sanitized blocked date ranges only.
 const WEBSITE_SUPABASE_URL = 'https://qihhgwslsjicjtrqvzsv.supabase.co';
 const WEBSITE_SUPABASE_ANON_KEY =
-  'eyJhbG...Q7c0';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpaGhnd3Nsc2ppY2p0cnF2enN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgwNDExNzcsImV4cCI6MjA4MzYxNzE3N30.NFz2lT0h-L5gt84L5wAwTfGvKUvSko039--1fIsQ7c0';
 
 export interface AirbnbBlock {
   id: string;
