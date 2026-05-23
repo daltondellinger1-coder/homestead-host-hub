@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/supabase/functions/maintenance-notifications/index.ts": {
-    "mtime": 1779399575.2375972,
-    "ast_hash": "3f780b0bafbbe0ee15d2d1b394426851",
+    "mtime": 1779526247.0940535,
+    "ast_hash": "d2bed2609d06a5441a17d7a5beb044ab",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/.codex/hooks.json": {
@@ -692,6 +692,11 @@
   "/home/dalton/projects/homestead-host-hub/src/hooks/useBookingRequests.ts": {
     "mtime": 1779208742.5529907,
     "ast_hash": "7a1126becfb293efbaf0baf3a95d5972",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/src/lib/maintenanceNotificationsEdge.test.ts": {
+    "mtime": 1779526224.8224988,
+    "ast_hash": "f8ad202b41bf585b0ee79f53aaec0ae7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/lib/utils.ts": {
