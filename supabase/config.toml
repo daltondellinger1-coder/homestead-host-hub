@@ -1,1 +1,7 @@
 project_id = "fiunauckxdnaqvlircob"
+
+[functions.tally-maintenance-webhook]
+verify_jwt = false
+
+[functions.hermes-qa-tally-call]
+verify_jwt = false
