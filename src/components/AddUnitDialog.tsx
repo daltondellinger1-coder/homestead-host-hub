@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { UnitType, UNIT_TYPE_LABELS, UNIT_TYPES } from '@/types/property';
+import { UnitStatus, UnitType, UNIT_TYPE_LABELS, UNIT_TYPES } from '@/types/property';
 
 interface AddUnitDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (name: string, status?: any, unitType?: UnitType) => void | Promise<void>;
+  onSave: (name: string, status?: UnitStatus, unitType?: UnitType) => void | Promise<void>;
 }
 
 export default function AddUnitDialog({ open, onClose, onSave }: AddUnitDialogProps) {
