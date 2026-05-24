@@ -80,12 +80,12 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
     ? scheduleUnit?.futureGuests.find(fg => fg.id === schedulePaymentsTarget.futureGuestId)
     : null;
 
-  const handleGuestSave = (guest: Guest) => {
+  const handleGuestSave = async (guest: Guest) => {
     if (!guestDialog) return;
     if (guestDialog.mode === 'edit') {
-      updateGuest(guestDialog.unitId, guest);
+      await updateGuest(guestDialog.unitId, guest);
     } else {
-      addGuest(guestDialog.unitId, guest);
+      await addGuest(guestDialog.unitId, guest);
     }
   };
 
@@ -445,7 +445,9 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <RecordPaymentDialog
         open={!!paymentDialogUnit}
         onClose={() => setPaymentDialogUnit(null)}
-        onSave={(payment: Payment) => paymentDialogUnit && addPayment(paymentDialogUnit, payment)}
+        onSave={async (payment: Payment) => {
+          if (paymentDialogUnit) await addPayment(paymentDialogUnit, payment);
+        }}
         unitName={activePaymentUnit?.name ?? ''}
         defaultAmount={activePaymentUnit?.currentGuest?.monthlyRate}
       />
@@ -453,7 +455,9 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <AddUnitDialog
         open={showAddUnit}
         onClose={() => setShowAddUnit(false)}
-        onSave={addUnit}
+        onSave={async (name, status, unitType) => {
+          await addUnit(name, status, unitType);
+        }}
       />
 
       <FutureGuestDialog
@@ -464,7 +468,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         }}
         onSave={async (unitId, guest) => {
           if (futureGuestDialog?.guestId) {
-            updateFutureGuest(futureGuestDialog.guestId, guest, true);
+            await updateFutureGuest(futureGuestDialog.guestId, guest, true);
             toast.success(`Booking updated for ${guest.name}`);
           } else {
             const createdGuest = await addFutureGuest(unitId, guest);
@@ -505,8 +509,8 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
       <EditUnitDialog
         open={!!editUnitId}
         onClose={() => setEditUnitId(null)}
-        onSave={(name: string, status: UnitStatus, unitType: UnitType) => {
-          if (editUnitId) updateUnit(editUnitId, name, status, unitType);
+        onSave={async (name: string, status: UnitStatus, unitType: UnitType) => {
+          if (editUnitId) await updateUnit(editUnitId, name, status, unitType);
         }}
         currentName={editUnit?.name ?? ''}
         currentStatus={editUnit?.status ?? 'vacant'}

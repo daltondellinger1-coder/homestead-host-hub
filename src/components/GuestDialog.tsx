@@ -12,7 +12,7 @@ import InlinePaymentScheduler, { ScheduledPayment, scheduledToPayments } from '@
 interface GuestDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (guest: Guest) => void;
+  onSave: (guest: Guest) => void | Promise<void>;
   unitName: string;
   existingGuest?: Guest | null;
 }
@@ -29,6 +29,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
   const [depositPaid, setDepositPaid] = useState(false);
   const [notes, setNotes] = useState('');
   const [scheduledPayments, setScheduledPayments] = useState<ScheduledPayment[]>([]);
+  const [saving, setSaving] = useState(false);
 
   // Populate fields when editing
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
     setScheduledPayments([]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name.trim() || !checkIn || !monthlyRate) return;
 
     const guest: Guest = {
@@ -74,9 +75,14 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
       notes: notes.trim() || undefined,
     };
 
-    onSave(guest);
-    reset();
-    onClose();
+    setSaving(true);
+    try {
+      await onSave(guest);
+      reset();
+      onClose();
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -163,11 +169,11 @@ export default function GuestDialog({ open, onClose, onSave, unitName, existingG
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => { reset(); onClose(); }} className="font-body">
+          <Button variant="outline" onClick={() => { reset(); onClose(); }} disabled={saving} className="font-body">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!name.trim() || !checkIn || !monthlyRate} className="font-body">
-            {isEditing ? 'Save Changes' : 'Save Guest'}
+          <Button onClick={handleSave} disabled={saving || !name.trim() || !checkIn || !monthlyRate} className="font-body">
+            {saving ? 'Saving...' : isEditing ? 'Save Changes' : 'Save Guest'}
           </Button>
         </DialogFooter>
       </DialogContent>

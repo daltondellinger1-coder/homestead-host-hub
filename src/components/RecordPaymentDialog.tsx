@@ -9,7 +9,7 @@ import { Payment, PaymentStatus } from '@/types/property';
 interface RecordPaymentDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (payment: Payment) => void;
+  onSave: (payment: Payment) => void | Promise<void>;
   unitName: string;
   defaultAmount?: number;
 }
@@ -19,6 +19,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [status, setStatus] = useState<PaymentStatus>('paid');
   const [note, setNote] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const reset = () => {
     setAmount(defaultAmount?.toString() ?? '');
@@ -27,7 +28,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
     setNote('');
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!amount || !date) return;
 
     const payment: Payment = {
@@ -38,9 +39,14 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
       note: note.trim() || undefined,
     };
 
-    onSave(payment);
-    reset();
-    onClose();
+    setSaving(true);
+    try {
+      await onSave(payment);
+      reset();
+      onClose();
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -80,11 +86,11 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => { reset(); onClose(); }} className="font-body">
+          <Button variant="outline" onClick={() => { reset(); onClose(); }} disabled={saving} className="font-body">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!amount || !date} className="font-body">
-            Save Payment
+          <Button onClick={handleSave} disabled={saving || !amount || !date} className="font-body">
+            {saving ? 'Saving...' : 'Save Payment'}
           </Button>
         </DialogFooter>
       </DialogContent>

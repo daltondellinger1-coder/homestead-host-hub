@@ -9,19 +9,25 @@ import { UnitType, UNIT_TYPE_LABELS, UNIT_TYPES } from '@/types/property';
 interface AddUnitDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (name: string, status?: any, unitType?: UnitType) => void;
+  onSave: (name: string, status?: any, unitType?: UnitType) => void | Promise<void>;
 }
 
 export default function AddUnitDialog({ open, onClose, onSave }: AddUnitDialogProps) {
   const [name, setName] = useState('');
   const [unitType, setUnitType] = useState<UnitType>('1br');
+  const [saving, setSaving] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name.trim()) return;
-    onSave(name.trim(), 'vacant', unitType);
-    setName('');
-    setUnitType('1br');
-    onClose();
+    setSaving(true);
+    try {
+      await onSave(name.trim(), 'vacant', unitType);
+      setName('');
+      setUnitType('1br');
+      onClose();
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -59,8 +65,8 @@ export default function AddUnitDialog({ open, onClose, onSave }: AddUnitDialogPr
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => { setName(''); setUnitType('1br'); onClose(); }} className="font-body">Cancel</Button>
-          <Button onClick={handleSave} disabled={!name.trim()} className="font-body">Add Unit</Button>
+          <Button variant="outline" onClick={() => { setName(''); setUnitType('1br'); onClose(); }} disabled={saving} className="font-body">Cancel</Button>
+          <Button onClick={handleSave} disabled={saving || !name.trim()} className="font-body">{saving ? 'Saving...' : 'Add Unit'}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

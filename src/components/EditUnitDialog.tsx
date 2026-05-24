@@ -9,7 +9,7 @@ import { UnitStatus, UnitType, STATUS_LABELS, UNIT_TYPE_LABELS, UNIT_TYPES } fro
 interface EditUnitDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (name: string, status: UnitStatus, unitType: UnitType) => void;
+  onSave: (name: string, status: UnitStatus, unitType: UnitType) => void | Promise<void>;
   currentName: string;
   currentStatus: UnitStatus;
   currentUnitType: UnitType;
@@ -21,6 +21,7 @@ export default function EditUnitDialog({ open, onClose, currentName, currentStat
   const [name, setName] = useState(currentName);
   const [status, setStatus] = useState<UnitStatus>(currentStatus);
   const [unitType, setUnitType] = useState<UnitType>(currentUnitType);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -30,10 +31,15 @@ export default function EditUnitDialog({ open, onClose, currentName, currentStat
     }
   }, [open, currentName, currentStatus, currentUnitType]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name.trim()) return;
-    onSave(name.trim(), status, unitType);
-    onClose();
+    setSaving(true);
+    try {
+      await onSave(name.trim(), status, unitType);
+      onClose();
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -85,8 +91,8 @@ export default function EditUnitDialog({ open, onClose, currentName, currentStat
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose} className="font-body">Cancel</Button>
-          <Button onClick={handleSave} disabled={!name.trim()} className="font-body">Save Changes</Button>
+          <Button variant="outline" onClick={onClose} disabled={saving} className="font-body">Cancel</Button>
+          <Button onClick={handleSave} disabled={saving || !name.trim()} className="font-body">{saving ? 'Saving...' : 'Save Changes'}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

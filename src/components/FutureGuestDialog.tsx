@@ -12,7 +12,7 @@ import InlinePaymentScheduler, { ScheduledPayment, scheduledToPayments } from '@
 interface FutureGuestDialogProps {
   open: boolean;
   onClose: () => void;
-  onSave: (unitId: string, guest: Guest) => void;
+  onSave: (unitId: string, guest: Guest) => void | Promise<void>;
   units: Unit[];
   preselectedUnitId?: string | null;
   prefillCheckIn?: string;
@@ -45,6 +45,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
   const [depositPaid, setDepositPaid] = useState(false);
   const [notes, setNotes] = useState('');
   const [scheduledPayments, setScheduledPayments] = useState<ScheduledPayment[]>([]);
+  const [saving, setSaving] = useState(false);
 
   const isEditing = !!existingGuest;
 
@@ -122,7 +123,7 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
     setScheduledPayments([]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!unitId || !name.trim() || !checkIn || !monthlyRate) return;
 
     const guest: Guest = {
@@ -137,9 +138,14 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
       notes: notes.trim() || undefined,
     };
 
-    onSave(unitId, guest);
-    reset();
-    onClose();
+    setSaving(true);
+    try {
+      await onSave(unitId, guest);
+      reset();
+      onClose();
+    } finally {
+      setSaving(false);
+    }
   };
 
   const eligibleUnits = units.filter(u => {
@@ -264,11 +270,11 @@ export default function FutureGuestDialog({ open, onClose, onSave, units, presel
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => { reset(); onClose(); }} className="font-body">
+          <Button variant="outline" onClick={() => { reset(); onClose(); }} disabled={saving} className="font-body">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!unitId || !name.trim() || !checkIn || !monthlyRate} className="font-body">
-            {isEditing ? 'Save Changes' : 'Book Guest'}
+          <Button onClick={handleSave} disabled={saving || !unitId || !name.trim() || !checkIn || !monthlyRate} className="font-body">
+            {saving ? 'Saving...' : isEditing ? 'Save Changes' : 'Book Guest'}
           </Button>
         </DialogFooter>
       </DialogContent>
