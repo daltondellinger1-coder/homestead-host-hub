@@ -19,6 +19,9 @@ describe('maintenance webhook health view contract', () => {
 
     expect(pageSource).toContain('Maintenance Webhook Health');
     expect(pageSource).toContain('webhook_payload_log');
+    expect(pageSource).toContain('received_at');
+    expect(pageSource).not.toContain('select(\'id,created_at');
+    expect(pageSource).not.toContain("order('created_at'");
     expect(pageSource).toContain('maintenance-notifications');
     expect(pageSource).toContain('processed_status');
     expect(pageSource).toContain('related_request_id');

@@ -11,6 +11,8 @@ describe('admin maintenance webhook health-check function contract', () => {
     expect(source).toContain('run_test');
     expect(source).toContain('cleanup');
     expect(source).toContain('tally-maintenance-webhook');
+    expect(source).toContain('received_at');
+    expect(source).not.toContain('.order("created_at"');
     expect(source).toContain('TALLY_WEBHOOK_SECRET');
     expect(source).toContain('TALLY_MAINTENANCE_WEBHOOK_SECRET');
     expect(source).toContain('response.ok ?');

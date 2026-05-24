@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 type HealthLog = {
   id?: string;
-  created_at?: string;
+  received_at?: string;
   source?: string | null;
   processed_status?: string | null;
   error_text?: string | null;
@@ -65,9 +65,9 @@ export default function MaintenanceHealth() {
     setLoading(true);
     const { data, error } = await (supabase as any)
       .from('webhook_payload_log')
-      .select('id,created_at,source,processed_status,error_text,related_request_id,raw_payload')
+      .select('id,received_at,source,processed_status,error_text,related_request_id,raw_payload')
       .in('source', ['tally', 'maintenance-notifications'])
-      .order('created_at', { ascending: false })
+      .order('received_at', { ascending: false })
       .limit(25);
 
     if (error) {
@@ -225,14 +225,14 @@ export default function MaintenanceHealth() {
               <p className="text-sm text-muted-foreground font-body">No recent maintenance webhook or notification logs found.</p>
             ) : (
               logs.map((log, index) => (
-                <div key={log.id ?? `${log.created_at}-${index}`} className="rounded-lg border border-border/40 bg-background/40 p-3 space-y-2">
+                <div key={log.id ?? `${log.received_at}-${index}`} className="rounded-lg border border-border/40 bg-background/40 p-3 space-y-2">
                   <div className="flex flex-wrap items-center gap-2 justify-between">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge variant="outline">{log.source ?? 'unknown source'}</Badge>
                       <Badge variant={statusVariant(log.processed_status)}>{log.processed_status ?? 'unknown'}</Badge>
                     </div>
                     <span className="text-xs text-muted-foreground font-body flex items-center gap-1">
-                      <Clock className="h-3 w-3" /> {formatDate(log.created_at)}
+                      <Clock className="h-3 w-3" /> {formatDate(log.received_at)}
                     </span>
                   </div>
                   <p className="text-sm font-body text-foreground">{getPayloadSummary(log.raw_payload)}</p>

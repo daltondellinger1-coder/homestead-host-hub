@@ -92,9 +92,9 @@ async function runTest(service: any, unitName: string) {
 
     const { data: logData } = await service
       .from("webhook_payload_log")
-      .select("id,processed_status,related_request_id,created_at")
+      .select("id,processed_status,related_request_id,received_at")
       .eq("related_request_id", requestId)
-      .order("created_at", { ascending: false })
+      .order("received_at", { ascending: false })
       .limit(1)
       .maybeSingle();
     log = logData;
