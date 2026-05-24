@@ -133,7 +133,7 @@ export default function MaintenanceHealth() {
   }, [logs]);
 
   return (
-    <div className="min-h-screen pattern-bg">
+    <div className="min-h-screen pattern-bg" data-qa-deploy="maintenance-health-received-at-v2">
       <header
         className="border-b border-border/40 sticky top-0 z-10"
         style={{ background: 'linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 8%))' }}
