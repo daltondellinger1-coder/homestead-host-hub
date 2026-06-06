@@ -14,6 +14,7 @@ import Finances from "./pages/Finances";
 import Maintenance from "./pages/Maintenance";
 import MaintenanceHealth from "./pages/MaintenanceHealth";
 import MaintenancePortal from "./pages/MaintenancePortal";
+import ContractorOfficeLaundry from "./pages/ContractorOfficeLaundry";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
@@ -76,6 +77,14 @@ function AppRouter() {
       <div className="min-h-screen pattern-bg flex items-center justify-center">
         <div className="text-muted-foreground font-body text-sm animate-pulse">Loading...</div>
       </div>
+    );
+  }
+
+  if (location.pathname === '/contractor/office-laundry-bid-a7k29') {
+    return (
+      <Routes>
+        <Route path="/contractor/office-laundry-bid-a7k29" element={<ContractorOfficeLaundry />} />
+      </Routes>
     );
   }
 
