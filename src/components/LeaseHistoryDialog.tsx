@@ -35,6 +35,7 @@ interface LeaseHistoryDialogProps {
   unitId: string;
   unitName: string;
   onDeleteGuest: (guestId: string) => void;
+  onUpdateGuest: (guestId: string, guest: Guest) => Promise<void> | void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -45,10 +46,11 @@ const formatDate = (iso: string) => {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, onDeleteGuest }: LeaseHistoryDialogProps) {
+export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, onDeleteGuest, onUpdateGuest }: LeaseHistoryDialogProps) {
   const [pastGuests, setPastGuests] = useState<ArchivedGuest[]>([]);
   const [loading, setLoading] = useState(false);
   const [deleteGuestId, setDeleteGuestId] = useState<string | null>(null);
+  const [editGuest, setEditGuest] = useState<ArchivedGuest | null>(null);
 
   useEffect(() => {
     if (!open || !unitId) return;
