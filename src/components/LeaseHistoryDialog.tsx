@@ -163,6 +163,15 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, on
                         <Button
                           size="sm"
                           variant="ghost"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-primary"
+                          onClick={() => setEditGuest(guest)}
+                          title="Edit guest record"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
                           className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
                           onClick={() => setDeleteGuestId(guest.id)}
                           title="Delete guest record"
