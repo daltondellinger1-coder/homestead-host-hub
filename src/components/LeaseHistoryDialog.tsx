@@ -5,9 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
-import { SOURCE_LABELS, BookingSource } from '@/types/property';
-import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User, Trash2 } from 'lucide-react';
+import { SOURCE_LABELS, BookingSource, Guest } from '@/types/property';
+import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User, Trash2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
+import GuestDialog from '@/components/GuestDialog';
 
 interface ArchivedGuest {
   id: string;
@@ -34,6 +35,7 @@ interface LeaseHistoryDialogProps {
   unitId: string;
   unitName: string;
   onDeleteGuest: (guestId: string) => void;
+  onUpdateGuest: (guestId: string, guest: Guest) => Promise<void> | void;
 }
 
 const formatCurrency = (amount: number) =>
@@ -44,10 +46,11 @@ const formatDate = (iso: string) => {
   return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, onDeleteGuest }: LeaseHistoryDialogProps) {
+export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, onDeleteGuest, onUpdateGuest }: LeaseHistoryDialogProps) {
   const [pastGuests, setPastGuests] = useState<ArchivedGuest[]>([]);
   const [loading, setLoading] = useState(false);
   const [deleteGuestId, setDeleteGuestId] = useState<string | null>(null);
+  const [editGuest, setEditGuest] = useState<ArchivedGuest | null>(null);
 
   useEffect(() => {
     if (!open || !unitId) return;
@@ -160,6 +163,15 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, on
                         <Button
                           size="sm"
                           variant="ghost"
+                          className="h-6 w-6 p-0 text-muted-foreground hover:text-primary"
+                          onClick={() => setEditGuest(guest)}
+                          title="Edit guest record"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
                           className="h-6 w-6 p-0 text-muted-foreground hover:text-destructive"
                           onClick={() => setDeleteGuestId(guest.id)}
                           title="Delete guest record"
@@ -268,6 +280,39 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, on
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+
+    <GuestDialog
+      open={!!editGuest}
+      onClose={() => setEditGuest(null)}
+      unitName={unitName}
+      existingGuest={editGuest ? {
+        name: editGuest.name,
+        source: editGuest.source,
+        checkIn: editGuest.checkIn,
+        checkOut: editGuest.checkOut,
+        monthlyRate: editGuest.monthlyRate,
+        securityDeposit: editGuest.securityDeposit,
+        securityDepositPaid: editGuest.securityDepositPaid,
+        payments: editGuest.payments.map(p => ({ id: p.id, amount: p.amount, date: p.date, status: p.status as Guest['payments'][number]['status'], note: p.note })),
+        notes: editGuest.notes,
+      } : null}
+      onSave={async (updated) => {
+        if (!editGuest) return;
+        await onUpdateGuest(editGuest.id, updated);
+        setPastGuests(prev => prev.map(g => g.id === editGuest.id ? {
+          ...g,
+          name: updated.name,
+          source: updated.source,
+          checkIn: updated.checkIn,
+          checkOut: updated.checkOut,
+          monthlyRate: updated.monthlyRate,
+          securityDeposit: updated.securityDeposit,
+          securityDepositPaid: updated.securityDepositPaid,
+          notes: updated.notes,
+        } : g));
+        toast.success('Guest record updated');
+      }}
+    />
     </>
   );
 }
