@@ -745,6 +745,7 @@ export function usePropertyData() {
     deleteFutureGuest,
     deleteGuest,
     updateGuest,
+    updateGuestById,
     removeGuest,
     addPayment,
     addPaymentForGuest,
