@@ -523,6 +523,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         unitId={historyUnitId ?? ''}
         unitName={historyUnit?.name ?? ''}
         onDeleteGuest={deleteGuest}
+        onUpdateGuest={updateGuestById}
       />
 
       <SchedulePaymentsDialog
