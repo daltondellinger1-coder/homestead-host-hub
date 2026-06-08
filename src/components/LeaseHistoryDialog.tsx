@@ -280,6 +280,39 @@ export default function LeaseHistoryDialog({ open, onClose, unitId, unitName, on
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+
+    <GuestDialog
+      open={!!editGuest}
+      onClose={() => setEditGuest(null)}
+      unitName={unitName}
+      existingGuest={editGuest ? {
+        name: editGuest.name,
+        source: editGuest.source,
+        checkIn: editGuest.checkIn,
+        checkOut: editGuest.checkOut,
+        monthlyRate: editGuest.monthlyRate,
+        securityDeposit: editGuest.securityDeposit,
+        securityDepositPaid: editGuest.securityDepositPaid,
+        payments: editGuest.payments.map(p => ({ id: p.id, amount: p.amount, date: p.date, status: p.status as Guest['payments'][number]['status'], note: p.note })),
+        notes: editGuest.notes,
+      } : null}
+      onSave={async (updated) => {
+        if (!editGuest) return;
+        await onUpdateGuest(editGuest.id, updated);
+        setPastGuests(prev => prev.map(g => g.id === editGuest.id ? {
+          ...g,
+          name: updated.name,
+          source: updated.source,
+          checkIn: updated.checkIn,
+          checkOut: updated.checkOut,
+          monthlyRate: updated.monthlyRate,
+          securityDeposit: updated.securityDeposit,
+          securityDepositPaid: updated.securityDepositPaid,
+          notes: updated.notes,
+        } : g));
+        toast.success('Guest record updated');
+      }}
+    />
     </>
   );
 }
