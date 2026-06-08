@@ -5,9 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
-import { SOURCE_LABELS, BookingSource } from '@/types/property';
-import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User, Trash2 } from 'lucide-react';
+import { SOURCE_LABELS, BookingSource, Guest } from '@/types/property';
+import { Calendar, DollarSign, Shield, CheckCircle2, XCircle, StickyNote, User, Trash2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
+import GuestDialog from '@/components/GuestDialog';
 
 interface ArchivedGuest {
   id: string;
