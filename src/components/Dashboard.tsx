@@ -45,7 +45,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
-  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, deleteGuest, updateGuest, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, markPaymentUnpaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
+  const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, deleteGuest, updateGuest, updateGuestById, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, markPaymentUnpaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
   const { signOut } = useAuth();
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
