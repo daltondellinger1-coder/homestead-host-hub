@@ -2167,7 +2167,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L109",
+      "source_location": "L115",
       "id": "src_app_app",
       "community": 32,
       "norm_label": "app()"
@@ -11169,9 +11169,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_tsx",
-      "target": "src_pages_contractorofficelaundry_tsx",
-      "confidence_score": 1.0
+      "target": "src_pages_contractorofficelaundry_tsx"
     },
     {
       "relation": "imports_from",
@@ -12621,9 +12621,9 @@
       "source_file": "src/components/LeaseHistoryDialog.tsx",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_leasehistorydialog_tsx",
-      "target": "src_components_guestdialog_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_guestdialog_tsx"
     },
     {
       "relation": "contains",
@@ -16118,9 +16118,9 @@
       "source_file": "src/components/LeaseHistoryDialog.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_leasehistorydialog_tsx",
-      "target": "types_property_guest",
-      "confidence_score": 1.0
+      "target": "types_property_guest"
     },
     {
       "relation": "contains",
@@ -26211,9 +26211,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_pricingnotes",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_pricingnotes"
     },
     {
       "relation": "contains",
@@ -26221,9 +26221,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_scopesections",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_scopesections"
     },
     {
       "relation": "contains",
@@ -26231,9 +26231,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_ownerprovided",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_ownerprovided"
     },
     {
       "relation": "contains",
@@ -26241,9 +26241,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L181",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_contractorsupplied",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_contractorsupplied"
     },
     {
       "relation": "contains",
@@ -26251,9 +26251,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_exclusions",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_exclusions"
     },
     {
       "relation": "contains",
@@ -26261,9 +26261,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L199",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_productlink",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_productlink"
     },
     {
       "relation": "contains",
@@ -26271,9 +26271,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L213",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_infocard",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_infocard"
     },
     {
       "relation": "contains",
@@ -26281,9 +26281,9 @@
       "source_file": "src/pages/ContractorOfficeLaundry.tsx",
       "source_location": "L227",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_contractorofficelaundry_tsx",
-      "target": "pages_contractorofficelaundry_contractorofficelaundry",
-      "confidence_score": 1.0
+      "target": "pages_contractorofficelaundry_contractorofficelaundry"
     },
     {
       "relation": "contains",
@@ -29361,5 +29361,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cf541ebdfc10ebc24d0f483ea3ec0f662a46222a"
+  "built_at_commit": "fd67cf85af4ee2984c7544afe57e0d2be712f6ca"
 }

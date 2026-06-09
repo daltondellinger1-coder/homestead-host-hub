@@ -80,10 +80,16 @@ function AppRouter() {
     );
   }
 
-  if (location.pathname === '/contractor/office-laundry-bid-a7k29') {
+  if (
+    location.pathname === '/contractors/office-laundry' ||
+    location.pathname === '/contractor/office-laundry' ||
+    location.pathname === '/contractor/office-laundry-bid-a7k29'
+  ) {
     return (
       <Routes>
-        <Route path="/contractor/office-laundry-bid-a7k29" element={<ContractorOfficeLaundry />} />
+        <Route path="/contractors/office-laundry" element={<ContractorOfficeLaundry />} />
+        <Route path="/contractor/office-laundry" element={<Navigate to="/contractors/office-laundry" replace />} />
+        <Route path="/contractor/office-laundry-bid-a7k29" element={<Navigate to="/contractors/office-laundry" replace />} />
       </Routes>
     );
   }

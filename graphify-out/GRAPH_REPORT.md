@@ -1,7 +1,7 @@
 # Graph Report - homestead-host-hub  (2026-06-09)
 
 ## Corpus Check
-- 172 files · ~107,781 words
+- 172 files · ~107,805 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cf541ebd`
+- Built from commit: `fd67cf85`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

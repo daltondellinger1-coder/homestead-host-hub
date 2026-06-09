@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from "react";
 import { ExternalLink, Camera, CheckCircle2, ClipboardList, Hammer, Shield, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-const projectUrl = "https://homestead-hill.com/contractor/office-laundry-bid-a7k29";
+const projectUrl = "https://homestead-hill.com/contractors/office-laundry";
 
 const pricingNotes = [
   "Price each numbered section separately so approvals can be broken out cleanly.",

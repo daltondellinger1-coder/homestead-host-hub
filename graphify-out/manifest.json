@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/App.tsx": {
-    "mtime": 1780772018.4412608,
-    "ast_hash": "b378cf92bbb2509c167e8d3f6f82f5dc",
+    "mtime": 1781036361.0633883,
+    "ast_hash": "96bd18bb4ddbd9c6349849e48c2fbc0a",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/test/example.test.ts": {
@@ -650,8 +650,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/pages/ContractorOfficeLaundry.tsx": {
-    "mtime": 1781021290.9501576,
-    "ast_hash": "5a56d8bf9a8ddfe2b59e37e91def6232",
+    "mtime": 1781036350.9201558,
+    "ast_hash": "966b47c0614a168503e9d912ae307d68",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/pages/Maintenance.tsx": {
