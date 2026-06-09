@@ -262,7 +262,11 @@ export default function ContractorOfficeLaundry() {
                 <div className="mt-4 flex items-start gap-3">
                   <Camera className="mt-1 h-5 w-5 flex-none text-secondary" aria-hidden="true" />
                   <p className="text-sm leading-6 text-foreground">
-                    Photos will be added here once the Google Photos album is ready. This scope can be priced now and updated later with field pictures.
+                    Review the field photos in the{" "}
+                    <ProductLink href="https://photos.app.goo.gl/YbRNggErH3JVZCce6">
+                      Google Photos album
+                    </ProductLink>{" "}
+                    while pricing the scope.
                   </p>
                 </div>
               </div>
