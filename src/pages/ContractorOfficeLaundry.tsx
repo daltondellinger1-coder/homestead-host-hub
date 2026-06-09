@@ -114,11 +114,23 @@ const scopeSections = [
     ],
   },
   {
+    number: "24",
+    title: "Locked Storage / Internet Closet",
+    items: [
+      "Price converting the small rear shelving area into a lockable owner/team storage and internet closet for detergent, supplies, Wi-Fi, and internet equipment.",
+      "Frame a wall/opening in front of the existing shelving area as needed to close it off cleanly from the half bath/back room.",
+      "Install a lockable access door and hardware; field-verify best door size, swing, clearances, and whether existing framing/shelving can be reused.",
+      "Run or coordinate a dedicated closet light with its own switch where practical; if switch wiring is not practical, price a pull-chain light as the minimum option.",
+      "Coordinate routing/relocation needs for Wi-Fi/internet equipment and leave accessible mounting/backing and cable path; low-voltage/provider final hookup by owner/provider unless specifically included.",
+      "Patch, trim, prep, and paint new wall/door/affected surfaces to match the surrounding scope. Owner provides paint.",
+    ],
+  },
+  {
     number: "26",
     title: "Electrical / Lighting Coordination",
     items: [
-      "Electrical work is excluded unless specifically clarified.",
-      "Coordinate blocking, wall patching, mirror placement, sink placement, fan placement, and access so fixtures are centered and usable.",
+      "Electrical work is excluded unless specifically clarified, except contractor should price/coordinate the storage-closet light/switch or pull-chain fixture option above.",
+      "Coordinate blocking, wall patching, mirror placement, sink placement, fan placement, storage closet light, and access so fixtures are centered and usable.",
     ],
   },
   {
@@ -160,6 +172,7 @@ const ownerProvided = [
   "Exterior and interior slab doors linked above",
   "Speed Queen washer and dryer equipment",
   "Half-bath toilet, pedestal sink, faucet, mirror, vanity light, and exhaust fan",
+  "Lockable storage/internet closet door/hardware if approved in final scope",
   "Mini-split equipment if approved in final scope",
   "Paint for assigned disturbed-area touch-up",
   "Tankless water heater equipment already purchased",
@@ -169,7 +182,7 @@ const contractorSupplied = [
   "Normal rough plumbing and venting materials for laundry and half bath",
   "Dryer vent ducting, termination, clamps/tape, sealant, and supports",
   "Shims, fasteners, caulk, patch/filler, masking, and normal finish consumables",
-  "Blocking, backing, supports, and minor trim/filler tied to listed work",
+  "Framing, backing, door framing/trim, and light fixture/switch or pull-chain materials for the storage/internet closet unless owner provides a specific door/fixture",
   "Any missing rough materials should be clearly flagged in the bid",
 ];
 

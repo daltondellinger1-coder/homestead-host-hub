@@ -50,7 +50,7 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/scripts/generate-maintenance-qr-codes.py": {
-    "mtime": 1779546141.5625114,
+    "mtime": 1781001490.989275,
     "ast_hash": "f9ba341bb34fbd34b810ace2d50b9443",
     "semantic_hash": ""
   },
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/components/Dashboard.tsx": {
-    "mtime": 1779581807.0663378,
-    "ast_hash": "5bb6cb0cf1611f73f7017648636dc1fb",
+    "mtime": 1781001489.5556083,
+    "ast_hash": "8a0c03aa383a013a74ef010d9d2d15bc",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/components/RecordPaymentDialog.tsx": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/components/LeaseHistoryDialog.tsx": {
-    "mtime": 1779208742.5493906,
-    "ast_hash": "15428111973b95061b6715a7c9d7500f",
+    "mtime": 1781001489.5556083,
+    "ast_hash": "d6d2f279463873b05f33d978aab78f70",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/components/PullToRefresh.tsx": {
@@ -650,8 +650,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/pages/ContractorOfficeLaundry.tsx": {
-    "mtime": 1780997174.1197805,
-    "ast_hash": "792db7aaab582a17ae4567c7950bd35c",
+    "mtime": 1781021290.9501576,
+    "ast_hash": "5a56d8bf9a8ddfe2b59e37e91def6232",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/pages/Maintenance.tsx": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/hooks/usePropertyData.ts": {
-    "mtime": 1779212557.1244853,
-    "ast_hash": "4dadd79b42480279a3be1be5f9c3ac95",
+    "mtime": 1781001489.5556083,
+    "ast_hash": "03652e88121f18a360029871df011105",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/hooks/use-toast.ts": {
@@ -845,7 +845,7 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/docs/ops/full-system-test-goal-command.md": {
-    "mtime": 1779546141.570267,
+    "mtime": 1781001490.9966083,
     "ast_hash": "5b40a52806b8b4a1f75bf2dd9cbe36c4",
     "semantic_hash": ""
   },
