@@ -7,11 +7,12 @@ import FinancialReportsContent from '@/components/FinancialReportsContent';
 import PaymentHistoryContent from '@/components/PaymentHistoryContent';
 import ManagementDashboard from '@/components/ManagementDashboard';
 import WeeklyReport from '@/components/WeeklyReport';
+import HomesteadHillPLContent from '@/components/HomesteadHillPLContent';
 
 export default function Finances() {
   const location = useLocation();
   const hasFilterParams = location.search.length > 0;
-  const [tab, setTab] = useState(hasFilterParams ? 'history' : 'reports');
+  const [tab, setTab] = useState(hasFilterParams ? 'history' : 'pl');
 
   return (
     <div className="min-h-screen pattern-bg">
@@ -37,12 +38,17 @@ export default function Finances() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-6">
         <Tabs value={tab} onValueChange={setTab} className="space-y-5">
-          <TabsList className="grid w-full max-w-lg grid-cols-4 bg-muted/50">
+          <TabsList className="grid w-full max-w-xl grid-cols-5 bg-muted/50">
+            <TabsTrigger value="pl" className="font-body text-xs">P&amp;L</TabsTrigger>
             <TabsTrigger value="reports" className="font-body text-xs">Reports</TabsTrigger>
             <TabsTrigger value="weekly" className="font-body text-xs">Weekly</TabsTrigger>
-            <TabsTrigger value="management" className="font-body text-xs">Management</TabsTrigger>
+            <TabsTrigger value="management" className="font-body text-xs">Mgmt</TabsTrigger>
             <TabsTrigger value="history" className="font-body text-xs">History</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="pl" className="mt-0">
+            <HomesteadHillPLContent />
+          </TabsContent>
 
           <TabsContent value="reports" className="mt-0">
             <FinancialReportsContent />
