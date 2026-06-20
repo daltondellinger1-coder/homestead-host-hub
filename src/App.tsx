@@ -57,6 +57,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/maintenance/health" element={<MaintenanceHealth />} />
         <Route path="/maintenance-portal" element={<MaintenancePortal />} />
+        <Route path="/extend-stay" element={<ExtendStay />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/auth" element={<Navigate to={getPostLoginPath(roles, getStoredLoginLane())} replace />} />
         <Route path="/auth/property-manager" element={<Navigate to={getPostLoginPath(roles, 'property-manager')} replace />} />
