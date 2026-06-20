@@ -81,14 +81,18 @@ def make_card(unit: str, form_url: str, draft: bool) -> Image.Image:
 
     margin = 80
     draw.rounded_rectangle((margin, margin, w - margin, h - margin), radius=44, fill=BRAND["cream"], outline=BRAND["gold"], width=8)
-    draw.rounded_rectangle((margin + 28, margin + 28, w - margin - 28, 340), radius=28, fill=BRAND["navy"])
 
-    center_text(draw, (w // 2, 128), "HOMESTEAD HILL", font(54, True), BRAND["gold"])
-    center_text(draw, (w // 2, 205), "Maintenance Issue?", font(78, True), BRAND["cream"])
-    center_text(draw, (w // 2, 300), "Scan to report it fast", font(43), "#e2c28d")
+    # Header: keep all three lines safely inside the navy panel with clear vertical breathing room.
+    header_top = margin + 28
+    header_bottom = 390
+    draw.rounded_rectangle((margin + 28, header_top, w - margin - 28, header_bottom), radius=28, fill=BRAND["navy"])
+
+    center_text(draw, (w // 2, 136), "HOMESTEAD HILL", font(50, True), BRAND["gold"])
+    center_text(draw, (w // 2, 215), "Maintenance Issue?", font(74, True), BRAND["cream"])
+    center_text(draw, (w // 2, 315), "Scan to report it fast", font(40), "#e2c28d")
 
     qr = make_qr(target_url(form_url, unit))
-    qr_x, qr_y = (w - qr.width) // 2, 455
+    qr_x, qr_y = (w - qr.width) // 2, 485
     draw.rounded_rectangle((qr_x - 28, qr_y - 28, qr_x + qr.width + 28, qr_y + qr.height + 28), radius=38, fill=BRAND["gold"])
     draw.rounded_rectangle((qr_x - 12, qr_y - 12, qr_x + qr.width + 12, qr_y + qr.height + 12), radius=24, fill=BRAND["cream"])
     card.paste(qr, (qr_x, qr_y))

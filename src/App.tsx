@@ -15,6 +15,7 @@ import Maintenance from "./pages/Maintenance";
 import MaintenanceHealth from "./pages/MaintenanceHealth";
 import MaintenancePortal from "./pages/MaintenancePortal";
 import ContractorOfficeLaundry from "./pages/ContractorOfficeLaundry";
+import ExtendStay from "./pages/ExtendStay";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
@@ -97,6 +98,7 @@ function AppRouter() {
   if (!session) {
     return (
       <Routes>
+        <Route path="/extend-stay" element={<ExtendStay />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/property-manager" element={<Auth />} />
         <Route path="/auth/maintenance" element={<Auth />} />

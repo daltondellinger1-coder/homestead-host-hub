@@ -36,7 +36,7 @@ export function canAccessPath(pathname: string, roles: AppRole[]) {
   }
   if (hasAdmin) return true;
   if (hasMaintenance) {
-    return pathname.startsWith(MAINTENANCE_HOME) || pathname.startsWith('/auth');
+    return pathname.startsWith(MAINTENANCE_HOME) || pathname.startsWith('/auth') || pathname.startsWith('/extend-stay');
   }
-  return pathname.startsWith('/auth') || pathname.startsWith('/unauthorized');
+  return pathname.startsWith('/auth') || pathname.startsWith('/unauthorized') || pathname.startsWith('/extend-stay');
 }
