@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, DollarSign, LogOut, Inbox, Wrench } from 'lucide-react';
+import { LayoutGrid, CalendarDays, DollarSign, LogOut, Inbox, Wrench, BriefcaseBusiness } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useBookingRequests } from '@/hooks/useBookingRequests';
 import { useMaintenanceRequests } from '@/hooks/useMaintenanceRequests';
@@ -58,6 +58,13 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       badge: 0,
     },
     {
+      label: 'Market',
+      icon: BriefcaseBusiness,
+      active: location.pathname === '/airbnb-market',
+      to: '/airbnb-market',
+      badge: 0,
+    },
+    {
       label: 'Fix',
       icon: Wrench,
       active: location.pathname === '/maintenance',
@@ -65,7 +72,7 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       badge: maintenanceNewCount,
     },
     {
-      label: 'Sign Out',
+      label: 'Out',
       icon: LogOut,
       active: false,
       to: '#',

@@ -16,6 +16,7 @@ import MaintenanceHealth from "./pages/MaintenanceHealth";
 import MaintenancePortal from "./pages/MaintenancePortal";
 import ContractorOfficeLaundry from "./pages/ContractorOfficeLaundry";
 import ExtendStay from "./pages/ExtendStay";
+import AirbnbMarket from "./pages/AirbnbMarket";
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
@@ -55,6 +56,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/payments" element={<Finances />} />
         <Route path="/reports" element={<Finances />} />
         <Route path="/maintenance" element={<Maintenance />} />
+        <Route path="/airbnb-market" element={<AirbnbMarket />} />
         <Route path="/maintenance/health" element={<MaintenanceHealth />} />
         <Route path="/maintenance-portal" element={<MaintenancePortal />} />
         <Route path="/extend-stay" element={<ExtendStay />} />
