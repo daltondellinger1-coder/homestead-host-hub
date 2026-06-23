@@ -84,6 +84,34 @@ export type MarketComp = {
   listingUrl?: string;
 };
 
+/**
+ * Known direct Airbnb listing URLs keyed by canonical (lowercased, trimmed,
+ * space-normalized) comp name. These are the authoritative fallback when the
+ * Supabase row's `listing_url` is missing OR is a search URL we should reject.
+ *
+ * Only `airbnb.com/rooms/<id>` URLs allowed — see `isDirectAirbnbListingUrl`.
+ */
+export const KNOWN_COMP_LISTING_URLS: Record<string, string> = {
+  'vincennes hideaway': 'https://www.airbnb.com/rooms/1324918599263697867',
+  'downtown loft apartment': 'https://www.airbnb.com/rooms/1104379617410107961',
+  'small town urban oasis': 'https://www.airbnb.com/rooms/975590388116613421',
+  'upstairs get away': 'https://www.airbnb.com/rooms/1017325527624458850',
+  'apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
+  '2bed/1bath apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
+  'unique historical apartment': 'https://www.airbnb.com/rooms/911846172806023965',
+  'country loft with a view': 'https://www.airbnb.com/rooms/1558714513062967677',
+};
+
+function canonicalCompName(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+export function knownDirectListingUrlForComp(name: string | null | undefined): string | undefined {
+  if (!name) return undefined;
+  return KNOWN_COMP_LISTING_URLS[canonicalCompName(name)];
+}
+
+
 
 export const homesteadUnits: HomesteadUnit[] = [
   {
@@ -188,6 +216,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Newly renovated', 'Near Main/hospital', 'Full-place privacy'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Strong direct comp if monthly availability is open. Lower face-price than Unit 5, but Unit 5 monthly discount changes the math.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['vincennes hideaway'],
   },
 
   {
@@ -201,6 +230,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['2 baths', 'Downtown location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Potentially beats HH on bath count, but may be less quiet/simple than Homestead Hill for long work stays.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['downtown loft apartment'],
   },
 
   {
@@ -216,6 +246,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Workspace', 'Crew capacity'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: true, 'Crew beds': true, Pets: true, 'Strong reviews': true, 'Photo proof': true },
     notes: 'A serious crew-stay competitor. It beats HH on beds, reviews, laundry, and pet flexibility.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['small town urban oasis'],
   },
 
   {
@@ -232,6 +263,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Roku', 'Bathtub'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, Pets: true, 'Strong reviews': 'unclear', 'Photo proof': 'unclear' },
     notes: 'Budget pressure. HH needs to beat it on cleanliness, reliability, photos, and monthly value.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['upstairs get away'],
   },
 
   {
@@ -244,6 +276,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Central location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': 'unclear', Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': false },
     notes: 'Smaller cheaper option. Less relevant for crews, relevant for solo workers comparing price first.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['apartment centrally located'],
   },
 
   {
@@ -256,6 +289,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Historic/downtown appeal'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, 'Photo proof': true },
     notes: 'Premium leisure-style comp. Useful as a price ceiling, not the main contractor benchmark.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['unique historical apartment'],
   },
 
   {
@@ -267,6 +301,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Workspace', 'Pets', 'Washer/dryer', 'Country setting'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': 'unclear', Laundry: true, Parking: true, WiFi: 'unclear', Workspace: true, Pets: true, 'Strong reviews': true, 'Photo proof': 'unclear' },
     notes: 'Price blocked in search, but amenity package is contractor-relevant. Needs live monthly pricing.',
+    listingUrl: KNOWN_COMP_LISTING_URLS['country loft with a view'],
   },
 ];
 
@@ -568,7 +603,11 @@ export function buildAirbnbMarketBriefing({
         amenityMap: listing.amenity_map || {},
         notes: listing.notes || 'Watchlist competitor. Needs notes.',
         // Only surface URLs that are real Airbnb listing pages — never search pages.
-        listingUrl: isDirectAirbnbListingUrl(listing.listing_url) ? listing.listing_url : undefined,
+        // If the DB value is missing or a rejected search URL, fall back to our
+        // known direct-listing URL keyed by the comp's canonical name.
+        listingUrl: isDirectAirbnbListingUrl(listing.listing_url)
+          ? listing.listing_url
+          : knownDirectListingUrlForComp(listing.name),
       };
     });
 
