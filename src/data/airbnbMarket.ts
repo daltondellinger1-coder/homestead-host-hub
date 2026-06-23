@@ -570,7 +570,6 @@ export function buildAirbnbMarketBriefing({
       };
     });
 
-    });
 
   return {
     homesteadUnits: hhUnits.length ? hhUnits : homesteadUnits,
