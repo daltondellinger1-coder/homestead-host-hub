@@ -1,3 +1,5 @@
+import { isDirectAirbnbListingUrl } from '@/lib/airbnbMarketSignals';
+
 export type UnitStatus = 'push' | 'verify' | 'fix';
 export type CompType = 'direct' | 'budget' | 'premium' | 'crew' | 'verify';
 
