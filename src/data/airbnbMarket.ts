@@ -73,7 +73,9 @@ export type MarketComp = {
   contractorAmenities: string[];
   amenityMap: Partial<Record<AmenityKey, boolean | 'unclear'>>;
   notes: string;
+  listingUrl?: string;
 };
+
 
 export const homesteadUnits: HomesteadUnit[] = [
   {
