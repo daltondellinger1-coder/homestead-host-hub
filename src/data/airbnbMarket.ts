@@ -636,8 +636,24 @@ export function buildAirbnbMarketBriefing({
     });
 
 
+  // Always present every Homestead Hill unit (Unit 1 through Unit 15) as its
+  // own card, even when Supabase has no row yet. Defensively strip any legacy
+  // "Other HH units" placeholder so it can never re-appear in the UI.
+  const dbHhUnits = hhUnits.filter((u) => u.unit !== 'Other HH units');
+  const seen = new Set(dbHhUnits.map((u) => u.unit));
+  const padded: HomesteadUnit[] = [...dbHhUnits];
+  for (const n of HH_UNIT_NUMBERS) {
+    const name = `Unit ${n}`;
+    if (!seen.has(name)) padded.push(buildPlaceholderHomesteadUnit(name));
+  }
+  padded.sort((a, b) => {
+    const an = Number((a.unit.match(/\d+/) ?? ['0'])[0]);
+    const bn = Number((b.unit.match(/\d+/) ?? ['0'])[0]);
+    return an - bn;
+  });
+
   return {
-    homesteadUnits: hhUnits.length ? hhUnits : homesteadUnits,
+    homesteadUnits: padded,
     marketComps: comps.length ? comps : marketComps,
     weeklyBriefing: weeklyBriefing
       ? {
