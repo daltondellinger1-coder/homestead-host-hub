@@ -60,6 +60,7 @@ export type HomesteadUnit = {
 };
 
 export type MarketComp = {
+  id?: string;
   name: string;
   compType: CompType;
   nightlyPrice?: number;
@@ -73,6 +74,11 @@ export type MarketComp = {
   contractorAmenities: string[];
   amenityMap: Partial<Record<AmenityKey, boolean | 'unclear'>>;
   notes: string;
+  /**
+   * Direct Airbnb listing URL only (airbnb.com/rooms/... or /h/...). Generic
+   * search URLs are intentionally NOT stored here — the dashboard treats a
+   * missing URL as "no direct link yet" rather than guess a search page.
+   */
   listingUrl?: string;
 };
 
