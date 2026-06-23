@@ -219,8 +219,9 @@ function UnitSignalCard({ unit, comps }: { unit: HomesteadUnit; comps: MarketCom
 
 function SnapshotAdminPanel({ units, marketComps }: { units: HomesteadUnit[]; marketComps: MarketComp[] }) {
   const firstUnit = units[0];
+  const initialListingId = firstUnit?.id ?? '';
   const [values, setValues] = useState<ManualSnapshotFormValues>({
-    listingId: firstUnit?.unit === 'Unit 5' ? 'listing-unit-5' : '',
+    listingId: initialListingId,
     snapshotDate: new Date().toISOString().slice(0, 10),
     nightlyPrice: firstUnit?.nightlyPrice?.toString() || '',
     weeklyPrice: firstUnit?.weeklyPrice?.toString() || '',
