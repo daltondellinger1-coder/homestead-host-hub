@@ -240,7 +240,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Central location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': 'unclear', Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': false },
     notes: 'Smaller cheaper option. Less relevant for crews, relevant for solo workers comparing price first.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Apartment%20Centrally%20Located',
   },
+
   {
     name: 'Unique Historical Apartment',
     compType: 'premium',
