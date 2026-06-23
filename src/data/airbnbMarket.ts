@@ -210,7 +210,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Workspace', 'Crew capacity'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: true, 'Crew beds': true, Pets: true, 'Strong reviews': true, 'Photo proof': true },
     notes: 'A serious crew-stay competitor. It beats HH on beds, reviews, laundry, and pet flexibility.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Small%20Town%20Urban%20Oasis',
   },
+
   {
     name: 'Upstairs Get Away',
     compType: 'budget',
