@@ -224,12 +224,10 @@ describe('Airbnb market briefing model', () => {
     it('falls back to the known direct /rooms/<id> URL by comp name when the DB row has no listing_url or has a search URL', async () => {
       const { KNOWN_COMP_LISTING_URLS } = await import('@/data/airbnbMarket');
       const cases = [
-        { name: 'Vincennes Hideaway', listing_url: null },
         { name: 'Downtown Loft Apartment', listing_url: undefined },
         { name: 'Small Town Urban Oasis', listing_url: 'https://www.airbnb.com/s/Vincennes--IN/homes' },
         { name: 'Upstairs get away', listing_url: null }, // case-insensitive match
         { name: '2Bed/1Bath Apartment Centrally Located', listing_url: null },
-        { name: 'Unique Historical Apartment', listing_url: null },
         { name: 'Country Loft with a view', listing_url: null },
       ];
       const briefing = buildAirbnbMarketBriefing({
@@ -244,12 +242,10 @@ describe('Airbnb market briefing model', () => {
       });
 
       const expected: Record<string, string> = {
-        'Vincennes Hideaway': KNOWN_COMP_LISTING_URLS['vincennes hideaway'],
         'Downtown Loft Apartment': KNOWN_COMP_LISTING_URLS['downtown loft apartment'],
         'Small Town Urban Oasis': KNOWN_COMP_LISTING_URLS['small town urban oasis'],
         'Upstairs get away': KNOWN_COMP_LISTING_URLS['upstairs get away'],
         '2Bed/1Bath Apartment Centrally Located': KNOWN_COMP_LISTING_URLS['2bed/1bath apartment centrally located'],
-        'Unique Historical Apartment': KNOWN_COMP_LISTING_URLS['unique historical apartment'],
         'Country Loft with a view': KNOWN_COMP_LISTING_URLS['country loft with a view'],
       };
       for (const [name, url] of Object.entries(expected)) {
@@ -259,20 +255,62 @@ describe('Airbnb market briefing model', () => {
       }
     });
 
-    it('seed comps for every named comp expose the exact direct /rooms/<id> URL provided by the owner', () => {
-      const expected: Record<string, string> = {
-        'Vincennes Hideaway': 'https://www.airbnb.com/rooms/1324918599263697867',
+    it('does NOT fall back to known-bad (404) listing URLs for Vincennes Hideaway or Unique Historical Apartment', async () => {
+      const { KNOWN_COMP_LISTING_URLS, knownDirectListingUrlForComp } = await import('@/data/airbnbMarket');
+      const bad = ['1324918599263697867', '911846172806023965'];
+      // The fallback map must not carry the dead room IDs at all.
+      for (const url of Object.values(KNOWN_COMP_LISTING_URLS)) {
+        for (const id of bad) expect(url).not.toContain(id);
+      }
+      expect(knownDirectListingUrlForComp('Vincennes Hideaway')).toBeUndefined();
+      expect(knownDirectListingUrlForComp('Unique Historical Apartment')).toBeUndefined();
+
+      // A Supabase row with null listing_url for either name must produce no listingUrl.
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'comp-vh', name: 'Vincennes Hideaway', source: 'competitor',
+            bedrooms: 2, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: 'direct', notes: null,
+            rating: null, reviews: null, listing_url: null,
+          },
+          {
+            id: 'comp-uha', name: 'Unique Historical Apartment', source: 'competitor',
+            bedrooms: 2, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: 'premium', notes: null,
+            rating: null, reviews: null, listing_url: null,
+          },
+        ],
+        priceSnapshots: [],
+      });
+      expect(briefing.marketComps.find((c) => c.name === 'Vincennes Hideaway')?.listingUrl).toBeUndefined();
+      expect(briefing.marketComps.find((c) => c.name === 'Unique Historical Apartment')?.listingUrl).toBeUndefined();
+    });
+
+    it('seed comps expose the exact verified direct /rooms/<id> URL for the five working comps, and leave the two 404 comps unlinked', () => {
+      const verified: Record<string, string> = {
         'Downtown Loft Apartment': 'https://www.airbnb.com/rooms/1104379617410107961',
         'Small Town Urban Oasis': 'https://www.airbnb.com/rooms/975590388116613421',
         'Upstairs Get Away': 'https://www.airbnb.com/rooms/1017325527624458850',
         'Apartment Centrally Located': 'https://www.airbnb.com/rooms/1157372418473093874',
-        'Unique Historical Apartment': 'https://www.airbnb.com/rooms/911846172806023965',
         'Country Loft with a View': 'https://www.airbnb.com/rooms/1558714513062967677',
       };
-      for (const [name, url] of Object.entries(expected)) {
+      for (const [name, url] of Object.entries(verified)) {
         const c = marketComps.find((m) => m.name === name);
         expect(c, `seed comp "${name}" must exist`).toBeDefined();
         expect(c?.listingUrl).toBe(url);
+      }
+      // The two 404'd comps must ship with no listingUrl in seed data.
+      expect(marketComps.find((m) => m.name === 'Vincennes Hideaway')?.listingUrl).toBeUndefined();
+      expect(marketComps.find((m) => m.name === 'Unique Historical Apartment')?.listingUrl).toBeUndefined();
+      // And no seed comp anywhere may carry the dead room IDs.
+      const bad = ['1324918599263697867', '911846172806023965'];
+      for (const c of marketComps) {
+        if (c.listingUrl) {
+          for (const id of bad) expect(c.listingUrl).not.toContain(id);
+        }
       }
     });
 
