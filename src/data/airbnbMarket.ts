@@ -253,7 +253,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Historic/downtown appeal'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, 'Photo proof': true },
     notes: 'Premium leisure-style comp. Useful as a price ceiling, not the main contractor benchmark.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Unique%20Historical%20Apartment',
   },
+
   {
     name: 'Country Loft with a View',
     compType: 'verify',
