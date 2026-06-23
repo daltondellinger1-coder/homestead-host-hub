@@ -81,7 +81,7 @@ describe('Airbnb market briefing model', () => {
     const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
 
     expect(source).toContain('useAirbnbMarketBriefing');
-    expect(source).toContain('pricingRecommendation');
+    expect(source).toContain('recommendedMove');
     expect(source).toContain('Loading market briefing');
   });
 
