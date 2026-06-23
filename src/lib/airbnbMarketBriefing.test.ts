@@ -364,12 +364,12 @@ describe('Airbnb market briefing model', () => {
       // DB-sourced units keep their Supabase id…
       expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 5')?.id).toBe('hh-2');
       expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 1')?.id).toBe('hh-0');
-      // …and padded placeholder units carry honest data-needed values, not silent zeros.
+      // …and padded units fall back to the researched profile (not silent placeholders).
       const padded = briefing.homesteadUnits.find((u) => u.unit === 'Unit 3');
       expect(padded?.id).toBeUndefined();
-      expect(padded?.missingOrUnclear).toContain('Listing proof needed');
-      expect(padded?.missingOrUnclear).toContain('Monthly price needed');
-      expect(padded?.missingOrUnclear).toContain('Availability snapshot needed');
+      expect(padded?.rating).toBe(4.86);
+      expect(padded?.reviews).toBe(7);
+      expect(padded?.bestFor).toMatch(/business traveler|proof listing/i);
       expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
     });
 
