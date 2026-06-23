@@ -255,9 +255,11 @@ function SnapshotAdminPanel({ units, marketComps }: { units: HomesteadUnit[]; ma
           <span className="font-semibold text-foreground">Listing</span>
           <select className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" value={values.listingId} onChange={(event) => update('listingId', event.target.value)} required>
             <option value="">Choose listing</option>
-            <option value="listing-unit-5">Unit 5</option>
-            <option value="listing-unit-11">Unit 11</option>
-            <option value="listing-other-hh-units">Other HH units</option>
+            {units.map((u) => (
+              <option key={u.id ?? u.unit} value={u.id ?? ''} disabled={!u.id}>
+                {u.unit}{u.id ? '' : ' (no DB id)'}
+              </option>
+            ))}
           </select>
         </label>
         <label className="space-y-1 text-sm">
