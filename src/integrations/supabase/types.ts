@@ -71,6 +71,7 @@ export type Database = {
           created_at: string
           data_status: string | null
           id: string
+          listing_url: string | null
           missing_or_unclear: string[]
           name: string
           notes: string | null
@@ -97,6 +98,7 @@ export type Database = {
           created_at?: string
           data_status?: string | null
           id?: string
+          listing_url?: string | null
           missing_or_unclear?: string[]
           name: string
           notes?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           created_at?: string
           data_status?: string | null
           id?: string
+          listing_url?: string | null
           missing_or_unclear?: string[]
           name?: string
           notes?: string | null

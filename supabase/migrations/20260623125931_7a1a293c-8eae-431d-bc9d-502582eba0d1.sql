@@ -1,0 +1,1 @@
+ALTER TABLE public.airbnb_market_listings ADD COLUMN IF NOT EXISTS listing_url text;
