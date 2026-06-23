@@ -84,6 +84,34 @@ export type MarketComp = {
   listingUrl?: string;
 };
 
+/**
+ * Known direct Airbnb listing URLs keyed by canonical (lowercased, trimmed,
+ * space-normalized) comp name. These are the authoritative fallback when the
+ * Supabase row's `listing_url` is missing OR is a search URL we should reject.
+ *
+ * Only `airbnb.com/rooms/<id>` URLs allowed — see `isDirectAirbnbListingUrl`.
+ */
+export const KNOWN_COMP_LISTING_URLS: Record<string, string> = {
+  'vincennes hideaway': 'https://www.airbnb.com/rooms/1324918599263697867',
+  'downtown loft apartment': 'https://www.airbnb.com/rooms/1104379617410107961',
+  'small town urban oasis': 'https://www.airbnb.com/rooms/975590388116613421',
+  'upstairs get away': 'https://www.airbnb.com/rooms/1017325527624458850',
+  'apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
+  '2bed/1bath apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
+  'unique historical apartment': 'https://www.airbnb.com/rooms/911846172806023965',
+  'country loft with a view': 'https://www.airbnb.com/rooms/1558714513062967677',
+};
+
+function canonicalCompName(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+export function knownDirectListingUrlForComp(name: string | null | undefined): string | undefined {
+  if (!name) return undefined;
+  return KNOWN_COMP_LISTING_URLS[canonicalCompName(name)];
+}
+
+
 
 export const homesteadUnits: HomesteadUnit[] = [
   {
