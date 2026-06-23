@@ -169,5 +169,56 @@ describe('Airbnb market briefing model', () => {
         'Unit 11: capture monthly price and 30-day availability screenshot.',
       ],
     });
+
+  describe('competitor listing URLs', () => {
+    it('maps Supabase listing_url into MarketComp.listingUrl when present and leaves it undefined when missing', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'comp-with-url', name: 'Linked Comp', source: 'competitor',
+            bedrooms: 2, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: 'direct', notes: null,
+            rating: null, reviews: null,
+            listing_url: 'https://www.airbnb.com/rooms/123456',
+          },
+          {
+            id: 'comp-no-url', name: 'Unlinked Comp', source: 'competitor',
+            bedrooms: 1, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: 'verify', notes: null,
+            rating: null, reviews: null,
+          },
+        ],
+        priceSnapshots: [],
+      });
+
+      const linked = briefing.marketComps.find((c) => c.name === 'Linked Comp');
+      const unlinked = briefing.marketComps.find((c) => c.name === 'Unlinked Comp');
+      expect(linked?.listingUrl).toBe('https://www.airbnb.com/rooms/123456');
+      expect(unlinked?.listingUrl).toBeUndefined();
+    });
+
+    it('ships seed comps with at least one Airbnb URL and at least one without to exercise the fallback', () => {
+      const withUrl = marketComps.filter((c) => typeof c.listingUrl === 'string' && c.listingUrl.length > 0);
+      const withoutUrl = marketComps.filter((c) => !c.listingUrl);
+      expect(withUrl.length).toBeGreaterThan(0);
+      expect(withoutUrl.length).toBeGreaterThan(0);
+      withUrl.forEach((c) => expect(c.listingUrl).toMatch(/^https:\/\/www\.airbnb\.com\//));
+    });
+
+    it('renders each comp name as an external Airbnb link with safe rel attributes and a plain-text fallback when no URL exists', () => {
+      const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
+
+      expect(source).toContain('c.listingUrl');
+      expect(source).toContain('target="_blank"');
+      expect(source).toContain('rel="noopener noreferrer"');
+      expect(source).toContain('Open Airbnb listing for ${c.name}');
+      expect(source).toContain('Open Airbnb ↗');
+      // Plain-text fallback path must exist for comps without a URL.
+      expect(source).toMatch(/c\.listingUrl[\s\S]*?\?[\s\S]*?:[\s\S]*?<p[^>]*>\{c\.name\}<\/p>/);
+    });
   });
+});
+
 });
