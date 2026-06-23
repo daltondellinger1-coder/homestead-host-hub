@@ -179,33 +179,8 @@ export const homesteadUnits: HomesteadUnit[] = [
     pricingRecommendation: 'hold',
     dataStatus: 'Verified weekly display: $686/week discounted from $770. Monthly still needs a live screenshot.',
   },
-  {
-    unit: 'Other HH units',
-    bedrooms: 1,
-    baths: 1,
-    bestFor: 'Rollout slots for solo workers, nurses, inspectors, or rotating crews.',
-    status: 'fix',
-    amenities: ['Property-level parking', 'Quiet apartment setting', 'Operational owner control'],
-    amenityMap: {
-      'Monthly friendly': 'unclear',
-      'Full kitchen': 'unclear',
-      Laundry: 'unclear',
-      Parking: true,
-      'Self check-in': 'unclear',
-      WiFi: 'unclear',
-      Workspace: 'unclear',
-      'Crew beds': 'unclear',
-      Pets: 'unclear',
-      'Strong reviews': 'unclear',
-      'Photo proof': 'unclear',
-    },
-    missingOrUnclear: ['Airbnb links', 'Bedroom count', 'Monthly price', 'Amenity tags', 'Photo order', 'Review signal'],
-    photoActions: ['Create one standard 12-photo shot list per unit', 'Collect first-photo candidates', 'Audit amenity tags unit by unit'],
-    ownerAction: 'Add each Airbnb link and monthly screenshot so the dashboard becomes a full unit-by-unit control room.',
-    pricingRecommendation: 'improve listing before pricing change',
-    dataStatus: 'Not yet verified. Use this as the rollout placeholder until each listing is collected.',
-  },
 ];
+
 
 export const marketComps: MarketComp[] = [
   {
