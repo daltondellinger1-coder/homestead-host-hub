@@ -48,3 +48,26 @@ export function useAirbnbMarketWeeklyBriefingAdmin() {
     },
   });
 }
+
+/**
+ * Saves an owner-supplied direct Airbnb listing URL onto a competitor row.
+ * Pass `null` (or empty) to clear the URL. We do not validate "direct vs search"
+ * here — the form layer enforces it so users see immediate feedback.
+ */
+export function useUpdateCompListingUrl() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ listingId, listingUrl }: { listingId: string; listingUrl: string | null }) => {
+      const result = await db
+        .from('airbnb_market_listings')
+        .update({ listing_url: listingUrl })
+        .eq('id', listingId);
+      if (result.error) throw new Error(result.error.message);
+      return { listingId, listingUrl };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['airbnb-market-briefing'] });
+    },
+  });
+}
