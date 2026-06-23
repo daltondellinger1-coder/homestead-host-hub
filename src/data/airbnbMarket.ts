@@ -28,6 +28,8 @@ export const amenityKeys: AmenityKey[] = [
   'Photo proof',
 ];
 
+export type PricingRecommendation = 'hold' | 'raise 5%' | 'lower 5%' | 'improve listing before pricing change';
+
 export type HomesteadUnit = {
   unit: string;
   bedrooms: number;
@@ -49,6 +51,12 @@ export type HomesteadUnit = {
   photoActions: string[];
   ownerAction: string;
   dataStatus: string;
+  pricingRecommendation: PricingRecommendation;
+  availability?: {
+    available30Day?: boolean;
+    nextAvailableDate?: string;
+    snapshotDate?: string;
+  };
 };
 
 export type MarketComp = {
@@ -98,6 +106,7 @@ export const homesteadUnits: HomesteadUnit[] = [
     missingOrUnclear: ['Laundry access', 'Dedicated workspace', 'Fast WiFi proof', 'Parking photo', 'Coffee setup'],
     photoActions: ['Lead with bright living room', 'Move bedroom into first 3 photos', 'Add kitchen and coffee setup', 'Show parking and exterior entry', 'Add work table or laptop-ready shot'],
     ownerAction: 'Push as the anchor 2BR monthly contractor option before cutting price.',
+    pricingRecommendation: 'improve listing before pricing change',
     dataStatus: 'Verified monthly display: $1,855/month discounted from $3,190.',
   },
   {
@@ -126,6 +135,7 @@ export const homesteadUnits: HomesteadUnit[] = [
     missingOrUnclear: ['Monthly price', 'Monthly discount', 'Laundry access', 'Workspace', 'Parking clarity'],
     photoActions: ['Verify monthly availability screenshot', 'Add contractor-ready first 5 photos', 'Show bed, kitchen, bath, parking, work surface'],
     ownerAction: 'Verify the monthly total and discount, then decide whether it becomes a solo-worker monthly unit.',
+    pricingRecommendation: 'hold',
     dataStatus: 'Verified weekly display: $686/week discounted from $770. Monthly still needs a live screenshot.',
   },
   {
@@ -151,6 +161,7 @@ export const homesteadUnits: HomesteadUnit[] = [
     missingOrUnclear: ['Airbnb links', 'Bedroom count', 'Monthly price', 'Amenity tags', 'Photo order', 'Review signal'],
     photoActions: ['Create one standard 12-photo shot list per unit', 'Collect first-photo candidates', 'Audit amenity tags unit by unit'],
     ownerAction: 'Add each Airbnb link and monthly screenshot so the dashboard becomes a full unit-by-unit control room.',
+    pricingRecommendation: 'improve listing before pricing change',
     dataStatus: 'Not yet verified. Use this as the rollout placeholder until each listing is collected.',
   },
 ];
@@ -307,4 +318,256 @@ export function compTypeLabel(type: CompType) {
 export const dataFreshness = {
   pulled: 'June 2026 Airbnb live/search snapshots',
   caveat: 'Competitor monthly totals are estimates when Airbnb did not expose exact 30-night checkout totals. Unit 5 and Unit 11 discount observations came from live displayed Airbnb pricing windows.',
+};
+
+
+export type AirbnbMarketListingRow = {
+  id: string;
+  name: string;
+  source: 'homestead_hill' | 'competitor';
+  bedrooms?: number | null;
+  beds?: number | null;
+  bathrooms?: number | null;
+  sleeps?: number | null;
+  target_guest?: string | null;
+  pricing_recommendation?: PricingRecommendation | null;
+  owner_action?: string | null;
+  data_status?: string | null;
+  amenities?: string[] | null;
+  amenity_map?: Partial<Record<AmenityKey, boolean | 'unclear'>> | null;
+  missing_or_unclear?: string[] | null;
+  photo_actions?: string[] | null;
+  comp_type?: CompType | null;
+  notes?: string | null;
+  rating?: number | null;
+  reviews?: number | null;
+};
+
+export type AirbnbMarketPriceSnapshotRow = {
+  listing_id: string;
+  nightly_price?: number | null;
+  weekly_price?: number | null;
+  monthly_price?: number | null;
+  weekly_discount_pct?: number | null;
+  monthly_discount_pct?: number | null;
+  snapshot_date: string;
+};
+
+export type AirbnbMarketAvailabilitySnapshotRow = {
+  listing_id: string;
+  available_30_day?: boolean | null;
+  next_available_date?: string | null;
+  snapshot_date: string;
+};
+
+export type AirbnbMarketWeeklyBriefingRow = {
+  week_start: string;
+  headline: string;
+  owner_read: string;
+  next_actions: string[];
+};
+
+export type ManualSnapshotFormValues = {
+  listingId: string;
+  snapshotDate: string;
+  nightlyPrice: string;
+  weeklyPrice: string;
+  monthlyPrice: string;
+  weeklyDiscountPct: string;
+  monthlyDiscountPct: string;
+  available30Day: 'yes' | 'no' | 'unknown';
+  nextAvailableDate: string;
+};
+
+function optionalNumber(value: string) {
+  const trimmed = value.trim();
+  return trimmed === '' ? null : Number(trimmed);
+}
+
+export function buildManualSnapshotRows(values: ManualSnapshotFormValues): {
+  price: AirbnbMarketPriceSnapshotRow;
+  availability: AirbnbMarketAvailabilitySnapshotRow;
+} {
+  return {
+    price: {
+      listing_id: values.listingId,
+      snapshot_date: values.snapshotDate,
+      nightly_price: optionalNumber(values.nightlyPrice),
+      weekly_price: optionalNumber(values.weeklyPrice),
+      monthly_price: optionalNumber(values.monthlyPrice),
+      weekly_discount_pct: optionalNumber(values.weeklyDiscountPct),
+      monthly_discount_pct: optionalNumber(values.monthlyDiscountPct),
+    },
+    availability: {
+      listing_id: values.listingId,
+      snapshot_date: values.snapshotDate,
+      available_30_day: values.available30Day === 'unknown' ? null : values.available30Day === 'yes',
+      next_available_date: values.nextAvailableDate.trim() || null,
+    },
+  };
+}
+
+export type AirbnbMarketBriefing = {
+  homesteadUnits: HomesteadUnit[];
+  marketComps: MarketComp[];
+  weeklyBriefing?: {
+    weekStart: string;
+    headline: string;
+    ownerRead: string;
+    nextActions: string[];
+  };
+  dataFreshness: typeof dataFreshness;
+};
+
+function median(values: number[]) {
+  if (!values.length) return undefined;
+  const sorted = [...values].sort((a, b) => a - b);
+  return sorted[Math.floor(sorted.length / 2)];
+}
+
+function moneyDelta(value: number) {
+  return `$${Math.abs(Math.round(value)).toLocaleString()}`;
+}
+
+export function generateAirbnbWeeklyBriefing({
+  weekStart,
+  homesteadUnits,
+  marketComps,
+}: {
+  weekStart: string;
+  homesteadUnits: HomesteadUnit[];
+  marketComps: MarketComp[];
+}): AirbnbMarketWeeklyBriefingRow {
+  const unit5 = homesteadUnits.find((unit) => unit.unit === 'Unit 5') || homesteadUnits[0];
+  const otherUnits = homesteadUnits.filter((unit) => unit.unit !== unit5?.unit);
+  const compMedian = median(marketComps.map((comp) => comp.monthlyEstimate).filter((value): value is number => typeof value === 'number'));
+  const unit5Monthly = unit5?.monthlyPrice;
+  const unit5Delta = unit5Monthly && compMedian ? compMedian - unit5Monthly : undefined;
+  const unit5Recommendation = unit5?.pricingRecommendation || 'hold';
+  const marketDirection = unit5Delta && unit5Delta > 0 ? 'HH has monthly value' : unit5Delta && unit5Delta < 0 ? 'competitors are cheaper' : 'pricing needs another snapshot';
+  const otherUnitsRead = otherUnits.some((unit) => !unit.monthlyPrice || unit.availability?.available30Day === undefined)
+    ? 'verify monthly price/availability before changing price'
+    : 'hold unless snapshots move materially';
+
+  const nextActions: string[] = [];
+  if (unit5?.missingOrUnclear.length) {
+    nextActions.push(`${unit5.unit}: fix ${unit5.missingOrUnclear.slice(0, 3).join(', ')} before changing price.`);
+  }
+  if (typeof unit5?.monthlyDiscountPct === 'number') {
+    nextActions.push(`${unit5.unit}: keep the ${unit5.monthlyDiscountPct.toFixed(1)}% monthly discount visible for traveling workers and contractors.`);
+  }
+  otherUnits
+    .filter((unit) => !unit.monthlyPrice || unit.availability?.available30Day === undefined)
+    .slice(0, 2)
+    .forEach((unit) => nextActions.push(`${unit.unit}: capture monthly price and 30-day availability screenshot.`));
+
+  return {
+    week_start: weekStart,
+    headline:
+      unit5 && unit5Delta !== undefined
+        ? `${unit5.unit} is ${moneyDelta(unit5Delta)} ${unit5Delta >= 0 ? 'below' : 'above'} the watched monthly comp median, but listing proof still comes before a price move.`
+        : 'Weekly pricing snapshot needs monthly comp data before making a pricing move.',
+    owner_read: `Market direction: ${marketDirection}. Unit 5 recommendation: ${unit5Recommendation}. Other HH units: ${otherUnitsRead}.`,
+    next_actions: nextActions.length ? nextActions : ['Capture fresh price and availability snapshots for Unit 5 and the top three comps.'],
+  };
+}
+
+export function buildAirbnbMarketBriefing({
+  listings,
+  priceSnapshots,
+  availabilitySnapshots = [],
+  weeklyBriefing,
+}: {
+  listings: AirbnbMarketListingRow[];
+  priceSnapshots: AirbnbMarketPriceSnapshotRow[];
+  availabilitySnapshots?: AirbnbMarketAvailabilitySnapshotRow[];
+  weeklyBriefing?: AirbnbMarketWeeklyBriefingRow | null;
+}): AirbnbMarketBriefing {
+  const latestPriceByListing = new Map<string, AirbnbMarketPriceSnapshotRow>();
+  [...priceSnapshots]
+    .sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date))
+    .forEach((snapshot) => latestPriceByListing.set(snapshot.listing_id, snapshot));
+
+  const latestAvailabilityByListing = new Map<string, AirbnbMarketAvailabilitySnapshotRow>();
+  [...availabilitySnapshots]
+    .sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date))
+    .forEach((snapshot) => latestAvailabilityByListing.set(snapshot.listing_id, snapshot));
+
+  const hhUnits = listings
+    .filter((listing) => listing.source === 'homestead_hill')
+    .map((listing): HomesteadUnit => {
+      const price = latestPriceByListing.get(listing.id);
+      const availability = latestAvailabilityByListing.get(listing.id);
+      return {
+        unit: listing.name,
+        bedrooms: listing.bedrooms ?? 0,
+        beds: listing.beds ?? undefined,
+        baths: listing.bathrooms ?? 0,
+        sleeps: listing.sleeps ?? undefined,
+        bestFor: listing.target_guest || 'Monthly workforce housing candidate.',
+        monthlyPrice: price?.monthly_price ?? undefined,
+        weeklyPrice: price?.weekly_price ?? undefined,
+        nightlyPrice: price?.nightly_price ?? undefined,
+        monthlyDiscountPct: price?.monthly_discount_pct ?? undefined,
+        weeklyDiscountPct: price?.weekly_discount_pct ?? undefined,
+        rating: listing.rating ?? undefined,
+        reviews: listing.reviews ?? undefined,
+        status: listing.pricing_recommendation === 'improve listing before pricing change' ? 'push' : 'verify',
+        amenities: listing.amenities || [],
+        amenityMap: listing.amenity_map || {},
+        missingOrUnclear: listing.missing_or_unclear || [],
+        photoActions: listing.photo_actions || [],
+        ownerAction: listing.owner_action || 'Review pricing and listing proof.',
+        dataStatus: listing.data_status || 'Supabase market snapshot.',
+        pricingRecommendation: listing.pricing_recommendation || 'hold',
+        availability: availability
+          ? {
+              available30Day: availability.available_30_day ?? undefined,
+              nextAvailableDate: availability.next_available_date ?? undefined,
+              snapshotDate: availability.snapshot_date,
+            }
+          : undefined,
+      };
+    });
+
+  const comps = listings
+    .filter((listing) => listing.source === 'competitor')
+    .map((listing): MarketComp => {
+      const price = latestPriceByListing.get(listing.id);
+      return {
+        name: listing.name,
+        compType: listing.comp_type || 'verify',
+        nightlyPrice: price?.nightly_price ?? undefined,
+        weeklyEstimate: price?.weekly_price ?? undefined,
+        monthlyEstimate: price?.monthly_price ?? undefined,
+        bedrooms: listing.bedrooms ?? undefined,
+        beds: listing.beds ?? undefined,
+        baths: listing.bathrooms ?? undefined,
+        rating: listing.rating ?? undefined,
+        reviews: listing.reviews ?? undefined,
+        contractorAmenities: listing.amenities || [],
+        amenityMap: listing.amenity_map || {},
+        notes: listing.notes || 'Watchlist competitor. Needs notes.',
+      };
+    });
+
+  return {
+    homesteadUnits: hhUnits.length ? hhUnits : homesteadUnits,
+    marketComps: comps.length ? comps : marketComps,
+    weeklyBriefing: weeklyBriefing
+      ? {
+          weekStart: weeklyBriefing.week_start,
+          headline: weeklyBriefing.headline,
+          ownerRead: weeklyBriefing.owner_read,
+          nextActions: weeklyBriefing.next_actions,
+        }
+      : undefined,
+    dataFreshness,
+  };
+}
+
+export const staticAirbnbMarketBriefing: AirbnbMarketBriefing = {
+  homesteadUnits,
+  marketComps,
+  dataFreshness,
 };

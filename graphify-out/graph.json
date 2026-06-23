@@ -126,7 +126,7 @@
       "source_file": "package.json",
       "source_location": "L1",
       "id": "package_json",
-      "community": 69,
+      "community": 73,
       "norm_label": "package.json"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "package.json",
       "source_location": "L2",
       "id": "homestead_host_hub_package_name",
-      "community": 69,
+      "community": 73,
       "norm_label": "name"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "package.json",
       "source_location": "L3",
       "id": "homestead_host_hub_package_private",
-      "community": 69,
+      "community": 73,
       "norm_label": "private"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "package.json",
       "source_location": "L4",
       "id": "homestead_host_hub_package_version",
-      "community": 69,
+      "community": 73,
       "norm_label": "version"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "package.json",
       "source_location": "L5",
       "id": "homestead_host_hub_package_type",
-      "community": 69,
+      "community": 73,
       "norm_label": "type"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "package.json",
       "source_location": "L6",
       "id": "homestead_host_hub_package_scripts",
-      "community": 68,
+      "community": 67,
       "norm_label": "scripts"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "package.json",
       "source_location": "L7",
       "id": "homestead_host_hub_package_scripts_dev",
-      "community": 68,
+      "community": 67,
       "norm_label": "dev"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "package.json",
       "source_location": "L8",
       "id": "homestead_host_hub_package_scripts_build",
-      "community": 68,
+      "community": 67,
       "norm_label": "build"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "package.json",
       "source_location": "L9",
       "id": "homestead_host_hub_package_scripts_build_dev",
-      "community": 68,
+      "community": 67,
       "norm_label": "build:dev"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "package.json",
       "source_location": "L10",
       "id": "homestead_host_hub_package_scripts_lint",
-      "community": 68,
+      "community": 67,
       "norm_label": "lint"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "package.json",
       "source_location": "L11",
       "id": "homestead_host_hub_package_scripts_preview",
-      "community": 68,
+      "community": 67,
       "norm_label": "preview"
     },
     {
@@ -225,7 +225,7 @@
       "source_file": "package.json",
       "source_location": "L12",
       "id": "homestead_host_hub_package_scripts_test",
-      "community": 68,
+      "community": 67,
       "norm_label": "test"
     },
     {
@@ -234,7 +234,7 @@
       "source_file": "package.json",
       "source_location": "L13",
       "id": "homestead_host_hub_package_scripts_test_watch",
-      "community": 68,
+      "community": 67,
       "norm_label": "test:watch"
     },
     {
@@ -1471,6 +1471,600 @@
       "norm_label": "include"
     },
     {
+      "label": "manifest.json",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/manifest.json",
+      "source_location": "L1",
+      "id": "artifacts_welcome_basket_sheets_image_model_branded_manifest_json",
+      "community": 76,
+      "norm_label": "manifest.json"
+    },
+    {
+      "label": "verification.json",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L1",
+      "id": "artifacts_welcome_basket_sheets_image_model_branded_verification_json",
+      "community": 72,
+      "norm_label": "verification.json"
+    },
+    {
+      "label": "decode_failures",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L2",
+      "id": "welcome_basket_sheets_image_model_branded_verification_decode_failures",
+      "community": 72,
+      "norm_label": "decode_failures"
+    },
+    {
+      "label": "url_results",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L3",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "community": 72,
+      "norm_label": "url_results"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-1",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L4",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_1",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-1"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+1",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L8",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_1",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+1"
+    },
+    {
+      "label": "https://form.jotform.com/261687221033149",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L12",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_form_jotform_com_261687221033149",
+      "community": 72,
+      "norm_label": "https://form.jotform.com/261687221033149"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-2",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L16",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_2",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-2"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+2",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L20",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_2",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+2"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-3",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L24",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_3",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-3"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+3",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L28",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_3",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+3"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-4",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L32",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_4",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-4"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+4",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L36",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_4",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+4"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-5",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L40",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_5",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-5"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+5",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L44",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_5",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+5"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-6",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L48",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_6",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-6"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+6",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L52",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_6",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+6"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-7",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L56",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_7",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-7"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+7",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L60",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_7",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+7"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-8",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L64",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_8",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-8"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+8",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L68",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_8",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+8"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-9",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L72",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_9",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-9"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+9",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L76",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_9",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+9"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-10",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L80",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_10",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-10"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+10",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L84",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_10",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+10"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-11",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L88",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_11",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-11"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+11",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L92",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_11",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+11"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-13",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L96",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_13",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-13"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+13",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L100",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_13",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+13"
+    },
+    {
+      "label": "https://homestead-hill.com/extend/unit-14",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L104",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_14",
+      "community": 72,
+      "norm_label": "https://homestead-hill.com/extend/unit-14"
+    },
+    {
+      "label": "https://tally.so/r/LZ5aV2?unit=Unit+14",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L108",
+      "id": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_14",
+      "community": 72,
+      "norm_label": "https://tally.so/r/lz5av2?unit=unit+14"
+    },
+    {
+      "label": "manifest.json",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets-image-model/manifest.json",
+      "source_location": "L1",
+      "id": "artifacts_welcome_basket_sheets_image_model_manifest_json",
+      "community": 70,
+      "norm_label": "manifest.json"
+    },
+    {
+      "label": "manifest.json",
+      "file_type": "code",
+      "source_file": "artifacts/welcome-basket-sheets/manifest.json",
+      "source_location": "L1",
+      "id": "artifacts_welcome_basket_sheets_manifest_json",
+      "community": 71,
+      "norm_label": "manifest.json"
+    },
+    {
+      "label": "generate-hannah-cleaner-qr-sheet.py",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L1",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "community": 22,
+      "norm_label": "generate-hannah-cleaner-qr-sheet.py"
+    },
+    {
+      "label": "font()",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L44",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_font",
+      "community": 22,
+      "norm_label": "font()"
+    },
+    {
+      "label": "center()",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L55",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_center",
+      "community": 22,
+      "norm_label": "center()"
+    },
+    {
+      "label": "rounded()",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L61",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_rounded",
+      "community": 22,
+      "norm_label": "rounded()"
+    },
+    {
+      "label": "make_qr()",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L65",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_make_qr",
+      "community": 22,
+      "norm_label": "make_qr()"
+    },
+    {
+      "label": "wrap()",
+      "file_type": "code",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L73",
+      "id": "scripts_generate_hannah_cleaner_qr_sheet_wrap",
+      "community": 22,
+      "norm_label": "wrap()"
+    },
+    {
+      "label": "generate-image-model-welcome-basket-sheets.py",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L1",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "community": 65,
+      "norm_label": "generate-image-model-welcome-basket-sheets.py"
+    },
+    {
+      "label": "font()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L41",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_font",
+      "community": 65,
+      "norm_label": "font()"
+    },
+    {
+      "label": "unit_slug()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L64",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_unit_slug",
+      "community": 65,
+      "norm_label": "unit_slug()"
+    },
+    {
+      "label": "urls_for()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L68",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_urls_for",
+      "community": 65,
+      "norm_label": "urls_for()"
+    },
+    {
+      "label": "make_qr()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L76",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_make_qr",
+      "community": 65,
+      "norm_label": "make_qr()"
+    },
+    {
+      "label": "centered_text()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L84",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_centered_text",
+      "community": 65,
+      "norm_label": "centered_text()"
+    },
+    {
+      "label": "wrap_text()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L91",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_wrap_text",
+      "community": 65,
+      "norm_label": "wrap_text()"
+    },
+    {
+      "label": "draw_house_mark()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L108",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_draw_house_mark",
+      "community": 65,
+      "norm_label": "draw_house_mark()"
+    },
+    {
+      "label": "make_sheet()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L114",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "community": 65,
+      "norm_label": "make_sheet()"
+    },
+    {
+      "label": "decode_qrs()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L154",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_decode_qrs",
+      "community": 65,
+      "norm_label": "decode_qrs()"
+    },
+    {
+      "label": "check_url()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L172",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_check_url",
+      "community": 65,
+      "norm_label": "check_url()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L180",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "community": 65,
+      "norm_label": "main()"
+    },
+    {
+      "label": "Decode each known QR crop.      OpenCV's full-page multi-detector can miss inten",
+      "file_type": "rationale",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L155",
+      "id": "scripts_generate_image_model_welcome_basket_sheets_rationale_155",
+      "community": 65,
+      "norm_label": "decode each known qr crop.      opencv's full-page multi-detector can miss inten"
+    },
+    {
+      "label": "generate-welcome-basket-sheets.py",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L1",
+      "id": "scripts_generate_welcome_basket_sheets_py",
+      "community": 69,
+      "norm_label": "generate-welcome-basket-sheets.py"
+    },
+    {
+      "label": "rgb()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L33",
+      "id": "scripts_generate_welcome_basket_sheets_rgb",
+      "community": 69,
+      "norm_label": "rgb()"
+    },
+    {
+      "label": "font()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L38",
+      "id": "scripts_generate_welcome_basket_sheets_font",
+      "community": 69,
+      "norm_label": "font()"
+    },
+    {
+      "label": "text_width()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L65",
+      "id": "scripts_generate_welcome_basket_sheets_text_width",
+      "community": 69,
+      "norm_label": "text_width()"
+    },
+    {
+      "label": "center()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L70",
+      "id": "scripts_generate_welcome_basket_sheets_center",
+      "community": 69,
+      "norm_label": "center()"
+    },
+    {
+      "label": "wrapped_lines()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L76",
+      "id": "scripts_generate_welcome_basket_sheets_wrapped_lines",
+      "community": 69,
+      "norm_label": "wrapped_lines()"
+    },
+    {
+      "label": "draw_wrapped()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L91",
+      "id": "scripts_generate_welcome_basket_sheets_draw_wrapped",
+      "community": 69,
+      "norm_label": "draw_wrapped()"
+    },
+    {
+      "label": "unit_slug()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L105",
+      "id": "scripts_generate_welcome_basket_sheets_unit_slug",
+      "community": 69,
+      "norm_label": "unit_slug()"
+    },
+    {
+      "label": "build_cards()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L109",
+      "id": "scripts_generate_welcome_basket_sheets_build_cards",
+      "community": 69,
+      "norm_label": "build_cards()"
+    },
+    {
+      "label": "make_qr()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L152",
+      "id": "scripts_generate_welcome_basket_sheets_make_qr",
+      "community": 69,
+      "norm_label": "make_qr()"
+    },
+    {
+      "label": "draw_logo()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L159",
+      "id": "scripts_generate_welcome_basket_sheets_draw_logo",
+      "community": 69,
+      "norm_label": "draw_logo()"
+    },
+    {
+      "label": "draw_icon()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L176",
+      "id": "scripts_generate_welcome_basket_sheets_draw_icon",
+      "community": 69,
+      "norm_label": "draw_icon()"
+    },
+    {
+      "label": "draw_sheet()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L196",
+      "id": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "community": 69,
+      "norm_label": "draw_sheet()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L312",
+      "id": "scripts_generate_welcome_basket_sheets_main",
+      "community": 69,
+      "norm_label": "main()"
+    },
+    {
       "label": "generate-maintenance-qr-codes.py",
       "file_type": "code",
       "source_file": "scripts/generate-maintenance-qr-codes.py",
@@ -2353,6 +2947,78 @@
       "norm_label": "reviewnotes"
     },
     {
+      "label": "staffCleanerSheet",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L83",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "community": 34,
+      "norm_label": "staffcleanersheet"
+    },
+    {
+      "label": "audience",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L84",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_audience",
+      "community": 34,
+      "norm_label": "audience"
+    },
+    {
+      "label": "guestFacing",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L85",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_guestfacing",
+      "community": 34,
+      "norm_label": "guestfacing"
+    },
+    {
+      "label": "outputs",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L86",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_outputs",
+      "community": 34,
+      "norm_label": "outputs"
+    },
+    {
+      "label": "png",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L87",
+      "id": "references_homestead_hill_qr_source_of_truth_outputs_png",
+      "community": 34,
+      "norm_label": "png"
+    },
+    {
+      "label": "pdf",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L88",
+      "id": "references_homestead_hill_qr_source_of_truth_outputs_pdf",
+      "community": 34,
+      "norm_label": "pdf"
+    },
+    {
+      "label": "cards",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L90",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_cards",
+      "community": 34,
+      "norm_label": "cards"
+    },
+    {
+      "label": "notes",
+      "file_type": "code",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L104",
+      "id": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_notes",
+      "community": 34,
+      "norm_label": "notes"
+    },
+    {
       "label": "settings.json",
       "file_type": "code",
       "source_file": ".claude/settings.json",
@@ -2446,7 +3112,7 @@
       "label": "AppRouter()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L74",
+      "source_location": "L75",
       "id": "src_app_approuter",
       "community": 33,
       "norm_label": "approuter()"
@@ -2455,7 +3121,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L120",
+      "source_location": "L122",
       "id": "src_app_app",
       "community": 33,
       "norm_label": "app()"
@@ -2484,7 +3150,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L1",
       "id": "src_components_onboardingtutorial_tsx",
-      "community": 33,
+      "community": 11,
       "norm_label": "onboardingtutorial.tsx"
     },
     {
@@ -2493,7 +3159,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L30",
       "id": "components_onboardingtutorial_tutorialicon",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialicon()"
     },
     {
@@ -2502,7 +3168,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L54",
       "id": "components_onboardingtutorial_usetutorialstate",
-      "community": 33,
+      "community": 11,
       "norm_label": "usetutorialstate()"
     },
     {
@@ -2529,7 +3195,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L69",
       "id": "components_onboardingtutorial_tutorialdialogprops",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialdialogprops"
     },
     {
@@ -2538,7 +3204,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L76",
       "id": "components_onboardingtutorial_tutorialdialog",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialdialog()"
     },
     {
@@ -2547,7 +3213,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L161",
       "id": "components_onboardingtutorial_onboardingtutorialprops",
-      "community": 33,
+      "community": 11,
       "norm_label": "onboardingtutorialprops"
     },
     {
@@ -2556,7 +3222,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L166",
       "id": "components_onboardingtutorial_onboardingtutorial",
-      "community": 33,
+      "community": 11,
       "norm_label": "onboardingtutorial()"
     },
     {
@@ -2565,7 +3231,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L170",
       "id": "components_onboardingtutorial_maintenancetutorial",
-      "community": 33,
+      "community": 11,
       "norm_label": "maintenancetutorial()"
     },
     {
@@ -2745,7 +3411,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L1",
       "id": "src_components_homesteadhillplcontent_tsx",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplcontent.tsx"
     },
     {
@@ -2754,7 +3420,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L13",
       "id": "components_homesteadhillplcontent_dashboarddata",
-      "community": 63,
+      "community": 33,
       "norm_label": "dashboarddata"
     },
     {
@@ -2763,7 +3429,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L14",
       "id": "components_homesteadhillplcontent_txn",
-      "community": 63,
+      "community": 33,
       "norm_label": "txn"
     },
     {
@@ -2772,7 +3438,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L16",
       "id": "components_homesteadhillplcontent_money",
-      "community": 63,
+      "community": 33,
       "norm_label": "money()"
     },
     {
@@ -2781,7 +3447,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L19",
       "id": "components_homesteadhillplcontent_amountclass",
-      "community": 63,
+      "community": 33,
       "norm_label": "amountclass()"
     },
     {
@@ -2790,7 +3456,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L20",
       "id": "components_homesteadhillplcontent_unitsort",
-      "community": 63,
+      "community": 33,
       "norm_label": "unitsort()"
     },
     {
@@ -2799,7 +3465,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L26",
       "id": "components_homesteadhillplcontent_transactioncard",
-      "community": 63,
+      "community": 33,
       "norm_label": "transactioncard()"
     },
     {
@@ -2808,7 +3474,7 @@
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L47",
       "id": "components_homesteadhillplcontent_homesteadhillplcontent",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplcontent()"
     },
     {
@@ -2934,7 +3600,7 @@
       "source_file": "src/components/CalendarSyncHealth.tsx",
       "source_location": "L1",
       "id": "src_components_calendarsynchealth_tsx",
-      "community": 16,
+      "community": 33,
       "norm_label": "calendarsynchealth.tsx"
     },
     {
@@ -2943,7 +3609,7 @@
       "source_file": "src/components/CalendarSyncHealth.tsx",
       "source_location": "L7",
       "id": "components_calendarsynchealth_calendarsynchealth",
-      "community": 67,
+      "community": 63,
       "norm_label": "calendarsynchealth()"
     },
     {
@@ -2952,7 +3618,7 @@
       "source_file": "src/components/SortableUnitGrid.tsx",
       "source_location": "L1",
       "id": "src_components_sortableunitgrid_tsx",
-      "community": 11,
+      "community": 0,
       "norm_label": "sortableunitgrid.tsx"
     },
     {
@@ -2961,7 +3627,7 @@
       "source_file": "src/components/SortableUnitGrid.tsx",
       "source_location": "L24",
       "id": "components_sortableunitgrid_sortableunitgridprops",
-      "community": 11,
+      "community": 0,
       "norm_label": "sortableunitgridprops"
     },
     {
@@ -2970,7 +3636,7 @@
       "source_file": "src/components/SortableUnitGrid.tsx",
       "source_location": "L41",
       "id": "components_sortableunitgrid_sortableunitgrid",
-      "community": 11,
+      "community": 0,
       "norm_label": "sortableunitgrid()"
     },
     {
@@ -2979,7 +3645,7 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L1",
       "id": "src_components_maintenancetutorialcontent_test_ts",
-      "community": 33,
+      "community": 11,
       "norm_label": "maintenancetutorialcontent.test.ts"
     },
     {
@@ -2988,7 +3654,7 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L6",
       "id": "components_maintenancetutorialcontent_test_titles",
-      "community": 33,
+      "community": 11,
       "norm_label": "titles"
     },
     {
@@ -2997,7 +3663,7 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L16",
       "id": "components_maintenancetutorialcontent_test_admintitles",
-      "community": 33,
+      "community": 11,
       "norm_label": "admintitles"
     },
     {
@@ -3384,7 +4050,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L1",
       "id": "src_components_unitcard_tsx",
-      "community": 11,
+      "community": 50,
       "norm_label": "unitcard.tsx"
     },
     {
@@ -3393,7 +4059,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L10",
       "id": "components_unitcard_unitcardprops",
-      "community": 11,
+      "community": 50,
       "norm_label": "unitcardprops"
     },
     {
@@ -3402,7 +4068,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L27",
       "id": "components_unitcard_formatcurrency",
-      "community": 11,
+      "community": 50,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3411,7 +4077,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L30",
       "id": "components_unitcard_formatdate",
-      "community": 11,
+      "community": 50,
       "norm_label": "formatdate()"
     },
     {
@@ -3420,7 +4086,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L35",
       "id": "components_unitcard_daysuntil",
-      "community": 11,
+      "community": 50,
       "norm_label": "daysuntil()"
     },
     {
@@ -3429,7 +4095,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L41",
       "id": "components_unitcard_statuscolors",
-      "community": 11,
+      "community": 50,
       "norm_label": "statuscolors"
     },
     {
@@ -3438,7 +4104,7 @@
       "source_file": "src/components/UnitCard.tsx",
       "source_location": "L49",
       "id": "components_unitcard_unitcard",
-      "community": 11,
+      "community": 50,
       "norm_label": "unitcard()"
     },
     {
@@ -3645,7 +4311,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L1",
       "id": "src_components_tutorialcontent_ts",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialcontent.ts"
     },
     {
@@ -3654,7 +4320,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L1",
       "id": "components_tutorialcontent_tutorialiconname",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialiconname"
     },
     {
@@ -3663,7 +4329,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L19",
       "id": "components_tutorialcontent_tutorialstepcontent",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialstepcontent"
     },
     {
@@ -3672,7 +4338,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L25",
       "id": "components_tutorialcontent_propertymanagertutorialsteps",
-      "community": 33,
+      "community": 11,
       "norm_label": "propertymanagertutorialsteps"
     },
     {
@@ -3681,7 +4347,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L88",
       "id": "components_tutorialcontent_maintenancetutorialsteps",
-      "community": 33,
+      "community": 11,
       "norm_label": "maintenancetutorialsteps"
     },
     {
@@ -3690,7 +4356,7 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L133",
       "id": "components_tutorialcontent_admintutorialsteps",
-      "community": 33,
+      "community": 11,
       "norm_label": "admintutorialsteps"
     },
     {
@@ -3933,7 +4599,7 @@
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L1",
       "id": "src_components_bulkdeletepaymentsdialog_tsx",
-      "community": 16,
+      "community": 0,
       "norm_label": "bulkdeletepaymentsdialog.tsx"
     },
     {
@@ -3942,7 +4608,7 @@
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L24",
       "id": "components_bulkdeletepaymentsdialog_paymentevent",
-      "community": 16,
+      "community": 0,
       "norm_label": "paymentevent"
     },
     {
@@ -3951,7 +4617,7 @@
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L34",
       "id": "components_bulkdeletepaymentsdialog_bulkdeletepaymentsdialogprops",
-      "community": 16,
+      "community": 0,
       "norm_label": "bulkdeletepaymentsdialogprops"
     },
     {
@@ -3960,7 +4626,7 @@
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L42",
       "id": "components_bulkdeletepaymentsdialog_formatcurrency",
-      "community": 16,
+      "community": 0,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3969,7 +4635,7 @@
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L45",
       "id": "components_bulkdeletepaymentsdialog_bulkdeletepaymentsdialog",
-      "community": 16,
+      "community": 0,
       "norm_label": "bulkdeletepaymentsdialog()"
     },
     {
@@ -4005,7 +4671,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L25",
       "id": "components_maintenancerequestdialog_formatdatetime",
-      "community": 16,
+      "community": 33,
       "norm_label": "formatdatetime()"
     },
     {
@@ -4014,7 +4680,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L30",
       "id": "components_maintenancerequestdialog_maintenancerequestdialog",
-      "community": 16,
+      "community": 33,
       "norm_label": "maintenancerequestdialog()"
     },
     {
@@ -4059,7 +4725,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L1",
       "id": "src_components_ui_card_tsx",
-      "community": 16,
+      "community": 33,
       "norm_label": "card.tsx"
     },
     {
@@ -4068,7 +4734,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L5",
       "id": "ui_card_card",
-      "community": 16,
+      "community": 33,
       "norm_label": "card"
     },
     {
@@ -4077,7 +4743,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L10",
       "id": "ui_card_cardheader",
-      "community": 16,
+      "community": 33,
       "norm_label": "cardheader"
     },
     {
@@ -4086,7 +4752,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L17",
       "id": "ui_card_cardtitle",
-      "community": 16,
+      "community": 33,
       "norm_label": "cardtitle"
     },
     {
@@ -4095,7 +4761,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L24",
       "id": "ui_card_carddescription",
-      "community": 16,
+      "community": 33,
       "norm_label": "carddescription"
     },
     {
@@ -4104,7 +4770,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L31",
       "id": "ui_card_cardcontent",
-      "community": 16,
+      "community": 33,
       "norm_label": "cardcontent"
     },
     {
@@ -4113,7 +4779,7 @@
       "source_file": "src/components/ui/card.tsx",
       "source_location": "L36",
       "id": "ui_card_cardfooter",
-      "community": 16,
+      "community": 33,
       "norm_label": "cardfooter"
     },
     {
@@ -4122,7 +4788,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L1",
       "id": "src_components_ui_skeleton_tsx",
-      "community": 10,
+      "community": 4,
       "norm_label": "skeleton.tsx"
     },
     {
@@ -4131,7 +4797,7 @@
       "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L3",
       "id": "ui_skeleton_skeleton",
-      "community": 10,
+      "community": 4,
       "norm_label": "skeleton()"
     },
     {
@@ -4140,7 +4806,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L1",
       "id": "src_components_ui_chart_tsx",
-      "community": 22,
+      "community": 68,
       "norm_label": "chart.tsx"
     },
     {
@@ -4149,7 +4815,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L7",
       "id": "ui_chart_themes",
-      "community": 22,
+      "community": 68,
       "norm_label": "themes"
     },
     {
@@ -4158,7 +4824,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L9",
       "id": "ui_chart_chartconfig",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartconfig"
     },
     {
@@ -4167,7 +4833,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L16",
       "id": "ui_chart_chartcontextprops",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartcontextprops"
     },
     {
@@ -4176,7 +4842,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L20",
       "id": "ui_chart_chartcontext",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartcontext"
     },
     {
@@ -4185,7 +4851,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L22",
       "id": "ui_chart_usechart",
-      "community": 22,
+      "community": 68,
       "norm_label": "usechart()"
     },
     {
@@ -4194,7 +4860,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L32",
       "id": "ui_chart_chartcontainer",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartcontainer"
     },
     {
@@ -4203,7 +4869,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L61",
       "id": "ui_chart_chartstyle",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartstyle()"
     },
     {
@@ -4212,7 +4878,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L92",
       "id": "ui_chart_charttooltipcontent",
-      "community": 22,
+      "community": 68,
       "norm_label": "charttooltipcontent"
     },
     {
@@ -4221,7 +4887,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L230",
       "id": "ui_chart_chartlegendcontent",
-      "community": 22,
+      "community": 68,
       "norm_label": "chartlegendcontent"
     },
     {
@@ -4230,7 +4896,7 @@
       "source_file": "src/components/ui/chart.tsx",
       "source_location": "L278",
       "id": "ui_chart_getpayloadconfigfrompayload",
-      "community": 22,
+      "community": 68,
       "norm_label": "getpayloadconfigfrompayload()"
     },
     {
@@ -4338,7 +5004,7 @@
       "source_file": "src/components/ui/collapsible.tsx",
       "source_location": "L1",
       "id": "src_components_ui_collapsible_tsx",
-      "community": 11,
+      "community": 50,
       "norm_label": "collapsible.tsx"
     },
     {
@@ -4590,7 +5256,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L1",
       "id": "src_components_ui_drawer_tsx",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawer.tsx"
     },
     {
@@ -4599,7 +5265,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L6",
       "id": "ui_drawer_drawer",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawer()"
     },
     {
@@ -4608,7 +5274,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L17",
       "id": "ui_drawer_draweroverlay",
-      "community": 65,
+      "community": 10,
       "norm_label": "draweroverlay"
     },
     {
@@ -4617,7 +5283,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L25",
       "id": "ui_drawer_drawercontent",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawercontent"
     },
     {
@@ -4626,7 +5292,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L46",
       "id": "ui_drawer_drawerheader",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawerheader()"
     },
     {
@@ -4635,7 +5301,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L51",
       "id": "ui_drawer_drawerfooter",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawerfooter()"
     },
     {
@@ -4644,7 +5310,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L56",
       "id": "ui_drawer_drawertitle",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawertitle"
     },
     {
@@ -4653,7 +5319,7 @@
       "source_file": "src/components/ui/drawer.tsx",
       "source_location": "L68",
       "id": "ui_drawer_drawerdescription",
-      "community": 65,
+      "community": 10,
       "norm_label": "drawerdescription"
     },
     {
@@ -5598,7 +6264,7 @@
       "source_file": "src/components/ui/input-otp.tsx",
       "source_location": "L1",
       "id": "src_components_ui_input_otp_tsx",
-      "community": 64,
+      "community": 74,
       "norm_label": "input-otp.tsx"
     },
     {
@@ -5607,7 +6273,7 @@
       "source_file": "src/components/ui/input-otp.tsx",
       "source_location": "L7",
       "id": "ui_input_otp_inputotp",
-      "community": 64,
+      "community": 74,
       "norm_label": "inputotp"
     },
     {
@@ -5616,7 +6282,7 @@
       "source_file": "src/components/ui/input-otp.tsx",
       "source_location": "L19",
       "id": "ui_input_otp_inputotpgroup",
-      "community": 64,
+      "community": 74,
       "norm_label": "inputotpgroup"
     },
     {
@@ -5625,7 +6291,7 @@
       "source_file": "src/components/ui/input-otp.tsx",
       "source_location": "L24",
       "id": "ui_input_otp_inputotpslot",
-      "community": 64,
+      "community": 74,
       "norm_label": "inputotpslot"
     },
     {
@@ -5634,7 +6300,7 @@
       "source_file": "src/components/ui/input-otp.tsx",
       "source_location": "L52",
       "id": "ui_input_otp_inputotpseparator",
-      "community": 64,
+      "community": 74,
       "norm_label": "inputotpseparator"
     },
     {
@@ -5733,7 +6399,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "src_components_ui_tabs_tsx",
-      "community": 63,
+      "community": 16,
       "norm_label": "tabs.tsx"
     },
     {
@@ -5742,7 +6408,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L8",
       "id": "ui_tabs_tabslist",
-      "community": 63,
+      "community": 16,
       "norm_label": "tabslist"
     },
     {
@@ -5751,7 +6417,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L23",
       "id": "ui_tabs_tabstrigger",
-      "community": 63,
+      "community": 16,
       "norm_label": "tabstrigger"
     },
     {
@@ -5760,7 +6426,7 @@
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L38",
       "id": "ui_tabs_tabscontent",
-      "community": 63,
+      "community": 16,
       "norm_label": "tabscontent"
     },
     {
@@ -5805,7 +6471,7 @@
       "source_file": "src/components/ui/textarea.tsx",
       "source_location": "L7",
       "id": "ui_textarea_textarea",
-      "community": 0,
+      "community": 16,
       "norm_label": "textarea"
     },
     {
@@ -5859,7 +6525,7 @@
       "source_file": "src/components/ui/switch.tsx",
       "source_location": "L1",
       "id": "src_components_ui_switch_tsx",
-      "community": 0,
+      "community": 5,
       "norm_label": "switch.tsx"
     },
     {
@@ -6336,7 +7002,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L1",
       "id": "src_components_ui_badge_tsx",
-      "community": 16,
+      "community": 50,
       "norm_label": "badge.tsx"
     },
     {
@@ -6345,7 +7011,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L6",
       "id": "ui_badge_badgevariants",
-      "community": 16,
+      "community": 50,
       "norm_label": "badgevariants"
     },
     {
@@ -6354,7 +7020,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L23",
       "id": "ui_badge_badgeprops",
-      "community": 16,
+      "community": 50,
       "norm_label": "badgeprops"
     },
     {
@@ -6363,7 +7029,7 @@
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L25",
       "id": "ui_badge_badge",
-      "community": 16,
+      "community": 50,
       "norm_label": "badge()"
     },
     {
@@ -6714,7 +7380,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1",
       "id": "src_integrations_supabase_types_ts",
-      "community": 50,
+      "community": 33,
       "norm_label": "types.ts"
     },
     {
@@ -6723,7 +7389,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1",
       "id": "supabase_types_json",
-      "community": 50,
+      "community": 33,
       "norm_label": "json"
     },
     {
@@ -6732,7 +7398,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L9",
       "id": "supabase_types_database",
-      "community": 50,
+      "community": 33,
       "norm_label": "database"
     },
     {
@@ -6741,7 +7407,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L507",
       "id": "supabase_types_databasewithoutinternals",
-      "community": 50,
+      "community": 33,
       "norm_label": "databasewithoutinternals"
     },
     {
@@ -6750,7 +7416,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L509",
       "id": "supabase_types_defaultschema",
-      "community": 50,
+      "community": 33,
       "norm_label": "defaultschema"
     },
     {
@@ -6759,7 +7425,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L511",
       "id": "supabase_types_tables",
-      "community": 50,
+      "community": 33,
       "norm_label": "tables"
     },
     {
@@ -6768,7 +7434,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L540",
       "id": "supabase_types_tablesinsert",
-      "community": 50,
+      "community": 33,
       "norm_label": "tablesinsert"
     },
     {
@@ -6777,7 +7443,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L565",
       "id": "supabase_types_tablesupdate",
-      "community": 50,
+      "community": 33,
       "norm_label": "tablesupdate"
     },
     {
@@ -6786,7 +7452,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L590",
       "id": "supabase_types_enums",
-      "community": 50,
+      "community": 33,
       "norm_label": "enums"
     },
     {
@@ -6795,7 +7461,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L607",
       "id": "supabase_types_compositetypes",
-      "community": 50,
+      "community": 33,
       "norm_label": "compositetypes"
     },
     {
@@ -6804,7 +7470,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L624",
       "id": "supabase_types_constants",
-      "community": 50,
+      "community": 33,
       "norm_label": "constants"
     },
     {
@@ -6813,7 +7479,7 @@
       "source_file": "src/integrations/supabase/client.ts",
       "source_location": "L1",
       "id": "src_integrations_supabase_client_ts",
-      "community": 50,
+      "community": 33,
       "norm_label": "client.ts"
     },
     {
@@ -6822,7 +7488,7 @@
       "source_file": "src/integrations/supabase/client.ts",
       "source_location": "L11",
       "id": "supabase_client_supabase",
-      "community": 16,
+      "community": 33,
       "norm_label": "supabase"
     },
     {
@@ -6831,25 +7497,34 @@
       "source_file": "src/pages/ExtendStay.tsx",
       "source_location": "L1",
       "id": "src_pages_extendstay_tsx",
-      "community": 0,
+      "community": 33,
       "norm_label": "extendstay.tsx"
     },
     {
       "label": "units",
       "file_type": "code",
       "source_file": "src/pages/ExtendStay.tsx",
-      "source_location": "L10",
+      "source_location": "L11",
       "id": "pages_extendstay_units",
-      "community": 0,
+      "community": 33,
       "norm_label": "units"
+    },
+    {
+      "label": "normalizeUnit()",
+      "file_type": "code",
+      "source_file": "src/pages/ExtendStay.tsx",
+      "source_location": "L27",
+      "id": "pages_extendstay_normalizeunit",
+      "community": 33,
+      "norm_label": "normalizeunit()"
     },
     {
       "label": "ExtendStay()",
       "file_type": "code",
       "source_file": "src/pages/ExtendStay.tsx",
-      "source_location": "L12",
+      "source_location": "L36",
       "id": "pages_extendstay_extendstay",
-      "community": 0,
+      "community": 33,
       "norm_label": "extendstay()"
     },
     {
@@ -7020,7 +7695,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L1",
       "id": "src_pages_maintenancehealth_tsx",
-      "community": 16,
+      "community": 33,
       "norm_label": "maintenancehealth.tsx"
     },
     {
@@ -7029,7 +7704,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L10",
       "id": "pages_maintenancehealth_healthlog",
-      "community": 16,
+      "community": 33,
       "norm_label": "healthlog"
     },
     {
@@ -7038,7 +7713,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L20",
       "id": "pages_maintenancehealth_qaresult",
-      "community": 16,
+      "community": 33,
       "norm_label": "qaresult"
     },
     {
@@ -7047,7 +7722,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L33",
       "id": "pages_maintenancehealth_formatdate",
-      "community": 16,
+      "community": 33,
       "norm_label": "formatdate()"
     },
     {
@@ -7056,7 +7731,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L40",
       "id": "pages_maintenancehealth_statusvariant",
-      "community": 16,
+      "community": 33,
       "norm_label": "statusvariant()"
     },
     {
@@ -7065,7 +7740,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L47",
       "id": "pages_maintenancehealth_getpayloadsummary",
-      "community": 16,
+      "community": 33,
       "norm_label": "getpayloadsummary()"
     },
     {
@@ -7074,7 +7749,7 @@
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L58",
       "id": "pages_maintenancehealth_maintenancehealth",
-      "community": 16,
+      "community": 33,
       "norm_label": "maintenancehealth()"
     },
     {
@@ -7101,7 +7776,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L1",
       "id": "src_pages_financialreports_tsx",
-      "community": 50,
+      "community": 0,
       "norm_label": "financialreports.tsx"
     },
     {
@@ -7110,7 +7785,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L14",
       "id": "pages_financialreports_month_names",
-      "community": 50,
+      "community": 0,
       "norm_label": "month_names"
     },
     {
@@ -7119,7 +7794,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L16",
       "id": "pages_financialreports_source_colors",
-      "community": 50,
+      "community": 0,
       "norm_label": "source_colors"
     },
     {
@@ -7128,7 +7803,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L25",
       "id": "pages_financialreports_status_colors",
-      "community": 50,
+      "community": 0,
       "norm_label": "status_colors"
     },
     {
@@ -7137,7 +7812,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L32",
       "id": "pages_financialreports_fmt",
-      "community": 50,
+      "community": 0,
       "norm_label": "fmt()"
     },
     {
@@ -7146,7 +7821,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L35",
       "id": "pages_financialreports_fmtfull",
-      "community": 50,
+      "community": 0,
       "norm_label": "fmtfull()"
     },
     {
@@ -7155,7 +7830,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L38",
       "id": "pages_financialreports_yearoption",
-      "community": 50,
+      "community": 0,
       "norm_label": "yearoption"
     },
     {
@@ -7164,7 +7839,7 @@
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L40",
       "id": "pages_financialreports_financialreports",
-      "community": 50,
+      "community": 0,
       "norm_label": "financialreports()"
     },
     {
@@ -7173,7 +7848,7 @@
       "source_file": "src/pages/Index.tsx",
       "source_location": "L1",
       "id": "src_pages_index_tsx",
-      "community": 33,
+      "community": 16,
       "norm_label": "index.tsx"
     },
     {
@@ -7182,7 +7857,7 @@
       "source_file": "src/pages/Index.tsx",
       "source_location": "L3",
       "id": "pages_index_viewmode",
-      "community": 33,
+      "community": 16,
       "norm_label": "viewmode"
     },
     {
@@ -7191,7 +7866,7 @@
       "source_file": "src/pages/Index.tsx",
       "source_location": "L5",
       "id": "pages_index_indexprops",
-      "community": 33,
+      "community": 16,
       "norm_label": "indexprops"
     },
     {
@@ -7200,7 +7875,7 @@
       "source_file": "src/pages/Index.tsx",
       "source_location": "L10",
       "id": "pages_index_index",
-      "community": 33,
+      "community": 16,
       "norm_label": "index()"
     },
     {
@@ -7216,7 +7891,7 @@
       "label": "money()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "id": "pages_airbnbmarket_money",
       "community": 32,
       "norm_label": "money()"
@@ -7225,34 +7900,16 @@
       "label": "pct()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "id": "pages_airbnbmarket_pct",
       "community": 32,
       "norm_label": "pct()"
     },
     {
-      "label": "directMonthlyComps",
-      "file_type": "code",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L39",
-      "id": "pages_airbnbmarket_directmonthlycomps",
-      "community": 32,
-      "norm_label": "directmonthlycomps"
-    },
-    {
-      "label": "unit5",
-      "file_type": "code",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L43",
-      "id": "pages_airbnbmarket_unit5",
-      "community": 32,
-      "norm_label": "unit5"
-    },
-    {
       "label": "Header()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L46",
+      "source_location": "L42",
       "id": "pages_airbnbmarket_header",
       "community": 32,
       "norm_label": "header()"
@@ -7261,7 +7918,7 @@
       "label": "SectionHeader()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L76",
+      "source_location": "L72",
       "id": "pages_airbnbmarket_sectionheader",
       "community": 32,
       "norm_label": "sectionheader()"
@@ -7270,7 +7927,7 @@
       "label": "MetricCard()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L90",
+      "source_location": "L86",
       "id": "pages_airbnbmarket_metriccard",
       "community": 32,
       "norm_label": "metriccard()"
@@ -7279,7 +7936,7 @@
       "label": "AmenityMark()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L107",
+      "source_location": "L103",
       "id": "pages_airbnbmarket_amenitymark",
       "community": 32,
       "norm_label": "amenitymark()"
@@ -7288,7 +7945,7 @@
       "label": "PriceStrip()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L113",
+      "source_location": "L109",
       "id": "pages_airbnbmarket_pricestrip",
       "community": 32,
       "norm_label": "pricestrip()"
@@ -7297,7 +7954,7 @@
       "label": "UnitCard()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L134",
+      "source_location": "L130",
       "id": "pages_airbnbmarket_unitcard",
       "community": 32,
       "norm_label": "unitcard()"
@@ -7306,7 +7963,7 @@
       "label": "RevenueSimulator()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L206",
+      "source_location": "L203",
       "id": "pages_airbnbmarket_revenuesimulator",
       "community": 32,
       "norm_label": "revenuesimulator()"
@@ -7315,7 +7972,7 @@
       "label": "CompetitorCards()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L230",
+      "source_location": "L227",
       "id": "pages_airbnbmarket_competitorcards",
       "community": 32,
       "norm_label": "competitorcards()"
@@ -7324,16 +7981,43 @@
       "label": "AmenityMatrix()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L262",
+      "source_location": "L259",
       "id": "pages_airbnbmarket_amenitymatrix",
       "community": 32,
       "norm_label": "amenitymatrix()"
     },
     {
+      "label": "WeeklyBriefingCard()",
+      "file_type": "code",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L293",
+      "id": "pages_airbnbmarket_weeklybriefingcard",
+      "community": 32,
+      "norm_label": "weeklybriefingcard()"
+    },
+    {
+      "label": "AvailabilityWatchlist()",
+      "file_type": "code",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L318",
+      "id": "pages_airbnbmarket_availabilitywatchlist",
+      "community": 32,
+      "norm_label": "availabilitywatchlist()"
+    },
+    {
+      "label": "SnapshotAdminPanel()",
+      "file_type": "code",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L340",
+      "id": "pages_airbnbmarket_snapshotadminpanel",
+      "community": 32,
+      "norm_label": "snapshotadminpanel()"
+    },
+    {
       "label": "ActionBacklog()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L295",
+      "source_location": "L450",
       "id": "pages_airbnbmarket_actionbacklog",
       "community": 32,
       "norm_label": "actionbacklog()"
@@ -7342,7 +8026,7 @@
       "label": "AirbnbMarket()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L313",
+      "source_location": "L468",
       "id": "pages_airbnbmarket_airbnbmarket",
       "community": 32,
       "norm_label": "airbnbmarket()"
@@ -7380,7 +8064,7 @@
       "source_file": "src/pages/Finances.tsx",
       "source_location": "L1",
       "id": "src_pages_finances_tsx",
-      "community": 63,
+      "community": 16,
       "norm_label": "finances.tsx"
     },
     {
@@ -7389,7 +8073,7 @@
       "source_file": "src/pages/Finances.tsx",
       "source_location": "L12",
       "id": "pages_finances_finances",
-      "community": 63,
+      "community": 16,
       "norm_label": "finances()"
     },
     {
@@ -7398,7 +8082,7 @@
       "source_file": "src/data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
       "id": "src_data_homesteadhillplsnapshot_ts",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplsnapshot.ts"
     },
     {
@@ -7407,7 +8091,7 @@
       "source_file": "src/data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
       "id": "data_homesteadhillplsnapshot_homesteadhillplsnapshot",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplsnapshot"
     },
     {
@@ -7456,10 +8140,19 @@
       "norm_label": "amenitykeys"
     },
     {
-      "label": "HomesteadUnit",
+      "label": "PricingRecommendation",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L31",
+      "id": "data_airbnbmarket_pricingrecommendation",
+      "community": 32,
+      "norm_label": "pricingrecommendation"
+    },
+    {
+      "label": "HomesteadUnit",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L33",
       "id": "data_airbnbmarket_homesteadunit",
       "community": 32,
       "norm_label": "homesteadunit"
@@ -7468,7 +8161,7 @@
       "label": "MarketComp",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L54",
+      "source_location": "L62",
       "id": "data_airbnbmarket_marketcomp",
       "community": 32,
       "norm_label": "marketcomp"
@@ -7477,7 +8170,7 @@
       "label": "homesteadUnits",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L70",
+      "source_location": "L78",
       "id": "data_airbnbmarket_homesteadunits",
       "community": 32,
       "norm_label": "homesteadunits"
@@ -7486,7 +8179,7 @@
       "label": "marketComps",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L158",
+      "source_location": "L169",
       "id": "data_airbnbmarket_marketcomps",
       "community": 32,
       "norm_label": "marketcomps"
@@ -7495,7 +8188,7 @@
       "label": "contractorWeights",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L246",
+      "source_location": "L257",
       "id": "data_airbnbmarket_contractorweights",
       "community": 32,
       "norm_label": "contractorweights"
@@ -7504,7 +8197,7 @@
       "label": "actionBacklog",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L258",
+      "source_location": "L269",
       "id": "data_airbnbmarket_actionbacklog",
       "community": 32,
       "norm_label": "actionbacklog"
@@ -7513,7 +8206,7 @@
       "label": "effectiveNightly()",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L273",
+      "source_location": "L284",
       "id": "data_airbnbmarket_effectivenightly",
       "community": 32,
       "norm_label": "effectivenightly()"
@@ -7522,7 +8215,7 @@
       "label": "effectiveWeeklyNightly()",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L277",
+      "source_location": "L288",
       "id": "data_airbnbmarket_effectiveweeklynightly",
       "community": 32,
       "norm_label": "effectiveweeklynightly()"
@@ -7531,7 +8224,7 @@
       "label": "contractorFitScore()",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L281",
+      "source_location": "L292",
       "id": "data_airbnbmarket_contractorfitscore",
       "community": 32,
       "norm_label": "contractorfitscore()"
@@ -7540,7 +8233,7 @@
       "label": "compTypeLabel()",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L297",
+      "source_location": "L308",
       "id": "data_airbnbmarket_comptypelabel",
       "community": 32,
       "norm_label": "comptypelabel()"
@@ -7549,10 +8242,127 @@
       "label": "dataFreshness",
       "file_type": "code",
       "source_file": "src/data/airbnbMarket.ts",
-      "source_location": "L307",
+      "source_location": "L318",
       "id": "data_airbnbmarket_datafreshness",
       "community": 32,
       "norm_label": "datafreshness"
+    },
+    {
+      "label": "AirbnbMarketListingRow",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L324",
+      "id": "data_airbnbmarket_airbnbmarketlistingrow",
+      "community": 32,
+      "norm_label": "airbnbmarketlistingrow"
+    },
+    {
+      "label": "AirbnbMarketPriceSnapshotRow",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L346",
+      "id": "data_airbnbmarket_airbnbmarketpricesnapshotrow",
+      "community": 32,
+      "norm_label": "airbnbmarketpricesnapshotrow"
+    },
+    {
+      "label": "AirbnbMarketAvailabilitySnapshotRow",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L356",
+      "id": "data_airbnbmarket_airbnbmarketavailabilitysnapshotrow",
+      "community": 32,
+      "norm_label": "airbnbmarketavailabilitysnapshotrow"
+    },
+    {
+      "label": "AirbnbMarketWeeklyBriefingRow",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L363",
+      "id": "data_airbnbmarket_airbnbmarketweeklybriefingrow",
+      "community": 32,
+      "norm_label": "airbnbmarketweeklybriefingrow"
+    },
+    {
+      "label": "ManualSnapshotFormValues",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L370",
+      "id": "data_airbnbmarket_manualsnapshotformvalues",
+      "community": 32,
+      "norm_label": "manualsnapshotformvalues"
+    },
+    {
+      "label": "optionalNumber()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L382",
+      "id": "data_airbnbmarket_optionalnumber",
+      "community": 32,
+      "norm_label": "optionalnumber()"
+    },
+    {
+      "label": "buildManualSnapshotRows()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L387",
+      "id": "data_airbnbmarket_buildmanualsnapshotrows",
+      "community": 32,
+      "norm_label": "buildmanualsnapshotrows()"
+    },
+    {
+      "label": "AirbnbMarketBriefing",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L410",
+      "id": "data_airbnbmarket_airbnbmarketbriefing",
+      "community": 32,
+      "norm_label": "airbnbmarketbriefing"
+    },
+    {
+      "label": "median()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L422",
+      "id": "data_airbnbmarket_median",
+      "community": 32,
+      "norm_label": "median()"
+    },
+    {
+      "label": "moneyDelta()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L428",
+      "id": "data_airbnbmarket_moneydelta",
+      "community": 32,
+      "norm_label": "moneydelta()"
+    },
+    {
+      "label": "generateAirbnbWeeklyBriefing()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L432",
+      "id": "data_airbnbmarket_generateairbnbweeklybriefing",
+      "community": 32,
+      "norm_label": "generateairbnbweeklybriefing()"
+    },
+    {
+      "label": "buildAirbnbMarketBriefing()",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L475",
+      "id": "data_airbnbmarket_buildairbnbmarketbriefing",
+      "community": 32,
+      "norm_label": "buildairbnbmarketbriefing()"
+    },
+    {
+      "label": "staticAirbnbMarketBriefing",
+      "file_type": "code",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L569",
+      "id": "data_airbnbmarket_staticairbnbmarketbriefing",
+      "community": 32,
+      "norm_label": "staticairbnbmarketbriefing"
     },
     {
       "label": "useAuthRoles.ts",
@@ -7625,6 +8435,96 @@
       "id": "hooks_usepropertydata_usepropertydata",
       "community": 50,
       "norm_label": "usepropertydata()"
+    },
+    {
+      "label": "useAirbnbMarketBriefing.ts",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L1",
+      "id": "src_hooks_useairbnbmarketbriefing_ts",
+      "community": 32,
+      "norm_label": "useairbnbmarketbriefing.ts"
+    },
+    {
+      "label": "SupabaseAny",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L13",
+      "id": "hooks_useairbnbmarketbriefing_supabaseany",
+      "community": 32,
+      "norm_label": "supabaseany"
+    },
+    {
+      "label": "db",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L21",
+      "id": "hooks_useairbnbmarketbriefing_db",
+      "community": 32,
+      "norm_label": "db"
+    },
+    {
+      "label": "orderedRows()",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L23",
+      "id": "hooks_useairbnbmarketbriefing_orderedrows",
+      "community": 32,
+      "norm_label": "orderedrows()"
+    },
+    {
+      "label": "useAirbnbMarketBriefing()",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L29",
+      "id": "hooks_useairbnbmarketbriefing_useairbnbmarketbriefing",
+      "community": 32,
+      "norm_label": "useairbnbmarketbriefing()"
+    },
+    {
+      "label": "useAirbnbMarketSnapshotAdmin.ts",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L1",
+      "id": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "community": 32,
+      "norm_label": "useairbnbmarketsnapshotadmin.ts"
+    },
+    {
+      "label": "SupabaseWriteAny",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L5",
+      "id": "hooks_useairbnbmarketsnapshotadmin_supabasewriteany",
+      "community": 32,
+      "norm_label": "supabasewriteany"
+    },
+    {
+      "label": "db",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L12",
+      "id": "hooks_useairbnbmarketsnapshotadmin_db",
+      "community": 32,
+      "norm_label": "db"
+    },
+    {
+      "label": "useAirbnbMarketSnapshotAdmin()",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L14",
+      "id": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketsnapshotadmin",
+      "community": 32,
+      "norm_label": "useairbnbmarketsnapshotadmin()"
+    },
+    {
+      "label": "useAirbnbMarketWeeklyBriefingAdmin()",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L34",
+      "id": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketweeklybriefingadmin",
+      "community": 32,
+      "norm_label": "useairbnbmarketweeklybriefingadmin()"
     },
     {
       "label": "use-toast.ts",
@@ -8001,7 +8901,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L1",
       "id": "src_lib_calendarsynchealth_ts",
-      "community": 67,
+      "community": 63,
       "norm_label": "calendarsynchealth.ts"
     },
     {
@@ -8010,7 +8910,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L3",
       "id": "lib_calendarsynchealth_calendarsyncunithealth",
-      "community": 67,
+      "community": 63,
       "norm_label": "calendarsyncunithealth"
     },
     {
@@ -8019,7 +8919,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L12",
       "id": "lib_calendarsynchealth_isdateblockedbycalendar",
-      "community": 67,
+      "community": 63,
       "norm_label": "isdateblockedbycalendar()"
     },
     {
@@ -8028,7 +8928,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L16",
       "id": "lib_calendarsynchealth_adddays",
-      "community": 67,
+      "community": 63,
       "norm_label": "adddays()"
     },
     {
@@ -8037,7 +8937,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L22",
       "id": "lib_calendarsynchealth_toisodate",
-      "community": 67,
+      "community": 63,
       "norm_label": "toisodate()"
     },
     {
@@ -8046,7 +8946,7 @@
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L26",
       "id": "lib_calendarsynchealth_summarizecalendarsynchealth",
-      "community": 67,
+      "community": 63,
       "norm_label": "summarizecalendarsynchealth()"
     },
     {
@@ -8289,7 +9189,7 @@
       "source_file": "src/lib/calendarSyncHealth.test.ts",
       "source_location": "L1",
       "id": "src_lib_calendarsynchealth_test_ts",
-      "community": 67,
+      "community": 63,
       "norm_label": "calendarsynchealth.test.ts"
     },
     {
@@ -8298,7 +9198,7 @@
       "source_file": "src/lib/calendarSyncHealth.test.ts",
       "source_location": "L4",
       "id": "lib_calendarsynchealth_test_blocks",
-      "community": 67,
+      "community": 63,
       "norm_label": "blocks"
     },
     {
@@ -8307,7 +9207,7 @@
       "source_file": "src/lib/calendarSyncHealth.test.ts",
       "source_location": "L17",
       "id": "lib_calendarsynchealth_test_summary",
-      "community": 67,
+      "community": 63,
       "norm_label": "summary"
     },
     {
@@ -8498,6 +9398,51 @@
       "id": "lib_rolerouting_canaccesspath",
       "community": 33,
       "norm_label": "canaccesspath()"
+    },
+    {
+      "label": "airbnbMarketBriefing.test.ts",
+      "file_type": "code",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L1",
+      "id": "src_lib_airbnbmarketbriefing_test_ts",
+      "community": 32,
+      "norm_label": "airbnbmarketbriefing.test.ts"
+    },
+    {
+      "label": "allowed",
+      "file_type": "code",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L8",
+      "id": "lib_airbnbmarketbriefing_test_allowed",
+      "community": 32,
+      "norm_label": "allowed"
+    },
+    {
+      "label": "briefing",
+      "file_type": "code",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L15",
+      "id": "lib_airbnbmarketbriefing_test_briefing",
+      "community": 32,
+      "norm_label": "briefing"
+    },
+    {
+      "label": "source",
+      "file_type": "code",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L81",
+      "id": "lib_airbnbmarketbriefing_test_source",
+      "community": 32,
+      "norm_label": "source"
+    },
+    {
+      "label": "rows",
+      "file_type": "code",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L91",
+      "id": "lib_airbnbmarketbriefing_test_rows",
+      "community": 32,
+      "norm_label": "rows"
     },
     {
       "label": "roleRouting.test.ts",
@@ -8995,10 +9940,19 @@
       "norm_label": "guest / welcome basket flyer"
     },
     {
-      "label": "Per-unit maintenance QR cards",
+      "label": "Hannah / cleaner staff QR sheet",
       "file_type": "document",
       "source_file": "references/homestead-hill-qr-source-of-truth.md",
       "source_location": "L22",
+      "id": "references_homestead_hill_qr_source_of_truth_hannah_cleaner_staff_qr_sheet",
+      "community": 59,
+      "norm_label": "hannah / cleaner staff qr sheet"
+    },
+    {
+      "label": "Per-unit maintenance QR cards",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-qr-source-of-truth.md",
+      "source_location": "L34",
       "id": "references_homestead_hill_qr_source_of_truth_per_unit_maintenance_qr_cards",
       "community": 59,
       "norm_label": "per-unit maintenance qr cards"
@@ -9007,7 +9961,7 @@
       "label": "Generation commands",
       "file_type": "document",
       "source_file": "references/homestead-hill-qr-source-of-truth.md",
-      "source_location": "L42",
+      "source_location": "L54",
       "id": "references_homestead_hill_qr_source_of_truth_generation_commands",
       "community": 59,
       "norm_label": "generation commands"
@@ -9016,7 +9970,7 @@
       "label": "code:bash (python3 scripts/generate-guest-qr-sheet.py)",
       "file_type": "document",
       "source_file": "references/homestead-hill-qr-source-of-truth.md",
-      "source_location": "L44",
+      "source_location": "L56",
       "id": "references_homestead_hill_qr_source_of_truth_codeblock_1",
       "community": 59,
       "norm_label": "code:bash (python3 scripts/generate-guest-qr-sheet.py)"
@@ -9025,7 +9979,7 @@
       "label": "Approval decisions before print/commit",
       "file_type": "document",
       "source_file": "references/homestead-hill-qr-source-of-truth.md",
-      "source_location": "L49",
+      "source_location": "L62",
       "id": "references_homestead_hill_qr_source_of_truth_approval_decisions_before_print_commit",
       "community": 59,
       "norm_label": "approval decisions before print/commit"
@@ -9034,10 +9988,82 @@
       "label": "Verification required after every change",
       "file_type": "document",
       "source_file": "references/homestead-hill-qr-source-of-truth.md",
-      "source_location": "L55",
+      "source_location": "L68",
       "id": "references_homestead_hill_qr_source_of_truth_verification_required_after_every_change",
       "community": 59,
       "norm_label": "verification required after every change"
+    },
+    {
+      "label": "homestead-hill-print-design-system.md",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L1",
+      "id": "references_homestead_hill_print_design_system_md",
+      "community": 64,
+      "norm_label": "homestead-hill-print-design-system.md"
+    },
+    {
+      "label": "Homestead Hill Print Design System",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L1",
+      "id": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "community": 64,
+      "norm_label": "homestead hill print design system"
+    },
+    {
+      "label": "Design Read",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L5",
+      "id": "references_homestead_hill_print_design_system_design_read",
+      "community": 64,
+      "norm_label": "design read"
+    },
+    {
+      "label": "Brand Tokens",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L9",
+      "id": "references_homestead_hill_print_design_system_brand_tokens",
+      "community": 64,
+      "norm_label": "brand tokens"
+    },
+    {
+      "label": "Typography",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L21",
+      "id": "references_homestead_hill_print_design_system_typography",
+      "community": 64,
+      "norm_label": "typography"
+    },
+    {
+      "label": "Copy Rules",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L30",
+      "id": "references_homestead_hill_print_design_system_copy_rules",
+      "community": 64,
+      "norm_label": "copy rules"
+    },
+    {
+      "label": "Layout Rules",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L38",
+      "id": "references_homestead_hill_print_design_system_layout_rules",
+      "community": 64,
+      "norm_label": "layout rules"
+    },
+    {
+      "label": "Preflight Checklist",
+      "file_type": "document",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L48",
+      "id": "references_homestead_hill_print_design_system_preflight_checklist",
+      "community": 64,
+      "norm_label": "preflight checklist"
     },
     {
       "label": "plan.md",
@@ -9130,6 +10156,105 @@
       "norm_label": "after i ship"
     },
     {
+      "label": "SupabaseInsertAny",
+      "file_type": "code",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L5",
+      "community": 32,
+      "norm_label": "supabaseinsertany",
+      "id": "hooks_useairbnbmarketsnapshotadmin_supabaseinsertany"
+    },
+    {
+      "label": "pill()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L144",
+      "community": 69,
+      "norm_label": "pill()",
+      "id": "scripts_generate_welcome_basket_sheets_pill"
+    },
+    {
+      "label": "directMonthlyComps",
+      "file_type": "code",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L39",
+      "community": 32,
+      "norm_label": "directmonthlycomps",
+      "id": "pages_airbnbmarket_directmonthlycomps"
+    },
+    {
+      "label": "unit5",
+      "file_type": "code",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L43",
+      "community": 32,
+      "norm_label": "unit5",
+      "id": "pages_airbnbmarket_unit5"
+    },
+    {
+      "label": "hex_to_rgb()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L16",
+      "community": 69,
+      "norm_label": "hex_to_rgb()",
+      "id": "scripts_generate_welcome_basket_sheets_hex_to_rgb"
+    },
+    {
+      "label": "text_size()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L38",
+      "community": 69,
+      "norm_label": "text_size()",
+      "id": "scripts_generate_welcome_basket_sheets_text_size"
+    },
+    {
+      "label": "rounded()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L49",
+      "community": 69,
+      "norm_label": "rounded()",
+      "id": "scripts_generate_welcome_basket_sheets_rounded"
+    },
+    {
+      "label": "paste_rounded()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L70",
+      "community": 69,
+      "norm_label": "paste_rounded()",
+      "id": "scripts_generate_welcome_basket_sheets_paste_rounded"
+    },
+    {
+      "label": "add_shadow()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L79",
+      "community": 69,
+      "norm_label": "add_shadow()",
+      "id": "scripts_generate_welcome_basket_sheets_add_shadow"
+    },
+    {
+      "label": "card_icon()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L129",
+      "community": 69,
+      "norm_label": "card_icon()",
+      "id": "scripts_generate_welcome_basket_sheets_card_icon"
+    },
+    {
+      "label": "cover_crop()",
+      "file_type": "code",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L148",
+      "community": 69,
+      "norm_label": "cover_crop()",
+      "id": "scripts_generate_welcome_basket_sheets_cover_crop"
+    },
+    {
       "label": "CompTable()",
       "file_type": "code",
       "source_file": "src/pages/AirbnbMarket.tsx",
@@ -9143,7 +10268,7 @@
       "file_type": "code",
       "source_file": "components/HomesteadHillPLContent.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplcontent.tsx",
       "id": "components_homesteadhillplcontent_tsx"
     },
@@ -9152,7 +10277,7 @@
       "file_type": "code",
       "source_file": "data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 33,
       "norm_label": "homesteadhillplsnapshot.ts",
       "id": "data_homesteadhillplsnapshot_ts"
     },
@@ -9161,7 +10286,7 @@
       "file_type": "code",
       "source_file": "pages/Finances.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 16,
       "norm_label": "finances.tsx",
       "id": "pages_finances_tsx"
     },
@@ -9206,7 +10331,7 @@
       "file_type": "code",
       "source_file": "MaintenanceHealth.tsx",
       "source_location": "L1",
-      "community": 16,
+      "community": 33,
       "norm_label": "maintenancehealth.tsx",
       "id": "maintenancehealth_tsx"
     },
@@ -9368,7 +10493,7 @@
       "file_type": "code",
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L22",
-      "community": 33,
+      "community": 11,
       "norm_label": "tutorialstep",
       "id": "components_onboardingtutorial_tutorialstep"
     },
@@ -9377,7 +10502,7 @@
       "file_type": "code",
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L28",
-      "community": 33,
+      "community": 11,
       "norm_label": "steps",
       "id": "components_onboardingtutorial_steps"
     }
@@ -10927,6 +12052,1105 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "artifacts_welcome_basket_sheets_image_model_branded_verification_json",
+      "target": "welcome_basket_sheets_image_model_branded_verification_decode_failures"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L139",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "artifacts_welcome_basket_sheets_image_model_branded_verification_json",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L140",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L144",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L148",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_form_jotform_com_261687221033149"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L152",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L156",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L160",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L164",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L168",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L176",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L180",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L184",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_6"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L188",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_6"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L192",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_7"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L196",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_7"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L200",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_8"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L204",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_8"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L208",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_9"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_9"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L216",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_10"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L220",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_10"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L224",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_11"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L228",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_11"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L232",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_13"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L236",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_13"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L240",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_homestead_hill_com_extend_unit_14"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "artifacts/welcome-basket-sheets-image-model-branded/verification.json",
+      "source_location": "L244",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "welcome_basket_sheets_image_model_branded_verification_url_results",
+      "target": "welcome_basket_sheets_image_model_branded_verification_url_results_https_tally_so_r_lz5av2_unit_unit_14"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "target": "scripts_generate_hannah_cleaner_qr_sheet_font"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L55",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "target": "scripts_generate_hannah_cleaner_qr_sheet_center"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L61",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "target": "scripts_generate_hannah_cleaner_qr_sheet_rounded"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "target": "scripts_generate_hannah_cleaner_qr_sheet_make_qr"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-hannah-cleaner-qr-sheet.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_hannah_cleaner_qr_sheet_py",
+      "target": "scripts_generate_hannah_cleaner_qr_sheet_wrap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_font"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_urls_for"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_make_qr"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_centered_text"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_wrap_text"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_draw_house_mark"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_make_sheet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_decode_qrs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_check_url"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_py",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_main"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_font"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_urls_for",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_urls_for"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_urls_for"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_make_qr"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_centered_text"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L140",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_wrap_text"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L120",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_make_sheet",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_draw_house_mark"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_make_sheet"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L197",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_decode_qrs"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_rationale_155",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_decode_qrs"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-image-model-welcome-basket-sheets.py",
+      "source_location": "L202",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_image_model_welcome_basket_sheets_main",
+      "target": "scripts_generate_image_model_welcome_basket_sheets_check_url"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_rgb"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_font"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_text_width"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_center"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_wrapped_lines"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_draw_wrapped"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L61",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_build_cards"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L137",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_make_qr"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L159",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_draw_logo"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L176",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_draw_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_draw_sheet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L149",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_main"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L144",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_pill"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_hex_to_rgb"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_text_size"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_rounded"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_paste_rounded"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_add_shadow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_card_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L148",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_py",
+      "target": "scripts_generate_welcome_basket_sheets_cover_crop"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L141",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_make_qr",
+      "target": "scripts_generate_welcome_basket_sheets_rgb"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L150",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_rgb"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_font"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L146",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_pill",
+      "target": "scripts_generate_welcome_basket_sheets_font"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_center",
+      "target": "scripts_generate_welcome_basket_sheets_text_width"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_wrapped_lines",
+      "target": "scripts_generate_welcome_basket_sheets_text_width"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_wrapped",
+      "target": "scripts_generate_welcome_basket_sheets_text_width"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_center"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L146",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_pill",
+      "target": "scripts_generate_welcome_basket_sheets_center"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_center",
+      "target": "scripts_generate_welcome_basket_sheets_text_size"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_wrapped",
+      "target": "scripts_generate_welcome_basket_sheets_wrapped_lines"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L116",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_wrapped_lines"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L204",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_draw_wrapped"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_build_cards",
+      "target": "scripts_generate_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_main",
+      "target": "scripts_generate_welcome_basket_sheets_unit_slug"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_build_cards"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L214",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_make_qr"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L230",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_draw_logo"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L261",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_draw_icon"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_main",
+      "target": "scripts_generate_welcome_basket_sheets_draw_sheet"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L201",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_pill"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L75",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_hex_to_rgb"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_rounded"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L192",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_paste_rounded"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L180",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_add_shadow"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L227",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_card_icon"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L188",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_draw_sheet",
+      "target": "scripts_generate_welcome_basket_sheets_cover_crop"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "scripts/generate-maintenance-qr-codes.py",
       "source_location": "L35",
       "weight": 1.0,
@@ -11825,6 +14049,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_json",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
       "source_location": "L3",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -12020,6 +14254,76 @@
       "confidence_score": 1.0,
       "source": "references_homestead_hill_qr_source_of_truth_outputs",
       "target": "references_homestead_hill_qr_source_of_truth_outputs_maintenancedirectory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_audience"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_guestfacing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_outputs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_cards"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L104",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet",
+      "target": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_notes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_outputs",
+      "target": "references_homestead_hill_qr_source_of_truth_outputs_png"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.json",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_staffcleanersheet_outputs",
+      "target": "references_homestead_hill_qr_source_of_truth_outputs_pdf"
     },
     {
       "relation": "contains",
@@ -27965,6 +30269,28 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "src_integrations_supabase_client_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "src_integrations_supabase_client_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/hooks/useAirbnbBlocks.ts",
       "source_location": "L2",
       "weight": 1.0,
@@ -28047,6 +30373,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_hooks_usepropertydata_ts",
+      "target": "supabase_client_supabase"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "supabase_client_supabase"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
       "target": "supabase_client_supabase"
     },
     {
@@ -28173,11 +30521,32 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/ExtendStay.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_extendstay_tsx",
+      "target": "pages_extendstay_normalizeunit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ExtendStay.tsx",
       "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_extendstay_tsx",
       "target": "pages_extendstay_extendstay"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/ExtendStay.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_extendstay_extendstay",
+      "target": "pages_extendstay_normalizeunit"
     },
     {
       "relation": "contains",
@@ -28966,9 +31335,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_actionbacklog",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_actionbacklog"
     },
     {
       "relation": "imports",
@@ -28977,9 +31346,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_amenitykeys",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_amenitykeys"
     },
     {
       "relation": "imports",
@@ -28988,9 +31357,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_comptypelabel",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_comptypelabel"
     },
     {
       "relation": "imports",
@@ -29023,17 +31392,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_datafreshness"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_airbnbmarket_tsx",
       "target": "data_airbnbmarket_effectivenightly"
     },
     {
@@ -29043,41 +31401,19 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L21",
       "weight": 1.0,
-      "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_effectiveweeklynightly",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_homesteadunits"
+      "target": "data_airbnbmarket_effectiveweeklynightly"
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_marketcomps"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_amenitykey",
+      "target": "data_airbnbmarket_generateairbnbweeklybriefing",
       "confidence_score": 1.0
     },
     {
@@ -29087,8 +31423,85 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "data_airbnbmarket_homesteadunit",
+      "target": "data_airbnbmarket_amenitykey"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "data_airbnbmarket_homesteadunit"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "data_airbnbmarket_manualsnapshotformvalues"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "src_hooks_useairbnbmarketbriefing_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "hooks_useairbnbmarketbriefing_useairbnbmarketbriefing"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "src_hooks_useairbnbmarketsnapshotadmin_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketsnapshotadmin"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketweeklybriefingadmin",
       "confidence_score": 1.0
     },
     {
@@ -29137,26 +31550,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_directmonthlycomps"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AirbnbMarket.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_unit5"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L38",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -29169,9 +31562,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_sectionheader",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_sectionheader"
     },
     {
       "relation": "contains",
@@ -29189,9 +31582,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_amenitymark",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_amenitymark"
     },
     {
       "relation": "contains",
@@ -29199,9 +31592,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_pricestrip",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_pricestrip"
     },
     {
       "relation": "contains",
@@ -29229,9 +31622,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L230",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_competitorcards",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_competitorcards"
     },
     {
       "relation": "contains",
@@ -29239,9 +31632,39 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L262",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_amenitymatrix",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_amenitymatrix"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L289",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "pages_airbnbmarket_weeklybriefingcard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L314",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "pages_airbnbmarket_availabilitywatchlist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L339",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "pages_airbnbmarket_snapshotadminpanel"
     },
     {
       "relation": "contains",
@@ -29249,9 +31672,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
-      "target": "pages_airbnbmarket_actionbacklog",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_actionbacklog"
     },
     {
       "relation": "contains",
@@ -29262,6 +31685,59 @@
       "confidence_score": 1.0,
       "source": "src_pages_airbnbmarket_tsx",
       "target": "pages_airbnbmarket_airbnbmarket"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "data_airbnbmarket_datafreshness"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "data_airbnbmarket_homesteadunits"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "data_airbnbmarket_marketcomps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "pages_airbnbmarket_directmonthlycomps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_airbnbmarket_tsx",
+      "target": "pages_airbnbmarket_unit5"
     },
     {
       "relation": "contains",
@@ -29280,9 +31756,9 @@
       "source_file": "src/pages/AirbnbMarket.tsx",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_airbnbmarket_pricestrip",
-      "target": "pages_airbnbmarket_money",
-      "confidence_score": 1.0
+      "target": "pages_airbnbmarket_money"
     },
     {
       "relation": "calls",
@@ -29382,6 +31858,39 @@
       "weight": 1.0,
       "source": "pages_airbnbmarket_unitcard",
       "target": "data_airbnbmarket_effectivenightly"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "pages_airbnbmarket_snapshotadminpanel",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketsnapshotadmin"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L354",
+      "weight": 1.0,
+      "source": "pages_airbnbmarket_snapshotadminpanel",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketweeklybriefingadmin"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/AirbnbMarket.tsx",
+      "source_location": "L307",
+      "weight": 1.0,
+      "source": "pages_airbnbmarket_airbnbmarket",
+      "target": "hooks_useairbnbmarketbriefing_useairbnbmarketbriefing"
     },
     {
       "relation": "calls",
@@ -29535,9 +32044,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_unitstatus",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_unitstatus"
     },
     {
       "relation": "contains",
@@ -29545,9 +32054,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_comptype",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_comptype"
     },
     {
       "relation": "contains",
@@ -29555,9 +32064,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_amenitykey",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_amenitykey"
     },
     {
       "relation": "contains",
@@ -29565,9 +32074,19 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_amenitykeys",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_amenitykeys"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_pricingrecommendation"
     },
     {
       "relation": "contains",
@@ -29625,9 +32144,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L258",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_actionbacklog",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_actionbacklog"
     },
     {
       "relation": "contains",
@@ -29645,9 +32164,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L277",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_effectiveweeklynightly",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_effectiveweeklynightly"
     },
     {
       "relation": "contains",
@@ -29665,9 +32184,9 @@
       "source_file": "src/data/airbnbMarket.ts",
       "source_location": "L297",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
-      "target": "data_airbnbmarket_comptypelabel",
-      "confidence_score": 1.0
+      "target": "data_airbnbmarket_comptypelabel"
     },
     {
       "relation": "contains",
@@ -29678,6 +32197,334 @@
       "confidence_score": 1.0,
       "source": "src_data_airbnbmarket_ts",
       "target": "data_airbnbmarket_datafreshness"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L319",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_airbnbmarketlistingrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L341",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_airbnbmarketpricesnapshotrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L351",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_airbnbmarketavailabilitysnapshotrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L358",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_airbnbmarketweeklybriefingrow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L370",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_manualsnapshotformvalues"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L382",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_optionalnumber"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L387",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_buildmanualsnapshotrows"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L365",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_airbnbmarketbriefing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L422",
+      "weight": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_median",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L428",
+      "weight": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_moneydelta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L432",
+      "weight": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_generateairbnbweeklybriefing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L377",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_buildairbnbmarketbriefing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L457",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_airbnbmarket_ts",
+      "target": "data_airbnbmarket_staticairbnbmarketbriefing"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "src_data_airbnbmarket_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "src_data_airbnbmarket_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "src_data_airbnbmarket_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "data_airbnbmarket_homesteadunits"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_airbnbmarketlistingrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_airbnbmarketpricesnapshotrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_airbnbmarketavailabilitysnapshotrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_airbnbmarketweeklybriefingrow"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "data_airbnbmarket_airbnbmarketweeklybriefingrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "data_airbnbmarket_manualsnapshotformvalues"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L395",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_airbnbmarket_buildmanualsnapshotrows",
+      "target": "data_airbnbmarket_optionalnumber"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "data_airbnbmarket_buildmanualsnapshotrows"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_airbnbmarketbriefing"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L443",
+      "weight": 1.0,
+      "source": "data_airbnbmarket_generateairbnbweeklybriefing",
+      "target": "data_airbnbmarket_median",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/airbnbMarket.ts",
+      "source_location": "L468",
+      "weight": 1.0,
+      "source": "data_airbnbmarket_generateairbnbweeklybriefing",
+      "target": "data_airbnbmarket_moneydelta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_buildairbnbmarketbriefing"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "data_airbnbmarket_buildairbnbmarketbriefing"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "data_airbnbmarket_staticairbnbmarketbriefing"
     },
     {
       "relation": "imports_from",
@@ -29814,6 +32661,96 @@
       "confidence_score": 1.0,
       "source": "pages_maintenance_tsx",
       "target": "hooks_usepropertydata_usepropertydata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "hooks_useairbnbmarketbriefing_supabaseany"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "hooks_useairbnbmarketbriefing_db"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "hooks_useairbnbmarketbriefing_orderedrows"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketBriefing.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketbriefing_ts",
+      "target": "hooks_useairbnbmarketbriefing_useairbnbmarketbriefing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "hooks_useairbnbmarketsnapshotadmin_supabasewriteany",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "hooks_useairbnbmarketsnapshotadmin_db"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketsnapshotadmin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "hooks_useairbnbmarketsnapshotadmin_useairbnbmarketweeklybriefingadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useAirbnbMarketSnapshotAdmin.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_useairbnbmarketsnapshotadmin_ts",
+      "target": "hooks_useairbnbmarketsnapshotadmin_supabaseinsertany"
     },
     {
       "relation": "contains",
@@ -31278,6 +34215,46 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "lib_airbnbmarketbriefing_test_allowed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "lib_airbnbmarketbriefing_test_briefing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "lib_airbnbmarketbriefing_test_source"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/airbnbMarketBriefing.test.ts",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_airbnbmarketbriefing_test_ts",
+      "target": "lib_airbnbmarketbriefing_test_rows"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/lib/maintenanceWebhookIdempotency.test.ts",
       "source_location": "L5",
       "weight": 1.0,
@@ -31753,6 +34730,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "references_homestead_hill_qr_source_of_truth_homestead_hill_qr_source_of_truth",
+      "target": "references_homestead_hill_qr_source_of_truth_hannah_cleaner_staff_qr_sheet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-qr-source-of-truth.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_qr_source_of_truth_homestead_hill_qr_source_of_truth",
       "target": "references_homestead_hill_qr_source_of_truth_per_unit_maintenance_qr_cards"
     },
     {
@@ -31794,6 +34781,76 @@
       "confidence_score": 1.0,
       "source": "references_homestead_hill_qr_source_of_truth_generation_commands",
       "target": "references_homestead_hill_qr_source_of_truth_codeblock_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_md",
+      "target": "references_homestead_hill_print_design_system_homestead_hill_print_design_system"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_design_read"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_brand_tokens"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_typography"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_copy_rules"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_layout_rules"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "references/homestead-hill-print-design-system.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "references_homestead_hill_print_design_system_homestead_hill_print_design_system",
+      "target": "references_homestead_hill_print_design_system_preflight_checklist"
     },
     {
       "relation": "contains",
@@ -31884,6 +34941,17 @@
       "confidence_score": 1.0,
       "source": "lovable_plan_how_it_flows",
       "target": "lovable_plan_codeblock_1"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/generate-welcome-basket-sheets.py",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_generate_welcome_basket_sheets_card_icon",
+      "target": "scripts_generate_welcome_basket_sheets_rounded"
     },
     {
       "relation": "imports_from",
@@ -32074,5 +35142,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3b593761f5c93ba8073396b60be11b84d2e51187"
+  "built_at_commit": "4b47748990788d79942b401b24c76cb9002c2390"
 }

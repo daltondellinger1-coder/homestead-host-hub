@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -24,24 +25,19 @@ import {
   compTypeLabel,
   contractorFitScore,
   contractorWeights,
-  dataFreshness,
   effectiveNightly,
   effectiveWeeklyNightly,
-  homesteadUnits,
-  marketComps,
+  generateAirbnbWeeklyBriefing,
   type AmenityKey,
   type HomesteadUnit,
+  type ManualSnapshotFormValues,
 } from '@/data/airbnbMarket';
+import { useAirbnbMarketBriefing } from '@/hooks/useAirbnbMarketBriefing';
+import { useAirbnbMarketSnapshotAdmin, useAirbnbMarketWeeklyBriefingAdmin } from '@/hooks/useAirbnbMarketSnapshotAdmin';
 import { cn } from '@/lib/utils';
 
 const money = (value?: number) => (value ? `$${value.toLocaleString()}` : 'Verify');
 const pct = (value?: number) => (typeof value === 'number' ? `${value.toFixed(1)}%` : 'Verify');
-const directMonthlyComps = marketComps.filter((comp) => comp.monthlyEstimate);
-const monthlyMedian = [...directMonthlyComps]
-  .map((comp) => comp.monthlyEstimate || 0)
-  .sort((a, b) => a - b)[Math.floor(directMonthlyComps.length / 2)];
-const unit5 = homesteadUnits.find((unit) => unit.unit === 'Unit 5');
-const unit5Delta = unit5?.monthlyPrice && monthlyMedian ? monthlyMedian - unit5.monthlyPrice : undefined;
 
 function Header() {
   return (
@@ -169,6 +165,7 @@ function UnitCard({ unit }: { unit: HomesteadUnit }) {
           Owner action
         </div>
         <p className="mt-2 text-sm leading-5 text-muted-foreground">{unit.ownerAction}</p>
+        <div className="mt-3 rounded-xl border border-secondary/20 bg-secondary/10 px-3 py-2 text-xs font-semibold text-secondary">Pricing recommendation: {unit.pricingRecommendation}</div>
         <p className="mt-3 rounded-xl bg-background/40 px-3 py-2 text-xs leading-5 text-muted-foreground">{unit.dataStatus}</p>
       </div>
 
@@ -227,7 +224,7 @@ function RevenueSimulator() {
   );
 }
 
-function CompetitorCards() {
+function CompetitorCards({ marketComps }: { marketComps: import('@/data/airbnbMarket').MarketComp[] }) {
   return (
     <section className="rounded-3xl border border-border/60 bg-card/70 p-4 sm:p-5">
       <SectionHeader icon={Home} title="Competitor cards" subtext="Each comp is grouped by how much it matters to a 30+ day worker, not by vacation appeal." />
@@ -259,7 +256,7 @@ function CompetitorCards() {
   );
 }
 
-function AmenityMatrix() {
+function AmenityMatrix({ homesteadUnits, marketComps }: { homesteadUnits: HomesteadUnit[]; marketComps: import('@/data/airbnbMarket').MarketComp[] }) {
   const rows: { name: string; map: Partial<Record<AmenityKey, boolean | 'unclear'>> }[] = [
     ...homesteadUnits.map((unit) => ({ name: unit.unit, map: unit.amenityMap })),
     ...marketComps.slice(0, 4).map((comp) => ({ name: comp.name, map: comp.amenityMap })),
@@ -292,6 +289,164 @@ function AmenityMatrix() {
   );
 }
 
+
+function WeeklyBriefingCard({ briefing }: { briefing?: import('@/data/airbnbMarket').AirbnbMarketBriefing['weeklyBriefing'] }) {
+  if (!briefing) return null;
+
+  return (
+    <section className="rounded-3xl border border-secondary/20 bg-secondary/10 p-4 sm:p-5">
+      <SectionHeader icon={ClipboardList} title="Weekly pricing briefing" subtext={`Week of ${briefing.weekStart}`} />
+      <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
+          <p className="text-sm font-semibold text-foreground">Headline</p>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">{briefing.headline}</p>
+        </div>
+        <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
+          <p className="text-sm font-semibold text-foreground">Owner read</p>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">{briefing.ownerRead}</p>
+        </div>
+      </div>
+      <div className="mt-4 grid gap-2 sm:grid-cols-3">
+        {briefing.nextActions.map((action) => (
+          <div key={action} className="rounded-2xl border border-border/50 bg-background/35 p-3 text-sm leading-5 text-muted-foreground">{action}</div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AvailabilityWatchlist({ units }: { units: HomesteadUnit[] }) {
+  return (
+    <section className="rounded-3xl border border-border/60 bg-card/70 p-4 sm:p-5">
+      <SectionHeader icon={Target} title="Availability snapshot" subtext="Shows whether each HH listing is open for a 30-day contractor stay from the latest Supabase snapshot." />
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        {units.map((unit) => (
+          <div key={unit.unit} className="rounded-2xl border border-border/50 bg-background/40 p-4">
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-semibold text-foreground">{unit.unit}</p>
+              <span className={cn('rounded-full px-2.5 py-1 text-xs font-semibold', unit.availability?.available30Day ? 'bg-emerald-400/10 text-emerald-100' : 'bg-amber-400/10 text-amber-100')}>
+                {unit.availability?.available30Day ? '30-day open' : 'Verify'}
+              </span>
+            </div>
+            <p className="mt-3 text-sm leading-5 text-muted-foreground">Next available: {unit.availability?.nextAvailableDate || 'Needs Airbnb screenshot'}</p>
+            {unit.availability?.snapshotDate && <p className="mt-2 text-xs text-muted-foreground">Snapshot: {unit.availability.snapshotDate}</p>}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SnapshotAdminPanel({ units, marketComps }: { units: HomesteadUnit[]; marketComps: import('@/data/airbnbMarket').MarketComp[] }) {
+  const firstUnit = units[0];
+  const [values, setValues] = useState<ManualSnapshotFormValues>({
+    listingId: firstUnit?.unit === 'Unit 5' ? 'listing-unit-5' : '',
+    snapshotDate: new Date().toISOString().slice(0, 10),
+    nightlyPrice: firstUnit?.nightlyPrice?.toString() || '',
+    weeklyPrice: firstUnit?.weeklyPrice?.toString() || '',
+    monthlyPrice: firstUnit?.monthlyPrice?.toString() || '',
+    weeklyDiscountPct: firstUnit?.weeklyDiscountPct?.toString() || '',
+    monthlyDiscountPct: firstUnit?.monthlyDiscountPct?.toString() || '',
+    available30Day: firstUnit?.availability?.available30Day === undefined ? 'unknown' : firstUnit.availability.available30Day ? 'yes' : 'no',
+    nextAvailableDate: firstUnit?.availability?.nextAvailableDate || '',
+  });
+  const mutation = useAirbnbMarketSnapshotAdmin();
+  const weeklyMutation = useAirbnbMarketWeeklyBriefingAdmin();
+
+  const update = (key: keyof ManualSnapshotFormValues, nextValue: string) => {
+    setValues((current) => ({ ...current, [key]: nextValue }));
+  };
+
+  return (
+    <section className="rounded-3xl border border-secondary/20 bg-secondary/10 p-4 sm:p-5">
+      <SectionHeader icon={BadgeDollarSign} title="Record snapshot" subtext="Manual admin entry for the weekly Airbnb price and 30-day availability check." />
+      <form
+        className="mt-4 grid gap-3 lg:grid-cols-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          mutation.mutate(values);
+        }}
+      >
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Listing</span>
+          <select className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" value={values.listingId} onChange={(event) => update('listingId', event.target.value)} required>
+            <option value="">Choose listing</option>
+            <option value="listing-unit-5">Unit 5</option>
+            <option value="listing-unit-11">Unit 11</option>
+            <option value="listing-other-hh-units">Other HH units</option>
+          </select>
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Snapshot date</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" type="date" value={values.snapshotDate} onChange={(event) => update('snapshotDate', event.target.value)} required />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Nightly</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" inputMode="decimal" value={values.nightlyPrice} onChange={(event) => update('nightlyPrice', event.target.value)} placeholder="130" />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Weekly</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" inputMode="decimal" value={values.weeklyPrice} onChange={(event) => update('weeklyPrice', event.target.value)} placeholder="686" />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Monthly</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" inputMode="decimal" value={values.monthlyPrice} onChange={(event) => update('monthlyPrice', event.target.value)} placeholder="1855" />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Weekly discount %</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" inputMode="decimal" value={values.weeklyDiscountPct} onChange={(event) => update('weeklyDiscountPct', event.target.value)} placeholder="10.9" />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">Monthly discount %</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" inputMode="decimal" value={values.monthlyDiscountPct} onChange={(event) => update('monthlyDiscountPct', event.target.value)} placeholder="41.8" />
+        </label>
+        <label className="space-y-1 text-sm">
+          <span className="font-semibold text-foreground">30-day open?</span>
+          <select className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" value={values.available30Day} onChange={(event) => update('available30Day', event.target.value)}>
+            <option value="unknown">Unknown</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+        <label className="space-y-1 text-sm lg:col-span-2">
+          <span className="font-semibold text-foreground">Next available date</span>
+          <input className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground" type="date" value={values.nextAvailableDate} onChange={(event) => update('nextAvailableDate', event.target.value)} />
+        </label>
+        <div className="flex items-end lg:col-span-2">
+          <Button type="submit" className="w-full" disabled={mutation.isPending || !values.listingId || !values.snapshotDate}>
+            {mutation.isPending ? 'Saving…' : 'Save price + availability snapshot'}
+          </Button>
+        </div>
+      </form>
+      {mutation.isSuccess && <p className="mt-3 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-sm text-emerald-100">Snapshot saved. The briefing will refresh from Supabase.</p>}
+      {mutation.isError && <p className="mt-3 rounded-xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-100">Could not save snapshot: {mutation.error.message}</p>}
+      <div className="mt-4 rounded-2xl border border-border/50 bg-background/35 p-4">
+        <p className="text-sm font-semibold text-foreground">Weekly briefing generator</p>
+        <p className="mt-1 text-sm leading-5 text-muted-foreground">Creates the owner-read summary from current unit readiness, price snapshots, and comp median.</p>
+        <Button
+          type="button"
+          variant="secondary"
+          className="mt-3 w-full sm:w-auto"
+          disabled={weeklyMutation.isPending}
+          onClick={() => {
+            weeklyMutation.mutate(
+              generateAirbnbWeeklyBriefing({
+                weekStart: values.snapshotDate,
+                homesteadUnits: units,
+                marketComps,
+              }),
+            );
+          }}
+        >
+          {weeklyMutation.isPending ? 'Generating…' : 'Generate weekly briefing'}
+        </Button>
+        {weeklyMutation.isSuccess && <p className="mt-3 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-sm text-emerald-100">Weekly briefing saved. The dashboard will refresh from Supabase.</p>}
+        {weeklyMutation.isError && <p className="mt-3 rounded-xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-100">Could not save weekly briefing: {weeklyMutation.error.message}</p>}
+      </div>
+    </section>
+  );
+}
+
 function ActionBacklog() {
   return (
     <section className="rounded-3xl border border-border/60 bg-card/70 p-4 sm:p-5">
@@ -311,10 +466,24 @@ function ActionBacklog() {
 }
 
 export default function AirbnbMarket() {
+  const { data: briefing, isFetching, isError } = useAirbnbMarketBriefing();
+  const homesteadUnits = briefing.homesteadUnits;
+  const marketComps = briefing.marketComps;
+  const dataFreshness = briefing.dataFreshness;
+  const weeklyBriefing = briefing.weeklyBriefing;
+  const directMonthlyComps = marketComps.filter((comp) => comp.monthlyEstimate);
+  const monthlyMedian = [...directMonthlyComps]
+    .map((comp) => comp.monthlyEstimate || 0)
+    .sort((a, b) => a - b)[Math.floor(directMonthlyComps.length / 2)];
+  const unit5 = homesteadUnits.find((unit) => unit.unit === 'Unit 5');
+  const unit5Delta = unit5?.monthlyPrice && monthlyMedian ? monthlyMedian - unit5.monthlyPrice : undefined;
+
   return (
     <div className="min-h-screen pattern-bg">
       <Header />
       <main className="mx-auto max-w-7xl space-y-5 px-4 py-5 pb-24 sm:px-6 sm:py-6 lg:px-8">
+        {isFetching && <div className="rounded-2xl border border-secondary/20 bg-secondary/10 p-3 text-sm text-secondary">Loading market briefing from Supabase… showing last static fallback until it refreshes.</div>}
+        {isError && <div className="rounded-2xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-100">Supabase market briefing unavailable. Static fallback is still visible.</div>}
         <section className="overflow-hidden rounded-3xl border border-secondary/20 bg-gradient-to-br from-secondary/15 via-card/80 to-card p-5 shadow-xl sm:p-7">
           <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div>
@@ -333,6 +502,9 @@ export default function AirbnbMarket() {
             </div>
           </div>
         </section>
+
+        <WeeklyBriefingCard briefing={weeklyBriefing} />
+        <SnapshotAdminPanel units={homesteadUnits} marketComps={marketComps} />
 
         <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard icon={BadgeDollarSign} label="Unit 5 monthly" value={money(unit5?.monthlyPrice)} detail={`About $${effectiveNightly(unit5?.monthlyPrice)}/night after the Airbnb monthly discount.`} tone="green" />
@@ -375,9 +547,10 @@ export default function AirbnbMarket() {
           </div>
         </section>
 
+        <AvailabilityWatchlist units={homesteadUnits} />
         <RevenueSimulator />
-        <CompetitorCards />
-        <AmenityMatrix />
+        <CompetitorCards marketComps={marketComps} />
+        <AmenityMatrix homesteadUnits={homesteadUnits} marketComps={marketComps} />
         <ActionBacklog />
 
         <section className="rounded-3xl border border-border/60 bg-card/70 p-4 text-sm leading-6 text-muted-foreground sm:p-5">
