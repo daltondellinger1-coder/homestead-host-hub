@@ -377,6 +377,12 @@ describe('Airbnb market briefing model', () => {
       const briefing = buildAirbnbMarketBriefing({
         listings: [],
         priceSnapshots: [],
+      });
+      const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
+      expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
+      expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
+    });
+
     it('carries verified research markers on Unit 3 and Unit 11 in the static fallback', () => {
       const u3 = homesteadUnits.find((u) => u.unit === 'Unit 3');
       expect(u3?.rating).toBe(4.86);
@@ -389,20 +395,13 @@ describe('Airbnb market briefing model', () => {
       expect(u11?.rating).toBe(5);
       expect(u11?.reviews).toBe(1);
       expect(u11?.pricingRecommendation).toBe('hold');
-      // Unit 11 must NOT carry a direct Airbnb URL anywhere on the unit record.
       expect((u11 as unknown as { listingUrl?: string }).listingUrl).toBeUndefined();
     });
 
-    it('researched fallback fills Units 1-15 with non-generic owner actions (no two units share the same ownerAction)', () => {
+    it('researched fallback fills Units 1-15 with non-generic owner actions', () => {
       const actions = homesteadUnits.map((u) => u.ownerAction);
       expect(new Set(actions).size).toBeGreaterThanOrEqual(10);
       expect(homesteadUnits.find((u) => u.unit === 'Unit 12')?.ownerAction).toMatch(/storage/i);
-    });
-  });
-});
-      const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
-      expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
-      expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
     });
 
     it('strips any legacy "Other HH units" row coming back from Supabase', () => {
@@ -429,13 +428,12 @@ describe('Airbnb market briefing model', () => {
 
     it('snapshot admin selector is driven dynamically from the loaded units, not hardcoded to Unit 5/11/Other', () => {
       const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
-      // Dynamic mapping over units must exist.
       expect(source).toMatch(/units\.map\(\(u\)\s*=>/);
-      // No hardcoded Other HH option or stale fixture listing ids.
       expect(source).not.toContain('listing-other-hh-units');
       expect(source).not.toMatch(/<option value="listing-unit-5">/);
       expect(source).not.toMatch(/<option value="listing-unit-11">/);
     });
   });
 });
+
 
