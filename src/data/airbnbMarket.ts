@@ -227,7 +227,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Roku', 'Bathtub'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, Pets: true, 'Strong reviews': 'unclear', 'Photo proof': 'unclear' },
     notes: 'Budget pressure. HH needs to beat it on cleanliness, reliability, photos, and monthly value.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Upstairs%20Get%20Away',
   },
+
   {
     name: 'Apartment Centrally Located',
     compType: 'budget',
