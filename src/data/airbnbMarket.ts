@@ -552,7 +552,9 @@ export function buildAirbnbMarketBriefing({
         contractorAmenities: listing.amenities || [],
         amenityMap: listing.amenity_map || {},
         notes: listing.notes || 'Watchlist competitor. Needs notes.',
+        listingUrl: listing.listing_url || undefined,
       };
+
     });
 
   return {
