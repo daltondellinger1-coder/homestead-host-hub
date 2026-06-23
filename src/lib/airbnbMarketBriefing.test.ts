@@ -333,7 +333,7 @@ describe('Airbnb market briefing model', () => {
   });
 
   describe('all Homestead Hill units', () => {
-    it('renders every HH listing as its own HomesteadUnit with id threaded from Supabase, with no generic "Other HH units" placeholder', () => {
+    it('renders every HH listing as its own HomesteadUnit with id threaded from Supabase, pads missing units 1-15, and never includes "Other HH units"', () => {
       const unitNames = ['Unit 1', 'Unit 2', 'Unit 5', 'Unit 11', 'Unit 13'];
       const briefing = buildAirbnbMarketBriefing({
         listings: unitNames.map((name, i) => ({
@@ -358,12 +358,49 @@ describe('Airbnb market briefing model', () => {
         priceSnapshots: [],
       });
 
-      expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(unitNames);
+      const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
+      expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
+      // DB-sourced units keep their Supabase id…
       expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 5')?.id).toBe('hh-2');
+      expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 1')?.id).toBe('hh-0');
+      // …and padded placeholder units carry honest data-needed values, not silent zeros.
+      const padded = briefing.homesteadUnits.find((u) => u.unit === 'Unit 3');
+      expect(padded?.id).toBeUndefined();
+      expect(padded?.missingOrUnclear).toContain('Listing proof needed');
+      expect(padded?.missingOrUnclear).toContain('Monthly price needed');
+      expect(padded?.missingOrUnclear).toContain('Availability snapshot needed');
       expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
     });
 
-    it('static homestead unit fallback no longer ships an "Other HH units" placeholder', () => {
+    it('renders Unit 1 through Unit 15 even when Supabase returns zero homestead_hill rows', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [],
+        priceSnapshots: [],
+      });
+      const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
+      expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
+      expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
+    });
+
+    it('strips any legacy "Other HH units" row coming back from Supabase', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'legacy-other', name: 'Other HH units', source: 'homestead_hill' as const,
+            bedrooms: 1, bathrooms: 1, target_guest: null, pricing_recommendation: 'hold' as const,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: null, notes: null,
+            rating: null, reviews: null,
+          },
+        ],
+        priceSnapshots: [],
+      });
+      expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
+    });
+
+    it('static homestead unit fallback ships Unit 1 through Unit 15 with no "Other HH units" placeholder', () => {
+      const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
+      expect(homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
       expect(homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
     });
 
