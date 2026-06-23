@@ -24,7 +24,7 @@ import CalendarSyncHealth from '@/components/CalendarSyncHealth';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight, Wrench } from 'lucide-react';
+import { Plus, Mountain, LayoutGrid, CalendarDays, DollarSign, HelpCircle, LogOut, Trash2, Home, UserPlus, MoreVertical, Inbox, ArrowRight, Wrench, BriefcaseBusiness } from 'lucide-react';
 import { Guest, Payment, UnitStatus, UnitType, UNIT_TYPE_LABELS } from '@/types/property';
 import { toast } from 'sonner';
 
