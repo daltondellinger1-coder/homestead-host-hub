@@ -194,7 +194,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['2 baths', 'Downtown location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Potentially beats HH on bath count, but may be less quiet/simple than Homestead Hill for long work stays.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Downtown%20Loft%20Apartment%20Vincennes',
   },
+
   {
     name: 'Small Town Urban Oasis',
     compType: 'crew',
