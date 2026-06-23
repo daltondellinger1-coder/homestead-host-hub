@@ -940,7 +940,7 @@ export function buildAirbnbMarketBriefing({
   const padded: HomesteadUnit[] = [...dbHhUnits];
   for (const n of HH_UNIT_NUMBERS) {
     const name = `Unit ${n}`;
-    if (!seen.has(name)) padded.push(buildPlaceholderHomesteadUnit(name));
+    if (!seen.has(name)) padded.push(researchedByName.get(name) ?? buildPlaceholderHomesteadUnit(name));
   }
   padded.sort((a, b) => {
     const an = Number((a.unit.match(/\d+/) ?? ['0'])[0]);
