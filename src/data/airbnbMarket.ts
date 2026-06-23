@@ -116,50 +116,18 @@ export function knownDirectListingUrlForComp(name: string | null | undefined): s
 
 
 
-export const homesteadUnits: HomesteadUnit[] = [
-  {
-    unit: 'Unit 5',
-    bedrooms: 2,
-    beds: 2,
-    baths: 1,
-    sleeps: 4,
-    bestFor: 'Two workers, supervisor, or small crew needing a clean 30+ day base.',
-    nightlyPrice: 130,
-    monthlyPrice: 1855,
-    monthlyDiscountPct: 41.8,
-    rating: 4.75,
-    reviews: 4,
-    status: 'push',
-    amenities: ['Full kitchen', 'WiFi', 'Free parking', 'Smart lock', 'TV', 'AC', 'Long-term stays'],
-    amenityMap: {
-      'Monthly friendly': true,
-      'Full kitchen': true,
-      Laundry: 'unclear',
-      Parking: true,
-      'Self check-in': true,
-      WiFi: true,
-      Workspace: 'unclear',
-      'Crew beds': true,
-      Pets: 'unclear',
-      'Strong reviews': 'unclear',
-      'Photo proof': 'unclear',
-    },
-    missingOrUnclear: ['Laundry access', 'Dedicated workspace', 'Fast WiFi proof', 'Parking photo', 'Coffee setup'],
-    photoActions: ['Lead with bright living room', 'Move bedroom into first 3 photos', 'Add kitchen and coffee setup', 'Show parking and exterior entry', 'Add work table or laptop-ready shot'],
-    ownerAction: 'Push as the anchor 2BR monthly contractor option before cutting price.',
-    pricingRecommendation: 'improve listing before pricing change',
-    dataStatus: 'Verified monthly display: $1,855/month discounted from $3,190.',
-  },
-  {
-    unit: 'Unit 11',
-    bedrooms: 1,
-    beds: 1,
-    baths: 1,
-    bestFor: 'Solo worker or weekly-to-monthly contractor who wants low-friction furnished housing.',
-    weeklyPrice: 686,
-    weeklyDiscountPct: 10.9,
+/** Canonical Homestead Hill unit roster shown on /airbnb-market. */
+export const HH_UNIT_NUMBERS: number[] = Array.from({ length: 15 }, (_, i) => i + 1);
+
+/** Builds a "data-needed" placeholder unit so cards always render, even when Supabase is empty. */
+export function buildPlaceholderHomesteadUnit(unitName: string): HomesteadUnit {
+  return {
+    unit: unitName,
+    bedrooms: 0,
+    baths: 0,
+    bestFor: 'Monthly workforce housing candidate. Add listing proof and pricing snapshot.',
     status: 'verify',
-    amenities: ['Furnished stay', 'Weekly discount visible'],
+    amenities: [],
     amenityMap: {
       'Monthly friendly': 'unclear',
       'Full kitchen': 'unclear',
@@ -168,18 +136,95 @@ export const homesteadUnits: HomesteadUnit[] = [
       'Self check-in': 'unclear',
       WiFi: 'unclear',
       Workspace: 'unclear',
-      'Crew beds': false,
+      'Crew beds': 'unclear',
       Pets: 'unclear',
       'Strong reviews': 'unclear',
       'Photo proof': 'unclear',
     },
-    missingOrUnclear: ['Monthly price', 'Monthly discount', 'Laundry access', 'Workspace', 'Parking clarity'],
-    photoActions: ['Verify monthly availability screenshot', 'Add contractor-ready first 5 photos', 'Show bed, kitchen, bath, parking, work surface'],
-    ownerAction: 'Verify the monthly total and discount, then decide whether it becomes a solo-worker monthly unit.',
+    missingOrUnclear: [
+      'Listing proof needed',
+      'Monthly price needed',
+      'Availability snapshot needed',
+      'Amenity verification needed',
+      'Photos needed',
+    ],
+    photoActions: ['Capture hero photo', 'Add bed, kitchen, bath, parking, work surface shots'],
+    ownerAction: 'Capture an Airbnb listing snapshot and monthly price for this unit.',
     pricingRecommendation: 'hold',
-    dataStatus: 'Verified weekly display: $686/week discounted from $770. Monthly still needs a live screenshot.',
-  },
-];
+    dataStatus: 'Awaiting first Airbnb market snapshot.',
+  };
+}
+
+export const homesteadUnits: HomesteadUnit[] = HH_UNIT_NUMBERS.map((n) => {
+  if (n === 5) {
+    return {
+      unit: 'Unit 5',
+      bedrooms: 2,
+      beds: 2,
+      baths: 1,
+      sleeps: 4,
+      bestFor: 'Two workers, supervisor, or small crew needing a clean 30+ day base.',
+      nightlyPrice: 130,
+      monthlyPrice: 1855,
+      monthlyDiscountPct: 41.8,
+      rating: 4.75,
+      reviews: 4,
+      status: 'push',
+      amenities: ['Full kitchen', 'WiFi', 'Free parking', 'Smart lock', 'TV', 'AC', 'Long-term stays'],
+      amenityMap: {
+        'Monthly friendly': true,
+        'Full kitchen': true,
+        Laundry: 'unclear',
+        Parking: true,
+        'Self check-in': true,
+        WiFi: true,
+        Workspace: 'unclear',
+        'Crew beds': true,
+        Pets: 'unclear',
+        'Strong reviews': 'unclear',
+        'Photo proof': 'unclear',
+      },
+      missingOrUnclear: ['Laundry access', 'Dedicated workspace', 'Fast WiFi proof', 'Parking photo', 'Coffee setup'],
+      photoActions: ['Lead with bright living room', 'Move bedroom into first 3 photos', 'Add kitchen and coffee setup', 'Show parking and exterior entry', 'Add work table or laptop-ready shot'],
+      ownerAction: 'Push as the anchor 2BR monthly contractor option before cutting price.',
+      pricingRecommendation: 'improve listing before pricing change',
+      dataStatus: 'Verified monthly display: $1,855/month discounted from $3,190.',
+    };
+  }
+  if (n === 11) {
+    return {
+      unit: 'Unit 11',
+      bedrooms: 1,
+      beds: 1,
+      baths: 1,
+      bestFor: 'Solo worker or weekly-to-monthly contractor who wants low-friction furnished housing.',
+      weeklyPrice: 686,
+      weeklyDiscountPct: 10.9,
+      status: 'verify',
+      amenities: ['Furnished stay', 'Weekly discount visible'],
+      amenityMap: {
+        'Monthly friendly': 'unclear',
+        'Full kitchen': 'unclear',
+        Laundry: 'unclear',
+        Parking: 'unclear',
+        'Self check-in': 'unclear',
+        WiFi: 'unclear',
+        Workspace: 'unclear',
+        'Crew beds': false,
+        Pets: 'unclear',
+        'Strong reviews': 'unclear',
+        'Photo proof': 'unclear',
+      },
+      missingOrUnclear: ['Monthly price', 'Monthly discount', 'Laundry access', 'Workspace', 'Parking clarity'],
+      photoActions: ['Verify monthly availability screenshot', 'Add contractor-ready first 5 photos', 'Show bed, kitchen, bath, parking, work surface'],
+      ownerAction: 'Verify the monthly total and discount, then decide whether it becomes a solo-worker monthly unit.',
+      pricingRecommendation: 'hold',
+      dataStatus: 'Verified weekly display: $686/week discounted from $770. Monthly still needs a live screenshot.',
+    };
+  }
+  return buildPlaceholderHomesteadUnit(`Unit ${n}`);
+});
+
 
 
 export const marketComps: MarketComp[] = [
