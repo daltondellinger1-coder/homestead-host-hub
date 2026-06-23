@@ -364,12 +364,12 @@ describe('Airbnb market briefing model', () => {
       // DB-sourced units keep their Supabase id…
       expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 5')?.id).toBe('hh-2');
       expect(briefing.homesteadUnits.find((u) => u.unit === 'Unit 1')?.id).toBe('hh-0');
-      // …and padded placeholder units carry honest data-needed values, not silent zeros.
+      // …and padded units fall back to the researched profile (not silent placeholders).
       const padded = briefing.homesteadUnits.find((u) => u.unit === 'Unit 3');
       expect(padded?.id).toBeUndefined();
-      expect(padded?.missingOrUnclear).toContain('Listing proof needed');
-      expect(padded?.missingOrUnclear).toContain('Monthly price needed');
-      expect(padded?.missingOrUnclear).toContain('Availability snapshot needed');
+      expect(padded?.rating).toBe(4.86);
+      expect(padded?.reviews).toBe(7);
+      expect(padded?.bestFor).toMatch(/business traveler|proof listing/i);
       expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
     });
 
@@ -432,6 +432,73 @@ describe('Airbnb market briefing model', () => {
       expect(source).not.toContain('listing-other-hh-units');
       expect(source).not.toMatch(/<option value="listing-unit-5">/);
       expect(source).not.toMatch(/<option value="listing-unit-11">/);
+    });
+
+    it('merges sparse Supabase HH rows with the researched fallback for Unit 3', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'hh-unit-3', name: 'Unit 3', source: 'homestead_hill',
+            bedrooms: null, bathrooms: null, target_guest: null,
+            pricing_recommendation: null, owner_action: null, data_status: null,
+            amenities: [], amenity_map: {}, missing_or_unclear: [], photo_actions: [],
+            comp_type: null, notes: null, rating: null, reviews: null,
+          },
+        ],
+        priceSnapshots: [],
+      });
+      const u3 = briefing.homesteadUnits.find((u) => u.unit === 'Unit 3');
+      expect(u3?.id).toBe('hh-unit-3');
+      expect(u3?.rating).toBe(4.86);
+      expect(u3?.reviews).toBe(7);
+      expect(u3?.bestFor).toMatch(/business traveler|proof listing/i);
+      expect(u3?.ownerAction).not.toMatch(/^Review pricing and listing proof\.?$/);
+      expect(u3?.ownerAction).toMatch(/1BR proof listing/i);
+      expect(u3?.pricingRecommendation).toBe('improve listing before pricing change');
+      expect(u3?.amenities.length).toBeGreaterThan(0);
+    });
+
+    it('merges sparse Supabase HH row for Unit 11 with researched weekly price and rating when no snapshot exists', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'hh-unit-11', name: 'Unit 11', source: 'homestead_hill',
+            bedrooms: null, bathrooms: null, target_guest: null,
+            pricing_recommendation: null, owner_action: null, data_status: null,
+            amenities: [], amenity_map: {}, missing_or_unclear: [], photo_actions: [],
+            comp_type: null, notes: null, rating: null, reviews: null,
+          },
+        ],
+        priceSnapshots: [],
+      });
+      const u11 = briefing.homesteadUnits.find((u) => u.unit === 'Unit 11');
+      expect(u11?.weeklyPrice).toBe(686);
+      expect(u11?.rating).toBe(5);
+      expect(u11?.reviews).toBe(1);
+      expect(u11?.pricingRecommendation).toBe('hold');
+    });
+
+    it('lets a real Supabase price snapshot override the researched static fallback price', () => {
+      const briefing = buildAirbnbMarketBriefing({
+        listings: [
+          {
+            id: 'hh-unit-5', name: 'Unit 5', source: 'homestead_hill',
+            bedrooms: 2, bathrooms: 1, target_guest: null,
+            pricing_recommendation: null, owner_action: null, data_status: null,
+            amenities: [], amenity_map: {}, missing_or_unclear: [], photo_actions: [],
+            comp_type: null, notes: null, rating: null, reviews: null,
+          },
+        ],
+        priceSnapshots: [
+          { listing_id: 'hh-unit-5', snapshot_date: '2026-07-01', nightly_price: 140, monthly_price: 1999, weekly_price: null, weekly_discount_pct: null, monthly_discount_pct: 38.5 },
+        ],
+      });
+      const u5 = briefing.homesteadUnits.find((u) => u.unit === 'Unit 5');
+      expect(u5?.monthlyPrice).toBe(1999);
+      expect(u5?.nightlyPrice).toBe(140);
+      expect(u5?.monthlyDiscountPct).toBe(38.5);
+      expect(u5?.rating).toBe(4.75);
+      expect(u5?.amenities.length).toBeGreaterThan(0);
     });
   });
 });
