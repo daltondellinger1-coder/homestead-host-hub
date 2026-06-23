@@ -22,6 +22,7 @@ import {
   availabilityLabel,
   buildTopSummary,
   compRangeSummary,
+  isDirectAirbnbListingUrl,
   longStayProofScore,
   pricePositionVsCompMedian,
   recommendedMove,
@@ -31,6 +32,7 @@ import {
   type RecommendedMove,
   type TrustLabel,
 } from '@/lib/airbnbMarketSignals';
+import { useUpdateCompListingUrl } from '@/hooks/useAirbnbMarketSnapshotAdmin';
 import { cn } from '@/lib/utils';
 
 const money = (value?: number) => (typeof value === 'number' ? `$${value.toLocaleString()}` : '—');
