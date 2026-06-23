@@ -180,7 +180,9 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Newly renovated', 'Near Main/hospital', 'Full-place privacy'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Strong direct comp if monthly availability is open. Lower face-price than Unit 5, but Unit 5 monthly discount changes the math.',
+    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Vincennes%20Hideaway',
   },
+
   {
     name: 'Downtown Loft Apartment',
     compType: 'direct',
