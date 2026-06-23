@@ -551,6 +551,7 @@ export function buildAirbnbMarketBriefing({
     .map((listing): MarketComp => {
       const price = latestPriceByListing.get(listing.id);
       return {
+        id: listing.id,
         name: listing.name,
         compType: listing.comp_type || 'verify',
         nightlyPrice: price?.nightly_price ?? undefined,
@@ -564,8 +565,10 @@ export function buildAirbnbMarketBriefing({
         contractorAmenities: listing.amenities || [],
         amenityMap: listing.amenity_map || {},
         notes: listing.notes || 'Watchlist competitor. Needs notes.',
-        listingUrl: listing.listing_url || undefined,
+        // Only surface URLs that are real Airbnb listing pages — never search pages.
+        listingUrl: isDirectAirbnbListingUrl(listing.listing_url) ? listing.listing_url : undefined,
       };
+    });
 
     });
 
