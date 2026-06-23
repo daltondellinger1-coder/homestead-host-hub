@@ -14,6 +14,208 @@ export type Database = {
   }
   public: {
     Tables: {
+      airbnb_availability_snapshots: {
+        Row: {
+          available_30_day: boolean | null
+          available_7_day: boolean | null
+          blocked_days_next_30: number | null
+          created_at: string
+          id: string
+          listing_id: string
+          next_available_date: string | null
+          snapshot_date: string
+          source_note: string | null
+        }
+        Insert: {
+          available_30_day?: boolean | null
+          available_7_day?: boolean | null
+          blocked_days_next_30?: number | null
+          created_at?: string
+          id?: string
+          listing_id: string
+          next_available_date?: string | null
+          snapshot_date?: string
+          source_note?: string | null
+        }
+        Update: {
+          available_30_day?: boolean | null
+          available_7_day?: boolean | null
+          blocked_days_next_30?: number | null
+          created_at?: string
+          id?: string
+          listing_id?: string
+          next_available_date?: string | null
+          snapshot_date?: string
+          source_note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "airbnb_availability_snapshots_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "airbnb_market_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      airbnb_market_listings: {
+        Row: {
+          active: boolean
+          airbnb_url: string | null
+          amenities: string[]
+          amenity_map: Json
+          bathrooms: number | null
+          bedrooms: number | null
+          beds: number | null
+          comp_type: string | null
+          created_at: string
+          data_status: string | null
+          id: string
+          missing_or_unclear: string[]
+          name: string
+          notes: string | null
+          owner_action: string | null
+          photo_actions: string[]
+          pricing_recommendation: string | null
+          rating: number | null
+          reviews: number | null
+          sleeps: number | null
+          sort_order: number
+          source: string
+          target_guest: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          airbnb_url?: string | null
+          amenities?: string[]
+          amenity_map?: Json
+          bathrooms?: number | null
+          bedrooms?: number | null
+          beds?: number | null
+          comp_type?: string | null
+          created_at?: string
+          data_status?: string | null
+          id?: string
+          missing_or_unclear?: string[]
+          name: string
+          notes?: string | null
+          owner_action?: string | null
+          photo_actions?: string[]
+          pricing_recommendation?: string | null
+          rating?: number | null
+          reviews?: number | null
+          sleeps?: number | null
+          sort_order?: number
+          source: string
+          target_guest?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          airbnb_url?: string | null
+          amenities?: string[]
+          amenity_map?: Json
+          bathrooms?: number | null
+          bedrooms?: number | null
+          beds?: number | null
+          comp_type?: string | null
+          created_at?: string
+          data_status?: string | null
+          id?: string
+          missing_or_unclear?: string[]
+          name?: string
+          notes?: string | null
+          owner_action?: string | null
+          photo_actions?: string[]
+          pricing_recommendation?: string | null
+          rating?: number | null
+          reviews?: number | null
+          sleeps?: number | null
+          sort_order?: number
+          source?: string
+          target_guest?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      airbnb_price_snapshots: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          monthly_discount_pct: number | null
+          monthly_price: number | null
+          nightly_price: number | null
+          snapshot_date: string
+          source_note: string | null
+          weekly_discount_pct: number | null
+          weekly_price: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          monthly_discount_pct?: number | null
+          monthly_price?: number | null
+          nightly_price?: number | null
+          snapshot_date?: string
+          source_note?: string | null
+          weekly_discount_pct?: number | null
+          weekly_price?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          monthly_discount_pct?: number | null
+          monthly_price?: number | null
+          nightly_price?: number | null
+          snapshot_date?: string
+          source_note?: string | null
+          weekly_discount_pct?: number | null
+          weekly_price?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "airbnb_price_snapshots_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "airbnb_market_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      airbnb_weekly_briefings: {
+        Row: {
+          created_at: string
+          headline: string
+          id: string
+          next_actions: string[]
+          owner_read: string
+          pricing_summary: Json
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          headline: string
+          id?: string
+          next_actions?: string[]
+          owner_read: string
+          pricing_summary?: Json
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          headline?: string
+          id?: string
+          next_actions?: string[]
+          owner_read?: string
+          pricing_summary?: Json
+          week_start?: string
+        }
+        Relationships: []
+      }
       booking_requests: {
         Row: {
           assigned_unit_id: string | null
