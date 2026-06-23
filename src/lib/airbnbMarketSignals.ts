@@ -129,3 +129,24 @@ export function buildTopSummary(units: HomesteadUnit[], comps: MarketComp[]): To
   }
   return summary;
 }
+
+/**
+ * Returns true only for direct Airbnb listing URLs:
+ *   https://www.airbnb.com/rooms/<numeric id>
+ *   https://www.airbnb.com/h/<slug>
+ * Generic search URLs like /s/... or any non-airbnb host are rejected, so the
+ * dashboard never advertises a search page as if it were a real comp listing.
+ */
+export function isDirectAirbnbListingUrl(url?: string | null): url is string {
+  if (!url || typeof url !== 'string') return false;
+  let parsed: URL;
+  try {
+    parsed = new URL(url.trim());
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+  const host = parsed.hostname.toLowerCase();
+  if (host !== 'airbnb.com' && !host.endsWith('.airbnb.com')) return false;
+  return /^\/(rooms\/\d+|h\/[A-Za-z0-9_-]+)(?:\/|$)/.test(parsed.pathname);
+}

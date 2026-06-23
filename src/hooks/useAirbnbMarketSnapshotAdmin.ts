@@ -6,6 +6,9 @@ type SupabaseWriteAny = typeof supabase & {
   from: (table: string) => {
     insert: (row: unknown) => Promise<{ error: { message: string } | null }>;
     upsert: (row: unknown, options?: { onConflict?: string }) => Promise<{ error: { message: string } | null }>;
+    update: (row: unknown) => {
+      eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
+    };
   };
 };
 
@@ -39,6 +42,29 @@ export function useAirbnbMarketWeeklyBriefingAdmin() {
       const result = await db.from('airbnb_weekly_briefings').upsert(briefing, { onConflict: 'week_start' });
       if (result.error) throw new Error(result.error.message);
       return briefing;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['airbnb-market-briefing'] });
+    },
+  });
+}
+
+/**
+ * Saves an owner-supplied direct Airbnb listing URL onto a competitor row.
+ * Pass `null` (or empty) to clear the URL. We do not validate "direct vs search"
+ * here — the form layer enforces it so users see immediate feedback.
+ */
+export function useUpdateCompListingUrl() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ listingId, listingUrl }: { listingId: string; listingUrl: string | null }) => {
+      const result = await db
+        .from('airbnb_market_listings')
+        .update({ listing_url: listingUrl })
+        .eq('id', listingId);
+      if (result.error) throw new Error(result.error.message);
+      return { listingId, listingUrl };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['airbnb-market-briefing'] });

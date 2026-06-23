@@ -22,6 +22,7 @@ import {
   availabilityLabel,
   buildTopSummary,
   compRangeSummary,
+  isDirectAirbnbListingUrl,
   longStayProofScore,
   pricePositionVsCompMedian,
   recommendedMove,
@@ -31,6 +32,7 @@ import {
   type RecommendedMove,
   type TrustLabel,
 } from '@/lib/airbnbMarketSignals';
+import { useUpdateCompListingUrl } from '@/hooks/useAirbnbMarketSnapshotAdmin';
 import { cn } from '@/lib/utils';
 
 const money = (value?: number) => (typeof value === 'number' ? `$${value.toLocaleString()}` : '—');
@@ -165,44 +167,50 @@ function UnitSignalCard({ unit, comps }: { unit: HomesteadUnit; comps: MarketCom
           <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
         </summary>
         <ul className="mt-3 divide-y divide-border/40">
-          {comps.map((c) => (
-            <li key={c.name} className="flex items-start justify-between gap-3 py-2">
-              <div className="min-w-0">
-                {c.listingUrl ? (
-                  <a
-                    href={c.listingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Open Airbnb listing for ${c.name} in a new tab`}
-                    className="font-semibold text-secondary underline-offset-2 hover:underline focus-visible:underline"
-                  >
-                    {c.name}
-                  </a>
-                ) : (
-                  <p className="font-semibold text-foreground">{c.name}</p>
-                )}
-                <p className="text-xs text-muted-foreground">{c.bedrooms ? `${c.bedrooms}BR` : 'Beds unknown'}{c.rating ? ` · ${c.rating}★` : ''}</p>
-              </div>
-              <div className="flex flex-col items-end gap-1">
-                <p className="text-sm font-semibold text-foreground">{money(c.monthlyEstimate)}/mo</p>
-                {c.listingUrl ? (
-                  <a
-                    href={c.listingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Open Airbnb listing for ${c.name} in a new tab`}
-                    className="text-xs font-semibold text-secondary underline-offset-2 hover:underline focus-visible:underline"
-                  >
-                    Open Airbnb ↗
-                  </a>
-                ) : (
-                  <span className="text-xs text-muted-foreground">No link yet</span>
-                )}
-              </div>
-            </li>
-          ))}
+          {comps.map((c) => {
+            const hasDirect = isDirectAirbnbListingUrl(c.listingUrl);
+            return (
+              <li key={c.id ?? c.name} className="flex items-start justify-between gap-3 py-2">
+                <div className="min-w-0">
+                  {hasDirect ? (
+                    <a
+                      href={c.listingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open Airbnb listing for ${c.name} in a new tab`}
+                      className="font-semibold text-secondary underline-offset-2 hover:underline focus-visible:underline"
+                    >
+                      {c.name}
+                    </a>
+                  ) : (
+                    <p className="font-semibold text-foreground">{c.name}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground">{c.bedrooms ? `${c.bedrooms}BR` : 'Beds unknown'}{c.rating ? ` · ${c.rating}★` : ''}</p>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <p className="text-sm font-semibold text-foreground">{money(c.monthlyEstimate)}/mo</p>
+                  {hasDirect ? (
+                    <a
+                      href={c.listingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open Airbnb listing for ${c.name} in a new tab`}
+                      className="text-xs font-semibold text-secondary underline-offset-2 hover:underline focus-visible:underline"
+                    >
+                      Open Airbnb ↗
+                    </a>
+                  ) : (
+                    <span className="text-xs text-muted-foreground" title="Add a direct airbnb.com/rooms/... or /h/... URL in the admin panel below">
+                      Exact listing link needed
+                    </span>
+                  )}
+                </div>
+              </li>
+            );
+          })}
           {comps.length === 0 && <li className="py-2 text-xs text-muted-foreground">No comps logged.</li>}
         </ul>
+
 
       </details>
     </article>
@@ -338,6 +346,85 @@ function WeeklyBriefingCard({ briefing }: { briefing?: import('@/data/airbnbMark
   );
 }
 
+function CompUrlAdminPanel({ comps }: { comps: MarketComp[] }) {
+  const editableComps = comps.filter((c) => typeof c.id === 'string' && c.id.length > 0);
+  const [listingId, setListingId] = useState<string>(editableComps[0]?.id ?? '');
+  const [url, setUrl] = useState<string>('');
+  const mutation = useUpdateCompListingUrl();
+  const selected = editableComps.find((c) => c.id === listingId);
+  const currentUrl = selected?.listingUrl;
+  const trimmed = url.trim();
+  const isClearing = trimmed.length === 0;
+  const isValid = isClearing || isDirectAirbnbListingUrl(trimmed);
+  const showWarning = trimmed.length > 0 && !isValid;
+
+  return (
+    <details className="group rounded-3xl border border-border/60 bg-card/40 p-4 sm:p-5">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-foreground">
+        <span className="flex items-center gap-2"><Settings2 className="h-4 w-4 text-secondary" /> Admin · Add or update comp Airbnb listing URL</span>
+        <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+      </summary>
+      <p className="mt-3 text-sm leading-6 text-muted-foreground">
+        Only direct Airbnb listing URLs are accepted (e.g. <code className="rounded bg-background/60 px-1 py-0.5 text-xs">https://www.airbnb.com/rooms/123456</code> or <code className="rounded bg-background/60 px-1 py-0.5 text-xs">https://www.airbnb.com/h/your-listing</code>). Search URLs are rejected so we never advertise a generic search page as a real comp.
+      </p>
+      {editableComps.length === 0 ? (
+        <p className="mt-3 rounded-xl border border-border/50 bg-background/50 p-3 text-sm text-muted-foreground">No comps with database ids loaded yet. Wait for the Supabase briefing to load.</p>
+      ) : (
+        <form
+          className="mt-4 grid gap-3 sm:grid-cols-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!listingId || !isValid) return;
+            mutation.mutate({ listingId, listingUrl: isClearing ? null : trimmed });
+          }}
+        >
+          <label className="space-y-1 text-sm">
+            <span className="font-semibold text-foreground">Competitor</span>
+            <select
+              className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground"
+              value={listingId}
+              onChange={(e) => { setListingId(e.target.value); setUrl(''); }}
+            >
+              {editableComps.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}{c.listingUrl ? ' · linked' : ' · no direct link'}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="space-y-1 text-sm">
+            <span className="font-semibold text-foreground">Direct Airbnb URL (or blank to clear)</span>
+            <input
+              type="url"
+              className="w-full rounded-xl border border-border/60 bg-background/70 px-3 py-2 text-foreground"
+              placeholder="https://www.airbnb.com/rooms/1234567890"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </label>
+          {currentUrl && (
+            <p className="text-xs text-muted-foreground sm:col-span-2">
+              Current: <a href={currentUrl} target="_blank" rel="noopener noreferrer" className="text-secondary underline-offset-2 hover:underline">{currentUrl}</a>
+            </p>
+          )}
+          {showWarning && (
+            <p className="rounded-xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-100 sm:col-span-2">
+              That doesn't look like a direct Airbnb listing URL. Use the actual airbnb.com/rooms/&lt;id&gt; or airbnb.com/h/&lt;slug&gt; URL from the listing page.
+            </p>
+          )}
+          <div className="sm:col-span-2">
+            <Button type="submit" disabled={mutation.isPending || !listingId || !isValid}>
+              {mutation.isPending ? 'Saving…' : isClearing ? 'Clear listing URL' : 'Save direct listing URL'}
+            </Button>
+          </div>
+          {mutation.isSuccess && <p className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-sm text-emerald-100 sm:col-span-2">Saved. The dashboard will refresh from Supabase.</p>}
+          {mutation.isError && <p className="rounded-xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-100 sm:col-span-2">Could not save: {mutation.error.message}</p>}
+        </form>
+      )}
+    </details>
+  );
+}
+
 export default function AirbnbMarket() {
   const { data: briefing, isFetching, isError } = useAirbnbMarketBriefing();
   const homesteadUnits = briefing.homesteadUnits;
@@ -377,6 +464,7 @@ export default function AirbnbMarket() {
           ))}
         </section>
 
+        <CompUrlAdminPanel comps={marketComps} />
         <SnapshotAdminPanel units={homesteadUnits} marketComps={marketComps} />
       </main>
     </div>

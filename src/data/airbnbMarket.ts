@@ -1,3 +1,5 @@
+import { isDirectAirbnbListingUrl } from '@/lib/airbnbMarketSignals';
+
 export type UnitStatus = 'push' | 'verify' | 'fix';
 export type CompType = 'direct' | 'budget' | 'premium' | 'crew' | 'verify';
 
@@ -60,6 +62,7 @@ export type HomesteadUnit = {
 };
 
 export type MarketComp = {
+  id?: string;
   name: string;
   compType: CompType;
   nightlyPrice?: number;
@@ -73,6 +76,11 @@ export type MarketComp = {
   contractorAmenities: string[];
   amenityMap: Partial<Record<AmenityKey, boolean | 'unclear'>>;
   notes: string;
+  /**
+   * Direct Airbnb listing URL only (airbnb.com/rooms/... or /h/...). Generic
+   * search URLs are intentionally NOT stored here — the dashboard treats a
+   * missing URL as "no direct link yet" rather than guess a search page.
+   */
   listingUrl?: string;
 };
 
@@ -180,7 +188,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Newly renovated', 'Near Main/hospital', 'Full-place privacy'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Strong direct comp if monthly availability is open. Lower face-price than Unit 5, but Unit 5 monthly discount changes the math.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Vincennes%20Hideaway',
   },
 
   {
@@ -194,7 +201,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['2 baths', 'Downtown location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Potentially beats HH on bath count, but may be less quiet/simple than Homestead Hill for long work stays.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Downtown%20Loft%20Apartment%20Vincennes',
   },
 
   {
@@ -210,7 +216,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Workspace', 'Crew capacity'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: true, 'Crew beds': true, Pets: true, 'Strong reviews': true, 'Photo proof': true },
     notes: 'A serious crew-stay competitor. It beats HH on beds, reviews, laundry, and pet flexibility.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Small%20Town%20Urban%20Oasis',
   },
 
   {
@@ -227,7 +232,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Roku', 'Bathtub'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, Pets: true, 'Strong reviews': 'unclear', 'Photo proof': 'unclear' },
     notes: 'Budget pressure. HH needs to beat it on cleanliness, reliability, photos, and monthly value.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Upstairs%20Get%20Away',
   },
 
   {
@@ -240,7 +244,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Central location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': 'unclear', Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': false },
     notes: 'Smaller cheaper option. Less relevant for crews, relevant for solo workers comparing price first.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Apartment%20Centrally%20Located',
   },
 
   {
@@ -253,7 +256,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Historic/downtown appeal'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, 'Photo proof': true },
     notes: 'Premium leisure-style comp. Useful as a price ceiling, not the main contractor benchmark.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Unique%20Historical%20Apartment',
   },
 
   {
@@ -551,6 +553,7 @@ export function buildAirbnbMarketBriefing({
     .map((listing): MarketComp => {
       const price = latestPriceByListing.get(listing.id);
       return {
+        id: listing.id,
         name: listing.name,
         compType: listing.comp_type || 'verify',
         nightlyPrice: price?.nightly_price ?? undefined,
@@ -564,10 +567,11 @@ export function buildAirbnbMarketBriefing({
         contractorAmenities: listing.amenities || [],
         amenityMap: listing.amenity_map || {},
         notes: listing.notes || 'Watchlist competitor. Needs notes.',
-        listingUrl: listing.listing_url || undefined,
+        // Only surface URLs that are real Airbnb listing pages — never search pages.
+        listingUrl: isDirectAirbnbListingUrl(listing.listing_url) ? listing.listing_url : undefined,
       };
-
     });
+
 
   return {
     homesteadUnits: hhUnits.length ? hhUnits : homesteadUnits,

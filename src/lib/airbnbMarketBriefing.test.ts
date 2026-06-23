@@ -171,16 +171,24 @@ describe('Airbnb market briefing model', () => {
     });
 
   describe('competitor listing URLs', () => {
-    it('maps Supabase listing_url into MarketComp.listingUrl when present and leaves it undefined when missing', () => {
+    it('maps a direct Supabase listing_url into MarketComp.listingUrl and drops generic search URLs', () => {
       const briefing = buildAirbnbMarketBriefing({
         listings: [
           {
-            id: 'comp-with-url', name: 'Linked Comp', source: 'competitor',
+            id: 'comp-with-direct', name: 'Direct Comp', source: 'competitor',
             bedrooms: 2, bathrooms: 1, target_guest: null, pricing_recommendation: null,
             owner_action: null, data_status: null, amenities: [], amenity_map: {},
             missing_or_unclear: [], photo_actions: [], comp_type: 'direct', notes: null,
             rating: null, reviews: null,
             listing_url: 'https://www.airbnb.com/rooms/123456',
+          },
+          {
+            id: 'comp-with-search', name: 'Search-URL Comp', source: 'competitor',
+            bedrooms: 2, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+            owner_action: null, data_status: null, amenities: [], amenity_map: {},
+            missing_or_unclear: [], photo_actions: [], comp_type: 'direct', notes: null,
+            rating: null, reviews: null,
+            listing_url: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Whatever',
           },
           {
             id: 'comp-no-url', name: 'Unlinked Comp', source: 'competitor',
@@ -193,30 +201,39 @@ describe('Airbnb market briefing model', () => {
         priceSnapshots: [],
       });
 
-      const linked = briefing.marketComps.find((c) => c.name === 'Linked Comp');
+      const direct = briefing.marketComps.find((c) => c.name === 'Direct Comp');
+      const search = briefing.marketComps.find((c) => c.name === 'Search-URL Comp');
       const unlinked = briefing.marketComps.find((c) => c.name === 'Unlinked Comp');
-      expect(linked?.listingUrl).toBe('https://www.airbnb.com/rooms/123456');
+      expect(direct?.listingUrl).toBe('https://www.airbnb.com/rooms/123456');
+      expect(direct?.id).toBe('comp-with-direct');
+      expect(search?.listingUrl).toBeUndefined();
       expect(unlinked?.listingUrl).toBeUndefined();
     });
 
-    it('ships seed comps with at least one Airbnb URL and at least one without to exercise the fallback', () => {
-      const withUrl = marketComps.filter((c) => typeof c.listingUrl === 'string' && c.listingUrl.length > 0);
-      const withoutUrl = marketComps.filter((c) => !c.listingUrl);
-      expect(withUrl.length).toBeGreaterThan(0);
-      expect(withoutUrl.length).toBeGreaterThan(0);
-      withUrl.forEach((c) => expect(c.listingUrl).toMatch(/^https:\/\/www\.airbnb\.com\//));
+    it('ships seed comps with NO search URLs — only direct Airbnb listing URLs are allowed in seed data', () => {
+      const searchUrls = marketComps.filter((c) => typeof c.listingUrl === 'string' && /\/s\//.test(c.listingUrl));
+      expect(searchUrls).toEqual([]);
+      // Any seed URL that IS present must be a direct listing URL.
+      marketComps.forEach((c) => {
+        if (c.listingUrl) {
+          expect(c.listingUrl).toMatch(/^https:\/\/www\.airbnb\.com\/(rooms\/\d+|h\/[A-Za-z0-9_-]+)/);
+        }
+      });
     });
 
-    it('renders each comp name as an external Airbnb link with safe rel attributes and a plain-text fallback when no URL exists', () => {
+    it('only renders the Open Airbnb link when the comp URL is a direct listing URL, and exposes the admin panel for owners to add missing URLs', () => {
       const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
 
-      expect(source).toContain('c.listingUrl');
+      expect(source).toContain('isDirectAirbnbListingUrl');
       expect(source).toContain('target="_blank"');
       expect(source).toContain('rel="noopener noreferrer"');
-      expect(source).toContain('Open Airbnb listing for ${c.name}');
       expect(source).toContain('Open Airbnb ↗');
-      // Plain-text fallback path must exist for comps without a URL.
-      expect(source).toMatch(/c\.listingUrl[\s\S]*?\?[\s\S]*?:[\s\S]*?<p[^>]*>\{c\.name\}<\/p>/);
+      expect(source).toContain('Exact listing link needed');
+      // The Open Airbnb button must be guarded by the direct-URL check, not raw c.listingUrl.
+      expect(source).toMatch(/hasDirect[\s\S]*?Open Airbnb/);
+      // Admin path for owners to add/update a direct Airbnb listing URL must be present.
+      expect(source).toContain('useUpdateCompListingUrl');
+      expect(source).toContain('Add or update comp Airbnb listing URL');
     });
   });
 });
