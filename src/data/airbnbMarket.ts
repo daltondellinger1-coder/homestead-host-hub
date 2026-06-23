@@ -530,6 +530,7 @@ export function buildAirbnbMarketBriefing({
       const price = latestPriceByListing.get(listing.id);
       const availability = latestAvailabilityByListing.get(listing.id);
       return {
+        id: listing.id,
         unit: listing.name,
         bedrooms: listing.bedrooms ?? 0,
         beds: listing.beds ?? undefined,
