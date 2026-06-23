@@ -33,6 +33,8 @@ export const amenityKeys: AmenityKey[] = [
 export type PricingRecommendation = 'hold' | 'raise 5%' | 'lower 5%' | 'improve listing before pricing change';
 
 export type HomesteadUnit = {
+  /** Supabase airbnb_market_listings.id when sourced from the DB. Undefined for static fallback rows. */
+  id?: string;
   unit: string;
   bedrooms: number;
   beds?: number;
