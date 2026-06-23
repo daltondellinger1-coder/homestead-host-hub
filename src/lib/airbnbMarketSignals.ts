@@ -148,5 +148,5 @@ export function isDirectAirbnbListingUrl(url?: string | null): url is string {
   if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
   const host = parsed.hostname.toLowerCase();
   if (host !== 'airbnb.com' && !host.endsWith('.airbnb.com')) return false;
-  return /^\/(rooms\/\d+|h\/[A-Za-z0-9_-]+)(\/|$|\?)/.test(parsed.pathname + (parsed.pathname.endsWith('/') ? '' : '/'));
+  return /^\/(rooms\/\d+|h\/[A-Za-z0-9_-]+)(?:\/|$)/.test(parsed.pathname);
 }
