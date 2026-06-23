@@ -464,6 +464,7 @@ export default function AirbnbMarket() {
           ))}
         </section>
 
+        <CompUrlAdminPanel comps={marketComps} />
         <SnapshotAdminPanel units={homesteadUnits} marketComps={marketComps} />
       </main>
     </div>
