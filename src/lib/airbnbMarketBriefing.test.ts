@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { buildAirbnbMarketBriefing, homesteadUnits } from '@/data/airbnbMarket';
+import { buildAirbnbMarketBriefing, homesteadUnits, marketComps } from '@/data/airbnbMarket';
+
 
 describe('Airbnb market briefing model', () => {
   it('adds one of the allowed pricing recommendations to every Homestead Hill listing', () => {
