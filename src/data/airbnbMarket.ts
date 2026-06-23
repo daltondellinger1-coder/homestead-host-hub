@@ -92,13 +92,14 @@ export type MarketComp = {
  * Only `airbnb.com/rooms/<id>` URLs allowed — see `isDirectAirbnbListingUrl`.
  */
 export const KNOWN_COMP_LISTING_URLS: Record<string, string> = {
-  'vincennes hideaway': 'https://www.airbnb.com/rooms/1324918599263697867',
+  // NOTE: Vincennes Hideaway and Unique Historical Apartment were live-verified
+  // as Airbnb 404s. They are intentionally NOT in this map so the app never
+  // rehydrates the dead room IDs as a fallback link.
   'downtown loft apartment': 'https://www.airbnb.com/rooms/1104379617410107961',
   'small town urban oasis': 'https://www.airbnb.com/rooms/975590388116613421',
   'upstairs get away': 'https://www.airbnb.com/rooms/1017325527624458850',
   'apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
   '2bed/1bath apartment centrally located': 'https://www.airbnb.com/rooms/1157372418473093874',
-  'unique historical apartment': 'https://www.airbnb.com/rooms/911846172806023965',
   'country loft with a view': 'https://www.airbnb.com/rooms/1558714513062967677',
 };
 
@@ -216,7 +217,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Newly renovated', 'Near Main/hospital', 'Full-place privacy'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Strong direct comp if monthly availability is open. Lower face-price than Unit 5, but Unit 5 monthly discount changes the math.',
-    listingUrl: KNOWN_COMP_LISTING_URLS['vincennes hideaway'],
+    // listingUrl intentionally omitted — previous /rooms/<id> is a verified Airbnb 404.
   },
 
   {
@@ -289,7 +290,7 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Historic/downtown appeal'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, 'Photo proof': true },
     notes: 'Premium leisure-style comp. Useful as a price ceiling, not the main contractor benchmark.',
-    listingUrl: KNOWN_COMP_LISTING_URLS['unique historical apartment'],
+    // listingUrl intentionally omitted — previous /rooms/<id> is a verified Airbnb 404.
   },
 
   {
