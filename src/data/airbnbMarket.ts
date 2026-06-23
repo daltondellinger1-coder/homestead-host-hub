@@ -603,7 +603,11 @@ export function buildAirbnbMarketBriefing({
         amenityMap: listing.amenity_map || {},
         notes: listing.notes || 'Watchlist competitor. Needs notes.',
         // Only surface URLs that are real Airbnb listing pages — never search pages.
-        listingUrl: isDirectAirbnbListingUrl(listing.listing_url) ? listing.listing_url : undefined,
+        // If the DB value is missing or a rejected search URL, fall back to our
+        // known direct-listing URL keyed by the comp's canonical name.
+        listingUrl: isDirectAirbnbListingUrl(listing.listing_url)
+          ? listing.listing_url
+          : knownDirectListingUrlForComp(listing.name),
       };
     });
 
