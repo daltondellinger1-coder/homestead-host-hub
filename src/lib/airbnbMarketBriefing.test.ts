@@ -69,12 +69,13 @@ describe('Airbnb market briefing model', () => {
       },
     });
 
-    expect(briefing.homesteadUnits).toHaveLength(1);
+    expect(briefing.homesteadUnits).toHaveLength(15);
     expect(briefing.marketComps).toHaveLength(1);
-    expect(briefing.homesteadUnits[0].monthlyPrice).toBe(1855);
-    expect(briefing.homesteadUnits[0].pricingRecommendation).toBe('improve listing before pricing change');
-    expect(briefing.homesteadUnits[0].availability?.available30Day).toBe(true);
-    expect(briefing.homesteadUnits[0].availability?.nextAvailableDate).toBe('2026-07-01');
+    const unit5 = briefing.homesteadUnits.find((u) => u.unit === 'Unit 5');
+    expect(unit5?.monthlyPrice).toBe(1855);
+    expect(unit5?.pricingRecommendation).toBe('improve listing before pricing change');
+    expect(unit5?.availability?.available30Day).toBe(true);
+    expect(unit5?.availability?.nextAvailableDate).toBe('2026-07-01');
     expect(briefing.weeklyBriefing?.nextActions).toContain('Add every HH Airbnb link and 30-day screenshot');
   });
 
