@@ -6,6 +6,9 @@ type SupabaseWriteAny = typeof supabase & {
   from: (table: string) => {
     insert: (row: unknown) => Promise<{ error: { message: string } | null }>;
     upsert: (row: unknown, options?: { onConflict?: string }) => Promise<{ error: { message: string } | null }>;
+    update: (row: unknown) => {
+      eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
+    };
   };
 };
 
