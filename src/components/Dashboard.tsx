@@ -171,6 +171,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Maintenance
               </Button>
             </Link>
+            <Link to="/airbnb-market" className="hidden sm:block">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
+              >
+                <BriefcaseBusiness className="h-4 w-4 mr-1.5" />
+                Airbnb Market
+              </Button>
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
