@@ -343,7 +343,9 @@ export type AirbnbMarketListingRow = {
   notes?: string | null;
   rating?: number | null;
   reviews?: number | null;
+  listing_url?: string | null;
 };
+
 
 export type AirbnbMarketPriceSnapshotRow = {
   listing_id: string;
