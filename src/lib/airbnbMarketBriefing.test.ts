@@ -221,6 +221,62 @@ describe('Airbnb market briefing model', () => {
       });
     });
 
+    it('falls back to the known direct /rooms/<id> URL by comp name when the DB row has no listing_url or has a search URL', async () => {
+      const { KNOWN_COMP_LISTING_URLS } = await import('@/data/airbnbMarket');
+      const cases = [
+        { name: 'Vincennes Hideaway', listing_url: null },
+        { name: 'Downtown Loft Apartment', listing_url: undefined },
+        { name: 'Small Town Urban Oasis', listing_url: 'https://www.airbnb.com/s/Vincennes--IN/homes' },
+        { name: 'Upstairs get away', listing_url: null }, // case-insensitive match
+        { name: '2Bed/1Bath Apartment Centrally Located', listing_url: null },
+        { name: 'Unique Historical Apartment', listing_url: null },
+        { name: 'Country Loft with a view', listing_url: null },
+      ];
+      const briefing = buildAirbnbMarketBriefing({
+        listings: cases.map((c, i) => ({
+          id: `comp-${i}`, name: c.name, source: 'competitor',
+          bedrooms: 1, bathrooms: 1, target_guest: null, pricing_recommendation: null,
+          owner_action: null, data_status: null, amenities: [], amenity_map: {},
+          missing_or_unclear: [], photo_actions: [], comp_type: 'direct', notes: null,
+          rating: null, reviews: null, listing_url: c.listing_url ?? null,
+        })),
+        priceSnapshots: [],
+      });
+
+      const expected: Record<string, string> = {
+        'Vincennes Hideaway': KNOWN_COMP_LISTING_URLS['vincennes hideaway'],
+        'Downtown Loft Apartment': KNOWN_COMP_LISTING_URLS['downtown loft apartment'],
+        'Small Town Urban Oasis': KNOWN_COMP_LISTING_URLS['small town urban oasis'],
+        'Upstairs get away': KNOWN_COMP_LISTING_URLS['upstairs get away'],
+        '2Bed/1Bath Apartment Centrally Located': KNOWN_COMP_LISTING_URLS['2bed/1bath apartment centrally located'],
+        'Unique Historical Apartment': KNOWN_COMP_LISTING_URLS['unique historical apartment'],
+        'Country Loft with a view': KNOWN_COMP_LISTING_URLS['country loft with a view'],
+      };
+      for (const [name, url] of Object.entries(expected)) {
+        const got = briefing.marketComps.find((c) => c.name === name);
+        expect(got?.listingUrl).toBe(url);
+        expect(got?.listingUrl).toMatch(/^https:\/\/www\.airbnb\.com\/rooms\/\d+$/);
+      }
+    });
+
+    it('seed comps for every named comp expose the exact direct /rooms/<id> URL provided by the owner', () => {
+      const expected: Record<string, string> = {
+        'Vincennes Hideaway': 'https://www.airbnb.com/rooms/1324918599263697867',
+        'Downtown Loft Apartment': 'https://www.airbnb.com/rooms/1104379617410107961',
+        'Small Town Urban Oasis': 'https://www.airbnb.com/rooms/975590388116613421',
+        'Upstairs Get Away': 'https://www.airbnb.com/rooms/1017325527624458850',
+        'Apartment Centrally Located': 'https://www.airbnb.com/rooms/1157372418473093874',
+        'Unique Historical Apartment': 'https://www.airbnb.com/rooms/911846172806023965',
+        'Country Loft with a View': 'https://www.airbnb.com/rooms/1558714513062967677',
+      };
+      for (const [name, url] of Object.entries(expected)) {
+        const c = marketComps.find((m) => m.name === name);
+        expect(c, `seed comp "${name}" must exist`).toBeDefined();
+        expect(c?.listingUrl).toBe(url);
+      }
+    });
+
+
     it('only renders the Open Airbnb link when the comp URL is a direct listing URL, and exposes the admin panel for owners to add missing URLs', () => {
       const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
 
