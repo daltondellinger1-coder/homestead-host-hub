@@ -822,43 +822,86 @@ export function buildAirbnbMarketBriefing({
     .sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date))
     .forEach((snapshot) => latestAvailabilityByListing.set(snapshot.listing_id, snapshot));
 
+  // Researched fallback lookup by unit name, so sparse Supabase rows can be
+  // merged with the manually-researched static profile in `homesteadUnits`.
+  const researchedByName = new Map(homesteadUnits.map((u) => [u.unit, u] as const));
+
+  const GENERIC_BEST_FOR = /^(Monthly workforce housing candidate\.?(\s+Add listing proof and pricing snapshot\.?)?)$/i;
+  const GENERIC_OWNER_ACTION = /^(Review pricing and listing proof\.?|Capture an Airbnb listing snapshot and monthly price for this unit\.?)$/i;
+  const GENERIC_DATA_STATUS = /^(Supabase market snapshot\.?|Awaiting first Airbnb market snapshot\.?)$/i;
+
+  const meaningfulString = (value: string | null | undefined, generic: RegExp): string | undefined => {
+    if (!value) return undefined;
+    const trimmed = value.trim();
+    if (!trimmed) return undefined;
+    if (generic.test(trimmed)) return undefined;
+    return trimmed;
+  };
+  const meaningfulArray = <T>(value: T[] | null | undefined): T[] | undefined =>
+    Array.isArray(value) && value.length > 0 ? value : undefined;
+  const meaningfulMap = <T extends object>(value: T | null | undefined): T | undefined =>
+    value && Object.keys(value).length > 0 ? value : undefined;
+
   const hhUnits = listings
     .filter((listing) => listing.source === 'homestead_hill')
     .map((listing): HomesteadUnit => {
       const price = latestPriceByListing.get(listing.id);
       const availability = latestAvailabilityByListing.get(listing.id);
+      const fallback = researchedByName.get(listing.name);
+
+      const bestFor =
+        meaningfulString(listing.target_guest, GENERIC_BEST_FOR) ??
+        fallback?.bestFor ??
+        'Monthly workforce housing candidate.';
+      const ownerAction =
+        meaningfulString(listing.owner_action, GENERIC_OWNER_ACTION) ??
+        fallback?.ownerAction ??
+        'Review pricing and listing proof.';
+      const dataStatus =
+        meaningfulString(listing.data_status, GENERIC_DATA_STATUS) ??
+        fallback?.dataStatus ??
+        'Supabase market snapshot.';
+      const pricingRecommendation: PricingRecommendation =
+        listing.pricing_recommendation ?? fallback?.pricingRecommendation ?? 'hold';
+
+      const amenities = meaningfulArray(listing.amenities) ?? fallback?.amenities ?? [];
+      const amenityMap = meaningfulMap(listing.amenity_map) ?? fallback?.amenityMap ?? {};
+      const missingOrUnclear = meaningfulArray(listing.missing_or_unclear) ?? fallback?.missingOrUnclear ?? [];
+      const photoActions = meaningfulArray(listing.photo_actions) ?? fallback?.photoActions ?? [];
+
       return {
         id: listing.id,
         unit: listing.name,
-        bedrooms: listing.bedrooms ?? 0,
-        beds: listing.beds ?? undefined,
-        baths: listing.bathrooms ?? 0,
-        sleeps: listing.sleeps ?? undefined,
-        bestFor: listing.target_guest || 'Monthly workforce housing candidate.',
-        monthlyPrice: price?.monthly_price ?? undefined,
-        weeklyPrice: price?.weekly_price ?? undefined,
-        nightlyPrice: price?.nightly_price ?? undefined,
-        monthlyDiscountPct: price?.monthly_discount_pct ?? undefined,
-        weeklyDiscountPct: price?.weekly_discount_pct ?? undefined,
-        rating: listing.rating ?? undefined,
-        reviews: listing.reviews ?? undefined,
-        status: listing.pricing_recommendation === 'improve listing before pricing change' ? 'push' : 'verify',
-        amenities: listing.amenities || [],
-        amenityMap: listing.amenity_map || {},
-        missingOrUnclear: listing.missing_or_unclear || [],
-        photoActions: listing.photo_actions || [],
-        ownerAction: listing.owner_action || 'Review pricing and listing proof.',
-        dataStatus: listing.data_status || 'Supabase market snapshot.',
-        pricingRecommendation: listing.pricing_recommendation || 'hold',
+        bedrooms: listing.bedrooms ?? fallback?.bedrooms ?? 0,
+        beds: listing.beds ?? fallback?.beds ?? undefined,
+        baths: listing.bathrooms ?? fallback?.baths ?? 0,
+        sleeps: listing.sleeps ?? fallback?.sleeps ?? undefined,
+        bestFor,
+        monthlyPrice: price?.monthly_price ?? fallback?.monthlyPrice ?? undefined,
+        weeklyPrice: price?.weekly_price ?? fallback?.weeklyPrice ?? undefined,
+        nightlyPrice: price?.nightly_price ?? fallback?.nightlyPrice ?? undefined,
+        monthlyDiscountPct: price?.monthly_discount_pct ?? fallback?.monthlyDiscountPct ?? undefined,
+        weeklyDiscountPct: price?.weekly_discount_pct ?? fallback?.weeklyDiscountPct ?? undefined,
+        rating: listing.rating ?? fallback?.rating ?? undefined,
+        reviews: listing.reviews ?? fallback?.reviews ?? undefined,
+        status: pricingRecommendation === 'improve listing before pricing change' ? 'push' : (fallback?.status ?? 'verify'),
+        amenities,
+        amenityMap,
+        missingOrUnclear,
+        photoActions,
+        ownerAction,
+        dataStatus,
+        pricingRecommendation,
         availability: availability
           ? {
               available30Day: availability.available_30_day ?? undefined,
               nextAvailableDate: availability.next_available_date ?? undefined,
               snapshotDate: availability.snapshot_date,
             }
-          : undefined,
+          : fallback?.availability,
       };
     });
+
 
   const comps = listings
     .filter((listing) => listing.source === 'competitor')
