@@ -169,6 +169,7 @@ describe('Airbnb market briefing model', () => {
         'Unit 11: capture monthly price and 30-day availability screenshot.',
       ],
     });
+  });
 
   describe('competitor listing URLs', () => {
     it('maps a direct Supabase listing_url into MarketComp.listingUrl and drops generic search URLs', () => {
