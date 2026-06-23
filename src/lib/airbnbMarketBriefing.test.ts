@@ -377,7 +377,29 @@ describe('Airbnb market briefing model', () => {
       const briefing = buildAirbnbMarketBriefing({
         listings: [],
         priceSnapshots: [],
-      });
+    it('carries verified research markers on Unit 3 and Unit 11 in the static fallback', () => {
+      const u3 = homesteadUnits.find((u) => u.unit === 'Unit 3');
+      expect(u3?.rating).toBe(4.86);
+      expect(u3?.reviews).toBe(7);
+      expect(u3?.amenityMap['Strong reviews']).toBe(true);
+      expect(u3?.pricingRecommendation).toBe('improve listing before pricing change');
+
+      const u11 = homesteadUnits.find((u) => u.unit === 'Unit 11');
+      expect(u11?.weeklyPrice).toBe(686);
+      expect(u11?.rating).toBe(5);
+      expect(u11?.reviews).toBe(1);
+      expect(u11?.pricingRecommendation).toBe('hold');
+      // Unit 11 must NOT carry a direct Airbnb URL anywhere on the unit record.
+      expect((u11 as unknown as { listingUrl?: string }).listingUrl).toBeUndefined();
+    });
+
+    it('researched fallback fills Units 1-15 with non-generic owner actions (no two units share the same ownerAction)', () => {
+      const actions = homesteadUnits.map((u) => u.ownerAction);
+      expect(new Set(actions).size).toBeGreaterThanOrEqual(10);
+      expect(homesteadUnits.find((u) => u.unit === 'Unit 12')?.ownerAction).toMatch(/storage/i);
+    });
+  });
+});
       const expectedFullRoster = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
       expect(briefing.homesteadUnits.map((u) => u.unit)).toEqual(expectedFullRoster);
       expect(briefing.homesteadUnits.some((u) => u.unit === 'Other HH units')).toBe(false);
