@@ -186,7 +186,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Newly renovated', 'Near Main/hospital', 'Full-place privacy'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Strong direct comp if monthly availability is open. Lower face-price than Unit 5, but Unit 5 monthly discount changes the math.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Vincennes%20Hideaway',
   },
 
   {
@@ -200,7 +199,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['2 baths', 'Downtown location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true },
     notes: 'Potentially beats HH on bath count, but may be less quiet/simple than Homestead Hill for long work stays.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Downtown%20Loft%20Apartment%20Vincennes',
   },
 
   {
@@ -216,7 +214,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Workspace', 'Crew capacity'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: true, 'Crew beds': true, Pets: true, 'Strong reviews': true, 'Photo proof': true },
     notes: 'A serious crew-stay competitor. It beats HH on beds, reviews, laundry, and pet flexibility.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Small%20Town%20Urban%20Oasis',
   },
 
   {
@@ -233,7 +230,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Washer/dryer', 'Pets', 'Roku', 'Bathtub'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: true, Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, Pets: true, 'Strong reviews': 'unclear', 'Photo proof': 'unclear' },
     notes: 'Budget pressure. HH needs to beat it on cleanliness, reliability, photos, and monthly value.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Upstairs%20Get%20Away',
   },
 
   {
@@ -246,7 +242,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Central location'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': 'unclear', Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': false },
     notes: 'Smaller cheaper option. Less relevant for crews, relevant for solo workers comparing price first.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Apartment%20Centrally%20Located',
   },
 
   {
@@ -259,7 +254,6 @@ export const marketComps: MarketComp[] = [
     contractorAmenities: ['Historic/downtown appeal'],
     amenityMap: { 'Monthly friendly': 'unclear', 'Full kitchen': true, Laundry: 'unclear', Parking: 'unclear', WiFi: 'unclear', Workspace: 'unclear', 'Crew beds': true, 'Photo proof': true },
     notes: 'Premium leisure-style comp. Useful as a price ceiling, not the main contractor benchmark.',
-    listingUrl: 'https://www.airbnb.com/s/Vincennes--IN/homes?query=Unique%20Historical%20Apartment',
   },
 
   {
