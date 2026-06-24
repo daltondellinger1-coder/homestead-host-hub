@@ -227,14 +227,31 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="font-body">
                 <DropdownMenuItem asChild>
-                  <Link to="/admin/draws">Draw Dashboard</Link>
+                  <Link to="/finances">
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Finances
+                  </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/airbnb-market">
+                    <BriefcaseBusiness className="h-4 w-4 mr-2" />
+                    Airbnb Market
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/draws">
+                      <LayoutGrid className="h-4 w-4 mr-2" />
+                      Draw Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setShowOnboarding(true)}>
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Help / Tutorial
                 </DropdownMenuItem>
-
-                <DropdownMenuItem className="hidden sm:flex" onClick={signOut}>
+                <DropdownMenuItem onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
                 </DropdownMenuItem>
