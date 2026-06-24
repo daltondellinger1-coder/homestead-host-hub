@@ -5,8 +5,20 @@ import { parseCsv, type LedgerRow } from './drawDashboard';
 
 // Dedicated tab in the same spreadsheet. If the tab does not exist or fetch
 // fails, the UI shows an empty state — we never block the main dashboard.
+//
+// ⚠️ Google GViz pitfall: when `sheet=<name>` references a missing tab, GViz
+// often silently returns the CSV of the FIRST/DEFAULT sheet instead of an
+// error. That means a vanilla "found a vendor header" check would happily
+// ingest rows from the main tracker as if they were incoming review items.
+// To prevent that, parseIncomingItems() requires a positive marker:
+//   • a cell exactly matching INCOMING_MARKER (HH_INCOMING_REVIEW_V1), OR
+//   • a title cell containing "Incoming Review" AND a header row that has
+//     BOTH a sourceId/orderId column AND a recommendedAction column.
+// Without those, we return [] and show the empty state.
 export const DRAW_INCOMING_CSV_URL =
   'https://docs.google.com/spreadsheets/d/1O4QXwt5SxDRf9c8FLaqyvK6813DAvO1pb5eiD77fW50/gviz/tq?tqx=out:csv&sheet=Incoming%20Review';
+
+export const INCOMING_MARKER = 'HH_INCOMING_REVIEW_V1';
 
 export type IncomingSourceType =
   | 'lowes'
@@ -179,6 +191,13 @@ export function parseIncomingItems(csv: string, opts: ParseIncomingOptions = {})
   const rows = parseCsv(csv);
   if (rows.length < 2) return [];
 
+  // Positive identification — defends against GViz silently returning the
+  // default sheet when the "Incoming Review" tab is missing.
+  const topRows = rows.slice(0, 5);
+  const flatTop = topRows.flat().map((c) => (c ?? '').trim());
+  const hasMarker = flatTop.some((c) => c.toLowerCase() === INCOMING_MARKER.toLowerCase());
+  const hasTitle = flatTop.some((c) => /incoming\s+review/i.test(c));
+
   // Find header row — first row containing 'vendor' or 'sourceid'/'order'
   const headerIdx = rows.findIndex((r) =>
     r.some((c) => /vendor|source\s*id|order\s*id/i.test(c)),
@@ -203,7 +222,14 @@ export function parseIncomingItems(csv: string, opts: ParseIncomingOptions = {})
     recommendedAction: headerIndex(headers, 'recommendedAction', 'recommended action', 'action'),
   };
 
+  // Gate: accept only if the marker is present OR the "Incoming Review"
+  // title appears AND both sourceId and recommendedAction columns exist.
+  const hasRequiredHeaders = col.sourceId >= 0 && col.recommendedAction >= 0;
+  const accepted = hasMarker || (hasTitle && hasRequiredHeaders);
+  if (!accepted) return [];
+
   const ledgerIds = collectLedgerIds(opts.ledger ?? []);
+
 
   const items: IncomingItem[] = [];
   for (let i = headerIdx + 1; i < rows.length; i++) {
