@@ -112,3 +112,44 @@ describe('badge mapping helpers', () => {
     expect(deriveStatus('paid', 'linked', true)).toBe('possible-duplicate');
   });
 });
+
+describe('GViz missing-tab fallback hardening', () => {
+  it('returns [] for main tracker CSV that lacks Incoming Review marker/title', () => {
+    // Simulates GViz silently returning the default (tracker) sheet when the
+    // "Incoming Review" tab does not exist. It DOES contain vendor/order-like
+    // columns, so a naive parser would happily ingest these rows.
+    const trackerCsv = `"Homestead Hill — All Unit Cost Tracker","","","","",""
+"Unit / Area","Category","Budget Item / Scope","Vendor / Payee","Invoice / Receipt Link","Order #"
+"Unit 7","Interior","Paint","Lowe's","https://x","LOW-111"
+"Unit 14","Exterior","Roof","Acme","https://y","CONT-222"
+`;
+    expect(parseIncomingItems(trackerCsv)).toEqual([]);
+  });
+
+  it('accepts CSV when the HH_INCOMING_REVIEW_V1 marker is present (case-insensitive)', () => {
+    const csv = `"hh_incoming_review_v1","","","","",""
+"sourceId","vendor","sourceType","date","amount","recommendedAction"
+"LOW-1","Lowe's","Lowe's","2026-06-20","50","approve"
+`;
+    const items = parseIncomingItems(csv);
+    expect(items.length).toBe(1);
+    expect(items[0].sourceId).toBe('LOW-1');
+  });
+
+  it('rejects when "Incoming Review" title present but recommendedAction column missing', () => {
+    const csv = `"Homestead Hill — Incoming Review","","",""
+"sourceId","vendor","amount"
+"LOW-1","Lowe's","50"
+`;
+    expect(parseIncomingItems(csv)).toEqual([]);
+  });
+
+  it('rejects when "Incoming Review" title present but sourceId column missing', () => {
+    const csv = `"Incoming Review","",""
+"vendor","amount","recommendedAction"
+"Lowe's","50","approve"
+`;
+    expect(parseIncomingItems(csv)).toEqual([]);
+  });
+});
+
