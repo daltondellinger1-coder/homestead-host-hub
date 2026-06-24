@@ -17,6 +17,8 @@ import MaintenancePortal from "./pages/MaintenancePortal";
 import ContractorOfficeLaundry from "./pages/ContractorOfficeLaundry";
 import ExtendStay from "./pages/ExtendStay";
 import AirbnbMarket from "./pages/AirbnbMarket";
+import AdminDraws from "./pages/AdminDraws";
+
 import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
