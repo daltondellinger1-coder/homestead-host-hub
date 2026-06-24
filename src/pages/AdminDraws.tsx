@@ -1,12 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info } from 'lucide-react';
+import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info, CheckCircle2, FileWarning, Clock, BadgeCheck } from 'lucide-react';
 import {
   fetchDrawDashboard,
   formatCurrency,
+  projectedAllIn,
+  unitBudgetRemaining,
+  unitFundingGap,
+  classifyDrawReadiness,
+  sourceConfidence,
+  computeDecisionSummary,
   type DrawDashboardData,
   type LedgerRow,
   type UnitSummaryRow,
+  type DrawReadiness,
+  type SourceConfidence,
 } from '@/lib/drawDashboard';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 function StatCard({
   label,
@@ -37,11 +46,6 @@ function StatCard({
       {help && <div className="text-[11px] text-muted-foreground font-body mt-1">{help}</div>}
     </div>
   );
-}
-
-function budgetRemaining(u: UnitSummaryRow) {
-  // Budget − Actual − Open committed (positive = under budget)
-  return u.budget - u.actual - u.openCommitted;
 }
 
 function Row({
@@ -69,10 +73,27 @@ function Row({
   );
 }
 
+function ConfidenceBadge({ c }: { c: SourceConfidence }) {
+  const map: Record<SourceConfidence, { label: string; cls: string; Icon: typeof BadgeCheck }> = {
+    verified: { label: 'Evidence linked', cls: 'bg-emerald-500/15 text-emerald-400', Icon: BadgeCheck },
+    'needs-evidence': { label: 'Needs evidence', cls: 'bg-amber-500/15 text-amber-400', Icon: FileWarning },
+    estimate: { label: 'Estimate / open', cls: 'bg-muted/30 text-muted-foreground', Icon: Clock },
+    drawn: { label: 'Funded / drawn', cls: 'bg-secondary/15 text-secondary', Icon: CheckCircle2 },
+  };
+  const { label, cls, Icon } = map[c];
+  return (
+    <span className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wide px-2 py-1 rounded-full font-body ${cls}`}>
+      <Icon className="h-3 w-3" /> {label}
+    </span>
+  );
+}
+
 function UnitSummaryCard({ u }: { u: UnitSummaryRow }) {
-  const remaining = budgetRemaining(u);
+  const projected = projectedAllIn(u);
+  const remaining = unitBudgetRemaining(u);
   const overBudget = remaining < 0;
-  const needsFunding = u.fundingPosition < 0;
+  const gap = unitFundingGap(u);
+  const needsFunding = gap < 0;
   return (
     <div className="glass-card rounded-xl p-4 space-y-3">
       <div className="flex items-center justify-between">
@@ -91,6 +112,7 @@ function UnitSummaryCard({ u }: { u: UnitSummaryRow }) {
         <Row label="Budget" value={formatCurrency(u.budget)} tone="neutral" />
         <Row label="Actual spent" value={formatCurrency(u.actual)} tone="neutral" />
         <Row label="Open committed" value={formatCurrency(u.openCommitted)} tone="neutral" />
+        <Row label="Projected all-in" value={formatCurrency(projected)} tone="neutral" />
         <Row
           label={overBudget ? 'Over budget' : 'Budget remaining'}
           value={formatCurrency(remaining)}
@@ -98,17 +120,18 @@ function UnitSummaryCard({ u }: { u: UnitSummaryRow }) {
         />
         <Row
           label={needsFunding ? 'Funding gap' : 'Funding surplus'}
-          value={formatCurrency(u.fundingPosition)}
+          value={formatCurrency(gap)}
           tone={needsFunding ? 'neg' : 'pos'}
         />
         <Row label="Draws applied" value={formatCurrency(u.drawsApplied)} tone="muted" />
-        <Row label="Owner cash" value={formatCurrency(u.ownerCashApplied)} tone="muted" />
+        <Row label="Recorded owner cash" value={formatCurrency(u.ownerCashApplied)} tone="muted" />
       </div>
     </div>
   );
 }
 
 function LedgerCard({ r }: { r: LedgerRow }) {
+  const conf = sourceConfidence(r);
   return (
     <div className="glass-card rounded-xl p-3 space-y-2">
       <div className="flex items-start justify-between gap-2">
@@ -116,11 +139,7 @@ function LedgerCard({ r }: { r: LedgerRow }) {
           <div className="font-heading text-sm">{r.unit}</div>
           <div className="text-xs text-muted-foreground font-body">{r.category}</div>
         </div>
-        {r.status && (
-          <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-muted/30 text-foreground font-body whitespace-nowrap">
-            {r.status}
-          </span>
-        )}
+        <ConfidenceBadge c={conf} />
       </div>
       {r.scope && <div className="text-sm font-body">{r.scope}</div>}
       <div className="grid grid-cols-2 gap-y-1 text-xs font-body">
@@ -133,9 +152,11 @@ function LedgerCard({ r }: { r: LedgerRow }) {
           tone={r.variance < 0 ? 'neg' : 'pos'}
         />
       </div>
-      {(r.vendor || r.receiptLink) && (
-        <div className="flex items-center justify-between text-xs font-body pt-1 border-t border-border/30">
-          <span className="text-muted-foreground truncate">{r.vendor || '—'}</span>
+      {(r.vendor || r.receiptLink || r.status) && (
+        <div className="flex items-center justify-between gap-2 text-xs font-body pt-1 border-t border-border/30">
+          <span className="text-muted-foreground truncate">
+            {r.vendor || '—'}{r.status ? ` · ${r.status}` : ''}
+          </span>
           {r.receiptLink && /^https?:\/\//.test(r.receiptLink) ? (
             <a
               href={r.receiptLink}
@@ -145,11 +166,47 @@ function LedgerCard({ r }: { r: LedgerRow }) {
             >
               Receipt <ExternalLink className="h-3 w-3" />
             </a>
-          ) : (
-            <span className="text-muted-foreground">{r.receiptLink || ''}</span>
-          )}
+          ) : null}
         </div>
       )}
+    </div>
+  );
+}
+
+function ReadinessGroup({ rows, emptyText }: { rows: LedgerRow[]; emptyText: string }) {
+  if (rows.length === 0) {
+    return <div className="text-xs text-muted-foreground font-body text-center py-4">{emptyText}</div>;
+  }
+  return (
+    <div className="grid grid-cols-1 gap-2">
+      {rows.map((r, i) => (
+        <div key={i} className="glass-card rounded-lg p-3 space-y-1">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <div className="font-heading text-sm">{r.unit}</div>
+              <div className="text-xs text-muted-foreground font-body truncate">
+                {r.category}{r.scope ? ` · ${r.scope}` : ''}
+              </div>
+            </div>
+            <ConfidenceBadge c={sourceConfidence(r)} />
+          </div>
+          <div className="flex items-center justify-between text-xs font-body">
+            <span className="text-muted-foreground">
+              Actual {formatCurrency(r.actual)} · Open {formatCurrency(r.openCommitted)}
+            </span>
+            {r.receiptLink && /^https?:\/\//.test(r.receiptLink) && (
+              <a
+                href={r.receiptLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 text-secondary hover:underline whitespace-nowrap"
+              >
+                Receipt <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -179,6 +236,7 @@ export default function AdminDraws() {
   }, []);
 
   const totals = data?.totals;
+  const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
 
   const unitOptions = useMemo(() => {
     if (!data) return [];
@@ -198,7 +256,15 @@ export default function AdminDraws() {
     );
   }, [data, unitFilter, statusFilter]);
 
+  const grouped = useMemo(() => {
+    const g: Record<DrawReadiness, LedgerRow[]> = { ready: [], 'needs-evidence': [], 'not-ready': [], drawn: [] };
+    if (!data) return g;
+    for (const r of data.ledger) g[classifyDrawReadiness(r)].push(r);
+    return g;
+  }, [data]);
+
   const netNeedsFunding = (totals?.netFundingPosition ?? 0) < 0;
+  const projectOverBudget = (summary?.budgetRemaining ?? 0) < 0;
 
   return (
     <div className="min-h-screen pattern-bg pb-24 sm:pb-8">
@@ -233,10 +299,69 @@ export default function AdminDraws() {
               <AlertTriangle className="h-4 w-4" /> Could not load live sheet
             </div>
             <p className="text-muted-foreground">{error}</p>
-            <p className="text-muted-foreground mt-1">
-              No cached snapshot is bundled with the app. Check your connection and retry.
-            </p>
           </div>
+        )}
+
+        {summary && totals && (
+          <section className="glass-card rounded-xl p-4 space-y-3 border border-secondary/30">
+            <div className="flex items-center gap-2 font-heading text-base">
+              <BadgeCheck className="h-4 w-4 text-secondary" /> Decision summary
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-body">
+              <div className="rounded-lg bg-muted/10 p-3">
+                <div className="text-xs uppercase text-muted-foreground">Budget health</div>
+                <div className={`font-heading text-lg ${projectOverBudget ? 'text-red-400' : 'text-emerald-400'}`}>
+                  {projectOverBudget
+                    ? `Over budget by ${formatCurrency(Math.abs(summary.budgetRemaining))}`
+                    : `Under budget by ${formatCurrency(summary.budgetRemaining)}`}
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  Projected all-in {formatCurrency(summary.projectedAllIn)} vs budget {formatCurrency(totals.totalBudget)}
+                </div>
+              </div>
+              <div className="rounded-lg bg-muted/10 p-3">
+                <div className="text-xs uppercase text-muted-foreground">Funding health</div>
+                <div className={`font-heading text-lg ${netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
+                  {netNeedsFunding
+                    ? `Funding gap ${formatCurrency(Math.abs(summary.fundingGap))}`
+                    : `Funding surplus ${formatCurrency(summary.fundingGap)}`}
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  Recorded owner cash {formatCurrency(summary.recordedOwnerCash)}
+                </div>
+              </div>
+              <div className="rounded-lg bg-muted/10 p-3">
+                <div className="text-xs uppercase text-muted-foreground">Draw-ready amount</div>
+                <div className="font-heading text-lg text-foreground">
+                  {summary.drawReadyCount > 0
+                    ? `${formatCurrency(summary.drawReadyAmount)} (${summary.drawReadyCount} items)`
+                    : 'Needs review'}
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  {summary.needsEvidenceCount} item{summary.needsEvidenceCount === 1 ? '' : 's'} need evidence ({formatCurrency(summary.needsEvidenceAmount)})
+                </div>
+              </div>
+              <div className="rounded-lg bg-muted/10 p-3">
+                <div className="text-xs uppercase text-muted-foreground">Biggest attention</div>
+                {summary.biggestAttention ? (
+                  <>
+                    <div className="font-heading text-lg text-red-400">
+                      {summary.biggestAttention.unit}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground">
+                      {summary.biggestAttention.reason}: {formatCurrency(summary.biggestAttention.amount)}
+                    </div>
+                  </>
+                ) : (
+                  <div className="font-heading text-lg text-emerald-400">All units healthy</div>
+                )}
+              </div>
+            </div>
+            <div className="rounded-lg bg-secondary/10 border border-secondary/30 p-3 text-sm font-body">
+              <span className="text-secondary font-semibold">Next action: </span>
+              <span className="text-foreground">{summary.recommendation}</span>
+            </div>
+          </section>
         )}
 
         {totals && (
@@ -253,16 +378,25 @@ export default function AdminDraws() {
                 value={formatCurrency(totals.openCommitted)}
                 help="Expected, not yet paid"
               />
-              <StatCard label="Paid From Draws" value={formatCurrency(totals.totalPaidFromDraws)} />
-              <StatCard label="Owner Cash" value={formatCurrency(totals.totalPaidFromOwnerCash)} />
               <StatCard
-                label={netNeedsFunding ? 'Funding Gap' : 'Funding Surplus'}
+                label="Projected All-In"
+                value={formatCurrency(totals.totalActual + totals.openCommitted)}
+                help="Actual + Open committed"
+              />
+              <StatCard label="Paid From Draws" value={formatCurrency(totals.totalPaidFromDraws)} />
+              <StatCard
+                label="Recorded Owner Cash"
+                value={formatCurrency(totals.totalPaidFromOwnerCash)}
+                help="Explicit owner cash from the sheet. Does not include practical gap coverage."
+              />
+              <StatCard
+                label={netNeedsFunding ? 'Funding Gap (cash needed)' : 'Funding Surplus'}
                 value={formatCurrency(totals.netFundingPosition)}
                 tone={netNeedsFunding ? 'neg' : 'pos'}
                 help={
                   netNeedsFunding
-                    ? 'Draws + owner cash below actual + open. More funding needed.'
-                    : 'Draws + owner cash above actual + open costs.'
+                    ? 'Practical cash exposure until next draw covers actual + open costs.'
+                    : 'Draws + recorded owner cash exceed actual + open costs.'
                 }
               />
             </div>
@@ -281,8 +415,10 @@ export default function AdminDraws() {
           <ul className="text-xs sm:text-sm font-body text-muted-foreground space-y-1">
             <li><span className="text-foreground font-medium">Actual</span> — money already spent/recorded.</li>
             <li><span className="text-foreground font-medium">Open committed</span> — expected/in-progress costs not yet paid.</li>
-            <li><span className="text-foreground font-medium">Budget remaining</span> — Budget − Actual − Open committed. Positive = under budget; negative = over budget.</li>
-            <li><span className="text-foreground font-medium">Funding gap</span> — Draws + owner cash applied minus actual + open costs. Negative means more draw/cash is needed (not a projected all-in cost).</li>
+            <li><span className="text-foreground font-medium">Projected all-in</span> — Actual + Open committed. Best estimate of total cost.</li>
+            <li><span className="text-foreground font-medium">Budget remaining</span> — Budget − Projected all-in. Negative = over budget.</li>
+            <li><span className="text-foreground font-medium">Funding gap</span> — Draws + recorded owner cash − Projected all-in. Negative = practical cash still needed until next draw. Not a projected all-in cost.</li>
+            <li><span className="text-foreground font-medium">Recorded owner cash</span> — explicit owner cash from the sheet. A $0 here with a funding gap still means owner cash is effectively covering the gap.</li>
           </ul>
         </div>
 
@@ -314,31 +450,35 @@ export default function AdminDraws() {
                     <th className="text-left p-3">Unit / Area</th>
                     <th className="text-right p-3">Budget</th>
                     <th className="text-right p-3">Actual</th>
-                    <th className="text-right p-3">Open Committed</th>
+                    <th className="text-right p-3">Open</th>
+                    <th className="text-right p-3">Projected all-in</th>
                     <th className="text-right p-3">Budget Remaining</th>
                     <th className="text-right p-3">Draws</th>
-                    <th className="text-right p-3">Owner Cash</th>
+                    <th className="text-right p-3">Recorded Owner Cash</th>
                     <th className="text-right p-3">Funding Gap</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.unitSummary.map((u) => {
-                    const remaining = budgetRemaining(u);
+                    const projected = projectedAllIn(u);
+                    const remaining = unitBudgetRemaining(u);
                     const overBudget = remaining < 0;
-                    const needsFunding = u.fundingPosition < 0;
+                    const gap = unitFundingGap(u);
+                    const needsFunding = gap < 0;
                     return (
                       <tr key={u.unit} className="border-t border-border/30">
                         <td className="p-3">{u.unit}</td>
                         <td className="p-3 text-right">{formatCurrency(u.budget)}</td>
                         <td className="p-3 text-right">{formatCurrency(u.actual)}</td>
                         <td className="p-3 text-right">{formatCurrency(u.openCommitted)}</td>
+                        <td className="p-3 text-right">{formatCurrency(projected)}</td>
                         <td className={`p-3 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
                           {formatCurrency(remaining)}
                         </td>
                         <td className="p-3 text-right">{formatCurrency(u.drawsApplied)}</td>
                         <td className="p-3 text-right">{formatCurrency(u.ownerCashApplied)}</td>
                         <td className={`p-3 text-right ${needsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {formatCurrency(u.fundingPosition)}
+                          {formatCurrency(gap)}
                         </td>
                       </tr>
                     );
@@ -346,6 +486,43 @@ export default function AdminDraws() {
                 </tbody>
               </table>
             </div>
+          </section>
+        )}
+
+        {data && data.ledger.length > 0 && (
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h2 className="font-heading text-base">Draw readiness</h2>
+              <span className="text-[11px] font-body text-muted-foreground">Review before sending to lender</span>
+            </div>
+            <Tabs defaultValue="ready">
+              <TabsList className="w-full grid grid-cols-2 sm:grid-cols-4 h-auto">
+                <TabsTrigger value="ready" className="text-xs">
+                  Ready ({grouped.ready.length})
+                </TabsTrigger>
+                <TabsTrigger value="needs-evidence" className="text-xs">
+                  Needs evidence ({grouped['needs-evidence'].length})
+                </TabsTrigger>
+                <TabsTrigger value="not-ready" className="text-xs">
+                  Not ready ({grouped['not-ready'].length})
+                </TabsTrigger>
+                <TabsTrigger value="drawn" className="text-xs">
+                  Drawn ({grouped.drawn.length})
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="ready" className="mt-3">
+                <ReadinessGroup rows={grouped.ready} emptyText="No items currently ready for draw review." />
+              </TabsContent>
+              <TabsContent value="needs-evidence" className="mt-3">
+                <ReadinessGroup rows={grouped['needs-evidence']} emptyText="All actuals have evidence linked." />
+              </TabsContent>
+              <TabsContent value="not-ready" className="mt-3">
+                <ReadinessGroup rows={grouped['not-ready']} emptyText="No open commitments awaiting actuals." />
+              </TabsContent>
+              <TabsContent value="drawn" className="mt-3">
+                <ReadinessGroup rows={grouped.drawn} emptyText="No items have been marked drawn/funded yet." />
+              </TabsContent>
+            </Tabs>
           </section>
         )}
 
@@ -396,7 +573,7 @@ export default function AdminDraws() {
 
             {/* Desktop/tablet wide table */}
             <div className="hidden sm:block glass-card rounded-xl overflow-x-auto">
-              <table className="w-full text-xs font-body min-w-[800px]">
+              <table className="w-full text-xs font-body min-w-[900px]">
                 <thead className="text-[10px] uppercase text-muted-foreground">
                   <tr>
                     <th className="text-left p-2">Unit</th>
@@ -405,8 +582,9 @@ export default function AdminDraws() {
                     <th className="text-right p-2">Budget</th>
                     <th className="text-right p-2">Actual</th>
                     <th className="text-right p-2">Open</th>
+                    <th className="text-right p-2">Projected</th>
                     <th className="text-right p-2">Budget Remaining</th>
-                    <th className="text-left p-2">Status</th>
+                    <th className="text-left p-2">Confidence</th>
                     <th className="text-left p-2">Receipt</th>
                   </tr>
                 </thead>
@@ -419,10 +597,11 @@ export default function AdminDraws() {
                       <td className="p-2 text-right">{formatCurrency(r.budget)}</td>
                       <td className="p-2 text-right">{formatCurrency(r.actual)}</td>
                       <td className="p-2 text-right">{formatCurrency(r.openCommitted)}</td>
+                      <td className="p-2 text-right">{formatCurrency(projectedAllIn(r))}</td>
                       <td className={`p-2 text-right ${r.variance < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
                         {formatCurrency(r.variance)}
                       </td>
-                      <td className="p-2">{r.status}</td>
+                      <td className="p-2"><ConfidenceBadge c={sourceConfidence(r)} /></td>
                       <td className="p-2">
                         {r.receiptLink && /^https?:\/\//.test(r.receiptLink) ? (
                           <a
