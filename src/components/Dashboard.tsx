@@ -184,15 +184,17 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Airbnb Market
               </Button>
             </Link>
-            <Link to="/admin/draws" className="hidden sm:block">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
-              >
-                Draws
-              </Button>
-            </Link>
+            {isAdmin && (
+              <Link to="/admin/draws" className="hidden sm:block">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
+                >
+                  Draws
+                </Button>
+              </Link>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
