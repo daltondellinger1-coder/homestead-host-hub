@@ -223,10 +223,14 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="font-body">
+                <DropdownMenuItem asChild>
+                  <Link to="/admin/draws">Draw Dashboard</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setShowOnboarding(true)}>
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Help / Tutorial
                 </DropdownMenuItem>
+
                 <DropdownMenuItem className="hidden sm:flex" onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
