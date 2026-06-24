@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info, CheckCircle2, FileWarning, Clock, BadgeCheck } from 'lucide-react';
+import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info, CheckCircle2, FileWarning, Clock, BadgeCheck, Inbox } from 'lucide-react';
 import {
   fetchDrawDashboard,
   formatCurrency,
@@ -16,6 +16,15 @@ import {
   type DrawReadiness,
   type SourceConfidence,
 } from '@/lib/drawDashboard';
+import {
+  fetchIncomingItems,
+  statusLabel,
+  statusTone,
+  actionLabel,
+  type IncomingItem,
+  type IncomingStatus,
+  type IncomingRecommendedAction,
+} from '@/lib/drawIncoming';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -211,8 +220,100 @@ function ReadinessGroup({ rows, emptyText }: { rows: LedgerRow[]; emptyText: str
   );
 }
 
+function IncomingStatusBadge({ s }: { s: IncomingStatus }) {
+  const tone = statusTone(s);
+  const cls =
+    tone === 'pos'
+      ? 'bg-emerald-500/15 text-emerald-400'
+      : tone === 'warn'
+        ? 'bg-amber-500/15 text-amber-400'
+        : 'bg-muted/30 text-muted-foreground';
+  return (
+    <span className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wide px-2 py-1 rounded-full font-body ${cls}`}>
+      {statusLabel(s)}
+    </span>
+  );
+}
+
+const ACTION_ORDER: IncomingRecommendedAction[] = [
+  'approve-to-tracker',
+  'change-unit-category',
+  'mark-not-homestead',
+  'needs-more-proof',
+];
+
+function IncomingActions({ recommended }: { recommended: IncomingRecommendedAction }) {
+  return (
+    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border/30">
+      {ACTION_ORDER.map((a) => {
+        const isRec = a === recommended;
+        return (
+          <button
+            key={a}
+            type="button"
+            disabled
+            title="Review action — backend write not enabled yet"
+            className={`text-[10px] uppercase tracking-wide px-2 py-1 rounded-md font-body border ${
+              isRec
+                ? 'border-secondary/50 text-secondary bg-secondary/10'
+                : 'border-border/40 text-muted-foreground bg-muted/10'
+            } cursor-not-allowed opacity-80`}
+          >
+            {isRec ? `${actionLabel(a)} · suggested` : `Review · ${actionLabel(a)}`}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function IncomingCard({ item }: { item: IncomingItem }) {
+  return (
+    <div className="glass-card rounded-xl p-3 space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="font-heading text-sm truncate">{item.vendor || item.sourceId}</div>
+          <div className="text-[11px] text-muted-foreground font-body truncate">
+            {item.sourceType} · {item.date || 'no date'} · {item.sourceId || 'no id'}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="font-heading text-sm">{formatCurrency(item.amount)}</div>
+          <div className="text-[10px] text-muted-foreground font-body uppercase">{item.confidence}</div>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <IncomingStatusBadge s={item.derivedStatus} />
+        <span className="text-[11px] text-muted-foreground font-body">
+          {item.unit || 'Unit ?'} · {item.category || 'Category ?'}
+        </span>
+      </div>
+      {item.warnings.length > 0 && (
+        <ul className="text-[11px] text-amber-400 font-body list-disc list-inside space-y-0.5">
+          {item.warnings.map((w, i) => (
+            <li key={i}>{w}</li>
+          ))}
+        </ul>
+      )}
+      {item.notes && <div className="text-[11px] text-muted-foreground font-body">{item.notes}</div>}
+      {item.evidenceUrl && /^https?:\/\//.test(item.evidenceUrl) && (
+        <a
+          href={item.evidenceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] text-secondary hover:underline"
+        >
+          Evidence <ExternalLink className="h-3 w-3" />
+        </a>
+      )}
+      <IncomingActions recommended={item.recommendedAction} />
+    </div>
+  );
+}
+
 export default function AdminDraws() {
   const [data, setData] = useState<DrawDashboardData | null>(null);
+  const [incoming, setIncoming] = useState<IncomingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
@@ -224,6 +325,9 @@ export default function AdminDraws() {
     try {
       const d = await fetchDrawDashboard();
       setData(d);
+      // Incoming review queue is best-effort; failures must not block the dashboard.
+      const inc = await fetchIncomingItems(d.ledger);
+      setIncoming(inc);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load draw sheet');
     } finally {
@@ -360,6 +464,12 @@ export default function AdminDraws() {
             <div className="rounded-lg bg-secondary/10 border border-secondary/30 p-3 text-sm font-body">
               <span className="text-secondary font-semibold">Next action: </span>
               <span className="text-foreground">{summary.recommendation}</span>
+            </div>
+            <div className="rounded-lg bg-muted/10 border border-border/40 p-3 text-[11px] font-body text-muted-foreground space-y-1">
+              <div className="text-foreground font-semibold text-xs">How automation works</div>
+              <div>· Live totals above auto-update from the tracker sheet.</div>
+              <div>· Incoming vendor/invoice items appear in the review queue below first.</div>
+              <div>· Totals change only after items are approved/entered into the tracker — preventing bad data from moving the numbers.</div>
             </div>
           </section>
         )}
@@ -525,6 +635,41 @@ export default function AdminDraws() {
             </Tabs>
           </section>
         )}
+
+        {data && (
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h2 className="font-heading text-base flex items-center gap-2">
+                <Inbox className="h-4 w-4 text-secondary" /> Incoming items needing review
+              </h2>
+              <span className="text-[11px] font-body text-muted-foreground">
+                {incoming.length} staged · not in totals
+              </span>
+            </div>
+            <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground">
+              These are detected/staged items from connected sources (Lowe's, Amazon, Menards, contractor invoices, FlipperForce, Gmail).
+              They are <span className="text-foreground font-semibold">not</span> included in tracker totals until approved and entered into the main sheet.
+            </div>
+            {incoming.length === 0 ? (
+              <div className="glass-card rounded-xl p-6 text-center text-sm font-body text-muted-foreground">
+                No staged incoming items detected.
+                <div className="text-[11px] mt-1">
+                  Add rows to the “Incoming Review” tab in the draw tracker sheet to populate this queue.
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Mobile + desktop both render the same stacked cards — mobile-first by design. */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {incoming.map((it, i) => (
+                    <IncomingCard key={`${it.sourceId}-${i}`} item={it} />
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        )}
+
 
         {data && data.ledger.length > 0 && (
           <section className="space-y-3">
