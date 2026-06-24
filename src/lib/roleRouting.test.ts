@@ -25,4 +25,11 @@ describe('role-based login routing', () => {
     expect(canAccessPath('/unauthorized', ['maintenance'])).toBe(false);
     expect(canAccessPath('/unauthorized', [])).toBe(true);
   });
+
+  it('restricts /admin/draws to admins only', () => {
+    expect(canAccessPath('/admin/draws', ['admin'])).toBe(true);
+    expect(canAccessPath('/admin/draws', ['maintenance'])).toBe(false);
+    expect(canAccessPath('/admin/draws', [])).toBe(false);
+  });
 });
+
