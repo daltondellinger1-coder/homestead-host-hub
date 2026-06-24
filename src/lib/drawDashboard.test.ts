@@ -1,5 +1,38 @@
 import { describe, expect, it } from 'vitest';
-import { parseDrawDashboard, parseCsv, formatCurrency } from './drawDashboard';
+import {
+  parseDrawDashboard,
+  parseCsv,
+  formatCurrency,
+  projectedAllIn,
+  unitBudgetRemaining,
+  unitFundingGap,
+  classifyDrawReadiness,
+  sourceConfidence,
+  computeDecisionSummary,
+  type LedgerRow,
+} from './drawDashboard';
+
+function makeLedger(p: Partial<LedgerRow> = {}): LedgerRow {
+  return {
+    unit: 'Unit 1',
+    category: 'Interior',
+    scope: 'Paint',
+    budget: 1000,
+    actual: 0,
+    paidFromDraws: 0,
+    paidFromOwnerCash: 0,
+    openCommitted: 0,
+    variance: 0,
+    fundingPosition: 0,
+    vendor: '',
+    receiptLink: '',
+    drawNumber: '',
+    status: '',
+    source: '',
+    notes: '',
+    ...p,
+  };
+}
 
 const SAMPLE_CSV = `"Homestead Hill — All Unit Cost Tracker Purpose Project totals","Track budget vs actual","","","","","","","","","","","",""
 "Total Budget","171024.53","Total Actual","32379.26","","23837.41","Total Paid From Owner Cash","0","","38796.96","Net Funding Position","-47338.81","Status","Owner cash gap"
