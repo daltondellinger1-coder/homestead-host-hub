@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, DollarSign, LogOut, Inbox, Wrench, BriefcaseBusiness } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { LayoutGrid, CalendarDays, Inbox, Wrench } from 'lucide-react';
 import { useBookingRequests } from '@/hooks/useBookingRequests';
 import { useMaintenanceRequests } from '@/hooks/useMaintenanceRequests';
 import { cn } from '@/lib/utils';
