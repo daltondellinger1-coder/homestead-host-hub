@@ -636,6 +636,41 @@ export default function AdminDraws() {
           </section>
         )}
 
+        {data && (
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h2 className="font-heading text-base flex items-center gap-2">
+                <Inbox className="h-4 w-4 text-secondary" /> Incoming items needing review
+              </h2>
+              <span className="text-[11px] font-body text-muted-foreground">
+                {incoming.length} staged · not in totals
+              </span>
+            </div>
+            <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground">
+              These are detected/staged items from connected sources (Lowe's, Amazon, Menards, contractor invoices, FlipperForce, Gmail).
+              They are <span className="text-foreground font-semibold">not</span> included in tracker totals until approved and entered into the main sheet.
+            </div>
+            {incoming.length === 0 ? (
+              <div className="glass-card rounded-xl p-6 text-center text-sm font-body text-muted-foreground">
+                No staged incoming items detected.
+                <div className="text-[11px] mt-1">
+                  Add rows to the “Incoming Review” tab in the draw tracker sheet to populate this queue.
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Mobile + desktop both render the same stacked cards — mobile-first by design. */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {incoming.map((it, i) => (
+                    <IncomingCard key={`${it.sourceId}-${i}`} item={it} />
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        )}
+
+
         {data && data.ledger.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
