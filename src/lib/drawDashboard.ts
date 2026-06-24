@@ -190,7 +190,7 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
   }
   if (totals.netFundingPosition < 0) {
     warnings.push(
-      `Net funding position is negative (${formatCurrency(totals.netFundingPosition)}). Owner cash or draw needed to cover open commitments.`,
+      `Net funding position is negative (funding gap ${formatCurrency(totals.netFundingPosition)}). Owner cash or draw needed to cover actuals plus open commitments.`,
     );
   }
 
