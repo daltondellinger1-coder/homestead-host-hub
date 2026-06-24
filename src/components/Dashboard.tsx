@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { useAuth } from '@/hooks/useAuth';
+import { useAuthRoles } from '@/hooks/useAuthRoles';
 import StatsOverview from '@/components/StatsOverview';
 import AvailabilitySearch from '@/components/AvailabilitySearch';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
