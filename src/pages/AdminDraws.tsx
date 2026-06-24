@@ -220,6 +220,97 @@ function ReadinessGroup({ rows, emptyText }: { rows: LedgerRow[]; emptyText: str
   );
 }
 
+function IncomingStatusBadge({ s }: { s: IncomingStatus }) {
+  const tone = statusTone(s);
+  const cls =
+    tone === 'pos'
+      ? 'bg-emerald-500/15 text-emerald-400'
+      : tone === 'warn'
+        ? 'bg-amber-500/15 text-amber-400'
+        : 'bg-muted/30 text-muted-foreground';
+  return (
+    <span className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wide px-2 py-1 rounded-full font-body ${cls}`}>
+      {statusLabel(s)}
+    </span>
+  );
+}
+
+const ACTION_ORDER: IncomingRecommendedAction[] = [
+  'approve-to-tracker',
+  'change-unit-category',
+  'mark-not-homestead',
+  'needs-more-proof',
+];
+
+function IncomingActions({ recommended }: { recommended: IncomingRecommendedAction }) {
+  return (
+    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border/30">
+      {ACTION_ORDER.map((a) => {
+        const isRec = a === recommended;
+        return (
+          <button
+            key={a}
+            type="button"
+            disabled
+            title="Review action — backend write not enabled yet"
+            className={`text-[10px] uppercase tracking-wide px-2 py-1 rounded-md font-body border ${
+              isRec
+                ? 'border-secondary/50 text-secondary bg-secondary/10'
+                : 'border-border/40 text-muted-foreground bg-muted/10'
+            } cursor-not-allowed opacity-80`}
+          >
+            {isRec ? `${actionLabel(a)} · suggested` : `Review · ${actionLabel(a)}`}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function IncomingCard({ item }: { item: IncomingItem }) {
+  return (
+    <div className="glass-card rounded-xl p-3 space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="font-heading text-sm truncate">{item.vendor || item.sourceId}</div>
+          <div className="text-[11px] text-muted-foreground font-body truncate">
+            {item.sourceType} · {item.date || 'no date'} · {item.sourceId || 'no id'}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="font-heading text-sm">{formatCurrency(item.amount)}</div>
+          <div className="text-[10px] text-muted-foreground font-body uppercase">{item.confidence}</div>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <IncomingStatusBadge s={item.derivedStatus} />
+        <span className="text-[11px] text-muted-foreground font-body">
+          {item.unit || 'Unit ?'} · {item.category || 'Category ?'}
+        </span>
+      </div>
+      {item.warnings.length > 0 && (
+        <ul className="text-[11px] text-amber-400 font-body list-disc list-inside space-y-0.5">
+          {item.warnings.map((w, i) => (
+            <li key={i}>{w}</li>
+          ))}
+        </ul>
+      )}
+      {item.notes && <div className="text-[11px] text-muted-foreground font-body">{item.notes}</div>}
+      {item.evidenceUrl && /^https?:\/\//.test(item.evidenceUrl) && (
+        <a
+          href={item.evidenceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] text-secondary hover:underline"
+        >
+          Evidence <ExternalLink className="h-3 w-3" />
+        </a>
+      )}
+      <IncomingActions recommended={item.recommendedAction} />
+    </div>
+  );
+}
+
 export default function AdminDraws() {
   const [data, setData] = useState<DrawDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
