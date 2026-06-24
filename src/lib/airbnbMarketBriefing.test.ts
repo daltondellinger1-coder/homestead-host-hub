@@ -79,6 +79,33 @@ describe('Airbnb market briefing model', () => {
     expect(briefing.weeklyBriefing?.nextActions).toContain('Add every HH Airbnb link and 30-day screenshot');
   });
 
+  it('keeps the researched Unit 1 Airbnb listing details in the static fallback', () => {
+    const unit1 = homesteadUnits.find((unit) => unit.unit === 'Unit 1');
+
+    expect(unit1).toMatchObject({
+      bedrooms: 1,
+      beds: 1,
+      baths: 1,
+      sleeps: 2,
+      nightlyPrice: 95,
+      monthlyPrice: 1735,
+      weeklyDiscountPct: 10,
+      monthlyDiscountPct: 40,
+      rating: 5,
+      reviews: 8,
+      status: 'push',
+      pricingRecommendation: 'raise 5%',
+    });
+    expect(unit1?.availability).toEqual({
+      available30Day: true,
+      nextAvailableDate: '2026-08-01',
+      snapshotDate: '2026-06-24',
+    });
+    expect(unit1?.amenities).toEqual(expect.arrayContaining(['Guest Favorite', 'Perfect long-stay ratings', 'Self check-in']));
+    expect(unit1?.dataStatus).toContain('https://airbnb.com/h/homesteadhill1');
+    expect(unit1?.dataStatus).toContain('July 1–31 returned unavailable');
+  });
+
   it('keeps the Airbnb Market page wired to Supabase data with a static fallback', () => {
     const source = readFileSync(resolve(process.cwd(), 'src/pages/AirbnbMarket.tsx'), 'utf8');
 
