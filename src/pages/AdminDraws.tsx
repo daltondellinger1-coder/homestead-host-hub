@@ -465,6 +465,12 @@ export default function AdminDraws() {
               <span className="text-secondary font-semibold">Next action: </span>
               <span className="text-foreground">{summary.recommendation}</span>
             </div>
+            <div className="rounded-lg bg-muted/10 border border-border/40 p-3 text-[11px] font-body text-muted-foreground space-y-1">
+              <div className="text-foreground font-semibold text-xs">How automation works</div>
+              <div>· Live totals above auto-update from the tracker sheet.</div>
+              <div>· Incoming vendor/invoice items appear in the review queue below first.</div>
+              <div>· Totals change only after items are approved/entered into the tracker — preventing bad data from moving the numbers.</div>
+            </div>
           </section>
         )}
 
