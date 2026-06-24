@@ -181,6 +181,16 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Airbnb Market
               </Button>
             </Link>
+            <Link to="/admin/draws" className="hidden sm:block">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
+              >
+                Draws
+              </Button>
+            </Link>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -213,10 +223,14 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="font-body">
+                <DropdownMenuItem asChild>
+                  <Link to="/admin/draws">Draw Dashboard</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setShowOnboarding(true)}>
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Help / Tutorial
                 </DropdownMenuItem>
+
                 <DropdownMenuItem className="hidden sm:flex" onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
