@@ -13,7 +13,6 @@ interface MobileBottomNavProps {
 
 export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }: MobileBottomNavProps) {
   const location = useLocation();
-  const { signOut } = useAuth();
   const { pendingCount } = useBookingRequests();
   const { newCount: maintenanceNewCount } = useMaintenanceRequests();
   const isDashboard = location.pathname === '/';
@@ -50,33 +49,11 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       badge: pendingCount,
     },
     {
-      label: 'Finances',
-      icon: DollarSign,
-      active: location.pathname === '/finances' || location.pathname === '/reports' || location.pathname === '/payments',
-      to: '/finances',
-      badge: 0,
-    },
-    {
-      label: 'Market',
-      icon: BriefcaseBusiness,
-      active: location.pathname === '/airbnb-market',
-      to: '/airbnb-market',
-      badge: 0,
-    },
-    {
       label: 'Fix',
       icon: Wrench,
       active: location.pathname === '/maintenance',
       to: '/maintenance',
       badge: maintenanceNewCount,
-    },
-    {
-      label: 'Out',
-      icon: LogOut,
-      active: false,
-      to: '#',
-      onClick: () => signOut(),
-      badge: 0,
     },
   ];
 
