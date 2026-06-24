@@ -59,6 +59,8 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/reports" element={<Finances />} />
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/airbnb-market" element={<AirbnbMarket />} />
+        <Route path="/admin/draws" element={<AdminDraws />} />
+
         <Route path="/maintenance/health" element={<MaintenanceHealth />} />
         <Route path="/maintenance-portal" element={<MaintenancePortal />} />
         <Route path="/extend-stay" element={<ExtendStay />} />
