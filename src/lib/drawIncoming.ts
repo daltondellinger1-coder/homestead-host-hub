@@ -222,7 +222,14 @@ export function parseIncomingItems(csv: string, opts: ParseIncomingOptions = {})
     recommendedAction: headerIndex(headers, 'recommendedAction', 'recommended action', 'action'),
   };
 
+  // Gate: accept only if the marker is present OR the "Incoming Review"
+  // title appears AND both sourceId and recommendedAction columns exist.
+  const hasRequiredHeaders = col.sourceId >= 0 && col.recommendedAction >= 0;
+  const accepted = hasMarker || (hasTitle && hasRequiredHeaders);
+  if (!accepted) return [];
+
   const ledgerIds = collectLedgerIds(opts.ledger ?? []);
+
 
   const items: IncomingItem[] = [];
   for (let i = headerIdx + 1; i < rows.length; i++) {
