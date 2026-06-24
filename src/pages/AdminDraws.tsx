@@ -313,6 +313,7 @@ function IncomingCard({ item }: { item: IncomingItem }) {
 
 export default function AdminDraws() {
   const [data, setData] = useState<DrawDashboardData | null>(null);
+  const [incoming, setIncoming] = useState<IncomingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
@@ -324,6 +325,9 @@ export default function AdminDraws() {
     try {
       const d = await fetchDrawDashboard();
       setData(d);
+      // Incoming review queue is best-effort; failures must not block the dashboard.
+      const inc = await fetchIncomingItems(d.ledger);
+      setIncoming(inc);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load draw sheet');
     } finally {
