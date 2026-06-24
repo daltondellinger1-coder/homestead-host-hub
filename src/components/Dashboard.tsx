@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { useAuth } from '@/hooks/useAuth';
+import { useAuthRoles } from '@/hooks/useAuthRoles';
 import StatsOverview from '@/components/StatsOverview';
 import AvailabilitySearch from '@/components/AvailabilitySearch';
 import SortableUnitGrid from '@/components/SortableUnitGrid';
@@ -46,7 +47,9 @@ interface DashboardProps {
 
 export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps) {
   const { units, loading, refresh, addUnit, updateUnit, reorderUnits, removeUnit, addGuest, addFutureGuest, updateFutureGuest, deleteFutureGuest, deleteGuest, updateGuest, updateGuestById, removeGuest, addPayment, addPaymentForGuest, updatePayment, deletePayment, markPaymentPaid, markPaymentUnpaid, resetAllData, stats, allPaymentEvents, allBookingEvents } = usePropertyData();
-  const { signOut } = useAuth();
+  const { session, signOut } = useAuth();
+  const { roles } = useAuthRoles(session?.user.id);
+  const isAdmin = roles.includes('admin');
   const { isComplete: onboardingComplete } = useOnboardingState();
   const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
   const { pendingCount: pendingRequestsCount, markApproved: markRequestApproved, approveExtension } = useBookingRequests();
@@ -181,15 +184,17 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
                 Airbnb Market
               </Button>
             </Link>
-            <Link to="/admin/draws" className="hidden sm:block">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
-              >
-                Draws
-              </Button>
-            </Link>
+            {isAdmin && (
+              <Link to="/admin/draws" className="hidden sm:block">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="font-body text-muted-foreground hover:text-foreground hover:bg-muted/50 px-3"
+                >
+                  Draws
+                </Button>
+              </Link>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -224,14 +229,31 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="font-body">
                 <DropdownMenuItem asChild>
-                  <Link to="/admin/draws">Draw Dashboard</Link>
+                  <Link to="/finances">
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Finances
+                  </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/airbnb-market">
+                    <BriefcaseBusiness className="h-4 w-4 mr-2" />
+                    Airbnb Market
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/draws">
+                      <LayoutGrid className="h-4 w-4 mr-2" />
+                      Draw Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setShowOnboarding(true)}>
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Help / Tutorial
                 </DropdownMenuItem>
-
-                <DropdownMenuItem className="hidden sm:flex" onClick={signOut}>
+                <DropdownMenuItem onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
                 </DropdownMenuItem>
