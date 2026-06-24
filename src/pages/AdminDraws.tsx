@@ -654,7 +654,7 @@ export default function AdminDraws() {
               <div className="glass-card rounded-xl p-6 text-center text-sm font-body text-muted-foreground">
                 No staged incoming items detected.
                 <div className="text-[11px] mt-1">
-                  Add rows to the “Incoming Review” tab in the draw tracker sheet to populate this queue.
+                  Add a dedicated <span className="text-foreground font-semibold">Incoming Review</span> tab with marker <span className="text-foreground font-mono">HH_INCOMING_REVIEW_V1</span> and the expected headers (sourceId, vendor, amount, recommendedAction, …) to populate this queue.
                 </div>
               </div>
             ) : (
