@@ -191,6 +191,13 @@ export function parseIncomingItems(csv: string, opts: ParseIncomingOptions = {})
   const rows = parseCsv(csv);
   if (rows.length < 2) return [];
 
+  // Positive identification — defends against GViz silently returning the
+  // default sheet when the "Incoming Review" tab is missing.
+  const topRows = rows.slice(0, 5);
+  const flatTop = topRows.flat().map((c) => (c ?? '').trim());
+  const hasMarker = flatTop.some((c) => c.toLowerCase() === INCOMING_MARKER.toLowerCase());
+  const hasTitle = flatTop.some((c) => /incoming\s+review/i.test(c));
+
   // Find header row — first row containing 'vendor' or 'sourceid'/'order'
   const headerIdx = rows.findIndex((r) =>
     r.some((c) => /vendor|source\s*id|order\s*id/i.test(c)),
