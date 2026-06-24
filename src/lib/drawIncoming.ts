@@ -5,8 +5,20 @@ import { parseCsv, type LedgerRow } from './drawDashboard';
 
 // Dedicated tab in the same spreadsheet. If the tab does not exist or fetch
 // fails, the UI shows an empty state — we never block the main dashboard.
+//
+// ⚠️ Google GViz pitfall: when `sheet=<name>` references a missing tab, GViz
+// often silently returns the CSV of the FIRST/DEFAULT sheet instead of an
+// error. That means a vanilla "found a vendor header" check would happily
+// ingest rows from the main tracker as if they were incoming review items.
+// To prevent that, parseIncomingItems() requires a positive marker:
+//   • a cell exactly matching INCOMING_MARKER (HH_INCOMING_REVIEW_V1), OR
+//   • a title cell containing "Incoming Review" AND a header row that has
+//     BOTH a sourceId/orderId column AND a recommendedAction column.
+// Without those, we return [] and show the empty state.
 export const DRAW_INCOMING_CSV_URL =
   'https://docs.google.com/spreadsheets/d/1O4QXwt5SxDRf9c8FLaqyvK6813DAvO1pb5eiD77fW50/gviz/tq?tqx=out:csv&sheet=Incoming%20Review';
+
+export const INCOMING_MARKER = 'HH_INCOMING_REVIEW_V1';
 
 export type IncomingSourceType =
   | 'lowes'
