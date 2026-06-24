@@ -1,5 +1,38 @@
 import { describe, expect, it } from 'vitest';
-import { parseDrawDashboard, parseCsv, formatCurrency } from './drawDashboard';
+import {
+  parseDrawDashboard,
+  parseCsv,
+  formatCurrency,
+  projectedAllIn,
+  unitBudgetRemaining,
+  unitFundingGap,
+  classifyDrawReadiness,
+  sourceConfidence,
+  computeDecisionSummary,
+  type LedgerRow,
+} from './drawDashboard';
+
+function makeLedger(p: Partial<LedgerRow> = {}): LedgerRow {
+  return {
+    unit: 'Unit 1',
+    category: 'Interior',
+    scope: 'Paint',
+    budget: 1000,
+    actual: 0,
+    paidFromDraws: 0,
+    paidFromOwnerCash: 0,
+    openCommitted: 0,
+    variance: 0,
+    fundingPosition: 0,
+    vendor: '',
+    receiptLink: '',
+    drawNumber: '',
+    status: '',
+    source: '',
+    notes: '',
+    ...p,
+  };
+}
 
 const SAMPLE_CSV = `"Homestead Hill — All Unit Cost Tracker Purpose Project totals","Track budget vs actual","","","","","","","","","","","",""
 "Total Budget","171024.53","Total Actual","32379.26","","23837.41","Total Paid From Owner Cash","0","","38796.96","Net Funding Position","-47338.81","Status","Owner cash gap"
@@ -39,8 +72,62 @@ describe('parseDrawDashboard', () => {
     expect(data.warnings.some((w) => /Unit 14/.test(w))).toBe(true);
   });
 
-  it('flags negative funding position', () => {
-    expect(data.warnings.some((w) => /Net funding position is negative/.test(w))).toBe(true);
+  it('flags negative funding position with new wording', () => {
+    expect(data.warnings.some((w) => /funding gap/i.test(w))).toBe(true);
+    expect(data.warnings.some((w) => /Net funding position is negative/.test(w))).toBe(false);
+  });
+});
+
+describe('projectedAllIn / unit helpers', () => {
+  it('projectedAllIn = actual + open committed', () => {
+    expect(projectedAllIn({ actual: 100, openCommitted: 50 })).toBe(150);
+  });
+  it('unitBudgetRemaining and unitFundingGap reflect projected all-in', () => {
+    const u = {
+      unit: 'Unit 1', budget: 1000, actual: 400, drawsApplied: 300,
+      ownerCashApplied: 0, openCommitted: 200, variance: 400, fundingPosition: -300,
+    };
+    expect(unitBudgetRemaining(u)).toBe(400); // 1000 - 600
+    expect(unitFundingGap(u)).toBe(-300); // 300 - 600
+  });
+});
+
+describe('classifyDrawReadiness', () => {
+  it('ready when actual > 0 and evidence link present', () => {
+    const r = makeLedger({ actual: 500, receiptLink: 'https://example.com/r1' });
+    expect(classifyDrawReadiness(r)).toBe('ready');
+    expect(sourceConfidence(r)).toBe('verified');
+  });
+  it('needs-evidence when actual > 0 but no link', () => {
+    const r = makeLedger({ actual: 500 });
+    expect(classifyDrawReadiness(r)).toBe('needs-evidence');
+    expect(sourceConfidence(r)).toBe('needs-evidence');
+  });
+  it('needs-evidence when status indicates imported/needs verification', () => {
+    const r = makeLedger({ actual: 500, receiptLink: 'https://x', status: 'Imported / needs receipt-QBO verification' });
+    expect(classifyDrawReadiness(r)).toBe('needs-evidence');
+  });
+  it('not-ready when only open committed', () => {
+    const r = makeLedger({ openCommitted: 200 });
+    expect(classifyDrawReadiness(r)).toBe('not-ready');
+    expect(sourceConfidence(r)).toBe('estimate');
+  });
+  it('drawn when status says funded and no open commitment', () => {
+    const r = makeLedger({ actual: 500, paidFromDraws: 500, receiptLink: 'https://x', status: 'Funded' });
+    expect(classifyDrawReadiness(r)).toBe('drawn');
+    expect(sourceConfidence(r)).toBe('drawn');
+  });
+});
+
+describe('computeDecisionSummary', () => {
+  it('produces recommendation referencing funding gap and ready items', () => {
+    const data = parseDrawDashboard(SAMPLE_CSV, '2026-06-24T00:00:00Z');
+    const s = computeDecisionSummary(data);
+    expect(s.fundingGap).toBe(-47338.81);
+    expect(s.projectedAllIn).toBeCloseTo(32379.26 + 38796.96, 2);
+    expect(typeof s.recommendation).toBe('string');
+    expect(s.recommendation.length).toBeGreaterThan(0);
+    expect(s.biggestAttention).not.toBeNull();
   });
 });
 
