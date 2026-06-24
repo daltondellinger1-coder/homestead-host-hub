@@ -190,7 +190,7 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
   }
   if (totals.netFundingPosition < 0) {
     warnings.push(
-      `Net funding position is negative (funding gap ${formatCurrency(totals.netFundingPosition)}). Owner cash or draw needed to cover actuals plus open commitments.`,
+      `Current funding gap ${formatCurrency(totals.netFundingPosition)}. Draws + recorded owner cash do not yet cover actuals + open commitments — additional draw or owner cash needed.`,
     );
   }
 
@@ -201,6 +201,117 @@ export function formatCurrency(n: number): string {
   const sign = n < 0 ? '-' : '';
   const abs = Math.abs(n);
   return `${sign}$${abs.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+// ----- Derived helpers for Decision Summary, projections, and draw readiness -----
+
+export function projectedAllIn(row: { actual: number; openCommitted: number }): number {
+  return row.actual + row.openCommitted;
+}
+
+export function unitBudgetRemaining(u: UnitSummaryRow): number {
+  return u.budget - projectedAllIn(u);
+}
+
+export function unitFundingGap(u: UnitSummaryRow): number {
+  // (Draws + recorded owner cash) − projected all-in. Negative = funding still needed.
+  return u.drawsApplied + u.ownerCashApplied - projectedAllIn(u);
+}
+
+export type DrawReadiness = 'ready' | 'needs-evidence' | 'not-ready' | 'drawn';
+export type SourceConfidence = 'verified' | 'needs-evidence' | 'estimate' | 'drawn';
+
+const DRAWN_RE = /drawn|funded|reimbursed|paid from draw|paid via draw|closed/i;
+const NEEDS_VERIFY_RE = /needs receipt|needs receipt-qbo|imported|missing receipt|no receipt/i;
+
+function hasEvidenceLink(r: LedgerRow): boolean {
+  return /^https?:\/\//.test(r.receiptLink);
+}
+
+export function classifyDrawReadiness(r: LedgerRow): DrawReadiness {
+  const status = r.status || '';
+  const notes = r.notes || '';
+  const drawn = DRAWN_RE.test(status) || DRAWN_RE.test(notes) || r.paidFromDraws > 0;
+  if (drawn && r.actual > 0 && r.openCommitted === 0) return 'drawn';
+  if (r.actual > 0) {
+    if (NEEDS_VERIFY_RE.test(status) || !hasEvidenceLink(r)) return 'needs-evidence';
+    if (drawn) return 'drawn';
+    return 'ready';
+  }
+  if (r.openCommitted > 0) return 'not-ready';
+  return 'not-ready';
+}
+
+export function sourceConfidence(r: LedgerRow): SourceConfidence {
+  const c = classifyDrawReadiness(r);
+  if (c === 'drawn') return 'drawn';
+  if (c === 'ready') return 'verified';
+  if (c === 'needs-evidence') return 'needs-evidence';
+  return 'estimate';
+}
+
+export interface DecisionSummary {
+  budgetRemaining: number;
+  projectedAllIn: number;
+  fundingGap: number; // negative = gap, positive = surplus
+  recordedOwnerCash: number;
+  drawReadyCount: number;
+  drawReadyAmount: number;
+  needsEvidenceCount: number;
+  needsEvidenceAmount: number;
+  biggestAttention: { unit: string; reason: string; amount: number } | null;
+  recommendation: string;
+}
+
+export function computeDecisionSummary(data: DrawDashboardData): DecisionSummary {
+  const { totals, unitSummary, ledger } = data;
+  const projected = totals.totalActual + totals.openCommitted;
+  const budgetRemaining = totals.totalBudget - projected;
+  const fundingGap = totals.netFundingPosition;
+
+  const readyRows = ledger.filter((r) => classifyDrawReadiness(r) === 'ready');
+  const needsEvidence = ledger.filter((r) => classifyDrawReadiness(r) === 'needs-evidence');
+  const drawReadyAmount = readyRows.reduce((s, r) => s + Math.max(0, r.actual - r.paidFromDraws), 0);
+  const needsEvidenceAmount = needsEvidence.reduce((s, r) => s + Math.max(0, r.actual - r.paidFromDraws), 0);
+
+  let biggest: DecisionSummary['biggestAttention'] = null;
+  for (const u of unitSummary) {
+    const gap = unitFundingGap(u);
+    const remaining = unitBudgetRemaining(u);
+    const candidate =
+      gap < 0
+        ? { unit: u.unit, reason: 'largest funding gap', amount: gap }
+        : remaining < 0
+          ? { unit: u.unit, reason: 'most over budget', amount: remaining }
+          : null;
+    if (candidate && (!biggest || candidate.amount < biggest.amount)) biggest = candidate;
+  }
+
+  let recommendation: string;
+  if (fundingGap < 0 && readyRows.length > 0) {
+    recommendation = `Submit ${readyRows.length} draw-ready item${readyRows.length === 1 ? '' : 's'} (${formatCurrency(drawReadyAmount)}) to help close the ${formatCurrency(Math.abs(fundingGap))} funding gap.`;
+  } else if (fundingGap < 0) {
+    recommendation = `Funding gap of ${formatCurrency(Math.abs(fundingGap))}. Gather evidence for ${needsEvidence.length} item${needsEvidence.length === 1 ? '' : 's'} so they can be drawn.`;
+  } else if (needsEvidence.length > 0) {
+    recommendation = `Funding healthy. Tighten records: ${needsEvidence.length} item${needsEvidence.length === 1 ? '' : 's'} need evidence (${formatCurrency(needsEvidenceAmount)}).`;
+  } else if (budgetRemaining < 0) {
+    recommendation = `Project is over budget by ${formatCurrency(Math.abs(budgetRemaining))}. Review scope or change orders.`;
+  } else {
+    recommendation = 'Funding and budget are healthy. No action required.';
+  }
+
+  return {
+    budgetRemaining,
+    projectedAllIn: projected,
+    fundingGap,
+    recordedOwnerCash: totals.totalPaidFromOwnerCash,
+    drawReadyCount: readyRows.length,
+    drawReadyAmount,
+    needsEvidenceCount: needsEvidence.length,
+    needsEvidenceAmount,
+    biggestAttention: biggest,
+    recommendation,
+  };
 }
 
 export async function fetchDrawDashboard(signal?: AbortSignal): Promise<DrawDashboardData> {
