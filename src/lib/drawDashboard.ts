@@ -250,6 +250,45 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
     totals.netFundingPosition = totals.totalPaidFromDraws + totals.totalPaidFromOwnerCash - tActual - tOpen;
   }
 
+  // Per-unit data-quality checks: planning-estimate dollars, budget visibility
+  // gap (Unit 12 case), and whole-unit/source-level proxy overlap (Unit 7 case).
+  for (const u of reconciledUnitSummary) {
+    const rows = ledgerByUnit.get(u.unit.trim().toLowerCase()) ?? [];
+    if (!rows.length) continue;
+
+    const openRows = rows.filter((r) => r.openCommitted > 0 && r.actual === 0);
+    const planningRows = openRows.filter(isPlanningEstimateOpenRow);
+    const planningSubtotal = planningRows.reduce((s, r) => s + r.openCommitted, 0);
+    if (planningSubtotal > 0) {
+      warnings.push(
+        `${u.unit}: open committed includes ${formatCurrency(planningSubtotal)} of planning estimates / placeholders / proxy rows (soft dollars, not receipt-backed).`,
+      );
+    }
+
+    const wholeUnitRows = openRows.filter(isWholeUnitProxyRow);
+    const sourceLevelRows = openRows.filter(isSourceLevelProxyRow);
+    const hasProxy = wholeUnitRows.length > 0 || sourceLevelRows.length > 0;
+    const otherOpen = openRows.filter(
+      (r) => !wholeUnitRows.includes(r) && !sourceLevelRows.includes(r),
+    );
+    if (hasProxy && (otherOpen.length > 0 || wholeUnitRows.length + sourceLevelRows.length > 1)) {
+      warnings.push(
+        `${u.unit}: open committed mixes whole-unit / source-level proxy rows with category-level rows — values may overlap or double-count. Review before drawing.`,
+      );
+    }
+
+    const sumLedgerBudget = rows.reduce((s, r) => s + r.budget, 0);
+    if (
+      u.budget > 0 &&
+      sumLedgerBudget > 0 &&
+      Math.abs(u.budget - sumLedgerBudget) > Math.max(500, u.budget * 0.1)
+    ) {
+      warnings.push(
+        `${u.unit}: summary budget ${formatCurrency(u.budget)} but visible ledger budget rows only total ${formatCurrency(sumLedgerBudget)} — using summary budget; ledger rows do not fully represent the full unit budget.`,
+      );
+    }
+  }
+
   const unit14NeedsVerification = ledger.some(
     (l) => l.unit === 'Unit 14' && /needs receipt|needs receipt-qbo|imported/i.test(l.status),
   );
@@ -264,6 +303,41 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
 
   return { totals, unitSummary: reconciledUnitSummary, ledger, warnings, fetchedAt };
 }
+
+// ----- Open-row cost classification helpers -----
+// Some Open Committed rows in the source sheet are placeholders/proxies/working
+// estimates rather than firm bids. The dashboard splits and labels them so
+// soft dollars don't read as hard committed costs.
+
+const PLANNING_ESTIMATE_RE =
+  /placeholder|proxy|working\s*estimate|estimate\s*\/\s*remaining|not\s*actual|budget\s*pulled|likely\s*remaining|high[\s-]?end|source[\s-]?level|needs\s+line[\s-]?item\s+allocation|not\s+yet\s+split/i;
+
+const WHOLE_UNIT_RE = /whole[\s-]?unit|contractor\s*estimate|entire\s+unit|all[\s-]?in\s+estimate/i;
+
+const SOURCE_LEVEL_RE = /source[\s-]?level|lowe'?s?|furnishing|quote/i;
+
+function planningHaystack(r: LedgerRow): string {
+  return [r.status, r.notes, r.scope, r.category].filter(Boolean).join(' \n ');
+}
+
+export function isPlanningEstimateOpenRow(r: LedgerRow): boolean {
+  if (r.openCommitted <= 0) return false;
+  return PLANNING_ESTIMATE_RE.test(planningHaystack(r));
+}
+
+export function isWholeUnitProxyRow(r: LedgerRow): boolean {
+  if (r.openCommitted <= 0) return false;
+  const hay = [r.scope, r.category, r.notes, r.vendor].filter(Boolean).join(' \n ');
+  return WHOLE_UNIT_RE.test(hay);
+}
+
+export function isSourceLevelProxyRow(r: LedgerRow): boolean {
+  if (r.openCommitted <= 0) return false;
+  const hay = [r.scope, r.notes, r.vendor, r.status].filter(Boolean).join(' \n ');
+  return SOURCE_LEVEL_RE.test(hay);
+}
+
+
 
 
 export function formatCurrency(n: number): string {

@@ -11,6 +11,9 @@ import {
   sourceConfidence,
   computeDecisionSummary,
   applyDrawFunding,
+  isPlanningEstimateOpenRow,
+  isWholeUnitProxyRow,
+  isSourceLevelProxyRow,
   type DrawDashboardData,
   type LedgerRow,
   type UnitSummaryRow,
@@ -18,6 +21,7 @@ import {
   type SourceConfidence,
   type AppliedDrawFunding,
 } from '@/lib/drawDashboard';
+
 import {
   fetchIncomingItems,
   statusLabel,
@@ -193,16 +197,35 @@ function RowsTable({
 
 function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }) {
   const actualRows = rows.filter((r) => classifyRow(r) === 'actual');
-  const openRows = rows.filter((r) => classifyRow(r) === 'open');
+  const allOpenRows = rows.filter((r) => classifyRow(r) === 'open');
+  const planningRows = allOpenRows.filter(isPlanningEstimateOpenRow);
+  const realBidRows = allOpenRows.filter((r) => !isPlanningEstimateOpenRow(r));
   const budgetRows = rows.filter((r) => classifyRow(r) === 'budget');
 
   const sumActual = actualRows.reduce((s, r) => s + r.actual, 0);
-  const sumOpen = openRows.reduce((s, r) => s + r.openCommitted, 0);
+  const sumOpenAll = allOpenRows.reduce((s, r) => s + r.openCommitted, 0);
+  const sumRealBids = realBidRows.reduce((s, r) => s + r.openCommitted, 0);
+  const sumPlanning = planningRows.reduce((s, r) => s + r.openCommitted, 0);
   const sumBudgetOnly = budgetRows.reduce((s, r) => s + r.budget, 0);
-  const projectedSubtotal = sumActual + sumOpen;
+  const projectedSubtotal = sumActual + sumOpenAll;
 
   const actualReconciles = Math.abs(sumActual - u.actual) <= RECONCILE_TOLERANCE;
-  const openReconciles = Math.abs(sumOpen - u.openCommitted) <= RECONCILE_TOLERANCE;
+  const openReconciles = Math.abs(sumOpenAll - u.openCommitted) <= RECONCILE_TOLERANCE;
+
+  const sumLedgerBudget = rows.reduce((s, r) => s + r.budget, 0);
+  const budgetVisibilityGap =
+    u.budget > 0 &&
+    sumLedgerBudget > 0 &&
+    Math.abs(u.budget - sumLedgerBudget) > Math.max(500, u.budget * 0.1);
+
+  const wholeUnitRows = allOpenRows.filter(isWholeUnitProxyRow);
+  const sourceLevelRows = allOpenRows.filter(isSourceLevelProxyRow);
+  const hasProxy = wholeUnitRows.length > 0 || sourceLevelRows.length > 0;
+  const otherOpenCount = allOpenRows.filter(
+    (r) => !wholeUnitRows.includes(r) && !sourceLevelRows.includes(r),
+  ).length;
+  const overlapRisk =
+    hasProxy && (otherOpenCount > 0 || wholeUnitRows.length + sourceLevelRows.length > 1);
 
   if (rows.length === 0) {
     return (
@@ -215,7 +238,8 @@ function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }
   return (
     <div className="space-y-4">
       <div className="text-[11px] text-muted-foreground font-body rounded-md border border-border/30 bg-muted/10 p-2">
-        Budget rows are targets only. Actual and open committed rows are costs used in projected all-in.
+        Budget rows are targets only. Actual rows are receipt-backed costs. Open committed splits
+        into real bids vs planning estimates / placeholders (soft dollars).
       </div>
 
       {actualRows.length > 0 && (
@@ -232,17 +256,35 @@ function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }
         </section>
       )}
 
-      {openRows.length > 0 && (
+      {realBidRows.length > 0 && (
         <section className="space-y-1">
           <div className="flex items-baseline justify-between gap-2 px-1">
             <h4 className="text-xs uppercase tracking-wide text-amber-300/90 font-heading">
-              Open committed / bids
+              Open committed / real bids
             </h4>
             <span className="text-[11px] text-muted-foreground">
-              Subtotal {formatCurrency(sumOpen)}
+              Subtotal {formatCurrency(sumRealBids)}
             </span>
           </div>
-          <RowsTable rows={openRows} kind="open" />
+          <RowsTable rows={realBidRows} kind="open" />
+        </section>
+      )}
+
+      {planningRows.length > 0 && (
+        <section className="space-y-1">
+          <div className="flex items-baseline justify-between gap-2 px-1">
+            <h4 className="text-xs uppercase tracking-wide text-orange-300/90 font-heading">
+              Planning estimates / placeholders (soft dollars)
+            </h4>
+            <span className="text-[11px] text-muted-foreground">
+              Subtotal {formatCurrency(sumPlanning)}
+            </span>
+          </div>
+          <div className="text-[11px] text-muted-foreground font-body px-1">
+            These rows are placeholders, proxies, working estimates, or source-level pulls — they
+            are counted in Open Committed for now but are not receipt-backed bids.
+          </div>
+          <RowsTable rows={planningRows} kind="open" />
         </section>
       )}
 
@@ -261,26 +303,44 @@ function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }
       )}
 
       <div className="text-[11px] text-muted-foreground font-body px-1">
-        Projected subtotal (Actual + Open committed) ={' '}
+        Projected subtotal (Actual + Open committed incl. planning estimates) ={' '}
         <span className="text-foreground">{formatCurrency(projectedSubtotal)}</span>. Budget
         placeholders are excluded.
       </div>
 
-      {(!actualReconciles || !openReconciles) && (
+      {(!actualReconciles || !openReconciles || sumPlanning > 0 || overlapRisk || budgetVisibilityGap) && (
         <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/30 p-2 text-[11px] text-amber-300 font-body">
           <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-          <div className="space-y-0.5">
-            <div>Visible detail does not fully reconcile to summary; check source sheet formulas / manual rows.</div>
+          <div className="space-y-1">
             {!actualReconciles && (
               <div>
-                Actual: summary {formatCurrency(u.actual)} vs sum of actual rows{' '}
-                {formatCurrency(sumActual)}.
+                Actual: source summary {formatCurrency(u.actual)} vs sum of actual rows{' '}
+                {formatCurrency(sumActual)}. Using ledger detail.
               </div>
             )}
             {!openReconciles && (
               <div>
-                Open committed: summary {formatCurrency(u.openCommitted)} vs sum of open rows{' '}
-                {formatCurrency(sumOpen)}.
+                Open committed: source summary {formatCurrency(u.openCommitted)} vs sum of open
+                rows {formatCurrency(sumOpenAll)}. Using ledger detail.
+              </div>
+            )}
+            {sumPlanning > 0 && (
+              <div>
+                {formatCurrency(sumPlanning)} of Open committed is planning estimates /
+                placeholders / proxy — soft dollars, not receipt-backed bids.
+              </div>
+            )}
+            {overlapRisk && (
+              <div>
+                Open rows mix whole-unit / source-level proxy rows with category-level rows. Values
+                may overlap or double-count; review before drawing.
+              </div>
+            )}
+            {budgetVisibilityGap && (
+              <div>
+                Summary budget {formatCurrency(u.budget)} but visible ledger budget rows total only{' '}
+                {formatCurrency(sumLedgerBudget)}. Dashboard uses summary budget; ledger rows do
+                not fully represent the full unit budget.
               </div>
             )}
           </div>
@@ -289,6 +349,7 @@ function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }
     </div>
   );
 }
+
 function UnitSummaryTableRow({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[] }) {
   const [open, setOpen] = useState(false);
   const projected = projectedAllIn(u);
