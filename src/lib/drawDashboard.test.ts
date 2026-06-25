@@ -9,8 +9,12 @@ import {
   classifyDrawReadiness,
   sourceConfidence,
   computeDecisionSummary,
+  isPlanningEstimateOpenRow,
+  isWholeUnitProxyRow,
+  isSourceLevelProxyRow,
   type LedgerRow,
 } from './drawDashboard';
+
 
 function makeLedger(p: Partial<LedgerRow> = {}): LedgerRow {
   return {
