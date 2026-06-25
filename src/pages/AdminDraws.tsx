@@ -735,6 +735,8 @@ export default function AdminDraws() {
   const data = applyResult?.data ?? null;
   const totals = data?.totals;
   const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
+  const costSplit = useMemo(() => (data ? computeCostSplit(data) : null), [data]);
+  const reviewUnits = useMemo(() => (data ? unitsNeedingReview(data) : []), [data]);
 
   const fundingCandidates = useMemo(
     () => incoming.filter((it) => isDrawFundingCandidate(it)),
