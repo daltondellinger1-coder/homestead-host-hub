@@ -107,93 +107,183 @@ function unitLedgerRows(ledger: LedgerRow[], unit: string): LedgerRow[] {
   return ledger.filter((r) => r.unit.trim().toLowerCase() === unit.trim().toLowerCase());
 }
 
-function unitReconciles(u: UnitSummaryRow, rows: LedgerRow[]): boolean {
-  const sumActual = rows.reduce((s, r) => s + r.actual, 0);
-  const sumOpen = rows.reduce((s, r) => s + r.openCommitted, 0);
+
+type RowKind = 'actual' | 'open' | 'budget';
+
+function classifyRow(r: LedgerRow): RowKind | null {
+  if (r.actual > 0) return 'actual';
+  if (r.openCommitted > 0) return 'open';
+  if (r.budget > 0) return 'budget';
+  return null;
+}
+
+function RowsTable({
+  rows,
+  kind,
+}: {
+  rows: LedgerRow[];
+  kind: RowKind;
+}) {
+  const isBudget = kind === 'budget';
   return (
-    Math.abs(sumActual - u.actual) <= RECONCILE_TOLERANCE &&
-    Math.abs(sumOpen - u.openCommitted) <= RECONCILE_TOLERANCE
+    <div className="overflow-x-auto -mx-1 sm:mx-0">
+      <table className="w-full text-xs font-body">
+        <thead className="text-[10px] uppercase text-muted-foreground">
+          <tr>
+            <th className="text-left p-2">Category / Scope</th>
+            <th className="text-right p-2">Budget</th>
+            <th className="text-right p-2">Actual</th>
+            <th className="text-right p-2">Open</th>
+            <th className="text-right p-2">{isBudget ? 'Projected cost' : 'Projected'}</th>
+            <th className="text-right p-2">Remaining</th>
+            <th className="text-left p-2 hidden md:table-cell">Vendor</th>
+            <th className="text-left p-2 hidden md:table-cell">Status</th>
+            <th className="text-left p-2">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => {
+            const projected = projectedAllIn(r);
+            const overBudget = r.variance < 0;
+            return (
+              <tr key={i} className="border-t border-border/20 align-top">
+                <td className="p-2">
+                  <div className="text-foreground">{r.category || '—'}</div>
+                  {r.scope && (
+                    <div className="text-[10px] text-muted-foreground">{r.scope}</div>
+                  )}
+                </td>
+                <td className="p-2 text-right">{formatCurrency(r.budget)}</td>
+                <td className="p-2 text-right">{isBudget ? '$0.00' : formatCurrency(r.actual)}</td>
+                <td className="p-2 text-right">{isBudget ? '$0.00' : formatCurrency(r.openCommitted)}</td>
+                <td className="p-2 text-right text-muted-foreground">
+                  {isBudget ? '—' : formatCurrency(projected)}
+                </td>
+                <td className={`p-2 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
+                  {formatCurrency(r.variance)}
+                </td>
+                <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[140px]">
+                  {r.vendor || '—'}
+                </td>
+                <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[160px]">
+                  {r.status || '—'}
+                </td>
+                <td className="p-2">
+                  {r.receiptLink && /^https?:\/\//.test(r.receiptLink) ? (
+                    <a
+                      href={r.receiptLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-secondary hover:underline"
+                    >
+                      Open <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
 function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }) {
-  const reconciles = unitReconciles(u, rows);
+  const actualRows = rows.filter((r) => classifyRow(r) === 'actual');
+  const openRows = rows.filter((r) => classifyRow(r) === 'open');
+  const budgetRows = rows.filter((r) => classifyRow(r) === 'budget');
+
+  const sumActual = actualRows.reduce((s, r) => s + r.actual, 0);
+  const sumOpen = openRows.reduce((s, r) => s + r.openCommitted, 0);
+  const sumBudgetOnly = budgetRows.reduce((s, r) => s + r.budget, 0);
+  const projectedSubtotal = sumActual + sumOpen;
+
+  const actualReconciles = Math.abs(sumActual - u.actual) <= RECONCILE_TOLERANCE;
+  const openReconciles = Math.abs(sumOpen - u.openCommitted) <= RECONCILE_TOLERANCE;
+
+  if (rows.length === 0) {
+    return (
+      <div className="text-xs text-muted-foreground font-body italic">
+        No individual ledger rows found for this unit in the source sheet.
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-2">
-      {rows.length === 0 ? (
-        <div className="text-xs text-muted-foreground font-body italic">
-          No individual ledger rows found for this unit in the source sheet.
-        </div>
-      ) : (
-        <div className="overflow-x-auto -mx-1 sm:mx-0">
-          <table className="w-full text-xs font-body">
-            <thead className="text-[10px] uppercase text-muted-foreground">
-              <tr>
-                <th className="text-left p-2">Category / Scope</th>
-                <th className="text-right p-2">Budget</th>
-                <th className="text-right p-2">Actual</th>
-                <th className="text-right p-2">Open</th>
-                <th className="text-right p-2">Projected</th>
-                <th className="text-right p-2">Remaining</th>
-                <th className="text-left p-2 hidden md:table-cell">Vendor</th>
-                <th className="text-left p-2 hidden md:table-cell">Status</th>
-                <th className="text-left p-2">Evidence</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r, i) => {
-                const projected = projectedAllIn(r);
-                const overBudget = r.variance < 0;
-                return (
-                  <tr key={i} className="border-t border-border/20 align-top">
-                    <td className="p-2">
-                      <div className="text-foreground">{r.category || '—'}</div>
-                      {r.scope && (
-                        <div className="text-[10px] text-muted-foreground">{r.scope}</div>
-                      )}
-                    </td>
-                    <td className="p-2 text-right">{formatCurrency(r.budget)}</td>
-                    <td className="p-2 text-right">{formatCurrency(r.actual)}</td>
-                    <td className="p-2 text-right">{formatCurrency(r.openCommitted)}</td>
-                    <td className="p-2 text-right">{formatCurrency(projected)}</td>
-                    <td className={`p-2 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
-                      {formatCurrency(r.variance)}
-                    </td>
-                    <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[140px]">
-                      {r.vendor || '—'}
-                    </td>
-                    <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[160px]">
-                      {r.status || '—'}
-                    </td>
-                    <td className="p-2">
-                      {r.receiptLink && /^https?:\/\//.test(r.receiptLink) ? (
-                        <a
-                          href={r.receiptLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-secondary hover:underline"
-                        >
-                          Open <ExternalLink className="h-3 w-3" />
-                        </a>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+    <div className="space-y-4">
+      <div className="text-[11px] text-muted-foreground font-body rounded-md border border-border/30 bg-muted/10 p-2">
+        Budget rows are targets only. Actual and open committed rows are costs used in projected all-in.
+      </div>
+
+      {actualRows.length > 0 && (
+        <section className="space-y-1">
+          <div className="flex items-baseline justify-between gap-2 px-1">
+            <h4 className="text-xs uppercase tracking-wide text-emerald-300/90 font-heading">
+              Actual / receipt-backed costs
+            </h4>
+            <span className="text-[11px] text-muted-foreground">
+              Subtotal {formatCurrency(sumActual)}
+            </span>
+          </div>
+          <RowsTable rows={actualRows} kind="actual" />
+        </section>
       )}
-      {!reconciles && rows.length > 0 && (
+
+      {openRows.length > 0 && (
+        <section className="space-y-1">
+          <div className="flex items-baseline justify-between gap-2 px-1">
+            <h4 className="text-xs uppercase tracking-wide text-amber-300/90 font-heading">
+              Open committed / bids
+            </h4>
+            <span className="text-[11px] text-muted-foreground">
+              Subtotal {formatCurrency(sumOpen)}
+            </span>
+          </div>
+          <RowsTable rows={openRows} kind="open" />
+        </section>
+      )}
+
+      {budgetRows.length > 0 && (
+        <section className="space-y-1">
+          <div className="flex items-baseline justify-between gap-2 px-1">
+            <h4 className="text-xs uppercase tracking-wide text-muted-foreground font-heading">
+              Budget placeholders / estimates (not costs)
+            </h4>
+            <span className="text-[11px] text-muted-foreground">
+              Budget subtotal {formatCurrency(sumBudgetOnly)}
+            </span>
+          </div>
+          <RowsTable rows={budgetRows} kind="budget" />
+        </section>
+      )}
+
+      <div className="text-[11px] text-muted-foreground font-body px-1">
+        Projected subtotal (Actual + Open committed) ={' '}
+        <span className="text-foreground">{formatCurrency(projectedSubtotal)}</span>. Budget
+        placeholders are excluded.
+      </div>
+
+      {(!actualReconciles || !openReconciles) && (
         <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/30 p-2 text-[11px] text-amber-300 font-body">
           <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-          <span>
-            Visible detail may not fully reconcile to summary; check source sheet formulas/manual
-            rows. (Summary actual {formatCurrency(u.actual)} vs sum of rows{' '}
-            {formatCurrency(rows.reduce((s, r) => s + r.actual, 0))}.)
-          </span>
+          <div className="space-y-0.5">
+            <div>Visible detail does not fully reconcile to summary; check source sheet formulas / manual rows.</div>
+            {!actualReconciles && (
+              <div>
+                Actual: summary {formatCurrency(u.actual)} vs sum of actual rows{' '}
+                {formatCurrency(sumActual)}.
+              </div>
+            )}
+            {!openReconciles && (
+              <div>
+                Open committed: summary {formatCurrency(u.openCommitted)} vs sum of open rows{' '}
+                {formatCurrency(sumOpen)}.
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
