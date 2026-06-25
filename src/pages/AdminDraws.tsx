@@ -314,20 +314,48 @@ function IncomingCard({ item }: { item: IncomingItem }) {
   );
 }
 
+const FUNDING_STORAGE_KEY = 'hh.draws.appliedFunding.v1';
+
+function loadAppliedFunding(): AppliedDrawFunding[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(FUNDING_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((x) => x && x.sourceId) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveAppliedFunding(items: AppliedDrawFunding[]) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(FUNDING_STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    /* ignore quota errors */
+  }
+}
+
 export default function AdminDraws() {
-  const [data, setData] = useState<DrawDashboardData | null>(null);
+  const [rawData, setRawData] = useState<DrawDashboardData | null>(null);
   const [incoming, setIncoming] = useState<IncomingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [appliedFunding, setAppliedFunding] = useState<AppliedDrawFunding[]>(() => loadAppliedFunding());
+
+  useEffect(() => {
+    saveAppliedFunding(appliedFunding);
+  }, [appliedFunding]);
 
   const load = async () => {
     setLoading(true);
     setError(null);
     try {
       const d = await fetchDrawDashboard();
-      setData(d);
+      setRawData(d);
       // Incoming review queue is best-effort; failures must not block the dashboard.
       const inc = await fetchIncomingItems(d.ledger);
       setIncoming(inc);
@@ -342,8 +370,49 @@ export default function AdminDraws() {
     load();
   }, []);
 
+  // Apply locally-approved draw funding to dashboard math (optimistic).
+  const applyResult = useMemo(
+    () => (rawData ? applyDrawFunding(rawData, appliedFunding) : null),
+    [rawData, appliedFunding],
+  );
+  const data = applyResult?.data ?? null;
   const totals = data?.totals;
   const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
+
+  const appliedIds = useMemo(() => new Set(appliedFunding.map((a) => a.sourceId)), [appliedFunding]);
+  const fundingCandidates = useMemo(
+    () => incoming.filter((it) => isDrawFundingCandidate(it) && !appliedIds.has(it.sourceId)),
+    [incoming, appliedIds],
+  );
+  const fundingCandidateIds = useMemo(
+    () => new Set(fundingCandidates.map((it) => it.sourceId)),
+    [fundingCandidates],
+  );
+  // Generic review queue excludes draw-funding candidates AND already-applied funding.
+  const reviewQueue = useMemo(
+    () => incoming.filter((it) => !fundingCandidateIds.has(it.sourceId) && !appliedIds.has(it.sourceId)),
+    [incoming, fundingCandidateIds, appliedIds],
+  );
+
+  const approveFunding = (item: IncomingItem) => {
+    setAppliedFunding((prev) => {
+      if (prev.some((a) => a.sourceId === item.sourceId)) return prev;
+      return [
+        ...prev,
+        {
+          sourceId: item.sourceId,
+          amount: item.amount,
+          unit: item.unit,
+          vendor: item.vendor,
+          appliedAt: new Date().toISOString(),
+        },
+      ];
+    });
+  };
+  const undoFunding = (sourceId: string) => {
+    setAppliedFunding((prev) => prev.filter((a) => a.sourceId !== sourceId));
+  };
+  const resetAllFunding = () => setAppliedFunding([]);
 
   const unitOptions = useMemo(() => {
     if (!data) return [];
