@@ -294,16 +294,30 @@ export async function fetchIncomingItems(
 
 // A "draw funding confirmation" is a lender packet that funds the project bank
 // account — NOT a vendor payment. These should update funding math, not be
-// treated as vendor backup.
-const DRAW_FUNDING_TYPE_RE = /draw[_\s-]*cover|draw[_\s-]*fund|lender[_\s-]*draw/i;
-const DRAW_FUNDING_NOTES_RE = /draw\s+(funded|released|available|deposited)|funded\s+to\s+savings|lender\s+draw|construction\s+draw/i;
-const NOT_VENDOR_RE = /not\s+vendor\s+payment\s+evidence|not\s+a?\s*vendor\s+payment|funding\s+only/i;
+// treated as vendor backup. Detection scans a broad haystack because the
+// signal can land in any of: sourceId, sourceType, vendor, category,
+// paidStatus, evidenceStatus, evidenceUrl, duplicateCheck, notes, action.
+const DRAW_FUNDING_STRONG_RE =
+  /draw[\s_-]*cover|draw[\s_-]*fund(?:ed|ing)?|lender[\s_-]*draw|lender[\s_-]*release|construction[\s_-]*draw|draw[\s_-]*request[\s_-]*support|funds?\s+released|funds?\s+available|funded\s+to\s+savings|draw[\s_-]*funded[\s_-]*to[\s_-]*savings/i;
+const NOT_VENDOR_RE = /not\s+vendor\s+payment|not\s+a?\s*vendor\s+payment|funding[\s_-]*only|draw[\s_-]*funding[\s_-]*status[\s_-]*only/i;
 
 export function isDrawFundingCandidate(item: IncomingItem): boolean {
-  const hay = `${item.notes} ${item.duplicateCheck}`.toLowerCase();
-  if (DRAW_FUNDING_TYPE_RE.test(item.sourceType)) return true;
-  if (DRAW_FUNDING_NOTES_RE.test(hay)) return true;
-  if (NOT_VENDOR_RE.test(hay) && /draw|fund/i.test(hay)) return true;
+  const haystack = [
+    item.sourceId,
+    item.sourceType,
+    item.vendor,
+    item.category,
+    item.paidStatus,
+    item.evidenceStatus,
+    item.evidenceUrl,
+    item.duplicateCheck,
+    item.notes,
+    item.recommendedAction,
+  ]
+    .filter(Boolean)
+    .join(' \n ');
+  if (DRAW_FUNDING_STRONG_RE.test(haystack)) return true;
+  if (NOT_VENDOR_RE.test(haystack) && /draw|fund/i.test(haystack)) return true;
   return false;
 }
 
