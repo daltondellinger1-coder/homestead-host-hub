@@ -194,6 +194,9 @@ describe('formatCurrency', () => {
     expect(formatCurrency(-47338.81)).toBe('-$47,338.81');
     expect(formatCurrency(0)).toBe('$0.00');
   });
+});
+
+
 
 describe('open-row planning estimate classifiers', () => {
   it('detects placeholder / proxy / working estimate / source-level rows', () => {
