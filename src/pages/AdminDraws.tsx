@@ -11,6 +11,9 @@ import {
   sourceConfidence,
   computeDecisionSummary,
   applyDrawFunding,
+  isPlanningEstimateOpenRow,
+  isWholeUnitProxyRow,
+  isSourceLevelProxyRow,
   type DrawDashboardData,
   type LedgerRow,
   type UnitSummaryRow,
@@ -18,6 +21,7 @@ import {
   type SourceConfidence,
   type AppliedDrawFunding,
 } from '@/lib/drawDashboard';
+
 import {
   fetchIncomingItems,
   statusLabel,
