@@ -101,26 +101,139 @@ function ConfidenceBadge({ c }: { c: SourceConfidence }) {
   );
 }
 
-function UnitSummaryCard({ u }: { u: UnitSummaryRow }) {
+const RECONCILE_TOLERANCE = 1; // dollars
+
+function unitLedgerRows(ledger: LedgerRow[], unit: string): LedgerRow[] {
+  return ledger.filter((r) => r.unit.trim().toLowerCase() === unit.trim().toLowerCase());
+}
+
+function unitReconciles(u: UnitSummaryRow, rows: LedgerRow[]): boolean {
+  const sumActual = rows.reduce((s, r) => s + r.actual, 0);
+  const sumOpen = rows.reduce((s, r) => s + r.openCommitted, 0);
+  return (
+    Math.abs(sumActual - u.actual) <= RECONCILE_TOLERANCE &&
+    Math.abs(sumOpen - u.openCommitted) <= RECONCILE_TOLERANCE
+  );
+}
+
+function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }) {
+  const reconciles = unitReconciles(u, rows);
+  return (
+    <div className="space-y-2">
+      {rows.length === 0 ? (
+        <div className="text-xs text-muted-foreground font-body italic">
+          No individual ledger rows found for this unit in the source sheet.
+        </div>
+      ) : (
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <table className="w-full text-xs font-body">
+            <thead className="text-[10px] uppercase text-muted-foreground">
+              <tr>
+                <th className="text-left p-2">Category / Scope</th>
+                <th className="text-right p-2">Budget</th>
+                <th className="text-right p-2">Actual</th>
+                <th className="text-right p-2">Open</th>
+                <th className="text-right p-2">Projected</th>
+                <th className="text-right p-2">Remaining</th>
+                <th className="text-left p-2 hidden md:table-cell">Vendor</th>
+                <th className="text-left p-2 hidden md:table-cell">Status</th>
+                <th className="text-left p-2">Evidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => {
+                const projected = projectedAllIn(r);
+                const overBudget = r.variance < 0;
+                return (
+                  <tr key={i} className="border-t border-border/20 align-top">
+                    <td className="p-2">
+                      <div className="text-foreground">{r.category || '—'}</div>
+                      {r.scope && (
+                        <div className="text-[10px] text-muted-foreground">{r.scope}</div>
+                      )}
+                    </td>
+                    <td className="p-2 text-right">{formatCurrency(r.budget)}</td>
+                    <td className="p-2 text-right">{formatCurrency(r.actual)}</td>
+                    <td className="p-2 text-right">{formatCurrency(r.openCommitted)}</td>
+                    <td className="p-2 text-right">{formatCurrency(projected)}</td>
+                    <td className={`p-2 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
+                      {formatCurrency(r.variance)}
+                    </td>
+                    <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[140px]">
+                      {r.vendor || '—'}
+                    </td>
+                    <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[160px]">
+                      {r.status || '—'}
+                    </td>
+                    <td className="p-2">
+                      {r.receiptLink && /^https?:\/\//.test(r.receiptLink) ? (
+                        <a
+                          href={r.receiptLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 text-secondary hover:underline"
+                        >
+                          Open <ExternalLink className="h-3 w-3" />
+                        </a>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {!reconciles && rows.length > 0 && (
+        <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/30 p-2 text-[11px] text-amber-300 font-body">
+          <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+          <span>
+            Visible detail may not fully reconcile to summary; check source sheet formulas/manual
+            rows. (Summary actual {formatCurrency(u.actual)} vs sum of rows{' '}
+            {formatCurrency(rows.reduce((s, r) => s + r.actual, 0))}.)
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function UnitSummaryCard({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[] }) {
+  const [open, setOpen] = useState(false);
   const projected = projectedAllIn(u);
   const remaining = unitBudgetRemaining(u);
   const overBudget = remaining < 0;
   const gap = unitFundingGap(u);
   const needsFunding = gap < 0;
+  const rows = useMemo(() => unitLedgerRows(ledger, u.unit), [ledger, u.unit]);
   return (
     <div className="glass-card rounded-xl p-4 space-y-3">
-      <div className="flex items-center justify-between">
-        <div className="font-heading text-base">{u.unit}</div>
-        {needsFunding ? (
-          <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-red-500/15 text-red-400 font-body">
-            Needs funding
-          </span>
-        ) : (
-          <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-body">
-            Funded
-          </span>
-        )}
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full text-left flex items-center justify-between gap-2"
+        aria-expanded={open}
+      >
+        <div className="font-heading text-base flex items-center gap-1.5">
+          <ChevronRight
+            className={`h-4 w-4 text-muted-foreground transition-transform ${open ? 'rotate-90' : ''}`}
+          />
+          {u.unit}
+        </div>
+        <div className="flex items-center gap-2">
+          {needsFunding ? (
+            <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-red-500/15 text-red-400 font-body">
+              Needs funding
+            </span>
+          ) : (
+            <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-body">
+              Funded
+            </span>
+          )}
+        </div>
+      </button>
       <div className="grid grid-cols-2 gap-y-1.5 text-sm font-body">
         <Row label="Budget" value={formatCurrency(u.budget)} tone="neutral" />
         <Row label="Actual spent" value={formatCurrency(u.actual)} tone="neutral" />
@@ -139,6 +252,19 @@ function UnitSummaryCard({ u }: { u: UnitSummaryRow }) {
         <Row label="Draws applied" value={formatCurrency(u.drawsApplied)} tone="muted" />
         <Row label="Recorded owner cash" value={formatCurrency(u.ownerCashApplied)} tone="muted" />
       </div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full text-[11px] font-body text-secondary hover:underline text-left flex items-center gap-1"
+      >
+        <ChevronRight className={`h-3 w-3 transition-transform ${open ? 'rotate-90' : ''}`} />
+        {open ? 'Hide costs' : `View costs (${rows.length})`}
+      </button>
+      {open && (
+        <div className="pt-2 border-t border-border/30">
+          <UnitCostBreakdown u={u} rows={rows} />
+        </div>
+      )}
     </div>
   );
 }
