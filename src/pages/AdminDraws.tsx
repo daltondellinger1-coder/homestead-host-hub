@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info, CheckCircle2, FileWarning, Clock, BadgeCheck, Inbox } from 'lucide-react';
+import { ArrowLeft, RefreshCw, AlertTriangle, ExternalLink, Info, CheckCircle2, FileWarning, Clock, BadgeCheck, Inbox, Banknote, Undo2 } from 'lucide-react';
 import {
   fetchDrawDashboard,
   formatCurrency,
@@ -10,17 +10,20 @@ import {
   classifyDrawReadiness,
   sourceConfidence,
   computeDecisionSummary,
+  applyDrawFunding,
   type DrawDashboardData,
   type LedgerRow,
   type UnitSummaryRow,
   type DrawReadiness,
   type SourceConfidence,
+  type AppliedDrawFunding,
 } from '@/lib/drawDashboard';
 import {
   fetchIncomingItems,
   statusLabel,
   statusTone,
   actionLabel,
+  isDrawFundingCandidate,
   type IncomingItem,
   type IncomingStatus,
   type IncomingRecommendedAction,
