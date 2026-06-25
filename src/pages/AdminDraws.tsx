@@ -708,6 +708,104 @@ export default function AdminDraws() {
           </section>
         )}
 
+        {data && (fundingCandidates.length > 0 || appliedFunding.length > 0) && (
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h2 className="font-heading text-base flex items-center gap-2">
+                <Banknote className="h-4 w-4 text-emerald-400" /> Funded draw confirmations
+              </h2>
+              <span className="text-[11px] font-body text-muted-foreground">
+                {fundingCandidates.length} pending · {appliedFunding.length} applied locally
+              </span>
+            </div>
+            <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground">
+              Lender draw funding (deposits to the project account) can update dashboard funding math after approval.
+              Vendor receipts/invoices stay support-only and are <span className="text-foreground font-semibold">not</span>
+              {' '}marked paid by this action. Applied here = <span className="text-foreground font-semibold">applied in dashboard view / pending tracker sync</span>.
+            </div>
+
+            {fundingCandidates.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {fundingCandidates.map((it) => (
+                  <div key={it.sourceId} className="glass-card rounded-xl p-3 space-y-2 border border-emerald-500/30">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="font-heading text-sm truncate">
+                          {it.vendor || 'Lender draw'} · {it.unit || 'Overall'}
+                        </div>
+                        <div className="text-[11px] text-muted-foreground font-body truncate">
+                          {it.sourceType} · {it.date || 'no date'} · {it.sourceId || 'no id'}
+                        </div>
+                      </div>
+                      <div className="font-heading text-base text-emerald-400">
+                        {formatCurrency(it.amount)}
+                      </div>
+                    </div>
+                    {it.notes && (
+                      <div className="text-[11px] text-muted-foreground font-body">{it.notes}</div>
+                    )}
+                    {it.warnings.length > 0 && (
+                      <ul className="text-[11px] text-amber-400 font-body list-disc list-inside space-y-0.5">
+                        {it.warnings.map((w, i) => (
+                          <li key={i}>{w}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => approveFunding(it)}
+                      className="w-full text-xs font-body px-3 py-2 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/25 transition-colors"
+                    >
+                      Apply funding to dashboard math
+                    </button>
+                    <div className="text-[10px] text-muted-foreground font-body text-center">
+                      Optimistic / local only · pending tracker sheet sync
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {appliedFunding.length > 0 && (
+              <div className="glass-card rounded-xl p-3 space-y-2 border border-secondary/30">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs font-heading text-foreground">
+                    Locally applied ({appliedFunding.length}) — pending tracker sync
+                  </div>
+                  <button
+                    type="button"
+                    onClick={resetAllFunding}
+                    className="text-[10px] uppercase tracking-wide text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                  >
+                    <Undo2 className="h-3 w-3" /> Reset all
+                  </button>
+                </div>
+                <ul className="space-y-1.5">
+                  {appliedFunding.map((a) => (
+                    <li key={a.sourceId} className="flex items-center justify-between gap-2 text-xs font-body">
+                      <div className="min-w-0">
+                        <div className="truncate text-foreground">
+                          {formatCurrency(a.amount)} · {a.unit || 'Overall'}
+                        </div>
+                        <div className="text-[10px] text-muted-foreground truncate">
+                          {a.vendor || a.sourceId} · applied {new Date(a.appliedAt).toLocaleString()}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => undoFunding(a.sourceId)}
+                        className="text-[10px] uppercase tracking-wide text-muted-foreground hover:text-red-400 inline-flex items-center gap-1 whitespace-nowrap"
+                      >
+                        <Undo2 className="h-3 w-3" /> Undo
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
+
         {data && (
           <section className="space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -715,29 +813,27 @@ export default function AdminDraws() {
                 <Inbox className="h-4 w-4 text-secondary" /> Incoming items needing review
               </h2>
               <span className="text-[11px] font-body text-muted-foreground">
-                {incoming.length} staged · not in totals
+                {reviewQueue.length} staged · not in totals
               </span>
             </div>
             <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground">
-              These are detected/staged items from connected sources (Lowe's, Amazon, Menards, contractor invoices, FlipperForce, Gmail).
-              They are <span className="text-foreground font-semibold">not</span> included in tracker totals until approved and entered into the main sheet.
+              Vendor/invoice items from connected sources (Lowe's, Amazon, Menards, contractor invoices, FlipperForce, Gmail).
+              These are vendor backup — <span className="text-foreground font-semibold">support-only / not payment evidence</span> until
+              approved and entered into the main sheet. Lender draw funding confirmations are handled separately above.
             </div>
-            {incoming.length === 0 ? (
+            {reviewQueue.length === 0 ? (
               <div className="glass-card rounded-xl p-6 text-center text-sm font-body text-muted-foreground">
-                No staged incoming items detected.
+                No vendor items waiting on review.
                 <div className="text-[11px] mt-1">
                   Add a dedicated <span className="text-foreground font-semibold">Incoming Review</span> tab with marker <span className="text-foreground font-mono">HH_INCOMING_REVIEW_V1</span> and the expected headers (sourceId, vendor, amount, recommendedAction, …) to populate this queue.
                 </div>
               </div>
             ) : (
-              <>
-                {/* Mobile + desktop both render the same stacked cards — mobile-first by design. */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {incoming.map((it, i) => (
-                    <IncomingCard key={`${it.sourceId}-${i}`} item={it} />
-                  ))}
-                </div>
-              </>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {reviewQueue.map((it, i) => (
+                  <IncomingCard key={`${it.sourceId}-${i}`} item={it} />
+                ))}
+              </div>
             )}
           </section>
         )}
