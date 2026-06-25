@@ -194,4 +194,84 @@ describe('formatCurrency', () => {
     expect(formatCurrency(-47338.81)).toBe('-$47,338.81');
     expect(formatCurrency(0)).toBe('$0.00');
   });
+
+describe('open-row planning estimate classifiers', () => {
+  it('detects placeholder / proxy / working estimate / source-level rows', () => {
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, status: 'placeholder' })),
+    ).toBe(true);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, notes: 'proxy for remaining' })),
+    ).toBe(true);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, notes: 'working estimate, not actual' })),
+    ).toBe(true);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, status: 'source-level pull' })),
+    ).toBe(true);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, notes: 'budget pulled' })),
+    ).toBe(true);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 1000, notes: 'firm bid from Acme' })),
+    ).toBe(false);
+    expect(
+      isPlanningEstimateOpenRow(makeLedger({ openCommitted: 0, notes: 'placeholder' })),
+    ).toBe(false);
+  });
+
+  it('detects whole-unit and source-level proxy rows', () => {
+    expect(
+      isWholeUnitProxyRow(makeLedger({ openCommitted: 5000, scope: 'Whole-unit contractor estimate' })),
+    ).toBe(true);
+    expect(
+      isSourceLevelProxyRow(makeLedger({ openCommitted: 5000, vendor: "Lowe's", notes: 'quote' })),
+    ).toBe(true);
+  });
 });
+
+describe('parseDrawDashboard Unit 7-style overlap and Unit 12-style budget visibility', () => {
+  const CSV = `"Homestead Hill","","","","","","","","","","","","",""
+"Total Budget","0","Total Actual","0","","0","Total Paid From Owner Cash","0","","0","Net Funding Position","0","Status",""
+"Unit summary","","","","","","","","","","","","",""
+"Unit / Area","Budget","Actual","","","Open Committed","Variance","","","","","","",""
+"Unit 7","23409.61","0","0","0","21266.28","2143.33","-21266.28","","","","","",""
+"Unit 12","10464.17","0","0","0","0","10464.17","0","","","","","",""
+"Unit / Area","Category","Budget Item / Scope","","","Paid From Draws","Paid From Owner Cash","","","","Vendor","Link","Draw #","Status","Source","Notes","","ID"
+"Unit 7","Interior","Paint scope estimate","2000","0","0","0","2000","0","0","","","","working estimate","src","category-level placeholder","6/25","u7a"
+"Unit 7","Contractor","Whole-unit contractor estimate","15000","0","0","0","15000","0","0","ABC GC","","","placeholder","src","whole-unit proxy","6/25","u7b"
+"Unit 7","Furnishing","Source-level Lowe's quote","4266.28","0","0","0","4266.28","0","0","Lowe's","","","source-level pull","src","proxy","6/25","u7c"
+"Unit 12","Interior","Paint","2000","0","0","0","0","0","0","","","","bid","src","n","6/25","u12a"
+"Unit 12","Interior","Flooring","2580.14","0","0","0","0","0","0","","","","bid","src","n","6/25","u12b"
+`;
+  const data = parseDrawDashboard(CSV);
+
+  it('warns about Unit 7 planning estimate dollars in open committed', () => {
+    expect(
+      data.warnings.some((w) => /Unit 7/.test(w) && /planning estimates/i.test(w)),
+    ).toBe(true);
+  });
+
+  it('warns about Unit 7 whole-unit / source-level proxy overlap', () => {
+    expect(
+      data.warnings.some((w) => /Unit 7/.test(w) && /overlap|double-count/i.test(w)),
+    ).toBe(true);
+  });
+
+  it('warns about Unit 12 visible ledger budget rows totaling less than summary budget', () => {
+    expect(
+      data.warnings.some(
+        (w) =>
+          /Unit 12/.test(w) &&
+          /summary budget/i.test(w) &&
+          /ledger budget rows/i.test(w),
+      ),
+    ).toBe(true);
+  });
+
+  it('preserves Unit 12 summary budget rather than collapsing to ledger sum', () => {
+    const u12 = data.unitSummary.find((u) => u.unit === 'Unit 12')!;
+    expect(u12.budget).toBe(10464.17);
+  });
+});
+
