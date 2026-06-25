@@ -153,3 +153,65 @@ describe('GViz missing-tab fallback hardening', () => {
   });
 });
 
+
+import { isDrawFundingCandidate } from './drawIncoming';
+import { applyDrawFunding, type DrawDashboardData } from './drawDashboard';
+
+describe('isDrawFundingCandidate', () => {
+  const base = {
+    sourceId: 'X', vendor: '', date: '', amount: 0, unit: '', category: '',
+    paidStatus: 'unknown' as const, evidenceStatus: 'missing' as const, evidenceUrl: '',
+    duplicateCheck: '', confidence: 'medium' as const, notes: '',
+    recommendedAction: 'needs-more-proof' as const,
+    derivedStatus: 'needs-evidence' as const, isDuplicate: false, warnings: [],
+  };
+  it('detects gmail_draw_cover sourceType', () => {
+    expect(isDrawFundingCandidate({ ...base, sourceType: 'gmail_draw_cover' as any })).toBe(true);
+  });
+  it('detects draw funded notes', () => {
+    expect(isDrawFundingCandidate({ ...base, sourceType: 'gmail' as any, notes: 'Draw funded to savings — not vendor payment evidence' })).toBe(true);
+  });
+  it('ignores plain vendor invoice', () => {
+    expect(isDrawFundingCandidate({ ...base, sourceType: 'lowes' as any, notes: 'paint receipt' })).toBe(false);
+  });
+});
+
+describe('applyDrawFunding', () => {
+  const baseData: DrawDashboardData = {
+    totals: {
+      totalBudget: 100000, totalActual: 50000, totalPaidFromDraws: 0,
+      totalPaidFromOwnerCash: 0, openCommitted: 0, netFundingPosition: -50000, status: '',
+    },
+    unitSummary: [
+      { unit: 'Unit 12', budget: 50000, actual: 30000, drawsApplied: 0, ownerCashApplied: 0, openCommitted: 0, variance: 20000, fundingPosition: -30000 },
+    ],
+    ledger: [], warnings: [], fetchedAt: '2026-06-25T00:00:00Z',
+  };
+
+  it('applies approved funding to totals and matching unit', () => {
+    const { data, unallocated } = applyDrawFunding(baseData, [
+      { sourceId: 'DRAW-1', amount: 11539.23, unit: 'Unit 12', vendor: 'Lender', appliedAt: '' },
+    ]);
+    expect(data.totals.totalPaidFromDraws).toBeCloseTo(11539.23);
+    expect(data.totals.netFundingPosition).toBeCloseTo(-50000 + 11539.23);
+    expect(data.unitSummary[0].drawsApplied).toBeCloseTo(11539.23);
+    expect(unallocated).toHaveLength(0);
+    expect(data.warnings.some((w) => /pending tracker sync/i.test(w))).toBe(true);
+  });
+
+  it('flags unallocated when unit does not match', () => {
+    const { data, unallocated } = applyDrawFunding(baseData, [
+      { sourceId: 'D2', amount: 1000, unit: 'Unknown', vendor: '', appliedAt: '' },
+    ]);
+    expect(unallocated).toHaveLength(1);
+    expect(data.unitSummary[0].drawsApplied).toBe(0);
+    expect(data.warnings.some((w) => /could not be matched/i.test(w))).toBe(true);
+  });
+
+  it('does not mutate ledger / receipts', () => {
+    const { data } = applyDrawFunding(baseData, [
+      { sourceId: 'D3', amount: 500, unit: 'Unit 12', vendor: '', appliedAt: '' },
+    ]);
+    expect(data.ledger).toBe(baseData.ledger);
+  });
+});
