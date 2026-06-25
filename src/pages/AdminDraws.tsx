@@ -24,6 +24,7 @@ import {
   statusTone,
   actionLabel,
   isDrawFundingCandidate,
+  isFundingCandidateReconciled,
   type IncomingItem,
   type IncomingStatus,
   type IncomingRecommendedAction,
