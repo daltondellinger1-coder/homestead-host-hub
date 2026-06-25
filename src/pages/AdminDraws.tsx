@@ -315,27 +315,28 @@ function IncomingCard({ item }: { item: IncomingItem }) {
   );
 }
 
-const FUNDING_STORAGE_KEY = 'hh.draws.appliedFunding.v1';
+// Acknowledged candidate IDs are hidden from the funding-confirmation card list
+// but STILL count in the dashboard math — funding totals always come from
+// (base sheet totals) + (non-reconciled draw funding candidates). Acknowledge
+// is a UI-only "I've seen this" toggle, never a math gate.
+const ACK_STORAGE_KEY = 'hh.draws.acknowledgedFunding.v1';
 
-function loadAppliedFunding(): AppliedDrawFunding[] {
+function loadAcknowledged(): string[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = window.localStorage.getItem(FUNDING_STORAGE_KEY);
+    const raw = window.localStorage.getItem(ACK_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((x) => x && x.sourceId) : [];
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === 'string') : [];
   } catch {
     return [];
   }
 }
-
-function saveAppliedFunding(items: AppliedDrawFunding[]) {
+function saveAcknowledged(ids: string[]) {
   if (typeof window === 'undefined') return;
   try {
-    window.localStorage.setItem(FUNDING_STORAGE_KEY, JSON.stringify(items));
-  } catch {
-    /* ignore quota errors */
-  }
+    window.localStorage.setItem(ACK_STORAGE_KEY, JSON.stringify(ids));
+  } catch { /* ignore quota errors */ }
 }
 
 export default function AdminDraws() {
@@ -345,11 +346,11 @@ export default function AdminDraws() {
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [appliedFunding, setAppliedFunding] = useState<AppliedDrawFunding[]>(() => loadAppliedFunding());
+  const [acknowledgedIds, setAcknowledgedIds] = useState<string[]>(() => loadAcknowledged());
 
   useEffect(() => {
-    saveAppliedFunding(appliedFunding);
-  }, [appliedFunding]);
+    saveAcknowledged(acknowledgedIds);
+  }, [acknowledgedIds]);
 
   const load = async () => {
     setLoading(true);
@@ -371,49 +372,56 @@ export default function AdminDraws() {
     load();
   }, []);
 
-  // Apply locally-approved draw funding to dashboard math (optimistic).
+  // Non-reconciled lender draw funding candidates are auto-included in the
+  // displayed dashboard math (Paid From Draws + Funding Gap). No click needed.
+  // Once the source sheet marks them reconciled (duplicateCheck/notes), they
+  // drop out automatically so totals don't double-count.
+  const autoFunding: AppliedDrawFunding[] = useMemo(() => {
+    return incoming
+      .filter((it) => isDrawFundingCandidate(it) && !isFundingCandidateReconciled(it))
+      .map((it) => ({
+        sourceId: it.sourceId,
+        amount: it.amount,
+        unit: it.unit,
+        vendor: it.vendor,
+        appliedAt: 'auto',
+      }));
+  }, [incoming]);
+
   const applyResult = useMemo(
-    () => (rawData ? applyDrawFunding(rawData, appliedFunding) : null),
-    [rawData, appliedFunding],
+    () => (rawData ? applyDrawFunding(rawData, autoFunding) : null),
+    [rawData, autoFunding],
   );
   const data = applyResult?.data ?? null;
   const totals = data?.totals;
   const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
 
-  const appliedIds = useMemo(() => new Set(appliedFunding.map((a) => a.sourceId)), [appliedFunding]);
   const fundingCandidates = useMemo(
-    () => incoming.filter((it) => isDrawFundingCandidate(it) && !appliedIds.has(it.sourceId)),
-    [incoming, appliedIds],
+    () => incoming.filter((it) => isDrawFundingCandidate(it)),
+    [incoming],
   );
   const fundingCandidateIds = useMemo(
     () => new Set(fundingCandidates.map((it) => it.sourceId)),
     [fundingCandidates],
   );
-  // Generic review queue excludes draw-funding candidates AND already-applied funding.
+  const ackSet = useMemo(() => new Set(acknowledgedIds), [acknowledgedIds]);
+  const visibleFundingCandidates = useMemo(
+    () => fundingCandidates.filter((it) => !ackSet.has(it.sourceId)),
+    [fundingCandidates, ackSet],
+  );
+  // Generic vendor review queue excludes draw-funding candidates entirely.
   const reviewQueue = useMemo(
-    () => incoming.filter((it) => !fundingCandidateIds.has(it.sourceId) && !appliedIds.has(it.sourceId)),
-    [incoming, fundingCandidateIds, appliedIds],
+    () => incoming.filter((it) => !fundingCandidateIds.has(it.sourceId)),
+    [incoming, fundingCandidateIds],
   );
 
-  const approveFunding = (item: IncomingItem) => {
-    setAppliedFunding((prev) => {
-      if (prev.some((a) => a.sourceId === item.sourceId)) return prev;
-      return [
-        ...prev,
-        {
-          sourceId: item.sourceId,
-          amount: item.amount,
-          unit: item.unit,
-          vendor: item.vendor,
-          appliedAt: new Date().toISOString(),
-        },
-      ];
-    });
+  const acknowledge = (sourceId: string) => {
+    setAcknowledgedIds((prev) => (prev.includes(sourceId) ? prev : [...prev, sourceId]));
   };
-  const undoFunding = (sourceId: string) => {
-    setAppliedFunding((prev) => prev.filter((a) => a.sourceId !== sourceId));
+  const unacknowledge = (sourceId: string) => {
+    setAcknowledgedIds((prev) => prev.filter((id) => id !== sourceId));
   };
-  const resetAllFunding = () => setAppliedFunding([]);
+  const resetAcknowledged = () => setAcknowledgedIds([]);
 
   const unitOptions = useMemo(() => {
     if (!data) return [];
