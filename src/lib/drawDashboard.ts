@@ -182,6 +182,74 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
   }
 
   const warnings: string[] = [];
+
+  // Reconcile unit summary rows against ledger detail. The source sheet's
+  // Unit summary row sometimes carries stale or hand-entered Actual / Open
+  // values that don't match the visible ledger rows (e.g. Laundry/Current
+  // Office). For the dashboard we derive Actual / Open / Draws / Owner cash
+  // from the ledger detail so the unit card always reconciles to the
+  // click-through detail. Budget falls back to the summary row when present.
+  const RECONCILE_TOLERANCE = 1;
+  const ledgerByUnit = new Map<string, LedgerRow[]>();
+  for (const l of ledger) {
+    const key = l.unit.trim().toLowerCase();
+    if (!ledgerByUnit.has(key)) ledgerByUnit.set(key, []);
+    ledgerByUnit.get(key)!.push(l);
+  }
+
+  const reconciledUnitSummary: UnitSummaryRow[] = unitSummary.map((u) => {
+    const rows = ledgerByUnit.get(u.unit.trim().toLowerCase()) ?? [];
+    if (!rows.length) return u;
+    const sumActual = rows.reduce((s, r) => s + r.actual, 0);
+    const sumOpen = rows.reduce((s, r) => s + r.openCommitted, 0);
+    const sumDraws = rows.reduce((s, r) => s + r.paidFromDraws, 0);
+    const sumOwner = rows.reduce((s, r) => s + r.paidFromOwnerCash, 0);
+    const sumBudget = rows.reduce((s, r) => s + r.budget, 0);
+    const budget = u.budget > 0 ? u.budget : sumBudget;
+    // Only override draws/owner cash from ledger if the ledger actually carries
+    // that data; otherwise keep the summary value to avoid zeroing it out.
+    const drawsApplied = sumDraws > 0 ? sumDraws : u.drawsApplied;
+    const ownerCashApplied = sumOwner > 0 ? sumOwner : u.ownerCashApplied;
+    const actual = sumActual;
+    const openCommitted = sumOpen;
+
+    if (
+      Math.abs(u.actual - sumActual) > RECONCILE_TOLERANCE ||
+      Math.abs(u.openCommitted - sumOpen) > RECONCILE_TOLERANCE
+    ) {
+      warnings.push(
+        `${u.unit}: source summary row (Actual ${formatCurrency(u.actual)}, Open ${formatCurrency(u.openCommitted)}) differs from ledger detail (Actual ${formatCurrency(sumActual)}, Open ${formatCurrency(sumOpen)}). Dashboard is using ledger detail totals.`,
+      );
+    }
+
+    return {
+      unit: u.unit,
+      budget,
+      actual,
+      drawsApplied,
+      ownerCashApplied,
+      openCommitted,
+      variance: budget - actual - openCommitted,
+      fundingPosition: drawsApplied + ownerCashApplied - actual - openCommitted,
+    };
+  });
+
+  // Recompute top-level totals from reconciled unit summary so the dashboard
+  // header doesn't carry stale summary values either.
+  if (reconciledUnitSummary.length) {
+    const tBudget = reconciledUnitSummary.reduce((s, u) => s + u.budget, 0);
+    const tActual = reconciledUnitSummary.reduce((s, u) => s + u.actual, 0);
+    const tDraws = reconciledUnitSummary.reduce((s, u) => s + u.drawsApplied, 0);
+    const tOwner = reconciledUnitSummary.reduce((s, u) => s + u.ownerCashApplied, 0);
+    const tOpen = reconciledUnitSummary.reduce((s, u) => s + u.openCommitted, 0);
+    totals.totalBudget = tBudget || totals.totalBudget;
+    totals.totalActual = tActual;
+    totals.totalPaidFromDraws = tDraws || totals.totalPaidFromDraws;
+    totals.totalPaidFromOwnerCash = tOwner || totals.totalPaidFromOwnerCash;
+    totals.openCommitted = tOpen;
+    totals.netFundingPosition = totals.totalPaidFromDraws + totals.totalPaidFromOwnerCash - tActual - tOpen;
+  }
+
   const unit14NeedsVerification = ledger.some(
     (l) => l.unit === 'Unit 14' && /needs receipt|needs receipt-qbo|imported/i.test(l.status),
   );
@@ -194,8 +262,9 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
     );
   }
 
-  return { totals, unitSummary, ledger, warnings, fetchedAt };
+  return { totals, unitSummary: reconciledUnitSummary, ledger, warnings, fetchedAt };
 }
+
 
 export function formatCurrency(n: number): string {
   const sign = n < 0 ? '-' : '';
