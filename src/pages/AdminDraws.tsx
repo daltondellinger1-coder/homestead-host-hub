@@ -361,6 +361,7 @@ function UnitSummaryTableRow({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerR
   const gap = unitFundingGap(u);
   const needsFunding = gap < 0;
   const rows = useMemo(() => unitLedgerRows(ledger, u.unit), [ledger, u.unit]);
+  const overlap = useMemo(() => unitHasProxyOverlap(rows), [rows]);
   return (
     <>
       <tr
@@ -387,6 +388,11 @@ function UnitSummaryTableRow({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerR
               {open ? 'Hide costs' : `View costs (${rows.length})`}
             </span>
           </button>
+          {overlap && (
+            <span className="ml-2 text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 font-body border border-red-500/40">
+              Review before draw
+            </span>
+          )}
         </td>
         <td className="p-3 text-right">{formatCurrency(u.budget)}</td>
         <td className="p-3 text-right">{formatCurrency(u.actual)}</td>
