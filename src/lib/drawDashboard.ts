@@ -337,6 +337,69 @@ export function isSourceLevelProxyRow(r: LedgerRow): boolean {
   return SOURCE_LEVEL_RE.test(hay);
 }
 
+// True if a unit's open rows mix whole-unit / source-level proxy rows with
+// other open rows (or multiple proxy rows) — same heuristic used to flag
+// Unit 7-style overlap risk in the parser warnings.
+export function unitHasProxyOverlap(rows: LedgerRow[]): boolean {
+  const open = rows.filter((r) => r.openCommitted > 0 && r.actual === 0);
+  const whole = open.filter(isWholeUnitProxyRow);
+  const src = open.filter(isSourceLevelProxyRow);
+  const hasProxy = whole.length > 0 || src.length > 0;
+  if (!hasProxy) return false;
+  const other = open.filter((r) => !whole.includes(r) && !src.includes(r));
+  return other.length > 0 || whole.length + src.length > 1;
+}
+
+// Hard vs soft cost split — used by the dashboard "above the fold" summary so
+// receipt-backed actuals, real open bids, soft/proxy planning estimates, and
+// budget-only placeholders never read as a single undifferentiated number.
+export interface CostSplit {
+  actual: number; // receipt-backed actual costs
+  realOpen: number; // open committed bids that are NOT planning estimates
+  softOpen: number; // planning estimates / proxies / placeholders in Open
+  budgetOnly: number; // budget rows with no actual & no open (pure placeholders)
+  projectedAllIn: number; // actual + realOpen + softOpen
+  drawSafeAmount: number; // receipt-backed ready amount (excl. soft dollars)
+}
+
+export function computeCostSplit(data: DrawDashboardData): CostSplit {
+  let actual = 0;
+  let realOpen = 0;
+  let softOpen = 0;
+  let budgetOnly = 0;
+  for (const r of data.ledger) {
+    actual += r.actual;
+    if (r.openCommitted > 0) {
+      if (isPlanningEstimateOpenRow(r)) softOpen += r.openCommitted;
+      else realOpen += r.openCommitted;
+    }
+    if (r.actual === 0 && r.openCommitted === 0 && r.budget > 0) budgetOnly += r.budget;
+  }
+  const drawSafeAmount = data.ledger
+    .filter((r) => classifyDrawReadiness(r) === 'ready')
+    .reduce((s, r) => s + Math.max(0, r.actual - r.paidFromDraws), 0);
+  return {
+    actual,
+    realOpen,
+    softOpen,
+    budgetOnly,
+    projectedAllIn: actual + realOpen + softOpen,
+    drawSafeAmount,
+  };
+}
+
+// Distinct unit names that triggered any data-quality warning. Derived from
+// the warning strings (which all begin with "<Unit>: …") so the dashboard
+// status strip can show a count/list without re-running the parser.
+export function unitsNeedingReview(data: DrawDashboardData): string[] {
+  const set = new Set<string>();
+  for (const w of data.warnings) {
+    const m = w.match(/^([^:]+):\s/);
+    if (m) set.add(m[1].trim());
+  }
+  return Array.from(set);
+}
+
 
 
 
