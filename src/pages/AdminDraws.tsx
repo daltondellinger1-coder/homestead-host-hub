@@ -829,61 +829,140 @@ export default function AdminDraws() {
           </div>
         )}
 
-        {summary && totals && (
+        {summary && totals && costSplit && (
           <section className="glass-card rounded-xl p-4 space-y-3 border border-secondary/30">
             <div className="flex items-center gap-2 font-heading text-base">
               <BadgeCheck className="h-4 w-4 text-secondary" /> Decision summary
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-body">
-              <div className="rounded-lg bg-muted/10 p-3">
-                <div className="text-xs uppercase text-muted-foreground">Budget health</div>
-                <div className={`font-heading text-lg ${projectOverBudget ? 'text-red-400' : 'text-emerald-400'}`}>
-                  {projectOverBudget
-                    ? `Over budget by ${formatCurrency(Math.abs(summary.budgetRemaining))}`
-                    : `Under budget by ${formatCurrency(summary.budgetRemaining)}`}
-                </div>
-                <div className="text-[11px] text-muted-foreground">
-                  Projected all-in {formatCurrency(summary.projectedAllIn)} vs budget {formatCurrency(totals.totalBudget)}
-                </div>
-              </div>
-              <div className="rounded-lg bg-muted/10 p-3">
-                <div className="text-xs uppercase text-muted-foreground">Funding health</div>
-                <div className={`font-heading text-lg ${netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
+
+            {/* Headline: lead with draw readiness + funding gap */}
+            <div className="rounded-lg bg-muted/10 border border-secondary/20 p-3 space-y-1">
+              <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Top story</div>
+              <div className="font-heading text-lg sm:text-xl leading-snug">
+                <span className={summary.drawReadyAmount > 0 ? 'text-emerald-400' : 'text-amber-400'}>
+                  Only {formatCurrency(summary.drawReadyAmount)} is draw-ready.
+                </span>{' '}
+                <span className={netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}>
                   {netNeedsFunding
-                    ? `Funding gap ${formatCurrency(Math.abs(summary.fundingGap))}`
-                    : `Funding surplus ${formatCurrency(summary.fundingGap)}`}
+                    ? `${formatCurrency(Math.abs(summary.fundingGap))} funding gap remains.`
+                    : `${formatCurrency(summary.fundingGap)} funding surplus.`}
+                </span>
+              </div>
+              <div className="text-[11px] text-muted-foreground">
+                Draw-ready = receipt-backed actuals with evidence linked, minus what's already drawn.
+              </div>
+            </div>
+
+            {/* Compact mobile-first status strip */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs font-body">
+              <div className="rounded-lg bg-muted/10 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Draw-ready</div>
+                <div className="font-heading text-base text-emerald-400">
+                  {formatCurrency(summary.drawReadyAmount)}
                 </div>
-                <div className="text-[11px] text-muted-foreground">
-                  Recorded owner cash {formatCurrency(summary.recordedOwnerCash)}
+                <div className="text-[10px] text-muted-foreground">{summary.drawReadyCount} item{summary.drawReadyCount === 1 ? '' : 's'}</div>
+              </div>
+              <div className="rounded-lg bg-muted/10 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Funding gap</div>
+                <div className={`font-heading text-base ${netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
+                  {formatCurrency(summary.fundingGap)}
+                </div>
+                <div className="text-[10px] text-muted-foreground">
+                  Owner cash {formatCurrency(summary.recordedOwnerCash)}
                 </div>
               </div>
-              <div className="rounded-lg bg-muted/10 p-3">
-                <div className="text-xs uppercase text-muted-foreground">Draw-ready amount</div>
-                <div className="font-heading text-lg text-foreground">
-                  {summary.drawReadyCount > 0
-                    ? `${formatCurrency(summary.drawReadyAmount)} (${summary.drawReadyCount} items)`
-                    : 'Needs review'}
+              <div className="rounded-lg bg-muted/10 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Soft / proxy in Open</div>
+                <div className={`font-heading text-base ${costSplit.softOpen > 0 ? 'text-orange-300' : 'text-foreground'}`}>
+                  {formatCurrency(costSplit.softOpen)}
                 </div>
-                <div className="text-[11px] text-muted-foreground">
-                  {summary.needsEvidenceCount} item{summary.needsEvidenceCount === 1 ? '' : 's'} need evidence ({formatCurrency(summary.needsEvidenceAmount)})
+                <div className="text-[10px] text-muted-foreground">Planning estimates included</div>
+              </div>
+              <div className="rounded-lg bg-muted/10 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Units needing review</div>
+                <div className={`font-heading text-base ${reviewUnits.length > 0 ? 'text-amber-300' : 'text-emerald-400'}`}>
+                  {reviewUnits.length}
+                </div>
+                <div className="text-[10px] text-muted-foreground truncate" title={reviewUnits.join(', ')}>
+                  {reviewUnits.length > 0
+                    ? reviewUnits.slice(0, 3).join(', ') + (reviewUnits.length > 3 ? '…' : '')
+                    : 'No data-quality flags'}
                 </div>
               </div>
-              <div className="rounded-lg bg-muted/10 p-3">
-                <div className="text-xs uppercase text-muted-foreground">Biggest attention</div>
+            </div>
+
+            {/* Draw-safe explainer */}
+            <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/30 p-3 text-xs font-body space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-[11px] uppercase tracking-wide text-emerald-300">Draw-safe amount</div>
+                <div className="font-heading text-base text-emerald-400">{formatCurrency(summary.drawReadyAmount)}</div>
+              </div>
+              <div className="text-muted-foreground">
+                Draw-safe = receipt-backed, evidence-linked actuals ready for the lender. <span className="text-foreground font-medium">Draw-safe excludes soft/proxy planning estimates</span> unless manually approved.
+              </div>
+              {summary.needsEvidenceCount > 0 && (
+                <div className="text-amber-300">
+                  + {summary.needsEvidenceCount} item{summary.needsEvidenceCount === 1 ? '' : 's'} ({formatCurrency(summary.needsEvidenceAmount)}) could become draw-safe after evidence is attached.
+                </div>
+              )}
+            </div>
+
+            {/* Hard vs soft cost split */}
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Hard vs soft cost split</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-body">
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-emerald-300">Actual (receipts)</div>
+                  <div className="font-heading text-base">{formatCurrency(costSplit.actual)}</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-amber-300">Real open bids</div>
+                  <div className="font-heading text-base">{formatCurrency(costSplit.realOpen)}</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-orange-300">Soft / proxy estimates</div>
+                  <div className="font-heading text-base">{formatCurrency(costSplit.softOpen)}</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-muted-foreground">Budget-only placeholders</div>
+                  <div className="font-heading text-base">{formatCurrency(costSplit.budgetOnly)}</div>
+                </div>
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Projected all-in {formatCurrency(costSplit.projectedAllIn)} = Actual + Real open + Soft/proxy. The soft/proxy portion ({formatCurrency(costSplit.softOpen)}) is included <span className="text-foreground font-medium">for planning only</span> — not a firm committed cost.
+              </div>
+            </div>
+
+            {/* Demoted budget variance + biggest attention */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-body">
+              <div className="rounded-lg bg-muted/5 border border-border/30 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Budget variance — based on current entered / estimated rows</div>
+                <div className={`font-body text-sm mt-0.5 ${projectOverBudget ? 'text-red-400' : 'text-muted-foreground'}`}>
+                  {projectOverBudget
+                    ? `Over by ${formatCurrency(Math.abs(summary.budgetRemaining))}`
+                    : `${formatCurrency(summary.budgetRemaining)} unspent vs entered budget`}
+                </div>
+                <div className="text-[10px] text-muted-foreground">
+                  Projected {formatCurrency(summary.projectedAllIn)} vs budget {formatCurrency(totals.totalBudget)}
+                </div>
+              </div>
+              <div className="rounded-lg bg-muted/5 border border-border/30 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">Biggest attention</div>
                 {summary.biggestAttention ? (
                   <>
-                    <div className="font-heading text-lg text-red-400">
+                    <div className="font-body text-sm text-red-400 mt-0.5">
                       {summary.biggestAttention.unit}
                     </div>
-                    <div className="text-[11px] text-muted-foreground">
+                    <div className="text-[10px] text-muted-foreground">
                       {summary.biggestAttention.reason}: {formatCurrency(summary.biggestAttention.amount)}
                     </div>
                   </>
                 ) : (
-                  <div className="font-heading text-lg text-emerald-400">All units healthy</div>
+                  <div className="font-body text-sm text-emerald-400 mt-0.5">All units healthy</div>
                 )}
               </div>
             </div>
+
             <div className="rounded-lg bg-secondary/10 border border-secondary/30 p-3 text-sm font-body">
               <span className="text-secondary font-semibold">Next action: </span>
               <span className="text-foreground">{summary.recommendation}</span>
