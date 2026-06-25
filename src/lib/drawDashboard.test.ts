@@ -50,26 +50,34 @@ const SAMPLE_CSV = `"Homestead Hill — All Unit Cost Tracker Purpose Project to
 describe('parseDrawDashboard', () => {
   const data = parseDrawDashboard(SAMPLE_CSV, '2026-06-24T00:00:00Z');
 
-  it('extracts totals using the Total Budget row', () => {
-    expect(data.totals.totalBudget).toBe(171024.53);
-    expect(data.totals.totalActual).toBe(32379.26);
+  it('recomputes totals from ledger-derived unit summary (Actual + Open from detail rows)', () => {
+    // Reconciled totals: Actual / Open are summed from ledger detail; Draws fall
+    // back to summary when ledger has no draw data so we don't lose them.
+    expect(data.totals.totalActual).toBe(5810);
+    expect(data.totals.openCommitted).toBe(200);
     expect(data.totals.totalPaidFromDraws).toBe(23837.41);
     expect(data.totals.totalPaidFromOwnerCash).toBe(0);
-    expect(data.totals.openCommitted).toBe(38796.96);
-    expect(data.totals.netFundingPosition).toBe(-47338.81);
     expect(data.totals.status).toBe('Owner cash gap');
   });
 
-  it('parses unit summary rows with Common/Exteriors actual = 4800', () => {
+  it('uses summary budget but recomputes Actual/Open for Common/Exteriors from ledger', () => {
     const common = data.unitSummary.find((u) => u.unit === 'Common/Exteriors');
     expect(common).toBeDefined();
-    expect(common!.actual).toBe(4800);
-    expect(common!.budget).toBe(25000);
+    expect(common!.budget).toBe(25000); // from summary row
+    expect(common!.actual).toBe(4800); // from ledger
+    expect(common!.openCommitted).toBe(200); // from ledger (summary said 0)
+  });
+
+  it('warns when source summary Actual/Open differs materially from ledger detail', () => {
+    // Common/Exteriors summary said Open 0 but ledger Open = 200 → reconcile warning
+    expect(
+      data.warnings.some((w) => /Common\/Exteriors/.test(w) && /ledger detail totals/i.test(w)),
+    ).toBe(true);
   });
 
   it('parses ledger rows and flags Unit 14 receipt/QBO verification warning', () => {
     expect(data.ledger.length).toBeGreaterThan(0);
-    expect(data.warnings.some((w) => /Unit 14/.test(w))).toBe(true);
+    expect(data.warnings.some((w) => /Unit 14/.test(w) && /receipt/i.test(w))).toBe(true);
   });
 
   it('flags negative funding position with new wording', () => {
@@ -77,6 +85,43 @@ describe('parseDrawDashboard', () => {
     expect(data.warnings.some((w) => /Net funding position is negative/.test(w))).toBe(false);
   });
 });
+
+describe('parseDrawDashboard laundry-style mismatch', () => {
+  const LAUNDRY_CSV = `"Homestead Hill","","","","","","","","","","","","",""
+"Total Budget","13723.79","Total Actual","2855.19","","0","Total Paid From Owner Cash","0","","14770.68","Net Funding Position","-17625.87","Status","gap"
+"Unit summary","","","","","","","","","","","","",""
+"Unit / Area","Budget","Actual","","","Open Committed","Variance (Budget-Actual-Open)","","","","","","",""
+"Laundry/Current Office","13723.79","2855.19","0","0","14770.68","-3902.08","-17625.87","","","","","",""
+"Unit / Area","Category","Budget Item / Scope","","","Paid From Draws","Paid From Owner Cash","","","","Vendor","Link","Draw #","Status","Source","Notes","","ID"
+"Laundry/Current Office","Interior","Paint","500","500","","","","0","0","","","","ok","src","n","6/25","k1"
+"Laundry/Current Office","Interior","Materials","243.11","243.11","","","","0","0","","","","ok","src","n","6/25","k2"
+"Laundry/Current Office","Reno","Build-out bid","12980.68","0","","","","12980.68","0","","","","bid","src","n","6/25","k3"
+`;
+  const data = parseDrawDashboard(LAUNDRY_CSV);
+
+  it('derives Laundry actual/open from ledger detail not summary row', () => {
+    const u = data.unitSummary.find((x) => x.unit === 'Laundry/Current Office')!;
+    expect(u.budget).toBe(13723.79);
+    expect(u.actual).toBeCloseTo(743.11, 2);
+    expect(u.openCommitted).toBeCloseTo(12980.68, 2);
+    expect(u.variance).toBeCloseTo(0, 2);
+    expect(u.fundingPosition).toBeCloseTo(-13723.79, 2);
+  });
+
+  it('warns about laundry summary vs ledger mismatch', () => {
+    expect(
+      data.warnings.some(
+        (w) => /Laundry\/Current Office/.test(w) && /ledger detail totals/i.test(w),
+      ),
+    ).toBe(true);
+  });
+
+  it('recomputes top totals from ledger-derived values', () => {
+    expect(data.totals.totalActual).toBeCloseTo(743.11, 2);
+    expect(data.totals.openCommitted).toBeCloseTo(12980.68, 2);
+  });
+});
+
 
 describe('projectedAllIn / unit helpers', () => {
   it('projectedAllIn = actual + open committed', () => {
