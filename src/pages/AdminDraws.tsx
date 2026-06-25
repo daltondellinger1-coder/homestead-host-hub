@@ -755,15 +755,19 @@ export default function AdminDraws() {
         {data && (
           <section className="space-y-2">
             <h2 className="font-heading text-base">Unit summary</h2>
+            <p className="text-[11px] text-muted-foreground font-body">
+              Tap a unit to see the individual cost ledger rows that make up its totals.
+            </p>
             <div className="grid grid-cols-1 sm:hidden gap-3">
               {data.unitSummary.map((u) => (
-                <UnitSummaryCard key={u.unit} u={u} />
+                <UnitSummaryCard key={u.unit} u={u} ledger={data.ledger} />
               ))}
             </div>
             <div className="hidden sm:block glass-card rounded-xl overflow-x-auto">
               <table className="w-full text-sm font-body">
                 <thead className="text-xs uppercase text-muted-foreground">
                   <tr>
+                    <th className="text-left p-3 w-6"></th>
                     <th className="text-left p-3">Unit / Area</th>
                     <th className="text-right p-3">Budget</th>
                     <th className="text-right p-3">Actual</th>
@@ -776,30 +780,9 @@ export default function AdminDraws() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.unitSummary.map((u) => {
-                    const projected = projectedAllIn(u);
-                    const remaining = unitBudgetRemaining(u);
-                    const overBudget = remaining < 0;
-                    const gap = unitFundingGap(u);
-                    const needsFunding = gap < 0;
-                    return (
-                      <tr key={u.unit} className="border-t border-border/30">
-                        <td className="p-3">{u.unit}</td>
-                        <td className="p-3 text-right">{formatCurrency(u.budget)}</td>
-                        <td className="p-3 text-right">{formatCurrency(u.actual)}</td>
-                        <td className="p-3 text-right">{formatCurrency(u.openCommitted)}</td>
-                        <td className="p-3 text-right">{formatCurrency(projected)}</td>
-                        <td className={`p-3 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {formatCurrency(remaining)}
-                        </td>
-                        <td className="p-3 text-right">{formatCurrency(u.drawsApplied)}</td>
-                        <td className="p-3 text-right">{formatCurrency(u.ownerCashApplied)}</td>
-                        <td className={`p-3 text-right ${needsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
-                          {formatCurrency(gap)}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {data.unitSummary.map((u) => (
+                    <UnitSummaryTableRow key={u.unit} u={u} ledger={data.ledger} />
+                  ))}
                 </tbody>
               </table>
             </div>
