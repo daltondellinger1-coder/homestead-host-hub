@@ -422,6 +422,7 @@ function UnitSummaryCard({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[]
   const gap = unitFundingGap(u);
   const needsFunding = gap < 0;
   const rows = useMemo(() => unitLedgerRows(ledger, u.unit), [ledger, u.unit]);
+  const overlap = useMemo(() => unitHasProxyOverlap(rows), [rows]);
   return (
     <div className="glass-card rounded-xl p-4 space-y-3">
       <button
@@ -436,7 +437,12 @@ function UnitSummaryCard({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[]
           />
           {u.unit}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 justify-end">
+          {overlap && (
+            <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-red-500/20 text-red-300 font-body border border-red-500/40">
+              Review before draw
+            </span>
+          )}
           {needsFunding ? (
             <span className="text-[10px] uppercase tracking-wide px-2 py-1 rounded-full bg-red-500/15 text-red-400 font-body">
               Needs funding
@@ -448,6 +454,11 @@ function UnitSummaryCard({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[]
           )}
         </div>
       </button>
+      {overlap && (
+        <div className="text-[11px] text-red-300 font-body rounded-md border border-red-500/30 bg-red-500/5 p-2">
+          Open committed includes whole-unit / source-level proxy estimates that may overlap or double-count category rows. Do not rely on this for draw until reviewed.
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-y-1.5 text-sm font-body">
         <Row label="Budget" value={formatCurrency(u.budget)} tone="neutral" />
         <Row label="Actual spent" value={formatCurrency(u.actual)} tone="neutral" />
