@@ -240,3 +240,85 @@ describe('isDrawFundingCandidate — real gmail draw-cover row', () => {
     expect(isDrawFundingCandidate(item)).toBe(true);
   });
 });
+
+describe('isFundingCandidateReconciled', () => {
+  const base: any = {
+    sourceId: 'X', duplicateCheck: '', notes: '', paidStatus: 'unknown',
+  };
+  it('flags reconciled when duplicateCheck says reconciled', () => {
+    expect(isFundingCandidateReconciled({ ...base, duplicateCheck: 'reconciled' })).toBe(true);
+  });
+  it('flags reconciled when notes mention "sheet updated"', () => {
+    expect(isFundingCandidateReconciled({ ...base, notes: 'Sheet updated 6/25 — totals now include draw' })).toBe(true);
+  });
+  it('does NOT flag possible_draw_cover_duplicate as reconciled', () => {
+    expect(isFundingCandidateReconciled({ ...base, duplicateCheck: 'possible_draw_cover_duplicate' })).toBe(false);
+  });
+});
+
+// Real-world dashboard math: base sheet totalPaidFromDraws 23837.41 plus a
+// pending draw-cover candidate of 11539.23 must display 35376.64 with NO
+// user click. This is the explicit contract the dashboard guarantees.
+describe('auto-applied funding candidates produce live math', () => {
+  it('base 23837.41 + candidate 11539.23 -> 35376.64 paid-from-draws automatically', () => {
+    const baseData: DrawDashboardData = {
+      totals: {
+        totalBudget: 171024.53, totalActual: 32379.26, totalPaidFromDraws: 23837.41,
+        totalPaidFromOwnerCash: 0, openCommitted: 38796.96,
+        netFundingPosition: -47338.81, status: 'Owner cash gap',
+      },
+      unitSummary: [
+        { unit: 'Unit 12', budget: 50000, actual: 0, drawsApplied: 0, ownerCashApplied: 0, openCommitted: 0, variance: 50000, fundingPosition: 0 },
+      ],
+      ledger: [], warnings: [], fetchedAt: '2026-06-25T00:00:00Z',
+    };
+    const candidate: any = {
+      sourceId: 'gmail:19efa3dbd5dca9e5:draw-cover',
+      vendor: 'Lender draw', sourceType: 'gmail', date: '2026-06-25', amount: 11539.23,
+      unit: 'Common/Exteriors + Unit 12', category: 'Draw request support',
+      paidStatus: 'unknown', evidenceStatus: 'linked', evidenceUrl: '',
+      duplicateCheck: 'possible_draw_cover_duplicate', confidence: 'high',
+      notes: 'Draw funded to savings 2026-06-25 / not vendor payment evidence',
+      recommendedAction: 'approve-to-tracker', derivedStatus: 'possible-duplicate',
+      isDuplicate: true, warnings: [],
+    };
+    expect(isDrawFundingCandidate(candidate)).toBe(true);
+    expect(isFundingCandidateReconciled(candidate)).toBe(false);
+
+    const approvals = [{
+      sourceId: candidate.sourceId, amount: candidate.amount,
+      unit: candidate.unit, vendor: candidate.vendor, appliedAt: 'auto',
+    }];
+    const { data, unallocated } = applyDrawFunding(baseData, approvals);
+    expect(data.totals.totalPaidFromDraws).toBeCloseTo(35376.64, 2);
+    expect(data.totals.netFundingPosition).toBeCloseTo(-35799.58, 2);
+    // Multi-unit "Common/Exteriors + Unit 12" can't bind to a single unit summary
+    // — applied to overall totals only and surfaced as a warning.
+    expect(unallocated).toHaveLength(1);
+    expect(data.warnings.some((w) => /could not be matched/i.test(w))).toBe(true);
+  });
+
+  it('skips reconciled candidates so totals do not double-count after sheet update', () => {
+    const baseData: DrawDashboardData = {
+      totals: {
+        totalBudget: 171024.53, totalActual: 32379.26, totalPaidFromDraws: 35376.64,
+        totalPaidFromOwnerCash: 0, openCommitted: 38796.96,
+        netFundingPosition: -35799.58, status: '',
+      },
+      unitSummary: [], ledger: [], warnings: [], fetchedAt: '2026-06-25T00:00:00Z',
+    };
+    const reconciledCandidate: any = {
+      sourceId: 'gmail:draw-cover', duplicateCheck: 'reconciled',
+      notes: '', paidStatus: 'unknown', amount: 11539.23,
+    };
+    expect(isFundingCandidateReconciled(reconciledCandidate)).toBe(true);
+    // Simulating the page logic: reconciled candidates are filtered out before
+    // calling applyDrawFunding, so base totals stay at the sheet's value.
+    const approvals = isFundingCandidateReconciled(reconciledCandidate)
+      ? []
+      : [{ sourceId: 'X', amount: 11539.23, unit: '', vendor: '', appliedAt: '' }];
+    const { data } = applyDrawFunding(baseData, approvals);
+    expect(data.totals.totalPaidFromDraws).toBeCloseTo(35376.64, 2);
+    expect(data.totals.netFundingPosition).toBeCloseTo(-35799.58, 2);
+  });
+});
