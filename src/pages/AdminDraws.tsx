@@ -199,6 +199,66 @@ function UnitCostBreakdown({ u, rows }: { u: UnitSummaryRow; rows: LedgerRow[] }
     </div>
   );
 }
+function UnitSummaryTableRow({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[] }) {
+  const [open, setOpen] = useState(false);
+  const projected = projectedAllIn(u);
+  const remaining = unitBudgetRemaining(u);
+  const overBudget = remaining < 0;
+  const gap = unitFundingGap(u);
+  const needsFunding = gap < 0;
+  const rows = useMemo(() => unitLedgerRows(ledger, u.unit), [ledger, u.unit]);
+  return (
+    <>
+      <tr
+        className="border-t border-border/30 cursor-pointer hover:bg-muted/10"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        <td className="p-3">
+          <ChevronRight
+            className={`h-4 w-4 text-muted-foreground transition-transform ${open ? 'rotate-90' : ''}`}
+          />
+        </td>
+        <td className="p-3">
+          <button
+            type="button"
+            className="text-left hover:underline"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen((v) => !v);
+            }}
+          >
+            {u.unit}
+            <span className="ml-2 text-[10px] uppercase tracking-wide text-muted-foreground">
+              {open ? 'Hide costs' : `View costs (${rows.length})`}
+            </span>
+          </button>
+        </td>
+        <td className="p-3 text-right">{formatCurrency(u.budget)}</td>
+        <td className="p-3 text-right">{formatCurrency(u.actual)}</td>
+        <td className="p-3 text-right">{formatCurrency(u.openCommitted)}</td>
+        <td className="p-3 text-right">{formatCurrency(projected)}</td>
+        <td className={`p-3 text-right ${overBudget ? 'text-red-400' : 'text-emerald-400'}`}>
+          {formatCurrency(remaining)}
+        </td>
+        <td className="p-3 text-right">{formatCurrency(u.drawsApplied)}</td>
+        <td className="p-3 text-right">{formatCurrency(u.ownerCashApplied)}</td>
+        <td className={`p-3 text-right ${needsFunding ? 'text-red-400' : 'text-emerald-400'}`}>
+          {formatCurrency(gap)}
+        </td>
+      </tr>
+      {open && (
+        <tr className="border-t border-border/20 bg-muted/5">
+          <td></td>
+          <td colSpan={9} className="p-3">
+            <UnitCostBreakdown u={u} rows={rows} />
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
+
 
 function UnitSummaryCard({ u, ledger }: { u: UnitSummaryRow; ledger: LedgerRow[] }) {
   const [open, setOpen] = useState(false);
