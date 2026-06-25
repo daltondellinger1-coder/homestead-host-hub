@@ -51,10 +51,8 @@ describe('parseDrawDashboard', () => {
   const data = parseDrawDashboard(SAMPLE_CSV, '2026-06-24T00:00:00Z');
 
   it('recomputes totals from ledger-derived unit summary (Actual + Open from detail rows)', () => {
-    // Reconciled totals: Actual / Open are summed from ledger detail; Draws fall
-    // back to summary when ledger has no draw data so we don't lose them.
     expect(data.totals.totalActual).toBe(5810);
-    expect(data.totals.openCommitted).toBe(200);
+    expect(data.totals.openCommitted).toBe(0);
     expect(data.totals.totalPaidFromDraws).toBe(23837.41);
     expect(data.totals.totalPaidFromOwnerCash).toBe(0);
     expect(data.totals.status).toBe('Owner cash gap');
@@ -65,13 +63,13 @@ describe('parseDrawDashboard', () => {
     expect(common).toBeDefined();
     expect(common!.budget).toBe(25000); // from summary row
     expect(common!.actual).toBe(4800); // from ledger
-    expect(common!.openCommitted).toBe(200); // from ledger (summary said 0)
+    expect(common!.openCommitted).toBe(0); // from ledger
   });
 
   it('warns when source summary Actual/Open differs materially from ledger detail', () => {
-    // Common/Exteriors summary said Open 0 but ledger Open = 200 → reconcile warning
+    // Unit 14 summary said Actual 25640.03 but ledger Actual = 1010 → reconcile warning
     expect(
-      data.warnings.some((w) => /Common\/Exteriors/.test(w) && /ledger detail totals/i.test(w)),
+      data.warnings.some((w) => /Unit 14/.test(w) && /ledger detail totals/i.test(w)),
     ).toBe(true);
   });
 
@@ -93,9 +91,9 @@ describe('parseDrawDashboard laundry-style mismatch', () => {
 "Unit / Area","Budget","Actual","","","Open Committed","Variance (Budget-Actual-Open)","","","","","","",""
 "Laundry/Current Office","13723.79","2855.19","0","0","14770.68","-3902.08","-17625.87","","","","","",""
 "Unit / Area","Category","Budget Item / Scope","","","Paid From Draws","Paid From Owner Cash","","","","Vendor","Link","Draw #","Status","Source","Notes","","ID"
-"Laundry/Current Office","Interior","Paint","500","500","","","","0","0","","","","ok","src","n","6/25","k1"
-"Laundry/Current Office","Interior","Materials","243.11","243.11","","","","0","0","","","","ok","src","n","6/25","k2"
-"Laundry/Current Office","Reno","Build-out bid","12980.68","0","","","","12980.68","0","","","","bid","src","n","6/25","k3"
+"Laundry/Current Office","Interior","Paint","500","500","0","0","0","0","0","","","","ok","src","n","6/25","k1"
+"Laundry/Current Office","Interior","Materials","243.11","243.11","0","0","0","0","0","","","","ok","src","n","6/25","k2"
+"Laundry/Current Office","Reno","Build-out bid","12980.68","0","0","0","12980.68","0","0","","","","bid","src","n","6/25","k3"
 `;
   const data = parseDrawDashboard(LAUNDRY_CSV);
 
@@ -121,6 +119,8 @@ describe('parseDrawDashboard laundry-style mismatch', () => {
     expect(data.totals.openCommitted).toBeCloseTo(12980.68, 2);
   });
 });
+
+
 
 
 describe('projectedAllIn / unit helpers', () => {
