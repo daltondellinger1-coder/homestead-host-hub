@@ -154,7 +154,7 @@ describe('GViz missing-tab fallback hardening', () => {
 });
 
 
-import { isDrawFundingCandidate } from './drawIncoming';
+import { isDrawFundingCandidate, isFundingCandidateReconciled } from './drawIncoming';
 import { applyDrawFunding, type DrawDashboardData } from './drawDashboard';
 
 describe('isDrawFundingCandidate', () => {
