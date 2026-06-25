@@ -215,3 +215,28 @@ describe('applyDrawFunding', () => {
     expect(data.ledger).toBe(baseData.ledger);
   });
 });
+
+describe('isDrawFundingCandidate — real gmail draw-cover row', () => {
+  it('detects the staged lender draw packet', () => {
+    const item: any = {
+      sourceId: 'gmail:19efa3dbd5dca9e5:draw-cover',
+      vendor: '',
+      sourceType: 'gmail',
+      date: '2026-06-25',
+      amount: 11539.23,
+      unit: 'Unit 12',
+      category: 'Draw request support',
+      paidStatus: 'unknown',
+      evidenceStatus: 'linked',
+      evidenceUrl: '',
+      duplicateCheck: 'possible_draw_cover_duplicate',
+      confidence: 'high',
+      notes: '6/25 lender reply says funds were released and are available in the savings account. Treat this as draw-funding status only; do not count attached backup items again or as vendor-paid without separate payment proof.',
+      recommendedAction: 'approve-to-tracker',
+      derivedStatus: 'possible-duplicate',
+      isDuplicate: true,
+      warnings: [],
+    };
+    expect(isDrawFundingCandidate(item)).toBe(true);
+  });
+});
