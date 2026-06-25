@@ -52,7 +52,7 @@ describe('parseDrawDashboard', () => {
 
   it('recomputes totals from ledger-derived unit summary (Actual + Open from detail rows)', () => {
     expect(data.totals.totalActual).toBe(5810);
-    expect(data.totals.openCommitted).toBe(0);
+    expect(data.totals.openCommitted).toBe(21266.28); // Unit 7 has no ledger rows; summary value preserved
     expect(data.totals.totalPaidFromDraws).toBe(23837.41);
     expect(data.totals.totalPaidFromOwnerCash).toBe(0);
     expect(data.totals.status).toBe('Owner cash gap');
