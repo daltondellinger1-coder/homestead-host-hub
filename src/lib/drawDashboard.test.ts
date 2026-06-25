@@ -281,3 +281,54 @@ describe('parseDrawDashboard Unit 7-style overlap and Unit 12-style budget visib
   });
 });
 
+
+describe('computeCostSplit', () => {
+  it('splits actual, real open, soft open, and budget-only placeholders', () => {
+    const rows: LedgerRow[] = [
+      makeLedger({ unit: 'U1', actual: 800, paidFromDraws: 0, receiptLink: 'https://r/1' }),
+      makeLedger({ unit: 'U1', openCommitted: 500, notes: 'firm bid' }),
+      makeLedger({ unit: 'U1', openCommitted: 300, notes: 'placeholder / proxy' }),
+      makeLedger({ unit: 'U1', budget: 250 }),
+    ];
+    const data = {
+      totals: { totalBudget: 0, totalActual: 0, totalPaidFromDraws: 0, totalPaidFromOwnerCash: 0, openCommitted: 0, netFundingPosition: 0, status: '' },
+      unitSummary: [],
+      ledger: rows,
+      warnings: [],
+      fetchedAt: '',
+    };
+    const s = computeCostSplit(data);
+    expect(s.actual).toBe(800);
+    expect(s.realOpen).toBe(500);
+    expect(s.softOpen).toBe(300);
+    expect(s.budgetOnly).toBe(250);
+    expect(s.projectedAllIn).toBe(1600);
+    expect(s.drawSafeAmount).toBe(800);
+  });
+});
+
+describe('unitsNeedingReview / unitHasProxyOverlap', () => {
+  it('extracts unique unit names from warning prefixes', () => {
+    const data = {
+      totals: { totalBudget: 0, totalActual: 0, totalPaidFromDraws: 0, totalPaidFromOwnerCash: 0, openCommitted: 0, netFundingPosition: 0, status: '' },
+      unitSummary: [],
+      ledger: [],
+      warnings: [
+        'Unit 7: open committed includes $4,000.00 of planning estimates.',
+        'Unit 7: open committed mixes whole-unit / source-level proxy rows.',
+        'Laundry/Current Office: source summary differs from ledger detail.',
+        'Current funding gap -$1.00. ...',
+      ],
+      fetchedAt: '',
+    };
+    expect(unitsNeedingReview(data).sort()).toEqual(['Laundry/Current Office', 'Unit 7']);
+  });
+
+  it('detects proxy + category-level overlap', () => {
+    const rows: LedgerRow[] = [
+      makeLedger({ openCommitted: 1000, notes: 'category-level bid' }),
+      makeLedger({ openCommitted: 5000, scope: 'Whole-unit contractor estimate', notes: 'proxy' }),
+    ];
+    expect(unitHasProxyOverlap(rows)).toBe(true);
+  });
+});
