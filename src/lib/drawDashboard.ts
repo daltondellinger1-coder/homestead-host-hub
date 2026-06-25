@@ -320,3 +320,62 @@ export async function fetchDrawDashboard(signal?: AbortSignal): Promise<DrawDash
   const csv = await res.text();
   return parseDrawDashboard(csv);
 }
+
+// Locally-applied draw funding approvals — used for optimistic dashboard math
+// before the tracker Google Sheet is updated. Each approval is keyed by the
+// incoming sourceId so refresh / re-fetch can still hide approved items.
+export interface AppliedDrawFunding {
+  sourceId: string;
+  amount: number;
+  unit: string; // raw unit string from the incoming row (may be '')
+  vendor: string;
+  appliedAt: string;
+}
+
+export interface ApplyDrawFundingResult {
+  data: DrawDashboardData;
+  unallocated: AppliedDrawFunding[]; // funding that didn't match a unit summary row
+}
+
+export function applyDrawFunding(
+  data: DrawDashboardData,
+  approvals: AppliedDrawFunding[],
+): ApplyDrawFundingResult {
+  if (!approvals.length) return { data, unallocated: [] };
+
+  const unallocated: AppliedDrawFunding[] = [];
+  const totals: DrawTotals = { ...data.totals };
+  const unitSummary: UnitSummaryRow[] = data.unitSummary.map((u) => ({ ...u }));
+
+  for (const a of approvals) {
+    const amt = Number(a.amount) || 0;
+    if (!amt) continue;
+    totals.totalPaidFromDraws += amt;
+    totals.netFundingPosition += amt;
+    const match = a.unit
+      ? unitSummary.find((u) => u.unit.trim().toLowerCase() === a.unit.trim().toLowerCase())
+      : undefined;
+    if (match) {
+      match.drawsApplied += amt;
+      match.fundingPosition += amt;
+    } else {
+      unallocated.push(a);
+    }
+  }
+
+  const warnings = [...data.warnings];
+  if (unallocated.length) {
+    warnings.push(
+      `${unallocated.length} locally-applied draw funding approval${unallocated.length === 1 ? '' : 's'} could not be matched to a unit — applied to overall totals only. Sync the tracker sheet to allocate.`,
+    );
+  }
+  warnings.push(
+    `${approvals.length} draw funding approval${approvals.length === 1 ? '' : 's'} applied in dashboard view only — pending tracker sync.`,
+  );
+
+  return {
+    data: { ...data, totals, unitSummary, warnings },
+    unallocated,
+  };
+}
+
