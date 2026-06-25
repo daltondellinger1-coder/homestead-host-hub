@@ -321,6 +321,16 @@ export function isDrawFundingCandidate(item: IncomingItem): boolean {
   return false;
 }
 
+// A funding candidate is "reconciled" once the source-of-truth tracker sheet
+// has folded the draw deposit into its top-of-sheet totals. The Google Sheet
+// owner flips a marker (duplicateCheck / notes / paidStatus) to signal that,
+// so the dashboard stops double-counting the candidate on top of base totals.
+const RECONCILED_RE = /reconciled|in[\s_-]*tracker|in[\s_-]*sheet|sheet[\s_-]*updated|already[\s_-]*in[\s_-]*totals|tracker[\s_-]*synced/i;
+export function isFundingCandidateReconciled(item: IncomingItem): boolean {
+  const hay = [item.duplicateCheck, item.notes, item.paidStatus].filter(Boolean).join(' \n ');
+  return RECONCILED_RE.test(hay);
+}
+
 export function statusLabel(s: IncomingStatus): string {
   switch (s) {
     case 'invoice-received': return 'Invoice received';

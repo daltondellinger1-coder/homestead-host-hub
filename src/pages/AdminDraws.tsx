@@ -24,6 +24,7 @@ import {
   statusTone,
   actionLabel,
   isDrawFundingCandidate,
+  isFundingCandidateReconciled,
   type IncomingItem,
   type IncomingStatus,
   type IncomingRecommendedAction,
@@ -314,27 +315,28 @@ function IncomingCard({ item }: { item: IncomingItem }) {
   );
 }
 
-const FUNDING_STORAGE_KEY = 'hh.draws.appliedFunding.v1';
+// Acknowledged candidate IDs are hidden from the funding-confirmation card list
+// but STILL count in the dashboard math — funding totals always come from
+// (base sheet totals) + (non-reconciled draw funding candidates). Acknowledge
+// is a UI-only "I've seen this" toggle, never a math gate.
+const ACK_STORAGE_KEY = 'hh.draws.acknowledgedFunding.v1';
 
-function loadAppliedFunding(): AppliedDrawFunding[] {
+function loadAcknowledged(): string[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = window.localStorage.getItem(FUNDING_STORAGE_KEY);
+    const raw = window.localStorage.getItem(ACK_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((x) => x && x.sourceId) : [];
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === 'string') : [];
   } catch {
     return [];
   }
 }
-
-function saveAppliedFunding(items: AppliedDrawFunding[]) {
+function saveAcknowledged(ids: string[]) {
   if (typeof window === 'undefined') return;
   try {
-    window.localStorage.setItem(FUNDING_STORAGE_KEY, JSON.stringify(items));
-  } catch {
-    /* ignore quota errors */
-  }
+    window.localStorage.setItem(ACK_STORAGE_KEY, JSON.stringify(ids));
+  } catch { /* ignore quota errors */ }
 }
 
 export default function AdminDraws() {
@@ -344,11 +346,11 @@ export default function AdminDraws() {
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [appliedFunding, setAppliedFunding] = useState<AppliedDrawFunding[]>(() => loadAppliedFunding());
+  const [acknowledgedIds, setAcknowledgedIds] = useState<string[]>(() => loadAcknowledged());
 
   useEffect(() => {
-    saveAppliedFunding(appliedFunding);
-  }, [appliedFunding]);
+    saveAcknowledged(acknowledgedIds);
+  }, [acknowledgedIds]);
 
   const load = async () => {
     setLoading(true);
@@ -370,49 +372,56 @@ export default function AdminDraws() {
     load();
   }, []);
 
-  // Apply locally-approved draw funding to dashboard math (optimistic).
+  // Non-reconciled lender draw funding candidates are auto-included in the
+  // displayed dashboard math (Paid From Draws + Funding Gap). No click needed.
+  // Once the source sheet marks them reconciled (duplicateCheck/notes), they
+  // drop out automatically so totals don't double-count.
+  const autoFunding: AppliedDrawFunding[] = useMemo(() => {
+    return incoming
+      .filter((it) => isDrawFundingCandidate(it) && !isFundingCandidateReconciled(it))
+      .map((it) => ({
+        sourceId: it.sourceId,
+        amount: it.amount,
+        unit: it.unit,
+        vendor: it.vendor,
+        appliedAt: 'auto',
+      }));
+  }, [incoming]);
+
   const applyResult = useMemo(
-    () => (rawData ? applyDrawFunding(rawData, appliedFunding) : null),
-    [rawData, appliedFunding],
+    () => (rawData ? applyDrawFunding(rawData, autoFunding) : null),
+    [rawData, autoFunding],
   );
   const data = applyResult?.data ?? null;
   const totals = data?.totals;
   const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
 
-  const appliedIds = useMemo(() => new Set(appliedFunding.map((a) => a.sourceId)), [appliedFunding]);
   const fundingCandidates = useMemo(
-    () => incoming.filter((it) => isDrawFundingCandidate(it) && !appliedIds.has(it.sourceId)),
-    [incoming, appliedIds],
+    () => incoming.filter((it) => isDrawFundingCandidate(it)),
+    [incoming],
   );
   const fundingCandidateIds = useMemo(
     () => new Set(fundingCandidates.map((it) => it.sourceId)),
     [fundingCandidates],
   );
-  // Generic review queue excludes draw-funding candidates AND already-applied funding.
+  const ackSet = useMemo(() => new Set(acknowledgedIds), [acknowledgedIds]);
+  const visibleFundingCandidates = useMemo(
+    () => fundingCandidates.filter((it) => !ackSet.has(it.sourceId)),
+    [fundingCandidates, ackSet],
+  );
+  // Generic vendor review queue excludes draw-funding candidates entirely.
   const reviewQueue = useMemo(
-    () => incoming.filter((it) => !fundingCandidateIds.has(it.sourceId) && !appliedIds.has(it.sourceId)),
-    [incoming, fundingCandidateIds, appliedIds],
+    () => incoming.filter((it) => !fundingCandidateIds.has(it.sourceId)),
+    [incoming, fundingCandidateIds],
   );
 
-  const approveFunding = (item: IncomingItem) => {
-    setAppliedFunding((prev) => {
-      if (prev.some((a) => a.sourceId === item.sourceId)) return prev;
-      return [
-        ...prev,
-        {
-          sourceId: item.sourceId,
-          amount: item.amount,
-          unit: item.unit,
-          vendor: item.vendor,
-          appliedAt: new Date().toISOString(),
-        },
-      ];
-    });
+  const acknowledge = (sourceId: string) => {
+    setAcknowledgedIds((prev) => (prev.includes(sourceId) ? prev : [...prev, sourceId]));
   };
-  const undoFunding = (sourceId: string) => {
-    setAppliedFunding((prev) => prev.filter((a) => a.sourceId !== sourceId));
+  const unacknowledge = (sourceId: string) => {
+    setAcknowledgedIds((prev) => prev.filter((id) => id !== sourceId));
   };
-  const resetAllFunding = () => setAppliedFunding([]);
+  const resetAcknowledged = () => setAcknowledgedIds([]);
 
   const unitOptions = useMemo(() => {
     if (!data) return [];
@@ -708,25 +717,39 @@ export default function AdminDraws() {
           </section>
         )}
 
-        {data && (fundingCandidates.length > 0 || appliedFunding.length > 0) && (
+        {data && fundingCandidates.length > 0 && (
           <section className="space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <h2 className="font-heading text-base flex items-center gap-2">
                 <Banknote className="h-4 w-4 text-emerald-400" /> Funded draw confirmations
               </h2>
               <span className="text-[11px] font-body text-muted-foreground">
-                {fundingCandidates.length} pending · {appliedFunding.length} applied locally
+                {fundingCandidates.length} confirmed · {ackSet.size} acknowledged
               </span>
             </div>
-            <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground">
-              Lender draw funding (deposits to the project account) can update dashboard funding math after approval.
-              Vendor receipts/invoices stay support-only and are <span className="text-foreground font-semibold">not</span>
-              {' '}marked paid by this action. Applied here = <span className="text-foreground font-semibold">applied in dashboard view / pending tracker sync</span>.
+            <div className="glass-card rounded-xl p-3 text-[11px] font-body text-muted-foreground space-y-1">
+              <div>
+                <span className="text-emerald-300 font-semibold">Included in dashboard funding math from lender funding confirmation.</span>
+                {' '}Paid From Draws and Funding Gap above already reflect these deposits — no click required.
+              </div>
+              <div>
+                Vendor receipts/invoices stay <span className="text-foreground font-semibold">support-only</span> and are
+                <span className="text-foreground font-semibold"> not</span> marked paid by these confirmations.
+                Items drop out of this list automatically once the tracker sheet marks them reconciled.
+              </div>
             </div>
 
-            {fundingCandidates.length > 0 && (
+            {applyResult && applyResult.unallocated.length > 0 && (
+              <div className="glass-card rounded-xl p-3 border border-amber-500/40 text-[11px] font-body text-amber-300">
+                {applyResult.unallocated.length} confirmation{applyResult.unallocated.length === 1 ? '' : 's'} could not
+                be matched to a single unit (e.g., multi-unit draws like “Common/Exteriors + Unit 12”). Applied to
+                overall totals only — unit allocation needs tracker sync.
+              </div>
+            )}
+
+            {visibleFundingCandidates.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {fundingCandidates.map((it) => (
+                {visibleFundingCandidates.map((it) => (
                   <div key={it.sourceId} className="glass-card rounded-xl p-3 space-y-2 border border-emerald-500/30">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
@@ -737,8 +760,13 @@ export default function AdminDraws() {
                           {it.sourceType} · {it.date || 'no date'} · {it.sourceId || 'no id'}
                         </div>
                       </div>
-                      <div className="font-heading text-base text-emerald-400">
-                        {formatCurrency(it.amount)}
+                      <div className="text-right">
+                        <div className="font-heading text-base text-emerald-400">
+                          {formatCurrency(it.amount)}
+                        </div>
+                        <div className="text-[10px] uppercase tracking-wide text-emerald-300/80 font-body">
+                          In totals
+                        </div>
                       </div>
                     </div>
                     {it.notes && (
@@ -753,50 +781,50 @@ export default function AdminDraws() {
                     )}
                     <button
                       type="button"
-                      onClick={() => approveFunding(it)}
-                      className="w-full text-xs font-body px-3 py-2 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/25 transition-colors"
+                      onClick={() => acknowledge(it.sourceId)}
+                      className="w-full text-xs font-body px-3 py-2 rounded-md bg-muted/20 text-muted-foreground border border-border/40 hover:bg-muted/30 hover:text-foreground transition-colors"
                     >
-                      Apply funding to dashboard math
+                      Acknowledge / hide
                     </button>
                     <div className="text-[10px] text-muted-foreground font-body text-center">
-                      Optimistic / local only · pending tracker sheet sync
+                      Hiding only removes the card — totals stay updated until the tracker marks it reconciled.
                     </div>
                   </div>
                 ))}
               </div>
             )}
 
-            {appliedFunding.length > 0 && (
+            {ackSet.size > 0 && (
               <div className="glass-card rounded-xl p-3 space-y-2 border border-secondary/30">
                 <div className="flex items-center justify-between gap-2">
                   <div className="text-xs font-heading text-foreground">
-                    Locally applied ({appliedFunding.length}) — pending tracker sync
+                    Acknowledged ({ackSet.size}) — still counted in totals
                   </div>
                   <button
                     type="button"
-                    onClick={resetAllFunding}
+                    onClick={resetAcknowledged}
                     className="text-[10px] uppercase tracking-wide text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                   >
-                    <Undo2 className="h-3 w-3" /> Reset all
+                    <Undo2 className="h-3 w-3" /> Show all
                   </button>
                 </div>
                 <ul className="space-y-1.5">
-                  {appliedFunding.map((a) => (
-                    <li key={a.sourceId} className="flex items-center justify-between gap-2 text-xs font-body">
+                  {fundingCandidates.filter((it) => ackSet.has(it.sourceId)).map((it) => (
+                    <li key={it.sourceId} className="flex items-center justify-between gap-2 text-xs font-body">
                       <div className="min-w-0">
                         <div className="truncate text-foreground">
-                          {formatCurrency(a.amount)} · {a.unit || 'Overall'}
+                          {formatCurrency(it.amount)} · {it.unit || 'Overall'}
                         </div>
                         <div className="text-[10px] text-muted-foreground truncate">
-                          {a.vendor || a.sourceId} · applied {new Date(a.appliedAt).toLocaleString()}
+                          {it.vendor || it.sourceId}
                         </div>
                       </div>
                       <button
                         type="button"
-                        onClick={() => undoFunding(a.sourceId)}
-                        className="text-[10px] uppercase tracking-wide text-muted-foreground hover:text-red-400 inline-flex items-center gap-1 whitespace-nowrap"
+                        onClick={() => unacknowledge(it.sourceId)}
+                        className="text-[10px] uppercase tracking-wide text-muted-foreground hover:text-foreground inline-flex items-center gap-1 whitespace-nowrap"
                       >
-                        <Undo2 className="h-3 w-3" /> Undo
+                        <Undo2 className="h-3 w-3" /> Unhide
                       </button>
                     </li>
                   ))}
@@ -804,6 +832,7 @@ export default function AdminDraws() {
               </div>
             )}
           </section>
+
         )}
 
         {data && (
