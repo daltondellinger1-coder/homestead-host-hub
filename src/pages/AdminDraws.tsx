@@ -107,14 +107,6 @@ function unitLedgerRows(ledger: LedgerRow[], unit: string): LedgerRow[] {
   return ledger.filter((r) => r.unit.trim().toLowerCase() === unit.trim().toLowerCase());
 }
 
-function unitReconciles(u: UnitSummaryRow, rows: LedgerRow[]): boolean {
-  const sumActual = rows.reduce((s, r) => s + r.actual, 0);
-  const sumOpen = rows.reduce((s, r) => s + r.openCommitted, 0);
-  return (
-    Math.abs(sumActual - u.actual) <= RECONCILE_TOLERANCE &&
-    Math.abs(sumOpen - u.openCommitted) <= RECONCILE_TOLERANCE
-  );
-}
 
 type RowKind = 'actual' | 'open' | 'budget';
 
