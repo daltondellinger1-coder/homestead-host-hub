@@ -192,18 +192,27 @@ export function parseIncomingItems(csv: string, opts: ParseIncomingOptions = {})
   if (rows.length < 2) return [];
 
   // Positive identification — defends against GViz silently returning the
-  // default sheet when the "Incoming Review" tab is missing.
+  // default sheet when the "Incoming Review" tab is missing. The live sheet
+  // sometimes glues the marker into the first header cell (e.g.
+  // "HH_INCOMING_REVIEW_V1 sourceId"), so we accept substring matches too.
   const topRows = rows.slice(0, 5);
   const flatTop = topRows.flat().map((c) => (c ?? '').trim());
-  const hasMarker = flatTop.some((c) => c.toLowerCase() === INCOMING_MARKER.toLowerCase());
+  const markerLc = INCOMING_MARKER.toLowerCase();
+  const hasMarker = flatTop.some((c) => c.toLowerCase().includes(markerLc));
   const hasTitle = flatTop.some((c) => /incoming\s+review/i.test(c));
 
   // Find header row — first row containing 'vendor' or 'sourceid'/'order'
-  const headerIdx = rows.findIndex((r) =>
+  const rawHeaderIdx = rows.findIndex((r) =>
     r.some((c) => /vendor|source\s*id|order\s*id/i.test(c)),
   );
-  if (headerIdx < 0) return [];
-  const headers = rows[headerIdx];
+  if (rawHeaderIdx < 0) return [];
+  // Strip any leading marker token from header cells so "HH_INCOMING_REVIEW_V1 sourceId"
+  // is treated as "sourceId" for both exact and fuzzy header lookup.
+  const stripMarker = (c: string) =>
+    c.replace(new RegExp(INCOMING_MARKER, 'ig'), '').trim();
+  const headers = rows[rawHeaderIdx].map((c) => stripMarker(c ?? ''));
+  const headerIdx = rawHeaderIdx;
+
 
   const col = {
     sourceId: headerIndex(headers, 'sourceId', 'source id', 'orderId', 'order id', 'order #'),
