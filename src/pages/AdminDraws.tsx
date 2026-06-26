@@ -1019,6 +1019,10 @@ export default function AdminDraws() {
           </section>
         )}
 
+        {drawLedger && <DrawLedgerSection ledger={drawLedger} />}
+
+
+
         {totals && (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
