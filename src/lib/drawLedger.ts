@@ -118,21 +118,32 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
 
   // Positive marker check — accept either the v1 draw ledger marker or the
   // current incoming-review marker (we map it to the same shape below).
+  // The live sheet sometimes glues the marker into the first header cell
+  // (e.g. "HH_INCOMING_REVIEW_V1 sourceId"), so use substring matching.
   const topFlat = rows.slice(0, 5).flat().map((c) => (c ?? '').trim());
-  const hasV1Marker = topFlat.some((c) => c.toLowerCase() === DRAW_LEDGER_MARKER.toLowerCase());
-  const hasIncomingMarker = topFlat.some(
-    (c) => c.toLowerCase() === 'hh_incoming_review_v1',
-  );
+  const v1Lc = DRAW_LEDGER_MARKER.toLowerCase();
+  const incLc = 'hh_incoming_review_v1';
+  const hasV1Marker = topFlat.some((c) => c.toLowerCase().includes(v1Lc));
+  const hasIncomingMarker = topFlat.some((c) => c.toLowerCase().includes(incLc));
 
   // Header row: v1 has ledgerId + vendorPayee; incoming-review has sourceId + vendor.
-  const headerIdx = rows.findIndex(
+  const rawHeaderIdx = rows.findIndex(
     (r) =>
       (r.some((c) => /ledger\s*id/i.test(c)) && r.some((c) => /vendor\s*payee/i.test(c))) ||
-      (r.some((c) => /^source\s*id$/i.test(c)) && r.some((c) => /^vendor$/i.test(c))),
+      (r.some((c) => /source\s*id/i.test(c)) && r.some((c) => /^vendor$/i.test(c?.replace(new RegExp(DRAW_LEDGER_MARKER, 'ig'), '').replace(/hh_incoming_review_v1/ig, '').trim() ?? ''))),
   );
-  if ((!hasV1Marker && !hasIncomingMarker) || headerIdx < 0) return empty();
+  if ((!hasV1Marker && !hasIncomingMarker) || rawHeaderIdx < 0) return empty();
 
-  const headers = rows[headerIdx];
+  // Strip marker tokens from header cells so "HH_INCOMING_REVIEW_V1 sourceId"
+  // is treated as "sourceId" by both exact and normalized header lookups.
+  const stripMarker = (c: string) =>
+    c
+      .replace(new RegExp(DRAW_LEDGER_MARKER, 'ig'), '')
+      .replace(/hh_incoming_review_v1/ig, '')
+      .trim();
+  const headers = rows[rawHeaderIdx].map((c) => stripMarker(c ?? ''));
+  const headerIdx = rawHeaderIdx;
+
   const isIncomingSchema =
     hasIncomingMarker ||
     (headerIndex(headers, 'sourceId') >= 0 && headerIndex(headers, 'ledgerId') < 0);
