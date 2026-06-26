@@ -865,22 +865,36 @@ export default function AdminDraws() {
             </div>
 
             {/* Headline: lead with draw readiness + funding gap */}
-            <div className="rounded-lg bg-muted/10 border border-secondary/20 p-3 space-y-1">
-              <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Top story</div>
-              <div className="font-heading text-lg sm:text-xl leading-snug">
-                <span className={summary.drawReadyAmount > 0 ? 'text-emerald-400' : 'text-amber-400'}>
-                  Only {formatCurrency(summary.drawReadyAmount)} is draw-ready.
-                </span>{' '}
-                <span className={netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}>
-                  {netNeedsFunding
-                    ? `${formatCurrency(Math.abs(summary.fundingGap))} funding gap remains.`
-                    : `${formatCurrency(summary.fundingGap)} funding surplus.`}
-                </span>
-              </div>
-              <div className="text-[11px] text-muted-foreground">
-                Draw-ready = receipt-backed actuals with evidence linked, minus what's already drawn.
-              </div>
-            </div>
+            {(() => {
+              const useLedger = !!drawLedger && drawLedger.rows.length > 0;
+              const readyAmt = useLedger
+                ? drawLedger!.buckets['ready-to-submit'].amount
+                : summary.drawReadyAmount;
+              const readyCount = useLedger
+                ? drawLedger!.buckets['ready-to-submit'].count
+                : summary.drawReadyCount;
+              const nothingReady = readyAmt <= 0;
+              return (
+                <div className="rounded-lg bg-muted/10 border border-secondary/20 p-3 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Top story</div>
+                  <div className="font-heading text-lg sm:text-xl leading-snug">
+                    <span className={nothingReady ? 'text-amber-400' : 'text-emerald-400'}>
+                      {nothingReady
+                        ? `$0 draw-ready — nothing receipt-backed is currently unsubmitted.`
+                        : `${formatCurrency(readyAmt)} is draw-ready (${readyCount} item${readyCount === 1 ? '' : 's'}).`}
+                    </span>{' '}
+                    <span className={netNeedsFunding ? 'text-red-400' : 'text-emerald-400'}>
+                      {netNeedsFunding
+                        ? `${formatCurrency(Math.abs(summary.fundingGap))} funding gap remains.`
+                        : `${formatCurrency(summary.fundingGap)} funding surplus.`}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-muted-foreground">
+                    Draw-ready = receipt/invoice/check-backed <span className="text-foreground font-medium">AND</span> not already submitted to Derek. Submitted rows are excluded to avoid duplicate draw requests.
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Compact mobile-first status strip */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs font-body">
