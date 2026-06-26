@@ -1,0 +1,83 @@
+import { describe, expect, it } from 'vitest';
+import {
+  parseDrawLedger,
+  classifyDrawLedgerRow,
+  bucketLabel,
+  DRAW_LEDGER_MARKER,
+} from './drawLedger';
+
+const HEADERS = [
+  'ledgerId','property','unitArea','vendorPayee','docType','docDate','amount',
+  'scopeCategory','sourceLink','sourceEvidence','drawStatus','readyForDraw',
+  'submittedToDerek','drawRequest','submittedDate','grossSubmittedAmount',
+  'expectedFundedAmount','fundedAmount','fundedDate','duplicateRule','notes',
+  'sourceCostTrackerId',
+].join(',');
+
+const CSV = `"${DRAW_LEDGER_MARKER}","","","","","","","","","","","","","","","","","","","","",""
+${HEADERS}
+"L-1","HH","Unit 7","Lowe's","receipt","2026-06-01","412.55","Interior","https://x/1","linked","actual","TRUE","FALSE","","","","","","","","Receipt-backed and unsubmitted",""
+"L-2","HH","Unit 14","Acme","invoice","2026-06-02","1500","Exterior","https://x/2","linked","actual","TRUE","TRUE","DR-1","2026-06-10","1500","1500","","","","Submitted, awaiting funding",""
+"L-3","HH","Unit 12","Bank","draw","2026-05-15","5000","Funding","","","funded","TRUE","TRUE","DR-0","2026-05-20","5000","5000","5000","2026-05-25","","",""
+"L-4","HH","Unit 7","Tim Kirk","quote","2026-06-01","4600","Interior","","","open-committed","FALSE","FALSE","","","","","","","","Quote only — not ready",""
+"L-5","HH","Laundry","Kayton/Jones","quote","2026-06-01","4130","Laundry","","","open-committed","FALSE","FALSE","","","","","","","","Quote only",""
+"L-6","HH","Unit 3","Menards","receipt","2026-06-03","800","Interior","https://x/6","linked","actual","TRUE","TRUE","DR-2","2026-06-15","800","800","VERIFY","","","Funded amount needs verification",""
+`;
+
+describe('parseDrawLedger', () => {
+  const s = parseDrawLedger(CSV, '2026-06-26T00:00:00.000Z');
+
+  it('parses all rows when marker present', () => {
+    expect(s.rows.length).toBe(6);
+  });
+
+  it('classifies ready-to-submit (readyForDraw && !submittedToDerek)', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'L-1')!;
+    expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
+    expect(s.buckets['ready-to-submit'].count).toBe(1);
+    expect(s.buckets['ready-to-submit'].amount).toBeCloseTo(412.55, 2);
+  });
+
+  it('classifies submitted-to-derek (submitted && not funded && not VERIFY)', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'L-2')!;
+    expect(classifyDrawLedgerRow(r)).toBe('submitted-to-derek');
+    expect(s.buckets['submitted-to-derek'].count).toBe(1);
+  });
+
+  it('classifies funded when fundedAmount is numeric > 0', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'L-3')!;
+    expect(classifyDrawLedgerRow(r)).toBe('funded');
+    expect(s.buckets.funded.amount).toBeCloseTo(5000, 2);
+  });
+
+  it('treats quotes / open commitments as needs-proof', () => {
+    const tim = s.rows.find((x) => x.ledgerId === 'L-4')!;
+    const kj = s.rows.find((x) => x.ledgerId === 'L-5')!;
+    expect(classifyDrawLedgerRow(tim)).toBe('needs-proof');
+    expect(classifyDrawLedgerRow(kj)).toBe('needs-proof');
+    expect(s.buckets['needs-proof'].count).toBe(2);
+  });
+
+  it('flags fundedAmount=VERIFY separately with warning', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'L-6')!;
+    expect(r.fundedAmountVerify).toBe(true);
+    expect(classifyDrawLedgerRow(r)).toBe('needs-funded-verification');
+    expect(s.buckets['needs-funded-verification'].count).toBe(1);
+    expect(s.warnings.some((w) => /VERIFY/.test(w))).toBe(true);
+  });
+
+  it('returns empty summary when marker missing (no GViz fallback contamination)', () => {
+    const noMarker = CSV.split('\n').slice(1).join('\n');
+    const out = parseDrawLedger(noMarker);
+    expect(out.rows.length).toBe(0);
+    expect(out.buckets['ready-to-submit'].count).toBe(0);
+  });
+
+  it('bucketLabel returns human strings for every bucket', () => {
+    expect(bucketLabel('ready-to-submit')).toMatch(/ready/i);
+    expect(bucketLabel('submitted-to-derek')).toMatch(/do not resubmit/i);
+    expect(bucketLabel('funded')).toMatch(/funded/i);
+    expect(bucketLabel('needs-proof')).toMatch(/not ready/i);
+    expect(bucketLabel('needs-funded-verification')).toMatch(/verification/i);
+  });
+});
