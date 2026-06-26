@@ -703,6 +703,220 @@ function saveAcknowledged(ids: string[]) {
   } catch { /* ignore quota errors */ }
 }
 
+function DrawLedgerRowsTable({ rows, bucket }: { rows: DrawLedgerRow[]; bucket: DrawLedgerBucket }) {
+  if (rows.length === 0) {
+    return (
+      <div className="text-xs text-muted-foreground font-body italic px-1 py-2">
+        No rows in this bucket.
+      </div>
+    );
+  }
+  const showSubmitted = bucket === 'submitted-to-derek' || bucket === 'funded' || bucket === 'needs-funded-verification';
+  const showFunded = bucket === 'funded' || bucket === 'needs-funded-verification';
+  return (
+    <div className="overflow-x-auto -mx-1 sm:mx-0">
+      <table className="w-full text-xs font-body">
+        <thead className="text-[10px] uppercase text-muted-foreground">
+          <tr>
+            <th className="text-left p-2">Unit / Vendor</th>
+            <th className="text-left p-2 hidden md:table-cell">Scope</th>
+            <th className="text-right p-2">Amount</th>
+            {showSubmitted && <th className="text-right p-2 hidden sm:table-cell">Submitted</th>}
+            {showFunded && <th className="text-right p-2 hidden sm:table-cell">Funded</th>}
+            <th className="text-left p-2">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.ledgerId || `${r.vendorPayee}-${r.docDate}-${r.amount}`} className="border-t border-border/20 align-top">
+              <td className="p-2">
+                <div className="text-foreground">{r.unitArea || '—'}</div>
+                <div className="text-[10px] text-muted-foreground">{r.vendorPayee || r.docType}</div>
+              </td>
+              <td className="p-2 hidden md:table-cell text-muted-foreground truncate max-w-[200px]">
+                {r.scopeCategory || '—'}
+              </td>
+              <td className="p-2 text-right">{formatCurrency(r.amount)}</td>
+              {showSubmitted && (
+                <td className="p-2 text-right hidden sm:table-cell text-muted-foreground">
+                  {r.grossSubmittedAmount > 0 ? formatCurrency(r.grossSubmittedAmount) : '—'}
+                  {r.drawRequest && (
+                    <div className="text-[10px]">{r.drawRequest}</div>
+                  )}
+                </td>
+              )}
+              {showFunded && (
+                <td className="p-2 text-right hidden sm:table-cell">
+                  {r.fundedAmountVerify ? (
+                    <span className="text-amber-300">VERIFY</span>
+                  ) : r.fundedAmount > 0 ? (
+                    <span className="text-emerald-400">{formatCurrency(r.fundedAmount)}</span>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
+              )}
+              <td className="p-2">
+                {r.sourceLink && /^https?:\/\//.test(r.sourceLink) ? (
+                  <a
+                    href={r.sourceLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-secondary hover:underline"
+                  >
+                    Open <ExternalLink className="h-3 w-3" />
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground">{r.sourceEvidence || '—'}</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const BUCKET_TONE: Record<DrawLedgerBucket, string> = {
+  'ready-to-submit': 'text-emerald-400',
+  'submitted-to-derek': 'text-secondary',
+  funded: 'text-emerald-400',
+  'needs-proof': 'text-muted-foreground',
+  'needs-funded-verification': 'text-amber-300',
+};
+
+function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
+  const ready = ledger.rowsByBucket['ready-to-submit'];
+  const submitted = ledger.rowsByBucket['submitted-to-derek'];
+  const funded = ledger.rowsByBucket['funded'];
+  const needsProof = ledger.rowsByBucket['needs-proof'];
+  const needsVerify = ledger.rowsByBucket['needs-funded-verification'];
+
+  const noLedger = ledger.rows.length === 0;
+
+  return (
+    <section className="glass-card rounded-xl p-4 space-y-3 border border-secondary/30">
+      <div className="flex items-center gap-2 font-heading text-base">
+        <BadgeCheck className="h-4 w-4 text-secondary" /> Draw ledger
+      </div>
+      <div className="rounded-md bg-muted/10 border border-border/30 p-2.5 text-[11px] font-body text-muted-foreground">
+        Source: <span className="text-foreground">Incoming Review</span> tab (marker{' '}
+        <span className="font-mono text-foreground">HH_DRAW_LEDGER_V1</span>). Draw-ready means
+        receipt/invoice/check-backed <span className="text-foreground font-medium">AND</span> not
+        already submitted to Derek. Submitted rows are excluded to avoid duplicate draw requests.
+        Quotes / open commitments (e.g. Tim Kirk, Kayton-Jones Laundry) stay in{' '}
+        <span className="text-foreground">Not ready / needs proof</span>.
+      </div>
+
+      {noLedger ? (
+        <div className="rounded-md bg-muted/10 border border-border/30 p-4 text-sm font-body text-muted-foreground">
+          No draw ledger rows loaded. Add the <span className="text-foreground font-mono">{DRAW_LEDGER_MARKER}</span>{' '}
+          marker and the row-2 headers (ledgerId, property, unitArea, vendorPayee, …, fundedAmount, fundedDate, duplicateRule, notes, sourceCostTrackerId) to the <span className="text-foreground">Incoming Review</span> tab.
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 text-xs font-body">
+            {(Object.keys(ledger.buckets) as DrawLedgerBucket[]).map((b) => (
+              <div key={b} className="rounded-lg bg-muted/10 p-2.5">
+                <div className="text-[10px] uppercase text-muted-foreground">{bucketLabel(b)}</div>
+                <div className={`font-heading text-base ${BUCKET_TONE[b]}`}>
+                  {formatCurrency(ledger.buckets[b].amount)}
+                </div>
+                <div className="text-[10px] text-muted-foreground">
+                  {ledger.buckets[b].count} item{ledger.buckets[b].count === 1 ? '' : 's'}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {needsVerify.length > 0 && (
+            <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/30 p-2 text-[11px] text-amber-300 font-body">
+              <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <div>
+                {needsVerify.length} row{needsVerify.length === 1 ? '' : 's'} have{' '}
+                <span className="font-mono">fundedAmount=VERIFY</span> — confirm the lender deposit
+                before treating these as funded.
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <div className="flex items-baseline justify-between gap-2 px-1">
+                <h3 className="text-xs uppercase tracking-wide text-emerald-300/90 font-heading">
+                  Ready for next draw
+                </h3>
+                <span className="text-[11px] text-muted-foreground">
+                  {ready.length === 0
+                    ? 'Nothing receipt-backed is currently unsubmitted.'
+                    : `${formatCurrency(ledger.buckets['ready-to-submit'].amount)} · ${ready.length} item${ready.length === 1 ? '' : 's'}`}
+                </span>
+              </div>
+              <DrawLedgerRowsTable rows={ready} bucket="ready-to-submit" />
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-baseline justify-between gap-2 px-1">
+                <h3 className="text-xs uppercase tracking-wide text-secondary font-heading">
+                  Submitted to Derek — do not resubmit
+                </h3>
+                <span className="text-[11px] text-muted-foreground">
+                  {formatCurrency(ledger.buckets['submitted-to-derek'].amount)} · {submitted.length} item{submitted.length === 1 ? '' : 's'}
+                </span>
+              </div>
+              <DrawLedgerRowsTable rows={submitted} bucket="submitted-to-derek" />
+            </div>
+
+            {funded.length > 0 && (
+              <div className="space-y-1">
+                <div className="flex items-baseline justify-between gap-2 px-1">
+                  <h3 className="text-xs uppercase tracking-wide text-emerald-300/90 font-heading">
+                    Funded / reimbursed
+                  </h3>
+                  <span className="text-[11px] text-muted-foreground">
+                    {formatCurrency(ledger.buckets['funded'].amount)} · {funded.length} item{funded.length === 1 ? '' : 's'} · excludes VERIFY rows
+                  </span>
+                </div>
+                <DrawLedgerRowsTable rows={funded} bucket="funded" />
+              </div>
+            )}
+
+            <div className="space-y-1">
+              <div className="flex items-baseline justify-between gap-2 px-1">
+                <h3 className="text-xs uppercase tracking-wide text-muted-foreground font-heading">
+                  Not ready / needs proof
+                </h3>
+                <span className="text-[11px] text-muted-foreground">
+                  {formatCurrency(ledger.buckets['needs-proof'].amount)} · {needsProof.length} item{needsProof.length === 1 ? '' : 's'}
+                </span>
+              </div>
+              <div className="text-[11px] text-muted-foreground font-body px-1">
+                Includes quotes and open commitments — these stay out of draw-ready totals.
+              </div>
+              <DrawLedgerRowsTable rows={needsProof} bucket="needs-proof" />
+            </div>
+
+            {needsVerify.length > 0 && (
+              <div className="space-y-1">
+                <div className="flex items-baseline justify-between gap-2 px-1">
+                  <h3 className="text-xs uppercase tracking-wide text-amber-300/90 font-heading">
+                    Needs funded-amount verification
+                  </h3>
+                  <span className="text-[11px] text-muted-foreground">
+                    {needsVerify.length} item{needsVerify.length === 1 ? '' : 's'} flagged VERIFY
+                  </span>
+                </div>
+                <DrawLedgerRowsTable rows={needsVerify} bucket="needs-funded-verification" />
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
 export default function AdminDraws() {
   const [rawData, setRawData] = useState<DrawDashboardData | null>(null);
   const [incoming, setIncoming] = useState<IncomingItem[]>([]);
