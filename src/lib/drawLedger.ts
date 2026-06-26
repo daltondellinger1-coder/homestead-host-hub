@@ -130,8 +130,9 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
   const rawHeaderIdx = rows.findIndex(
     (r) =>
       (r.some((c) => /ledger\s*id/i.test(c)) && r.some((c) => /vendor\s*payee/i.test(c))) ||
-      (r.some((c) => /source\s*id/i.test(c)) && r.some((c) => /^vendor$/i.test(c?.replace(new RegExp(DRAW_LEDGER_MARKER, 'ig'), '').replace(/hh_incoming_review_v1/ig, '').trim() ?? ''))),
+      (r.some((c) => /source\s*id/i.test(c)) && r.some((c) => /vendor/i.test(c) && !/vendor\s*payee/i.test(c))),
   );
+
   if ((!hasV1Marker && !hasIncomingMarker) || rawHeaderIdx < 0) return empty();
 
   // Strip marker tokens from header cells so "HH_INCOMING_REVIEW_V1 sourceId"
