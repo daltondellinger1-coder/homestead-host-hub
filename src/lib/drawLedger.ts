@@ -116,28 +116,62 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
   const rows = parseCsv(csv);
   if (rows.length < 2) return empty();
 
-  // Positive marker check — defends against GViz returning the wrong tab.
+  // Positive marker check — accept either the v1 draw ledger marker or the
+  // current incoming-review marker (we map it to the same shape below).
   const topFlat = rows.slice(0, 5).flat().map((c) => (c ?? '').trim());
-  const hasMarker = topFlat.some((c) => c.toLowerCase() === DRAW_LEDGER_MARKER.toLowerCase());
-  // Find header row containing ledgerId
-  const headerIdx = rows.findIndex((r) =>
-    r.some((c) => /ledger\s*id/i.test(c)) && r.some((c) => /vendor\s*payee/i.test(c)),
+  const hasV1Marker = topFlat.some((c) => c.toLowerCase() === DRAW_LEDGER_MARKER.toLowerCase());
+  const hasIncomingMarker = topFlat.some(
+    (c) => c.toLowerCase() === 'hh_incoming_review_v1',
   );
-  if (!hasMarker || headerIdx < 0) return empty();
+
+  // Header row: v1 has ledgerId + vendorPayee; incoming-review has sourceId + vendor.
+  const headerIdx = rows.findIndex(
+    (r) =>
+      (r.some((c) => /ledger\s*id/i.test(c)) && r.some((c) => /vendor\s*payee/i.test(c))) ||
+      (r.some((c) => /^source\s*id$/i.test(c)) && r.some((c) => /^vendor$/i.test(c))),
+  );
+  if ((!hasV1Marker && !hasIncomingMarker) || headerIdx < 0) return empty();
 
   const headers = rows[headerIdx];
+  const isIncomingSchema =
+    hasIncomingMarker ||
+    (headerIndex(headers, 'sourceId') >= 0 && headerIndex(headers, 'ledgerId') < 0);
+
+  // Find ALL columns with a given header name (incoming-review has two "notes" cols).
+  const headerIndexes = (...candidates: string[]): number[] => {
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const wanted = new Set(candidates.map(norm));
+    const out: number[] = [];
+    headers.forEach((h, i) => {
+      if (wanted.has(norm(h))) out.push(i);
+    });
+    return out;
+  };
+  const notesIdxs = headerIndexes('notes');
+
   const col = {
-    ledgerId: headerIndex(headers, 'ledgerId'),
+    // Accept ledgerId or sourceId as the row identifier.
+    ledgerId: isIncomingSchema
+      ? headerIndex(headers, 'sourceId', 'source id')
+      : headerIndex(headers, 'ledgerId'),
     property: headerIndex(headers, 'property'),
     unitArea: headerIndex(headers, 'unitArea', 'unit area', 'unit'),
-    vendorPayee: headerIndex(headers, 'vendorPayee', 'vendor payee', 'vendor'),
-    docType: headerIndex(headers, 'docType', 'doc type'),
+    vendorPayee: headerIndex(headers, 'vendorPayee', 'vendor payee', 'vendor', 'payee'),
+    docType: headerIndex(headers, 'docType', 'doc type', 'sourceType', 'source type'),
     docDate: headerIndex(headers, 'docDate', 'doc date', 'date'),
     amount: headerIndex(headers, 'amount'),
     scopeCategory: headerIndex(headers, 'scopeCategory', 'scope category', 'category'),
-    sourceLink: headerIndex(headers, 'sourceLink', 'source link'),
-    sourceEvidence: headerIndex(headers, 'sourceEvidence', 'source evidence', 'evidence'),
-    drawStatus: headerIndex(headers, 'drawStatus', 'draw status', 'status'),
+    // Incoming-review: sourceLink ← evidenceUrl, sourceEvidence ← evidenceStatus.
+    sourceLink: isIncomingSchema
+      ? headerIndex(headers, 'evidenceUrl', 'evidence url', 'sourceLink', 'source link')
+      : headerIndex(headers, 'sourceLink', 'source link'),
+    sourceEvidence: isIncomingSchema
+      ? headerIndex(headers, 'evidenceStatus', 'evidence status', 'evidence')
+      : headerIndex(headers, 'sourceEvidence', 'source evidence', 'evidence'),
+    // drawStatus derived from paidStatus on incoming-review (combined with action below).
+    drawStatus: isIncomingSchema
+      ? headerIndex(headers, 'paidStatus', 'paid status', 'drawStatus', 'status')
+      : headerIndex(headers, 'drawStatus', 'draw status', 'status'),
     readyForDraw: headerIndex(headers, 'readyForDraw', 'ready for draw'),
     submittedToDerek: headerIndex(headers, 'submittedToDerek', 'submitted to derek'),
     drawRequest: headerIndex(headers, 'drawRequest', 'draw request'),
@@ -147,8 +181,11 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
     fundedAmount: headerIndex(headers, 'fundedAmount', 'funded amount'),
     fundedDate: headerIndex(headers, 'fundedDate', 'funded date'),
     duplicateRule: headerIndex(headers, 'duplicateRule', 'duplicate rule'),
-    notes: headerIndex(headers, 'notes'),
+    notes: notesIdxs[0] ?? -1,
     sourceCostTrackerId: headerIndex(headers, 'sourceCostTrackerId', 'source cost tracker id'),
+    // Incoming-review-only inputs used to synthesize ready/submitted flags.
+    duplicateCheck: headerIndex(headers, 'duplicateCheck', 'duplicate check'),
+    recommendedAction: headerIndex(headers, 'recommendedAction', 'recommended action', 'action'),
   };
 
   const result = empty();
@@ -166,9 +203,43 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
     const fundedAmountVerify = isVerifyToken(fundedAmountRaw);
     const fundedAmount = fundedAmountVerify ? 0 : parseMoney(fundedAmountRaw);
 
+    let readyForDraw = parseBool(r[col.readyForDraw]);
+    let submittedToDerek = parseBool(r[col.submittedToDerek]);
+    const duplicateRule = get(col.duplicateRule);
+    const recommendedAction = get(col.recommendedAction);
+    const duplicateCheck = get(col.duplicateCheck);
+
+    if (isIncomingSchema) {
+      const dupBlob = `${duplicateCheck} ${duplicateRule}`.toLowerCase();
+      const actionBlob = recommendedAction.toLowerCase();
+      const submittedSignal =
+        /already[_\s-]*in[_\s-]*tracker|do[_\s-]*not[_\s-]*submit[_\s-]*again|covered[_\s-]*by[_\s-]*draw/.test(
+          dupBlob,
+        );
+      const readySignal =
+        /new[_\s-]*draw[_\s-]*candidate/.test(dupBlob) ||
+        /add to next draw|include receipt|approve to tracker/.test(actionBlob);
+      if (!submittedToDerek && submittedSignal) submittedToDerek = true;
+      if (!readyForDraw && readySignal && !submittedToDerek) readyForDraw = true;
+    }
+
+    // Combine multiple notes columns when present (incoming-review can have 2).
+    const notes = notesIdxs
+      .map((idx) => (r[idx] ?? '').trim())
+      .filter(Boolean)
+      .join(' | ');
+
+    const property =
+      get(col.property) || (isIncomingSchema ? 'Homestead Hill / 2818 Washington Ave' : '');
+
+    // drawStatus: combine paidStatus + recommendedAction on incoming-review.
+    const drawStatus = isIncomingSchema
+      ? [get(col.drawStatus), recommendedAction].filter(Boolean).join(' · ')
+      : get(col.drawStatus);
+
     const row: DrawLedgerRow = {
       ledgerId,
-      property: get(col.property),
+      property,
       unitArea: get(col.unitArea),
       vendorPayee,
       docType: get(col.docType),
@@ -177,9 +248,9 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
       scopeCategory: get(col.scopeCategory),
       sourceLink: get(col.sourceLink),
       sourceEvidence: get(col.sourceEvidence),
-      drawStatus: get(col.drawStatus),
-      readyForDraw: parseBool(r[col.readyForDraw]),
-      submittedToDerek: parseBool(r[col.submittedToDerek]),
+      drawStatus,
+      readyForDraw,
+      submittedToDerek,
       drawRequest: get(col.drawRequest),
       submittedDate: get(col.submittedDate),
       grossSubmittedAmount: parseMoney(r[col.grossSubmittedAmount]),
@@ -187,8 +258,8 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
       fundedAmount,
       fundedAmountVerify,
       fundedDate: get(col.fundedDate),
-      duplicateRule: get(col.duplicateRule),
-      notes: get(col.notes),
+      duplicateRule,
+      notes,
       sourceCostTrackerId: get(col.sourceCostTrackerId),
     };
     result.rows.push(row);
@@ -215,6 +286,7 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
 
   return result;
 }
+
 
 export function classifyDrawLedgerRow(r: DrawLedgerRow): DrawLedgerBucket {
   if (r.fundedAmountVerify) return 'needs-funded-verification';
