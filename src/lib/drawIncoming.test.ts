@@ -136,6 +136,17 @@ describe('GViz missing-tab fallback hardening', () => {
     expect(items[0].sourceId).toBe('LOW-1');
   });
 
+  it('accepts the live shape where the marker is glued into the first header cell', () => {
+    const csv = `"HH_INCOMING_REVIEW_V1 sourceId","vendor","sourceType","date","amount","recommendedAction"
+"gmail:19f04b962bda2261:rcs-washer-dryer","RCS Superstore","gmail","2026-06-20","3149.01","Add to next draw"
+`;
+    const items = parseIncomingItems(csv);
+    expect(items.length).toBe(1);
+    expect(items[0].sourceId).toBe('gmail:19f04b962bda2261:rcs-washer-dryer');
+    expect(items[0].amount).toBeCloseTo(3149.01, 2);
+  });
+
+
   it('rejects when "Incoming Review" title present but recommendedAction column missing', () => {
     const csv = `"Homestead Hill — Incoming Review","","",""
 "sourceId","vendor","amount"
