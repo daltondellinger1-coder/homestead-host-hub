@@ -81,3 +81,40 @@ describe('parseDrawLedger', () => {
     expect(bucketLabel('needs-funded-verification')).toMatch(/verification/i);
   });
 });
+
+describe('parseDrawLedger — HH_INCOMING_REVIEW_V1 fallback schema', () => {
+  const INC_HEADERS = [
+    'sourceId','vendor','sourceType','date','amount','unit','category',
+    'paidStatus','evidenceStatus','evidenceUrl','duplicateCheck','confidence',
+    'notes','recommendedAction','submittedDate','grossSubmittedAmount',
+    'expectedFundedAmount','fundedAmount','fundedDate','duplicateRule','notes',
+    'sourceCostTrackerId',
+  ].join(',');
+  const CSV = `"HH_INCOMING_REVIEW_V1","","","","","","","","","","","","","","","","","","","","",""
+${INC_HEADERS}
+"gmail:19f04b962bda2261:rcs-washer-dryer","RCS Superstore","gmail","2026-06-20","3149.01","Laundry Unit/Current Office","Appliances / Laundry","paid","linked","https://mail/x","new_draw_candidate","high","Speed Queen + delivery","Add to next draw","","","2519.21","","","","Receipt-backed",""
+"gmail:already-in-tracker","Acme","gmail","2026-06-10","500","Unit 7","Misc","paid","linked","https://x","already_in_tracker","high","","approve to tracker","","","","","","do not submit again","",""
+`;
+  const s = parseDrawLedger(CSV);
+
+  it('parses rows from the incoming-review schema', () => {
+    expect(s.rows.length).toBe(2);
+  });
+
+  it('classifies the RCS washer/dryer receipt as ready-to-submit', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'gmail:19f04b962bda2261:rcs-washer-dryer')!;
+    expect(r.readyForDraw).toBe(true);
+    expect(r.submittedToDerek).toBe(false);
+    expect(r.amount).toBeCloseTo(3149.01, 2);
+    expect(r.expectedFundedAmount).toBeCloseTo(2519.21, 2);
+    expect(r.property).toMatch(/Homestead Hill/);
+    expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
+  });
+
+  it('treats already_in_tracker rows as submitted-to-derek', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'gmail:already-in-tracker')!;
+    expect(r.submittedToDerek).toBe(true);
+    expect(classifyDrawLedgerRow(r)).toBe('submitted-to-derek');
+  });
+});
+
