@@ -118,3 +118,28 @@ ${INC_HEADERS}
   });
 });
 
+describe('parseDrawLedger — marker glued into first header cell', () => {
+  // Live sheet shape: no separate marker row; first header cell is
+  // "HH_INCOMING_REVIEW_V1 sourceId".
+  const HEADERS_GLUED = [
+    'HH_INCOMING_REVIEW_V1 sourceId','vendor','sourceType','date','amount','unit','category',
+    'paidStatus','evidenceStatus','evidenceUrl','duplicateCheck','confidence',
+    'notes','recommendedAction','submittedDate','grossSubmittedAmount',
+    'expectedFundedAmount','fundedAmount','fundedDate','duplicateRule','notes',
+    'sourceCostTrackerId',
+  ].join(',');
+  const CSV = `${HEADERS_GLUED}
+"gmail:19f04b962bda2261:rcs-washer-dryer","RCS Superstore","gmail","2026-06-20","3149.01","Laundry Unit/Current Office","Appliances / Laundry","paid","linked","https://mail/x","new_draw_candidate","high","Speed Queen + delivery","Add to next draw","","","2519.21","","","","Receipt-backed",""
+`;
+  const s = parseDrawLedger(CSV);
+
+  it('still recognizes the marker and parses the row', () => {
+    expect(s.rows.length).toBe(1);
+    const r = s.rows[0];
+    expect(r.ledgerId).toBe('gmail:19f04b962bda2261:rcs-washer-dryer');
+    expect(r.amount).toBeCloseTo(3149.01, 2);
+    expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
+  });
+});
+
+
