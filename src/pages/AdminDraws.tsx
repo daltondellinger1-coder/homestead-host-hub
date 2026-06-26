@@ -723,9 +723,13 @@ export default function AdminDraws() {
     try {
       const d = await fetchDrawDashboard();
       setRawData(d);
-      // Incoming review queue is best-effort; failures must not block the dashboard.
-      const inc = await fetchIncomingItems(d.ledger);
+      // Incoming review queue + new draw ledger are best-effort; failures must not block the dashboard.
+      const [inc, dl] = await Promise.all([
+        fetchIncomingItems(d.ledger),
+        fetchDrawLedger(),
+      ]);
       setIncoming(inc);
+      setDrawLedger(dl);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load draw sheet');
     } finally {
