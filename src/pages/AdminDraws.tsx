@@ -706,6 +706,7 @@ function saveAcknowledged(ids: string[]) {
 export default function AdminDraws() {
   const [rawData, setRawData] = useState<DrawDashboardData | null>(null);
   const [incoming, setIncoming] = useState<IncomingItem[]>([]);
+  const [drawLedger, setDrawLedger] = useState<DrawLedgerSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [unitFilter, setUnitFilter] = useState<string>('all');
