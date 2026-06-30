@@ -94,11 +94,13 @@ describe('parseDrawLedger — HH_INCOMING_REVIEW_V1 fallback schema', () => {
 ${INC_HEADERS}
 "gmail:19f04b962bda2261:rcs-washer-dryer","RCS Superstore","gmail","2026-06-20","3149.01","Laundry Unit/Current Office","Appliances / Laundry","paid","linked","https://mail/x","new_draw_candidate","high","Speed Queen + delivery","Add to next draw","","","2519.21","","","","Receipt-backed",""
 "gmail:already-in-tracker","Acme","gmail","2026-06-10","500","Unit 7","Misc","paid","linked","https://x","already_in_tracker","high","","approve to tracker","","","","","","do not submit again","",""
+"notready:tim-laundry","Tim Kirk","quote","2026-06-11","4600","Laundry Unit/Current Office","Contractor / General","quoted / open committed","support only / no payment proof","gmail","already_in_tracker","high","Quote only","No action / already counted","","","","","","Quote/open committed only; not draw-ready until invoice/payment proof","",""
+"gmail:19f04b962bda2261:rcs-washer-dryer-draft","RCS Superstore","gmail","2026-06-26","3149.01","Laundry Unit/Current Office","Appliances / Laundry","paid by VISA / included in next draw draft","already reflected in main tracker actuals + next draw draft","gmail","already_in_tracker_draw_draft","high","Paid receipt-backed actual","No action / included in next draw draft","","","2519.21","","","Do not duplicate if included in the next HH draw packet","",""
 `;
   const s = parseDrawLedger(CSV);
 
   it('parses rows from the incoming-review schema', () => {
-    expect(s.rows.length).toBe(2);
+    expect(s.rows.length).toBe(4);
   });
 
   it('classifies the RCS washer/dryer receipt as ready-to-submit', () => {
@@ -111,10 +113,24 @@ ${INC_HEADERS}
     expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
   });
 
-  it('treats already_in_tracker rows as submitted-to-derek', () => {
+  it('treats already_in_tracker + explicit do-not-submit rows as submitted-to-derek', () => {
     const r = s.rows.find((x) => x.ledgerId === 'gmail:already-in-tracker')!;
     expect(r.submittedToDerek).toBe(true);
     expect(classifyDrawLedgerRow(r)).toBe('submitted-to-derek');
+  });
+
+  it('does not treat already_in_tracker alone as submitted to Derek', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'notready:tim-laundry')!;
+    expect(r.submittedToDerek).toBe(false);
+    expect(r.readyForDraw).toBe(false);
+    expect(classifyDrawLedgerRow(r)).toBe('needs-proof');
+  });
+
+  it('classifies included-in-next-draw-draft receipts as ready, not submitted', () => {
+    const r = s.rows.find((x) => x.ledgerId === 'gmail:19f04b962bda2261:rcs-washer-dryer-draft')!;
+    expect(r.submittedToDerek).toBe(false);
+    expect(r.readyForDraw).toBe(true);
+    expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
   });
 });
 

@@ -213,24 +213,25 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
 
     const fundedAmountRaw = get(col.fundedAmount);
     const fundedAmountVerify = isVerifyToken(fundedAmountRaw);
-    const fundedAmount = fundedAmountVerify ? 0 : parseMoney(fundedAmountRaw);
+    const duplicateCheck = get(col.duplicateCheck);
+    const supportOnlyFundingRow = /funding[_\s-]*packet[_\s-]*backup[_\s-]*only|funding[_\s-]*allocated[_\s-]*support[_\s-]*only/i.test(
+      duplicateCheck,
+    );
+    const fundedAmount = fundedAmountVerify || supportOnlyFundingRow ? 0 : parseMoney(fundedAmountRaw);
 
     let readyForDraw = parseBool(r[col.readyForDraw]);
     let submittedToDerek = parseBool(r[col.submittedToDerek]);
     const duplicateRule = get(col.duplicateRule);
     const recommendedAction = get(col.recommendedAction);
-    const duplicateCheck = get(col.duplicateCheck);
 
     if (isIncomingSchema) {
       const dupBlob = `${duplicateCheck} ${duplicateRule}`.toLowerCase();
       const actionBlob = recommendedAction.toLowerCase();
       const submittedSignal =
-        /already[_\s-]*in[_\s-]*tracker|do[_\s-]*not[_\s-]*submit[_\s-]*again|covered[_\s-]*by[_\s-]*draw/.test(
-          dupBlob,
-        );
+        /do[_\s-]*not[_\s-]*submit[_\s-]*again|covered[_\s-]*by[_\s-]*draw/.test(dupBlob);
       const readySignal =
-        /new[_\s-]*draw[_\s-]*candidate/.test(dupBlob) ||
-        /add to next draw|include receipt|approve to tracker/.test(actionBlob);
+        /new[_\s-]*draw[_\s-]*candidate|draw[_\s-]*draft/.test(dupBlob) ||
+        /add to next draw|include receipt|included in next draw draft|included in next draw request/.test(actionBlob);
       if (!submittedToDerek && submittedSignal) submittedToDerek = true;
       if (!readyForDraw && readySignal && !submittedToDerek) readyForDraw = true;
     }
