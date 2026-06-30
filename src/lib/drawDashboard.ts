@@ -362,6 +362,41 @@ export interface CostSplit {
   drawSafeAmount: number; // receipt-backed ready amount (excl. soft dollars)
 }
 
+// Current HH Reno Funds balance from the Homestead Hill bank-account snapshot.
+// Keep this value centralized so the dashboard can clearly separate cash-on-hand
+// from the tracker sheet's draw/owner-cash reimbursement accounting.
+export const DEFAULT_RENOVATION_FUNDS_AVAILABLE = 111_735;
+
+export interface CashControlSummary {
+  renovationFundsAvailable: number;
+  hardOpenCommitments: number;
+  softOpenCommitments: number;
+  totalOpenCommitments: number;
+  remainingBudgetToFinish: number;
+  cashAfterHardCommitments: number;
+  cashAfterAllOpenCommitments: number;
+  cashVsRemainingBudget: number;
+}
+
+export function computeCashControl(
+  data: DrawDashboardData,
+  renovationFundsAvailable = DEFAULT_RENOVATION_FUNDS_AVAILABLE,
+): CashControlSummary {
+  const split = computeCostSplit(data);
+  const remainingBudgetToFinish = data.totals.totalBudget - data.totals.totalActual;
+  const totalOpenCommitments = split.realOpen + split.softOpen;
+  return {
+    renovationFundsAvailable,
+    hardOpenCommitments: split.realOpen,
+    softOpenCommitments: split.softOpen,
+    totalOpenCommitments,
+    remainingBudgetToFinish,
+    cashAfterHardCommitments: renovationFundsAvailable - split.realOpen,
+    cashAfterAllOpenCommitments: renovationFundsAvailable - totalOpenCommitments,
+    cashVsRemainingBudget: renovationFundsAvailable - remainingBudgetToFinish,
+  };
+}
+
 export function computeCostSplit(data: DrawDashboardData): CostSplit {
   let actual = 0;
   let realOpen = 0;

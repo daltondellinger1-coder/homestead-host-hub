@@ -10,6 +10,7 @@ import {
   sourceConfidence,
   computeDecisionSummary,
   computeCostSplit,
+  computeCashControl,
   unitsNeedingReview,
   unitHasProxyOverlap,
   isPlanningEstimateOpenRow,
@@ -282,7 +283,7 @@ describe('parseDrawDashboard Unit 7-style overlap and Unit 12-style budget visib
 });
 
 
-describe('computeCostSplit', () => {
+describe('computeCostSplit / cash control', () => {
   it('splits actual, real open, soft open, and budget-only placeholders', () => {
     const rows: LedgerRow[] = [
       makeLedger({ unit: 'U1', actual: 800, paidFromDraws: 0, receiptLink: 'https://r/1' }),
@@ -291,7 +292,7 @@ describe('computeCostSplit', () => {
       makeLedger({ unit: 'U1', budget: 250 }),
     ];
     const data = {
-      totals: { totalBudget: 0, totalActual: 0, totalPaidFromDraws: 0, totalPaidFromOwnerCash: 0, openCommitted: 0, netFundingPosition: 0, status: '' },
+      totals: { totalBudget: 2000, totalActual: 800, totalPaidFromDraws: 0, totalPaidFromOwnerCash: 0, openCommitted: 800, netFundingPosition: -1600, status: '' },
       unitSummary: [],
       ledger: rows,
       warnings: [],
@@ -304,6 +305,15 @@ describe('computeCostSplit', () => {
     expect(s.budgetOnly).toBe(250);
     expect(s.projectedAllIn).toBe(1600);
     expect(s.drawSafeAmount).toBe(800);
+
+    const cash = computeCashControl(data, 1_000);
+    expect(cash.renovationFundsAvailable).toBe(1000);
+    expect(cash.hardOpenCommitments).toBe(500);
+    expect(cash.softOpenCommitments).toBe(300);
+    expect(cash.cashAfterHardCommitments).toBe(500);
+    expect(cash.cashAfterAllOpenCommitments).toBe(200);
+    expect(cash.remainingBudgetToFinish).toBe(1200);
+    expect(cash.cashVsRemainingBudget).toBe(-200);
   });
 });
 

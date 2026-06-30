@@ -11,6 +11,7 @@ import {
   sourceConfidence,
   computeDecisionSummary,
   computeCostSplit,
+  computeCashControl,
   unitsNeedingReview,
   unitHasProxyOverlap,
   applyDrawFunding,
@@ -980,6 +981,7 @@ export default function AdminDraws() {
   const totals = data?.totals;
   const summary = useMemo(() => (data ? computeDecisionSummary(data) : null), [data]);
   const costSplit = useMemo(() => (data ? computeCostSplit(data) : null), [data]);
+  const cashControl = useMemo(() => (data ? computeCashControl(data) : null), [data]);
   const reviewUnits = useMemo(() => (data ? unitsNeedingReview(data) : []), [data]);
 
   const fundingCandidates = useMemo(
@@ -1073,7 +1075,7 @@ export default function AdminDraws() {
           </div>
         )}
 
-        {summary && totals && costSplit && (
+        {summary && totals && costSplit && cashControl && (
           <section className="glass-card rounded-xl p-4 space-y-3 border border-secondary/30">
             <div className="flex items-center gap-2 font-heading text-base">
               <BadgeCheck className="h-4 w-4 text-secondary" /> Decision summary
@@ -1188,6 +1190,42 @@ export default function AdminDraws() {
               </div>
               <div className="text-[11px] text-muted-foreground mt-2">
                 Projected all-in {formatCurrency(costSplit.projectedAllIn)} = Actual + Real open + Soft/proxy. The soft/proxy portion ({formatCurrency(costSplit.softOpen)}) is included <span className="text-foreground font-medium">for planning only</span> — not a firm committed cost.
+              </div>
+            </div>
+
+            {/* Reno cash control: separates bank cash from draw reimbursement math */}
+            <div>
+              <div className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Reno cash control</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-body">
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-secondary">HH Reno Funds</div>
+                  <div className="font-heading text-base text-secondary">{formatCurrency(cashControl.renovationFundsAvailable)}</div>
+                  <div className="text-[10px] text-muted-foreground">Bank snapshot</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-amber-300">After hard open</div>
+                  <div className={`font-heading text-base ${cashControl.cashAfterHardCommitments < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                    {formatCurrency(cashControl.cashAfterHardCommitments)}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">Hard open {formatCurrency(cashControl.hardOpenCommitments)}</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-orange-300">After all open</div>
+                  <div className={`font-heading text-base ${cashControl.cashAfterAllOpenCommitments < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                    {formatCurrency(cashControl.cashAfterAllOpenCommitments)}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">Includes soft/proxy open</div>
+                </div>
+                <div className="rounded-lg bg-muted/10 p-2.5">
+                  <div className="text-[10px] uppercase text-muted-foreground">Vs finish budget</div>
+                  <div className={`font-heading text-base ${cashControl.cashVsRemainingBudget < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                    {formatCurrency(cashControl.cashVsRemainingBudget)}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground">Remaining budget {formatCurrency(cashControl.remainingBudgetToFinish)}</div>
+                </div>
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-2">
+                Cash control uses the HH Reno Funds bank balance separately from the sheet's reimbursement math. It shows whether current cash can cover hard open commitments, all open commitments, and the remaining finish-out budget.
               </div>
             </div>
 
