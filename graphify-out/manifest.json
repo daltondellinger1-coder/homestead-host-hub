@@ -334,8 +334,13 @@
     "ast_hash": "549cc53b74ae3fe96a24d185298f0eb5",
     "semantic_hash": ""
   },
+  "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/drive-upload-no-footer-2026-07-01.json": {
+    "mtime": 1782913114.6904132,
+    "ast_hash": "ab4661e4d6f95b45c52854c9846d1cb9",
+    "semantic_hash": ""
+  },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/verification.json": {
-    "mtime": 1782505348.0952058,
+    "mtime": 1782912777.9155014,
     "ast_hash": "fbaf27e3b766a272152d68b1e880a10d",
     "semantic_hash": ""
   },
@@ -425,8 +430,13 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/scripts/generate_guest_qr_sheets.py": {
-    "mtime": 1782508114.632441,
-    "ast_hash": "9fb57dad8dd891827e2ee93b03682ec8",
+    "mtime": 1782912730.5307956,
+    "ast_hash": "664a523745c0258180ed60a62cd4fa4d",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/scripts/upload_guest_qr_sheets_to_drive.py": {
+    "mtime": 1782912934.203286,
+    "ast_hash": "fbf50e8e4f60bbde8849097c11deba74",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/scripts/detect_gold_boxes.py": {
@@ -1315,8 +1325,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/lib/drawSourceLedger.ts": {
-    "mtime": 1782911280.3360984,
-    "ast_hash": "eba50e27ef4b5b6a8863a4c9921ecb75",
+    "mtime": 1782930194.2271285,
+    "ast_hash": "62f89a183852229401e39754942dcebe",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/src/lib/roleRouting.ts": {
@@ -1427,11 +1437,6 @@
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-sheets-v2-large-qr-unit10-maintenance-only/qr-target-urls.txt": {
     "mtime": 1782406790.609783,
     "ast_hash": "998787d04e8dccfe2b1b4495250f1634",
-    "semantic_hash": ""
-  },
-  "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/_unit14.html": {
-    "mtime": 1782508161.3964117,
-    "ast_hash": "55072713d074ca5597642411276abecc",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/scripts/maintenance-qr-setup.md": {
@@ -2655,68 +2660,68 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-2.pdf": {
-    "mtime": 1782508137.6083333,
-    "ast_hash": "ecf422b550f5be5e102194a9363fe27f",
+    "mtime": 1782912750.4618554,
+    "ast_hash": "5af102baccee59837a495d9d41671bef",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-14.pdf": {
-    "mtime": 1782505346.655833,
-    "ast_hash": "1c6e0bf89bdcd8fe891e625bfe3cf7f4",
+    "mtime": 1782912776.1069546,
+    "ast_hash": "aa30c64d547574875f314caa7de2e93b",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-1.pdf": {
-    "mtime": 1782508135.1963491,
-    "ast_hash": "cc19e1a3f229e8e978d4fceb79ade3da",
+    "mtime": 1782912746.691718,
+    "ast_hash": "8bdf20885e86052d81009c3ca61549d9",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-11.pdf": {
-    "mtime": 1782508158.096412,
-    "ast_hash": "caa6268b3535886cab072ebeeede17ac",
+    "mtime": 1782912771.0011723,
+    "ast_hash": "94254f0b4f198b9a4227a6f9d5602998",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-13.pdf": {
-    "mtime": 1782508160.3564062,
-    "ast_hash": "ffac31835b91b1db571fc27079a991d7",
+    "mtime": 1782912773.5859032,
+    "ast_hash": "2bd35f7780f80a97c7b381365f330817",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-9.pdf": {
-    "mtime": 1782508153.48843,
-    "ast_hash": "8e5b978e2d94fbe4b975caf93b75abb6",
+    "mtime": 1782912766.223065,
+    "ast_hash": "8c17c8e1be41610ad1be3dec028969d1",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-6.pdf": {
-    "mtime": 1782508146.620342,
-    "ast_hash": "d34f780d3924ec7408f3a5cb960fc944",
+    "mtime": 1782912759.3412971,
+    "ast_hash": "36e7841a204730f023c76ba1919a1be7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-5.pdf": {
-    "mtime": 1782508144.380301,
-    "ast_hash": "2ac55e882541f9b037391154c796c14a",
+    "mtime": 1782912757.0732973,
+    "ast_hash": "c8d50912977431d86261101b25260d9f",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-8.pdf": {
-    "mtime": 1782508151.1443362,
-    "ast_hash": "40ab0b0b0047e82dde66a59762857d4d",
+    "mtime": 1782912763.8136098,
+    "ast_hash": "e38e75de0700278b6a7f0ed5707991da",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-10.pdf": {
-    "mtime": 1782508155.7964246,
-    "ast_hash": "202e66e6314aacc72c350aeacd10c812",
+    "mtime": 1782912768.7199295,
+    "ast_hash": "1498d83ed69f4d51f659bcbb8949b8f8",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-3.pdf": {
-    "mtime": 1782508139.8643172,
-    "ast_hash": "a65077a7eb54f79d2ff3396fc348b6f0",
+    "mtime": 1782912752.7002983,
+    "ast_hash": "22ba84b9eea2e88b2b0fad9c1d514aab",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-7.pdf": {
-    "mtime": 1782508148.8403554,
-    "ast_hash": "f97c1e38bdfcdda0730b35fa3ba5e7a9",
+    "mtime": 1782912761.6056972,
+    "ast_hash": "adbaa20698f4c57c3b8facd1d4a23a38",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/pdf/homestead-hill-guest-quick-links-unit-4.pdf": {
-    "mtime": 1782508142.1283,
-    "ast_hash": "1279f801e429ec17bf7f0605af1e5bd4",
+    "mtime": 1782912754.9672973,
+    "ast_hash": "368cc822c2a0dc78afdcad524374da67",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-sheets-current-print-letter-balanced-qr/homestead-hill-unit-11-CURRENT-PRINT-LETTER-BALANCED-QR.pdf": {
@@ -4585,68 +4590,68 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-9.png": {
-    "mtime": 1782508154.1724331,
-    "ast_hash": "7ad88f74d4bca868400e2b8e81e251fd",
+    "mtime": 1782912766.865333,
+    "ast_hash": "4c1c6f5f9cccea620cd55c24252b3d20",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-8.png": {
-    "mtime": 1782508151.8163385,
-    "ast_hash": "076d87ab3427083c6af4bd39392acfa1",
+    "mtime": 1782912764.4330754,
+    "ast_hash": "fb1c54aff83de89672d401e039e256b7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-4.png": {
-    "mtime": 1782508142.780295,
-    "ast_hash": "9f0bf4e5c6eff8a5dc51f9739caf467f",
+    "mtime": 1782912755.5828972,
+    "ast_hash": "7b1c0a8a08345d230cf93853056fbfc7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-1.png": {
-    "mtime": 1782508135.920345,
-    "ast_hash": "d82e88960f009d65b71ee4c0e616173a",
+    "mtime": 1782912747.400034,
+    "ast_hash": "6fdc75b0d4bdff7ae1777eb913853a18",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-6.png": {
-    "mtime": 1782508147.2683537,
-    "ast_hash": "58050b7fbe7a77b6b5750b8f67eaed25",
+    "mtime": 1782912759.949697,
+    "ast_hash": "4bc1916dc67cf6b510cda253e018cf8e",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-2.png": {
-    "mtime": 1782508138.2963285,
-    "ast_hash": "cdad7dd376bda9b164771d2cb6e4bf30",
+    "mtime": 1782912751.0997536,
+    "ast_hash": "5095c005acd4ca093877a88b14903b59",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-7.png": {
-    "mtime": 1782508149.5363495,
-    "ast_hash": "c996e3a02359821c83ef5fd68debf914",
+    "mtime": 1782912762.2032971,
+    "ast_hash": "ec6777c6154a2be665834b7e75fe6137",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-14.png": {
-    "mtime": 1782505347.2774644,
-    "ast_hash": "5ac83fc5c3ef412cf00fd7b0ed432c77",
+    "mtime": 1782912776.791373,
+    "ast_hash": "c43a9031c9c1613cf875cf798827bbbd",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-13.png": {
-    "mtime": 1782508161.0164096,
-    "ast_hash": "33d0014b50b60a32f10881178f31a653",
+    "mtime": 1782912774.2817922,
+    "ast_hash": "22f607241989730803e3fba6e3e62ea0",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-5.png": {
-    "mtime": 1782508145.040313,
-    "ast_hash": "f64bb9c76f7db040ad5cd7a946abc09d",
+    "mtime": 1782912757.6744971,
+    "ast_hash": "02ca1b4955c1daa9ec2b9772a966cd9b",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-11.png": {
-    "mtime": 1782508158.772408,
-    "ast_hash": "22110cba8304094b4dbf41abb589f87f",
+    "mtime": 1782912771.7012036,
+    "ast_hash": "93cabb3ce55ed884ae510ec29a8efb9f",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-10.png": {
-    "mtime": 1782508156.4604208,
-    "ast_hash": "201243e35d192c0d1c98d961b4e740b7",
+    "mtime": 1782912769.3507962,
+    "ast_hash": "0284cd9cce64d1ad91a7a385979e2880",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-guest-quick-links-DETERMINISTIC/png/homestead-hill-guest-quick-links-unit-3.png": {
-    "mtime": 1782508140.5323122,
-    "ast_hash": "b71f3f74a06d073cb9d5131460424cfb",
+    "mtime": 1782912753.3426573,
+    "ast_hash": "f42c2b7dabf1d7a938f4bbd8c7f34291",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-sheets-current-print-letter-balanced-qr/homestead-hill-unit-9-CURRENT-PRINT-LETTER-BALANCED-QR.png": {
@@ -4997,6 +5002,11 @@
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-template-blank-image-model/homestead-hill-guest-quick-links-blank-template-no-qr-no-footer-image-model.png": {
     "mtime": 1782481694.4927304,
     "ast_hash": "68ef839189b88a1ab5fbb62923f7fb14",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-template-blank-image-model/homestead-hill-guest-quick-links-blank-template-no-qr-no-footer.png": {
+    "mtime": 1782912722.3291333,
+    "ast_hash": "cf5e4c91555229027a7297d217285a73",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub/artifacts/welcome-basket-template-blank-image-model/homestead-hill-unit-1-blank-template-no-qr-image-model.png": {

@@ -82,6 +82,7 @@ const OPEN_OR_QUOTE_RE = /quote|quoted|bid|placeholder|open\s+committed|unpaid|n
 const NEXT_DRAW_DRAFT_RE = /next[_\s-]*draw[_\s-]*draft|include in next draw|included in next draw draft/i;
 const SUBMITTED_RE = /submitted\s+to\s+(derek|lender)|covered\s+by\s+draw|draw\s+packet\s+sent|do\s+not\s+submit\s+again/i;
 const FUNDED_RE = /funded|funds?\s+released|draw\s+funded|available\s+in\s+savings/i;
+const SUPPORT_ONLY_FUNDING_RE = /support[-\s]*only|amount\s+intentionally\s+zero|funding[_\s-]*allocated[_\s-]*support[_\s-]*only|funding[_\s-]*packet[_\s-]*backup[_\s-]*only/i;
 
 export function extractGmailThreadId(text: string): string {
   const explicit = text.match(/gmail\s+thread\s*(?:id)?\s*[:#]?\s*([a-z0-9]{12,})/i);
@@ -142,6 +143,7 @@ function sourceEvidenceSentence(r: DrawLedgerRow, packet?: DrawPacketRecord): st
 
 function findPacketForRow(r: DrawLedgerRow, packets: DrawPacketRecord[]): DrawPacketRecord | undefined {
   const hay = rowHaystack(r);
+  if (SUPPORT_ONLY_FUNDING_RE.test(hay) && r.amount === 0 && r.fundedAmount === 0 && !/packet:gross|draw(?:\s+request)?\s+packet|cover email/i.test(hay)) return undefined;
   if (KNOWN_NOT_SUBMITTED_RE.test(hay)) return undefined;
   const n = drawNumberFromText(hay);
   if (n) {
@@ -157,7 +159,14 @@ function normalizeInvoiceStatus(r: DrawLedgerRow, packet?: DrawPacketRecord): So
     if (NEXT_DRAW_DRAFT_RE.test(hay)) return 'next_draw_draft';
     return 'not_submitted';
   }
+  if (SUPPORT_ONLY_FUNDING_RE.test(hay) && r.amount === 0 && r.fundedAmount === 0 && !/packet:gross|draw(?:\s+request)?\s+packet|cover email/i.test(hay)) return 'excluded';
   if (/excluded|not homestead|repair-maintenance/i.test(hay)) return 'excluded';
+  // Historical draw-packet rows (Draw #1/#2) can be source-clean funded rows
+  // when they carry their own Derek Gmail submission/funding evidence and do
+  // not have child receipt rows that would already carry the reimbursed total.
+  // Draw #3's packet row has child rows, so keep that packet as submitted-only
+  // and let the children carry the funded bucket to avoid double counting.
+  if (r.fundedAmount > 0 && packet && packet.childItemIds.length === 0 && hasDerekSubmissionSource(r, packet)) return 'funded';
   if (r.fundedAmount > 0 && packet) return 'funded';
   if (r.fundedAmount > 0 && !packet) return 'needs_review';
   if (hasDerekSubmissionSource(r, packet)) return 'submitted';
@@ -172,14 +181,20 @@ function normalizeInvoiceStatus(r: DrawLedgerRow, packet?: DrawPacketRecord): So
 export function buildSourceEventLedger(rows: DrawLedgerRow[]): SourceEventLedger {
   const exceptions: SourceLedgerException[] = [];
 
-  const packetRows = rows.filter((r) => /packet:gross/i.test(r.ledgerId) || /draw packet|cover email/i.test(r.docType));
+  const packetRows = rows.filter((r) => /packet:gross/i.test(r.ledgerId) || /draw(?:\s+request)?\s+packet|cover email/i.test(r.docType));
   const drawPackets: DrawPacketRecord[] = packetRows.map((r) => {
     const hay = rowHaystack(r);
     const drawNumber = drawNumberFromText(hay) || drawNumberFromText(r.ledgerId) || r.drawRequest || 'unknown';
     const derekThreadId = extractGmailThreadId(hay);
     const derekMessageId = extractGmailMessageId(hay);
     const childItemIds = rows
-      .filter((child) => child.ledgerId !== r.ledgerId && !KNOWN_NOT_SUBMITTED_RE.test(rowHaystack(child)) && drawNumberFromText(rowHaystack(child)) === drawNumber)
+      .filter((child) => {
+        const childHay = rowHaystack(child);
+        return child.ledgerId !== r.ledgerId
+          && !KNOWN_NOT_SUBMITTED_RE.test(childHay)
+          && !SUPPORT_ONLY_FUNDING_RE.test(childHay)
+          && drawNumberFromText(childHay) === drawNumber;
+      })
       .map((child) => child.ledgerId);
     const totalChildAmount = rows
       .filter((child) => childItemIds.includes(child.ledgerId))
@@ -238,7 +253,7 @@ export function buildSourceEventLedger(rows: DrawLedgerRow[]): SourceEventLedger
   }
 
   const fundingRecords: FundingRecord[] = rows
-    .filter((r) => FUNDED_RE.test(rowHaystack(r)) && (r.fundedAmount > 0 || /funding|draw funded/i.test(rowHaystack(r))))
+    .filter((r) => FUNDED_RE.test(rowHaystack(r)) && !SUPPORT_ONLY_FUNDING_RE.test(rowHaystack(r)) && (r.fundedAmount > 0 || /funding|draw funded/i.test(rowHaystack(r))))
     .map((r) => {
       const packet = findPacketForRow(r, drawPackets);
       const drawNumber = drawNumberFromText(rowHaystack(r));
@@ -267,9 +282,9 @@ export function buildSourceEventLedger(rows: DrawLedgerRow[]): SourceEventLedger
   for (const r of rows) {
     const packet = findPacketForRow(r, drawPackets);
     const hay = rowHaystack(r);
-    const isPacket = drawPackets.some((p) => p.drawPacketId === `draw-${drawNumberFromText(hay)}` && /packet:gross|cover email/i.test(hay));
+    const isPacket = drawPackets.some((p) => p.drawPacketId === `draw-${drawNumberFromText(hay)}` && /packet:gross|draw(?:\s+request)?\s+packet|cover email/i.test(hay));
     const claimsSubmitted = !KNOWN_NOT_SUBMITTED_RE.test(hay) && (r.submittedToDerek || SUBMITTED_RE.test(hay));
-    const claimsFunded = r.fundedAmount > 0 || FUNDED_RE.test(hay);
+    const claimsFunded = !SUPPORT_ONLY_FUNDING_RE.test(hay) && (r.fundedAmount > 0 || FUNDED_RE.test(hay));
     const status = normalizeInvoiceStatus(r, packet);
 
     if (KNOWN_NOT_SUBMITTED_RE.test(hay)) {
