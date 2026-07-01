@@ -38,24 +38,27 @@ describe('parseDrawLedger', () => {
     expect(s.buckets['ready-to-submit'].amount).toBeCloseTo(412.55, 2);
   });
 
-  it('classifies submitted-to-derek (submitted && not funded && not VERIFY)', () => {
+  it('downgrades submitted-to-derek when there is no Derek Gmail source event', () => {
     const r = s.rows.find((x) => x.ledgerId === 'L-2')!;
-    expect(classifyDrawLedgerRow(r)).toBe('submitted-to-derek');
-    expect(s.buckets['submitted-to-derek'].count).toBe(1);
+    expect(classifyDrawLedgerRow(r)).toBe('needs-proof');
+    expect(s.buckets['submitted-to-derek'].count).toBe(0);
+    expect(s.sourceEventLedger.exceptions.some((e) => e.ledgerId === 'L-2' && e.code === 'submitted_missing_derek_source')).toBe(true);
   });
 
-  it('classifies funded when fundedAmount is numeric > 0', () => {
+  it('downgrades funded when there is no parent submitted draw packet evidence', () => {
     const r = s.rows.find((x) => x.ledgerId === 'L-3')!;
-    expect(classifyDrawLedgerRow(r)).toBe('funded');
-    expect(s.buckets.funded.amount).toBeCloseTo(5000, 2);
+    expect(classifyDrawLedgerRow(r)).toBe('needs-proof');
+    expect(s.buckets.funded.count).toBe(0);
+    expect(s.sourceEventLedger.exceptions.some((e) => e.ledgerId === 'L-3' && e.code === 'funded_missing_submitted_draw')).toBe(true);
   });
 
-  it('treats quotes / open commitments as needs-proof', () => {
+  it('treats quotes, unsupported submitted, and unsupported funded states as needs-proof', () => {
     const tim = s.rows.find((x) => x.ledgerId === 'L-4')!;
     const kj = s.rows.find((x) => x.ledgerId === 'L-5')!;
     expect(classifyDrawLedgerRow(tim)).toBe('needs-proof');
     expect(classifyDrawLedgerRow(kj)).toBe('needs-proof');
-    expect(s.buckets['needs-proof'].count).toBe(2);
+    expect(s.rowsByBucket['needs-proof'].map((r) => r.ledgerId).sort()).toEqual(['L-2', 'L-3', 'L-4', 'L-5']);
+    expect(s.buckets['needs-proof'].count).toBe(4);
   });
 
   it('flags fundedAmount=VERIFY separately with warning', () => {
@@ -113,10 +116,10 @@ ${INC_HEADERS}
     expect(classifyDrawLedgerRow(r)).toBe('ready-to-submit');
   });
 
-  it('treats already_in_tracker + explicit do-not-submit rows as submitted-to-derek', () => {
+  it('does not treat already_in_tracker + do-not-submit as submitted without Derek Gmail evidence', () => {
     const r = s.rows.find((x) => x.ledgerId === 'gmail:already-in-tracker')!;
     expect(r.submittedToDerek).toBe(true);
-    expect(classifyDrawLedgerRow(r)).toBe('submitted-to-derek');
+    expect(classifyDrawLedgerRow(r)).toBe('needs-proof');
   });
 
   it('does not treat already_in_tracker alone as submitted to Derek', () => {

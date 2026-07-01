@@ -10,6 +10,7 @@
 //        fundedAmount, fundedDate, duplicateRule, notes, sourceCostTrackerId
 
 import { parseCsv } from './drawDashboard';
+import { buildSourceEventLedger, type SourceEventLedger } from './drawSourceLedger';
 
 export const DRAW_LEDGER_MARKER = 'HH_DRAW_LEDGER_V1';
 
@@ -61,6 +62,11 @@ export interface DrawLedgerSummary {
   buckets: Record<DrawLedgerBucket, DrawLedgerBucketTotals>;
   rowsByBucket: Record<DrawLedgerBucket, DrawLedgerRow[]>;
   warnings: string[];
+  sourceEventLedger: SourceEventLedger;
+}
+
+function emptySourceEventLedger(): SourceEventLedger {
+  return { invoiceReceiptLedger: [], drawPackets: [], fundingRecords: [], exceptions: [], warnings: [] };
 }
 
 const TRUE_RE = /^(true|yes|y|1|x|✓|✔)$/i;
@@ -110,6 +116,7 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
       'needs-funded-verification': [],
     },
     warnings: [],
+    sourceEventLedger: emptySourceEventLedger(),
   });
 
   if (!csv || !csv.trim()) return empty();
@@ -278,8 +285,10 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
     result.rows.push(row);
   }
 
+  result.sourceEventLedger = buildSourceEventLedger(result.rows);
+
   for (const r of result.rows) {
-    const bucket = classifyDrawLedgerRow(r);
+    const bucket = classifyDrawLedgerRow(r, result.rows);
     result.rowsByBucket[bucket].push(r);
   }
   for (const key of Object.keys(result.rowsByBucket) as DrawLedgerBucket[]) {
@@ -297,14 +306,30 @@ export function parseDrawLedger(csv: string, fetchedAt = new Date().toISOString(
     );
   }
 
+  const exceptionCount = result.sourceEventLedger.exceptions.filter((e) => e.severity === 'error').length;
+  if (exceptionCount > 0) {
+    result.warnings.push(
+      `${exceptionCount} source-event ledger validation error${exceptionCount === 1 ? '' : 's'} — submitted/funded statuses without source evidence are downgraded into review buckets.`,
+    );
+  }
+
   return result;
 }
 
 
-export function classifyDrawLedgerRow(r: DrawLedgerRow): DrawLedgerBucket {
+export function classifyDrawLedgerRow(r: DrawLedgerRow, allRows?: DrawLedgerRow[]): DrawLedgerBucket {
   if (r.fundedAmountVerify) return 'needs-funded-verification';
-  if (r.fundedAmount > 0) return 'funded';
-  if (r.submittedToDerek) return 'submitted-to-derek';
+
+  const contextRows = allRows && allRows.length ? allRows : [r];
+  const sourceLedger = buildSourceEventLedger(contextRows);
+  const record = sourceLedger.invoiceReceiptLedger.find((x) => x.ledgerId === r.ledgerId);
+  if (record) {
+    if (record.status === 'funded' && r.fundedAmount > 0) return 'funded';
+    if (record.status === 'submitted') return 'submitted-to-derek';
+    if (record.status === 'draw_ready' || record.status === 'next_draw_draft') return 'ready-to-submit';
+    return 'needs-proof';
+  }
+
   if (r.readyForDraw) return 'ready-to-submit';
   return 'needs-proof';
 }

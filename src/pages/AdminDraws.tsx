@@ -45,6 +45,7 @@ import {
   type DrawLedgerRow,
   type DrawLedgerBucket,
 } from '@/lib/drawLedger';
+import { sourceStatusLabel } from '@/lib/drawSourceLedger';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -705,7 +706,7 @@ function saveAcknowledged(ids: string[]) {
   } catch { /* ignore quota errors */ }
 }
 
-function DrawLedgerRowsTable({ rows, bucket }: { rows: DrawLedgerRow[]; bucket: DrawLedgerBucket }) {
+function DrawLedgerRowsTable({ rows, bucket, ledger }: { rows: DrawLedgerRow[]; bucket: DrawLedgerBucket; ledger: DrawLedgerSummary }) {
   if (rows.length === 0) {
     return (
       <div className="text-xs text-muted-foreground font-body italic px-1 py-2">
@@ -729,7 +730,10 @@ function DrawLedgerRowsTable({ rows, bucket }: { rows: DrawLedgerRow[]; bucket: 
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
+          {rows.map((r) => {
+            const sourceRecord = ledger.sourceEventLedger.invoiceReceiptLedger.find((x) => x.ledgerId === r.ledgerId);
+            const exception = ledger.sourceEventLedger.exceptions.find((x) => x.ledgerId === r.ledgerId);
+            return (
             <tr key={r.ledgerId || `${r.vendorPayee}-${r.docDate}-${r.amount}`} className="border-t border-border/20 align-top">
               <td className="p-2">
                 <div className="text-foreground">{r.unitArea || '—'}</div>
@@ -758,7 +762,7 @@ function DrawLedgerRowsTable({ rows, bucket }: { rows: DrawLedgerRow[]; bucket: 
                   )}
                 </td>
               )}
-              <td className="p-2">
+              <td className="p-2 min-w-[220px]">
                 {r.sourceLink && /^https?:\/\//.test(r.sourceLink) ? (
                   <a
                     href={r.sourceLink}
@@ -768,12 +772,22 @@ function DrawLedgerRowsTable({ rows, bucket }: { rows: DrawLedgerRow[]; bucket: 
                   >
                     Open <ExternalLink className="h-3 w-3" />
                   </a>
-                ) : (
-                  <span className="text-muted-foreground">{r.sourceEvidence || '—'}</span>
+                ) : null}
+                <div className="text-[10px] text-muted-foreground mt-1">
+                  {sourceRecord ? sourceStatusLabel(sourceRecord.status) : 'Needs review'}
+                </div>
+                <div className="text-[10px] text-muted-foreground mt-0.5" title={sourceRecord?.statusEvidence || r.sourceEvidence || r.notes}>
+                  {sourceRecord?.statusEvidence || r.sourceEvidence || 'No source evidence attached'}
+                </div>
+                {exception && (
+                  <div className="text-[10px] text-amber-300 mt-0.5" title={exception.message}>
+                    Exception: {exception.code.replaceAll('_', ' ')}
+                  </div>
                 )}
               </td>
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -843,6 +857,15 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
             </div>
           )}
 
+          {ledger.sourceEventLedger.exceptions.length > 0 && (
+            <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/30 p-2 text-[11px] text-amber-300 font-body">
+              <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <div>
+                Source-event validation surfaced {ledger.sourceEventLedger.exceptions.length} exception{ledger.sourceEventLedger.exceptions.length === 1 ? '' : 's'}. Rows without Derek Gmail evidence are not allowed to show as submitted/funded; review the row-level source sentence below.
+              </div>
+            </div>
+          )}
+
           <div className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-baseline justify-between gap-2 px-1">
@@ -855,7 +878,7 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
                     : `${formatCurrency(ledger.buckets['ready-to-submit'].amount)} · ${ready.length} item${ready.length === 1 ? '' : 's'}`}
                 </span>
               </div>
-              <DrawLedgerRowsTable rows={ready} bucket="ready-to-submit" />
+              <DrawLedgerRowsTable rows={ready} bucket="ready-to-submit" ledger={ledger} />
             </div>
 
             <div className="space-y-1">
@@ -867,7 +890,7 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
                   {formatCurrency(ledger.buckets['submitted-to-derek'].amount)} · {submitted.length} item{submitted.length === 1 ? '' : 's'}
                 </span>
               </div>
-              <DrawLedgerRowsTable rows={submitted} bucket="submitted-to-derek" />
+              <DrawLedgerRowsTable rows={submitted} bucket="submitted-to-derek" ledger={ledger} />
             </div>
 
             {funded.length > 0 && (
@@ -880,7 +903,7 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
                     {formatCurrency(ledger.buckets['funded'].amount)} · {funded.length} item{funded.length === 1 ? '' : 's'} · excludes VERIFY rows
                   </span>
                 </div>
-                <DrawLedgerRowsTable rows={funded} bucket="funded" />
+                <DrawLedgerRowsTable rows={funded} bucket="funded" ledger={ledger} />
               </div>
             )}
 
@@ -896,7 +919,7 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
               <div className="text-[11px] text-muted-foreground font-body px-1">
                 Includes quotes and open commitments — these stay out of draw-ready totals.
               </div>
-              <DrawLedgerRowsTable rows={needsProof} bucket="needs-proof" />
+              <DrawLedgerRowsTable rows={needsProof} bucket="needs-proof" ledger={ledger} />
             </div>
 
             {needsVerify.length > 0 && (
@@ -909,7 +932,7 @@ function DrawLedgerSection({ ledger }: { ledger: DrawLedgerSummary }) {
                     {needsVerify.length} item{needsVerify.length === 1 ? '' : 's'} flagged VERIFY
                   </span>
                 </div>
-                <DrawLedgerRowsTable rows={needsVerify} bucket="needs-funded-verification" />
+                <DrawLedgerRowsTable rows={needsVerify} bucket="needs-funded-verification" ledger={ledger} />
               </div>
             )}
           </div>
