@@ -160,6 +160,9 @@ export function parseDrawDashboard(csv: string, fetchedAt = new Date().toISOStri
       const r = rows[i];
       const unit = (r[0] ?? '').trim();
       if (!unit) continue;
+      const category = (r[1] ?? '').trim();
+      const scope = (r[2] ?? '').trim();
+      if (isNonLedgerTrackerRow(unit, category, scope)) continue;
       ledger.push({
         unit,
         category: (r[1] ?? '').trim(),
