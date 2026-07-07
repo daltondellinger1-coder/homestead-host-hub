@@ -102,6 +102,22 @@ function num(v: string | undefined): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+// Skip section/instruction/draft rows that live inside the tracker sheet but
+// aren't real ledger detail (e.g. the "NEXT DRAW PACKET DRAFT" block).
+export function isNonLedgerTrackerRow(unit: string, _category: string, _scope: string): boolean {
+  const u = unit.trim();
+  if (!u) return true;
+  if (u === 'Rule') return true;
+  if (u === 'Gross requested amount') return true;
+  if (u === 'Unit / Area') return true;
+  if (u === 'Lender message draft') return true;
+  if (u.startsWith('NEXT DRAW PACKET DRAFT')) return true;
+  if (u.startsWith('Draw Draft —')) return true;
+  if (u.startsWith('Draw Draft -')) return true;
+  if (u.startsWith('EXCLUDED / NOT READY')) return true;
+  return false;
+}
+
 function findRow(rows: string[][], predicate: (r: string[]) => boolean): number {
   return rows.findIndex(predicate);
 }
