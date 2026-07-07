@@ -88,6 +88,34 @@ describe('parseDrawDashboard', () => {
 
   it('flags negative funding position with new wording', () => {
     expect(data.warnings.some((w) => /funding gap/i.test(w))).toBe(true);
+  });
+
+  it('skips non-ledger tracker rows (NEXT DRAW PACKET DRAFT, Rule, etc.) but keeps real rows after them', () => {
+    const csv = `"Unit / Area","Budget","Actual","","","Open Committed","Variance","","","","","","",""
+"Unit 14","22920.58","25640.03","23837.41","0","1500","-4219.45","-3302.62","","","","","",""
+"Unit / Area","Category","Budget Item / Scope","","","Paid From Draws","","","","","Vendor","Link","Draw #","Status","Source","Notes","",""
+"Unit 14","Exterior","01. ROOFING","1010","1010","","","","0","-1010","","","","Imported","Src","Notes","",""
+"NEXT DRAW PACKET DRAFT — Homestead Hill / 2818 Washington Ave","","","","","","","","","","","","","","","","",""
+"Rule","only receipt-backed items","","","","","","","","","","","","","","","",""
+"Gross requested amount","14688.24","","","","","","","","","","","","","","","",""
+"Draw Draft — 2026-07","some text","","","","","","","","","","","","","","","",""
+"EXCLUDED / NOT READY","reason","","","","","","","","","","","","","","","",""
+"Lender message draft","body","","","","","","","","","","","","","","","",""
+"Laundry Unit/Current Office","Appliances","Washer/Dryer","3149.01","3149.01","","","","0","0","RCS","link","","Ready","Src","Notes","",""
+`;
+    const d = parseDrawDashboard(csv);
+    const units = d.ledger.map((r) => r.unit);
+    expect(units).toContain('Unit 14');
+    expect(units).toContain('Laundry Unit/Current Office');
+    expect(units).not.toContain('Rule');
+    expect(units).not.toContain('Gross requested amount');
+    expect(units).not.toContain('Lender message draft');
+    expect(units.some((u) => u.startsWith('NEXT DRAW PACKET DRAFT'))).toBe(false);
+    expect(units.some((u) => u.startsWith('Draw Draft'))).toBe(false);
+    expect(units.some((u) => u.startsWith('EXCLUDED'))).toBe(false);
+  });
+
+  it('does not surface old net-funding-negative wording', () => {
     expect(data.warnings.some((w) => /Net funding position is negative/.test(w))).toBe(false);
   });
 });
