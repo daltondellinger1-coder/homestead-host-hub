@@ -114,6 +114,8 @@ describe('parseDrawDashboard', () => {
     expect(units.some((u) => u.startsWith('Draw Draft'))).toBe(false);
     expect(units.some((u) => u.startsWith('EXCLUDED'))).toBe(false);
   });
+
+  it('does not surface old net-funding-negative wording', () => {
     expect(data.warnings.some((w) => /Net funding position is negative/.test(w))).toBe(false);
   });
 });
