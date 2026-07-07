@@ -781,7 +781,7 @@ function DrawLedgerRowsTable({ rows, bucket, ledger }: { rows: DrawLedgerRow[]; 
                 </div>
                 {exception && (
                   <div className="text-[10px] text-amber-300 mt-0.5" title={exception.message}>
-                    Exception: {exception.code.replaceAll('_', ' ')}
+                    Exception: {exception.code.split('_').join(' ')}
                   </div>
                 )}
               </td>
