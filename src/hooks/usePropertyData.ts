@@ -243,7 +243,7 @@ export function usePropertyData() {
   // Assemble frontend shape
   const units = useMemo(
     () => assembleUnits(dbUnits, dbGuests, dbPayments, dbAllocations),
-    [dbUnits, dbGuests, dbPayments],
+    [dbUnits, dbGuests, dbPayments, dbAllocations],
   );
 
   // Map unit id → guest db id for payment operations
