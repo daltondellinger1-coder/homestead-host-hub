@@ -581,81 +581,136 @@ export function usePropertyData() {
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
   }, [guestIdByUnit, dbGuests]);
 
+  // Persist allocations for a payment: wipe existing and re-insert meaningful ones.
+  const persistAllocations = useCallback(async (paymentId: string, allocations?: PaymentAllocation[]) => {
+    const meaningful = (allocations ?? []).filter(a => a.amount > 0);
+    await supabase.from('payment_allocations').delete().eq('payment_id', paymentId);
+    if (meaningful.length > 1) {
+      const rows = meaningful.map(a => ({
+        payment_id: paymentId,
+        method: a.method,
+        other_description: a.method === 'other' ? (a.otherDescription ?? null) : null,
+        amount: a.amount,
+      }));
+      const { data } = await supabase.from('payment_allocations').insert(rows).select();
+      setDbAllocations(prev => [...prev.filter(x => x.payment_id !== paymentId), ...(data ?? [])]);
+    } else {
+      setDbAllocations(prev => prev.filter(x => x.payment_id !== paymentId));
+    }
+  }, []);
+
+  function buildPaymentInsert(payment: Payment) {
+    const isPaid = payment.status === 'paid';
+    const meaningful = (payment.allocations ?? []).filter(a => a.amount > 0);
+    const isSplit = meaningful.length > 1;
+    return {
+      amount: payment.amount,
+      date: payment.date,
+      status: payment.status,
+      note: payment.note || null,
+      payment_method: isSplit
+        ? null
+        : (payment.paymentMethod ?? meaningful[0]?.method ?? null),
+      payment_method_other: isSplit
+        ? null
+        : ((payment.paymentMethod === 'other' || meaningful[0]?.method === 'other')
+            ? (payment.paymentMethodOther ?? meaningful[0]?.otherDescription ?? null)
+            : null),
+      needs_method_review: isPaid && !isSplit && !(payment.paymentMethod || meaningful[0]?.method),
+    };
+  }
+
   const addPayment = useCallback(async (unitId: string, payment: Payment) => {
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
 
     const { data } = await supabase
       .from('payments')
-      .insert({
-        guest_id: guestId,
-        unit_id: unitId,
-        amount: payment.amount,
-        date: payment.date,
-        status: payment.status,
-        note: payment.note || null,
-      })
+      .insert({ guest_id: guestId, unit_id: unitId, ...buildPaymentInsert(payment) })
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => [data, ...prev]);
+      await persistAllocations(data.id, payment.allocations);
       toast.success('Payment recorded');
     }
-  }, [guestIdByUnit]);
+  }, [guestIdByUnit, persistAllocations]);
 
   const addPaymentForGuest = useCallback(async (guestId: string, unitId: string, payment: Payment) => {
     const { data } = await supabase
       .from('payments')
-      .insert({
-        guest_id: guestId,
-        unit_id: unitId,
-        amount: payment.amount,
-        date: payment.date,
-        status: payment.status,
-        note: payment.note || null,
-      })
+      .insert({ guest_id: guestId, unit_id: unitId, ...buildPaymentInsert(payment) })
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => [data, ...prev]);
+      await persistAllocations(data.id, payment.allocations);
       toast.success('Payment added');
     }
-  }, []);
+  }, [persistAllocations]);
 
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
+    // Mark paid without a method → surfaces in the "needs method" review queue.
     const { data } = await supabase
       .from('payments')
-      .update({ status: 'paid' as const })
+      .update({ status: 'paid' as const, needs_method_review: true })
       .eq('id', paymentId)
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
-      toast.success('Payment marked as paid ✓');
+      toast.success('Marked paid — add a payment method to clear the review queue.');
     }
   }, []);
 
-  const updatePayment = useCallback(async (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: Payment['status'] }) => {
+  const updatePayment = useCallback(async (paymentId: string, updates: {
+    amount?: number; date?: string; note?: string; status?: Payment['status'];
+    paymentMethod?: PaymentMethod | null; paymentMethodOther?: string | null;
+    allocations?: PaymentAllocation[];
+  }) => {
+    const dbUpdates: Record<string, unknown> = {};
+    if (updates.amount !== undefined) dbUpdates.amount = updates.amount;
+    if (updates.date !== undefined) dbUpdates.date = updates.date;
+    if (updates.note !== undefined) dbUpdates.note = updates.note || null;
+    if (updates.status !== undefined) dbUpdates.status = updates.status;
+
+    const meaningful = (updates.allocations ?? []).filter(a => a.amount > 0);
+    const isSplit = meaningful.length > 1;
+    if (updates.paymentMethod !== undefined || updates.allocations !== undefined) {
+      dbUpdates.payment_method = isSplit ? null : (updates.paymentMethod ?? meaningful[0]?.method ?? null);
+      const otherVal = (dbUpdates.payment_method === 'other')
+        ? (updates.paymentMethodOther ?? meaningful[0]?.otherDescription ?? null)
+        : null;
+      dbUpdates.payment_method_other = otherVal;
+      // Clear review flag when a method is present or the payment is a valid split.
+      if (dbUpdates.payment_method || isSplit) {
+        dbUpdates.needs_method_review = false;
+      }
+    }
+
     const { data } = await supabase
       .from('payments')
-      .update(updates)
+      .update(dbUpdates)
       .eq('id', paymentId)
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+      if (updates.allocations !== undefined) {
+        await persistAllocations(paymentId, updates.allocations);
+      }
       toast.success('Payment updated');
     }
-  }, []);
+  }, [persistAllocations]);
 
   const markPaymentUnpaid = useCallback(async (paymentId: string) => {
     const { data } = await supabase
       .from('payments')
-      .update({ status: 'upcoming' as const })
+      .update({ status: 'upcoming' as const, needs_method_review: false })
       .eq('id', paymentId)
       .select()
       .single();
