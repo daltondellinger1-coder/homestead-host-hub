@@ -787,6 +787,15 @@ export function usePropertyData() {
 
       if (!unit || !guest) return [];
 
+      const allocations = dbAllocations
+        .filter(a => a.payment_id === p.id)
+        .map(a => ({
+          id: a.id,
+          method: a.method as PaymentMethod,
+          otherDescription: a.other_description ?? undefined,
+          amount: Number(a.amount),
+        }));
+
       return [{
         id: p.id,
         amount: Number(p.amount),
@@ -797,6 +806,10 @@ export function usePropertyData() {
         unitName: unit.name,
         guestName: guest.name,
         source: guest.source as BookingSource,
+        paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
+        paymentMethodOther: p.payment_method_other ?? undefined,
+        needsMethodReview: p.needs_method_review ?? false,
+        allocations,
       }];
     });
 
