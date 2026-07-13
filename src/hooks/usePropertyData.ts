@@ -102,19 +102,22 @@ export function usePropertyData() {
   const [dbUnits, setDbUnits] = useState<DbUnit[]>([]);
   const [dbGuests, setDbGuests] = useState<DbGuest[]>([]);
   const [dbPayments, setDbPayments] = useState<DbPayment[]>([]);
+  const [dbAllocations, setDbAllocations] = useState<DbPaymentAllocation[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch all data (RLS filters by user_id automatically)
   const fetchAll = useCallback(async () => {
-    const [unitsRes, guestsRes, paymentsRes] = await Promise.all([
+    const [unitsRes, guestsRes, paymentsRes, allocationsRes] = await Promise.all([
       supabase.from('units').select('*'),
       supabase.from('guests').select('*'),
       supabase.from('payments').select('*'),
+      supabase.from('payment_allocations').select('*'),
     ]);
 
     if (unitsRes.data) setDbUnits(unitsRes.data);
     if (guestsRes.data) setDbGuests(guestsRes.data);
     if (paymentsRes.data) setDbPayments(paymentsRes.data);
+    if (allocationsRes.data) setDbAllocations(allocationsRes.data);
     setLoading(false);
   }, []);
 
