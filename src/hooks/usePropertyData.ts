@@ -233,6 +233,16 @@ export function usePropertyData() {
           setDbPayments(prev => prev.filter(p => p.id !== (payload.old as { id: string }).id));
         }
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'payment_allocations' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          const row = payload.new as DbPaymentAllocation;
+          setDbAllocations(prev => prev.some(a => a.id === row.id) ? prev : [...prev, row]);
+        } else if (payload.eventType === 'UPDATE') {
+          setDbAllocations(prev => prev.map(a => a.id === (payload.new as DbPaymentAllocation).id ? payload.new as DbPaymentAllocation : a));
+        } else if (payload.eventType === 'DELETE') {
+          setDbAllocations(prev => prev.filter(a => a.id !== (payload.old as { id: string }).id));
+        }
+      })
       .subscribe();
 
     return () => {
