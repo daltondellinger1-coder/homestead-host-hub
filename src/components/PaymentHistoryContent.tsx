@@ -29,6 +29,7 @@ export default function PaymentHistoryContent() {
   const [unitFilter, setUnitFilter] = useState<string>('all');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>(initialStatus);
+  const [methodFilter, setMethodFilter] = useState<string>(searchParams.get('method') ?? 'all');
   const [dateFrom, setDateFrom] = useState(initialFrom);
   const [dateTo, setDateTo] = useState(initialTo);
   const [searchQuery, setSearchQuery] = useState('');
