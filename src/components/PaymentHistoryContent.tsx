@@ -1,13 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
-import { SOURCE_LABELS } from '@/types/property';
+import { SOURCE_LABELS, PAYMENT_METHOD_LABELS, PAYMENT_METHODS, PaymentMethod } from '@/types/property';
+import { summarizeMethod } from '@/lib/paymentMethods';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, X, Trash2 } from 'lucide-react';
+import { Search, Filter, X, Trash2, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import BulkDeletePaymentsDialog from '@/components/BulkDeletePaymentsDialog';
 
