@@ -86,7 +86,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
       paymentMethodOther: draft.paymentMethodOther,
       allocations: draft.allocations,
     });
-    if (!check.ok) {
+    if (check.ok === false) {
       toast.error(check.error);
       return;
     }
