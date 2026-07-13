@@ -6,13 +6,55 @@ export type UnitType = '1br' | '2br' | 'cottage';
 
 export type PaymentStatus = 'paid' | 'pending' | 'overdue' | 'upcoming';
 
+export type PaymentMethod =
+  | 'airbnb'
+  | 'stripe'
+  | 'square'
+  | 'venmo'
+  | 'paypal'
+  | 'zelle'
+  | 'cash'
+  | 'check'
+  | 'ach'
+  | 'credit_card'
+  | 'other';
+
+export interface PaymentAllocation {
+  id?: string;
+  method: PaymentMethod;
+  otherDescription?: string;
+  amount: number;
+}
+
 export interface Payment {
   id: string;
   amount: number;
   date: string; // ISO date
   status: PaymentStatus;
   note?: string;
+  paymentMethod?: PaymentMethod;
+  paymentMethodOther?: string;
+  needsMethodReview?: boolean;
+  allocations?: PaymentAllocation[];
 }
+
+export const PAYMENT_METHODS: PaymentMethod[] = [
+  'airbnb','stripe','square','venmo','paypal','zelle','cash','check','ach','credit_card','other',
+];
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  airbnb: 'Airbnb',
+  stripe: 'Stripe',
+  square: 'Square',
+  venmo: 'Venmo',
+  paypal: 'PayPal',
+  zelle: 'Zelle',
+  cash: 'Cash',
+  check: 'Check',
+  ach: 'ACH / Bank Transfer',
+  credit_card: 'Credit Card',
+  other: 'Other',
+};
 
 export interface Guest {
   name: string;
