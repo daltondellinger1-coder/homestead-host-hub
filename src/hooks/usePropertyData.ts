@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Unit, Guest, FutureGuest, Payment, UnitStatus, UnitType, BookingSource } from '@/types/property';
+import { Unit, Guest, FutureGuest, Payment, PaymentAllocation, PaymentMethod, UnitStatus, UnitType, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
 
 type DbUnit = Tables<'units'>;
 type DbGuest = Tables<'guests'>;
 type DbPayment = Tables<'payments'>;
+type DbPaymentAllocation = Tables<'payment_allocations'>;
 
 /**
  * Transforms DB rows into the frontend Unit shape (with embedded guest + payments).
