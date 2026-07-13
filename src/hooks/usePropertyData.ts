@@ -16,7 +16,20 @@ function assembleUnits(
   dbUnits: DbUnit[],
   dbGuests: DbGuest[],
   dbPayments: DbPayment[],
+  dbAllocations: DbPaymentAllocation[] = [],
 ): (Unit & { _guestDbId?: string })[] {
+  const allocationsByPayment = new Map<string, PaymentAllocation[]>();
+  for (const a of dbAllocations) {
+    const list = allocationsByPayment.get(a.payment_id) ?? [];
+    list.push({
+      id: a.id,
+      method: a.method as PaymentMethod,
+      otherDescription: a.other_description ?? undefined,
+      amount: Number(a.amount),
+    });
+    allocationsByPayment.set(a.payment_id, list);
+  }
+
   const paymentsByGuest = new Map<string, Payment[]>();
   for (const p of dbPayments) {
     const list = paymentsByGuest.get(p.guest_id) ?? [];
@@ -26,6 +39,10 @@ function assembleUnits(
       date: p.date,
       status: p.status,
       note: p.note ?? undefined,
+      paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
+      paymentMethodOther: p.payment_method_other ?? undefined,
+      needsMethodReview: p.needs_method_review ?? false,
+      allocations: allocationsByPayment.get(p.id) ?? [],
     });
     paymentsByGuest.set(p.guest_id, list);
   }
