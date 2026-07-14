@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Search, Filter, X, Trash2, AlertTriangle, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import BulkDeletePaymentsDialog from '@/components/BulkDeletePaymentsDialog';
-import { buildPaymentsCsv, downloadCsv } from '@/lib/paymentExport';
+import { buildPaymentsCsv, downloadCsv, DateBasis } from '@/lib/paymentExport';
 
 type SortField = 'date' | 'amount' | 'unit';
 type SortDir = 'asc' | 'desc';
@@ -36,6 +36,9 @@ export default function PaymentHistoryContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>(initialSort);
   const [sortDir, setSortDir] = useState<SortDir>(initialDir);
+  const [dateBasis, setDateBasis] = useState<DateBasis>(
+    (searchParams.get('basis') as DateBasis) === 'due' ? 'due' : 'received'
+  );
 
   const uniqueUnits = useMemo(() => {
     const names = [...new Set(allPaymentEvents.map(e => e.unitName))];
@@ -65,21 +68,37 @@ export default function PaymentHistoryContent() {
         (e.allocations ?? []).some(a => a.method === methodFilter),
       );
     }
-    if (dateFrom) result = result.filter(e => e.date >= dateFrom);
-    if (dateTo) result = result.filter(e => e.date <= dateTo);
+    const basisDate = (e: (typeof allPaymentEvents)[number]) =>
+      dateBasis === 'due' ? (e.dueDate ?? '') : e.date;
+    if (dateFrom) result = result.filter(e => {
+      const d = basisDate(e);
+      return d !== '' && d >= dateFrom;
+    });
+    if (dateTo) result = result.filter(e => {
+      const d = basisDate(e);
+      return d !== '' && d <= dateTo;
+    });
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(e => e.guestName.toLowerCase().includes(q) || e.unitName.toLowerCase().includes(q) || (e.note ?? '').toLowerCase().includes(q));
     }
     result.sort((a, b) => {
       let cmp = 0;
-      if (sortField === 'date') cmp = a.date.localeCompare(b.date);
+      if (sortField === 'date') {
+        // Sort by the selected date basis; rows missing the due date sort last.
+        const av = basisDate(a);
+        const bv = basisDate(b);
+        if (av === '' && bv === '') cmp = 0;
+        else if (av === '') cmp = 1;
+        else if (bv === '') cmp = -1;
+        else cmp = av.localeCompare(bv);
+      }
       else if (sortField === 'amount') cmp = a.amount - b.amount;
       else if (sortField === 'unit') cmp = a.unitName.localeCompare(b.unitName);
       return sortDir === 'desc' ? -cmp : cmp;
     });
     return result;
-  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, methodFilter, dateFrom, dateTo, searchQuery, sortField, sortDir]);
+  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, methodFilter, dateFrom, dateTo, searchQuery, sortField, sortDir, dateBasis]);
 
   const totalFiltered = filtered.reduce((s, e) => s + e.amount, 0);
   const paidTotal = filtered.filter(e => e.status === 'paid').reduce((s, e) => s + e.amount, 0);
@@ -190,13 +209,13 @@ export default function PaymentHistoryContent() {
             className="font-body text-[10px] h-6 px-2 ml-auto"
             onClick={() => {
               const csv = buildPaymentsCsv(filtered.map(e => ({
-                id: e.id, date: e.date, unitName: e.unitName, guestName: e.guestName,
+                id: e.id, date: e.date, dueDate: e.dueDate, unitName: e.unitName, guestName: e.guestName,
                 source: e.source, status: e.status, amount: e.amount, note: e.note,
                 paymentMethod: e.paymentMethod, paymentMethodOther: e.paymentMethodOther,
                 needsMethodReview: e.needsMethodReview, allocations: e.allocations,
-              })));
-              downloadCsv(`payments-${new Date().toISOString().slice(0,10)}.csv`, csv);
-              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'}`);
+              })), dateBasis);
+              downloadCsv(`payments-${dateBasis}-${new Date().toISOString().slice(0,10)}.csv`, csv);
+              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'} (${dateBasis === 'due' ? 'Due Date' : 'Received Date'})`);
             }}
           >
             <Download className="h-3 w-3 mr-1" />Export CSV
@@ -235,10 +254,21 @@ export default function PaymentHistoryContent() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-body">
-          <span className="text-muted-foreground">Date range:</span>
+          <span className="text-muted-foreground">Report by:</span>
+          <Select value={dateBasis} onValueChange={v => setDateBasis(v as DateBasis)}>
+            <SelectTrigger className="h-8 w-[160px] text-xs font-body"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="received">Received Date</SelectItem>
+              <SelectItem value="due">Due Date</SelectItem>
+            </SelectContent>
+          </Select>
+          <span className="text-muted-foreground ml-2">Range:</span>
           <Input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="h-8 w-auto text-xs font-body" />
           <span className="text-muted-foreground">to</span>
           <Input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="h-8 w-auto text-xs font-body" />
+          {dateBasis === 'due' && (
+            <span className="text-[10px] text-muted-foreground italic">Rows without a due date are hidden when a date range is applied.</span>
+          )}
         </div>
       </div>
 
@@ -247,7 +277,12 @@ export default function PaymentHistoryContent() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('date')}>Date{sortArrow('date')}</TableHead>
+              <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('date')}>
+                {dateBasis === 'due' ? 'Due' : 'Received'}{sortArrow('date')}
+              </TableHead>
+              <TableHead className="text-xs font-body hidden md:table-cell">
+                {dateBasis === 'due' ? 'Received' : 'Due'}
+              </TableHead>
               <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('unit')}>Unit{sortArrow('unit')}</TableHead>
               <TableHead className="text-xs font-body">Guest</TableHead>
               <TableHead className="text-xs font-body">Source</TableHead>
@@ -260,7 +295,7 @@ export default function PaymentHistoryContent() {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
+                <TableCell colSpan={9} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
               </TableRow>
             ) : (
               filtered.map(event => {
@@ -270,7 +305,20 @@ export default function PaymentHistoryContent() {
                 return (
                   <Fragment key={`${event.unitId}-${event.id}`}>
                     <TableRow>
-                      <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
+                      <TableCell className="text-xs font-body whitespace-nowrap">
+                        {dateBasis === 'due'
+                          ? (event.dueDate
+                              ? fmtDate(event.dueDate)
+                              : <span className="text-muted-foreground italic">Due date not recorded</span>)
+                          : fmtDate(event.date)}
+                      </TableCell>
+                      <TableCell className="text-xs font-body text-muted-foreground whitespace-nowrap hidden md:table-cell">
+                        {dateBasis === 'due'
+                          ? fmtDate(event.date)
+                          : (event.dueDate
+                              ? fmtDate(event.dueDate)
+                              : <span className="italic">—</span>)}
+                      </TableCell>
                       <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
                       <TableCell className="text-xs font-body">{event.guestName}</TableCell>
                       <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
@@ -289,7 +337,7 @@ export default function PaymentHistoryContent() {
                     </TableRow>
                     {isSplit && (
                       <TableRow key={`${event.unitId}-${event.id}-split`} className="bg-muted/20 hover:bg-muted/20">
-                        <TableCell colSpan={8} className="text-[10px] font-body text-muted-foreground py-1.5">
+                        <TableCell colSpan={9} className="text-[10px] font-body text-muted-foreground py-1.5">
                           <span className="mr-2">Allocations:</span>
                           {allocs.map((a, i) => (
                             <span key={i} className="mr-3">

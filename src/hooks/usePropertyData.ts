@@ -37,6 +37,7 @@ function assembleUnits(
       id: p.id,
       amount: Number(p.amount),
       date: p.date,
+      dueDate: p.due_date ?? undefined,
       status: p.status,
       note: p.note ?? undefined,
       paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
@@ -616,6 +617,7 @@ export function usePropertyData() {
     return {
       amount: payment.amount,
       date: payment.date,
+      due_date: payment.dueDate || null,
       status: payment.status,
       note: payment.note || null,
       payment_method: isSplit
@@ -677,13 +679,14 @@ export function usePropertyData() {
   }, []);
 
   const updatePayment = useCallback(async (paymentId: string, updates: {
-    amount?: number; date?: string; note?: string; status?: Payment['status'];
+    amount?: number; date?: string; dueDate?: string | null; note?: string; status?: Payment['status'];
     paymentMethod?: PaymentMethod | null; paymentMethodOther?: string | null;
     allocations?: PaymentAllocation[];
   }) => {
     const dbUpdates: Record<string, unknown> = {};
     if (updates.amount !== undefined) dbUpdates.amount = updates.amount;
     if (updates.date !== undefined) dbUpdates.date = updates.date;
+    if (updates.dueDate !== undefined) dbUpdates.due_date = updates.dueDate || null;
     if (updates.note !== undefined) dbUpdates.note = updates.note || null;
     if (updates.status !== undefined) dbUpdates.status = updates.status;
 
@@ -800,6 +803,7 @@ export function usePropertyData() {
         id: p.id,
         amount: Number(p.amount),
         date: p.date,
+        dueDate: p.due_date ?? undefined,
         status: p.status,
         note: p.note ?? undefined,
         unitId: p.unit_id,

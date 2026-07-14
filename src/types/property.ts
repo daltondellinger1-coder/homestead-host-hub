@@ -29,7 +29,8 @@ export interface PaymentAllocation {
 export interface Payment {
   id: string;
   amount: number;
-  date: string; // ISO date
+  date: string; // ISO date — payment received / recorded date
+  dueDate?: string; // ISO date — optional rent-due date; blank for legacy/one-off records
   status: PaymentStatus;
   note?: string;
   paymentMethod?: PaymentMethod;

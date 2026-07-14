@@ -22,6 +22,7 @@ type Alloc = { method: PaymentMethod; otherDescription: string; amount: string }
 export default function RecordPaymentDialog({ open, onClose, onSave, unitName, defaultAmount }: RecordPaymentDialogProps) {
   const [amount, setAmount] = useState(defaultAmount?.toString() ?? '');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [dueDate, setDueDate] = useState('');
   const [status, setStatus] = useState<PaymentStatus>('paid');
   const [note, setNote] = useState('');
   const [saving, setSaving] = useState(false);
@@ -43,6 +44,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
   const reset = () => {
     setAmount(defaultAmount?.toString() ?? '');
     setDate(new Date().toISOString().split('T')[0]);
+    setDueDate('');
     setStatus('paid');
     setNote('');
     setSplit(false);
@@ -72,6 +74,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
       id: crypto.randomUUID(),
       amount: numAmount,
       date,
+      dueDate: dueDate || undefined,
       status,
       note: note.trim() || undefined,
       paymentMethod: split ? undefined : (method || undefined),
@@ -117,8 +120,13 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="pay-date">Date</Label>
+            <Label htmlFor="pay-date">Received Date</Label>
             <Input id="pay-date" type="date" value={date} onChange={e => setDate(e.target.value)} />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="pay-due-date">Rent Due Date <span className="text-muted-foreground text-[10px]">(optional — leave blank for one-off / deposits / refunds)</span></Label>
+            <Input id="pay-due-date" type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} />
           </div>
 
           <div className="space-y-1.5">
