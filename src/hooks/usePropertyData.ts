@@ -803,6 +803,7 @@ export function usePropertyData() {
         id: p.id,
         amount: Number(p.amount),
         date: p.date,
+        dueDate: p.due_date ?? undefined,
         status: p.status,
         note: p.note ?? undefined,
         unitId: p.unit_id,
