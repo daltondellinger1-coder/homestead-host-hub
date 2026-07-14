@@ -209,13 +209,13 @@ export default function PaymentHistoryContent() {
             className="font-body text-[10px] h-6 px-2 ml-auto"
             onClick={() => {
               const csv = buildPaymentsCsv(filtered.map(e => ({
-                id: e.id, date: e.date, unitName: e.unitName, guestName: e.guestName,
+                id: e.id, date: e.date, dueDate: e.dueDate, unitName: e.unitName, guestName: e.guestName,
                 source: e.source, status: e.status, amount: e.amount, note: e.note,
                 paymentMethod: e.paymentMethod, paymentMethodOther: e.paymentMethodOther,
                 needsMethodReview: e.needsMethodReview, allocations: e.allocations,
-              })));
-              downloadCsv(`payments-${new Date().toISOString().slice(0,10)}.csv`, csv);
-              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'}`);
+              })), dateBasis);
+              downloadCsv(`payments-${dateBasis}-${new Date().toISOString().slice(0,10)}.csv`, csv);
+              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'} (${dateBasis === 'due' ? 'Due Date' : 'Received Date'})`);
             }}
           >
             <Download className="h-3 w-3 mr-1" />Export CSV
