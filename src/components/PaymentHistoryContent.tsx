@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { Fragment, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { SOURCE_LABELS, PAYMENT_METHOD_LABELS, PAYMENT_METHODS, PaymentMethod } from '@/types/property';
@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, X, Trash2, AlertTriangle } from 'lucide-react';
+import { Search, Filter, X, Trash2, AlertTriangle, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import BulkDeletePaymentsDialog from '@/components/BulkDeletePaymentsDialog';
+import { buildPaymentsCsv, downloadCsv } from '@/lib/paymentExport';
 
 type SortField = 'date' | 'amount' | 'unit';
 type SortDir = 'asc' | 'desc';
@@ -183,7 +184,24 @@ export default function PaymentHistoryContent() {
               <X className="h-3 w-3 mr-1" />Clear all
             </Button>
           )}
-          <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive font-body text-[10px] h-6 px-2 ml-auto" onClick={() => setBulkDeleteOpen(true)}>
+          <Button
+            size="sm"
+            variant="outline"
+            className="font-body text-[10px] h-6 px-2 ml-auto"
+            onClick={() => {
+              const csv = buildPaymentsCsv(filtered.map(e => ({
+                id: e.id, date: e.date, unitName: e.unitName, guestName: e.guestName,
+                source: e.source, status: e.status, amount: e.amount, note: e.note,
+                paymentMethod: e.paymentMethod, paymentMethodOther: e.paymentMethodOther,
+                needsMethodReview: e.needsMethodReview, allocations: e.allocations,
+              })));
+              downloadCsv(`payments-${new Date().toISOString().slice(0,10)}.csv`, csv);
+              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'}`);
+            }}
+          >
+            <Download className="h-3 w-3 mr-1" />Export CSV
+          </Button>
+          <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive font-body text-[10px] h-6 px-2" onClick={() => setBulkDeleteOpen(true)}>
             <Trash2 className="h-3 w-3 mr-1" />Bulk Delete
           </Button>
         </div>
@@ -247,25 +265,41 @@ export default function PaymentHistoryContent() {
             ) : (
               filtered.map(event => {
                 const methodLabel = summarizeMethod(event.paymentMethod ?? null, event.allocations, event.paymentMethodOther);
+                const allocs = (event.allocations ?? []).filter(a => a.amount > 0);
+                const isSplit = allocs.length > 1;
                 return (
-                  <TableRow key={`${event.unitId}-${event.id}`}>
-                    <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
-                    <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
-                    <TableCell className="text-xs font-body">{event.guestName}</TableCell>
-                    <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
-                    <TableCell className="text-xs font-body">
-                      {methodLabel ? (
-                        <Badge variant="outline" className="text-[10px] font-body font-normal">{methodLabel}</Badge>
-                      ) : event.needsMethodReview ? (
-                        <Badge variant="outline" className="text-[10px] font-body font-normal bg-[hsl(var(--warning))]/15 text-[hsl(var(--warning))] border-[hsl(var(--warning))]/30">Needs method</Badge>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell>{statusBadge(event.status)}</TableCell>
-                    <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
-                    <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
-                  </TableRow>
+                  <Fragment key={`${event.unitId}-${event.id}`}>
+                    <TableRow>
+                      <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
+                      <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
+                      <TableCell className="text-xs font-body">{event.guestName}</TableCell>
+                      <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
+                      <TableCell className="text-xs font-body">
+                        {methodLabel ? (
+                          <Badge variant="outline" className="text-[10px] font-body font-normal">{methodLabel}</Badge>
+                        ) : event.needsMethodReview ? (
+                          <Badge variant="outline" className="text-[10px] font-body font-normal bg-[hsl(var(--warning))]/15 text-[hsl(var(--warning))] border-[hsl(var(--warning))]/30">Needs method</Badge>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>{statusBadge(event.status)}</TableCell>
+                      <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
+                      <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
+                    </TableRow>
+                    {isSplit && (
+                      <TableRow key={`${event.unitId}-${event.id}-split`} className="bg-muted/20 hover:bg-muted/20">
+                        <TableCell colSpan={8} className="text-[10px] font-body text-muted-foreground py-1.5">
+                          <span className="mr-2">Allocations:</span>
+                          {allocs.map((a, i) => (
+                            <span key={i} className="mr-3">
+                              {a.method === 'other' && a.otherDescription ? a.otherDescription : PAYMENT_METHOD_LABELS[a.method]}: <span className="tabular-nums font-medium text-foreground">{fmt(a.amount)}</span>
+                            </span>
+                          ))}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
                 );
               })
             )}
