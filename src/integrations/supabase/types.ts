@@ -523,6 +523,7 @@ export type Database = {
           amount: number
           created_at: string
           date: string
+          due_date: string | null
           guest_id: string
           id: string
           needs_method_review: boolean
@@ -537,6 +538,7 @@ export type Database = {
           amount: number
           created_at?: string
           date: string
+          due_date?: string | null
           guest_id: string
           id?: string
           needs_method_review?: boolean
@@ -551,6 +553,7 @@ export type Database = {
           amount?: number
           created_at?: string
           date?: string
+          due_date?: string | null
           guest_id?: string
           id?: string
           needs_method_review?: boolean
