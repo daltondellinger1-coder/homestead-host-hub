@@ -617,6 +617,7 @@ export function usePropertyData() {
     return {
       amount: payment.amount,
       date: payment.date,
+      due_date: payment.dueDate || null,
       status: payment.status,
       note: payment.note || null,
       payment_method: isSplit
