@@ -37,6 +37,7 @@ function assembleUnits(
       id: p.id,
       amount: Number(p.amount),
       date: p.date,
+      dueDate: p.due_date ?? undefined,
       status: p.status,
       note: p.note ?? undefined,
       paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
