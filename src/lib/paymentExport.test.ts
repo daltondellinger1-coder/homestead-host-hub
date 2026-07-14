@@ -46,4 +46,52 @@ describe('buildPaymentsCsv', () => {
     ]);
     expect(csv).toContain('"hello, ""world"""');
   });
+
+  it('includes both received_date and due_date columns in the header', () => {
+    const csv = buildPaymentsCsv([]);
+    const [header] = csv.split('\n');
+    expect(header).toContain('received_date');
+    expect(header).toContain('due_date');
+    expect(header).toContain('report_basis');
+    expect(header).toContain('report_date');
+  });
+
+  it('defaults to Received Date basis: report_date matches received date, due_date column carries the due date', () => {
+    const csv = buildPaymentsCsv([
+      {
+        id: 'p5', date: '2026-02-03', dueDate: '2026-02-01',
+        unitName: 'Unit 1', guestName: 'Ann',
+        source: 'direct', status: 'paid', amount: 1000, paymentMethod: 'cash',
+      },
+    ]);
+    const [, row] = csv.split('\n');
+    const cols = row.split(',');
+    // header: payment_id, report_basis, report_date, received_date, due_date, ...
+    expect(cols[1]).toBe('received');
+    expect(cols[2]).toBe('2026-02-03');
+    expect(cols[3]).toBe('2026-02-03');
+    expect(cols[4]).toBe('2026-02-01');
+  });
+
+  it('Due Date basis: report_date follows dueDate, and is blank when due date is missing', () => {
+    const csv = buildPaymentsCsv([
+      {
+        id: 'p6', date: '2026-02-03', dueDate: '2026-02-01',
+        unitName: 'Unit 1', guestName: 'Ann',
+        source: 'direct', status: 'paid', amount: 1000, paymentMethod: 'cash',
+      },
+      {
+        id: 'p7', date: '2026-02-10',
+        unitName: 'Unit 2', guestName: 'Legacy',
+        source: 'direct', status: 'paid', amount: 500, paymentMethod: 'cash',
+      },
+    ], 'due');
+    const rows = csv.split('\n').slice(1);
+    const [row1, row2] = rows.map(r => r.split(','));
+    expect(row1[1]).toBe('due');
+    expect(row1[2]).toBe('2026-02-01'); // reports on due date
+    expect(row2[1]).toBe('due');
+    expect(row2[2]).toBe(''); // blank when due date unrecorded
+    expect(row2[4]).toBe(''); // due_date column also blank
+  });
 });
