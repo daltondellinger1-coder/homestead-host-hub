@@ -36,6 +36,9 @@ export default function PaymentHistoryContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>(initialSort);
   const [sortDir, setSortDir] = useState<SortDir>(initialDir);
+  const [dateBasis, setDateBasis] = useState<DateBasis>(
+    (searchParams.get('basis') as DateBasis) === 'due' ? 'due' : 'received'
+  );
 
   const uniqueUnits = useMemo(() => {
     const names = [...new Set(allPaymentEvents.map(e => e.unitName))];
