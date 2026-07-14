@@ -254,10 +254,21 @@ export default function PaymentHistoryContent() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-body">
-          <span className="text-muted-foreground">Date range:</span>
+          <span className="text-muted-foreground">Report by:</span>
+          <Select value={dateBasis} onValueChange={v => setDateBasis(v as DateBasis)}>
+            <SelectTrigger className="h-8 w-[160px] text-xs font-body"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="received">Received Date</SelectItem>
+              <SelectItem value="due">Due Date</SelectItem>
+            </SelectContent>
+          </Select>
+          <span className="text-muted-foreground ml-2">Range:</span>
           <Input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="h-8 w-auto text-xs font-body" />
           <span className="text-muted-foreground">to</span>
           <Input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="h-8 w-auto text-xs font-body" />
+          {dateBasis === 'due' && (
+            <span className="text-[10px] text-muted-foreground italic">Rows without a due date are hidden when a date range is applied.</span>
+          )}
         </div>
       </div>
 
