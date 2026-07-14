@@ -68,21 +68,37 @@ export default function PaymentHistoryContent() {
         (e.allocations ?? []).some(a => a.method === methodFilter),
       );
     }
-    if (dateFrom) result = result.filter(e => e.date >= dateFrom);
-    if (dateTo) result = result.filter(e => e.date <= dateTo);
+    const basisDate = (e: (typeof allPaymentEvents)[number]) =>
+      dateBasis === 'due' ? (e.dueDate ?? '') : e.date;
+    if (dateFrom) result = result.filter(e => {
+      const d = basisDate(e);
+      return d !== '' && d >= dateFrom;
+    });
+    if (dateTo) result = result.filter(e => {
+      const d = basisDate(e);
+      return d !== '' && d <= dateTo;
+    });
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(e => e.guestName.toLowerCase().includes(q) || e.unitName.toLowerCase().includes(q) || (e.note ?? '').toLowerCase().includes(q));
     }
     result.sort((a, b) => {
       let cmp = 0;
-      if (sortField === 'date') cmp = a.date.localeCompare(b.date);
+      if (sortField === 'date') {
+        // Sort by the selected date basis; rows missing the due date sort last.
+        const av = basisDate(a);
+        const bv = basisDate(b);
+        if (av === '' && bv === '') cmp = 0;
+        else if (av === '') cmp = 1;
+        else if (bv === '') cmp = -1;
+        else cmp = av.localeCompare(bv);
+      }
       else if (sortField === 'amount') cmp = a.amount - b.amount;
       else if (sortField === 'unit') cmp = a.unitName.localeCompare(b.unitName);
       return sortDir === 'desc' ? -cmp : cmp;
     });
     return result;
-  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, methodFilter, dateFrom, dateTo, searchQuery, sortField, sortDir]);
+  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, methodFilter, dateFrom, dateTo, searchQuery, sortField, sortDir, dateBasis]);
 
   const totalFiltered = filtered.reduce((s, e) => s + e.amount, 0);
   const paidTotal = filtered.filter(e => e.status === 'paid').reduce((s, e) => s + e.amount, 0);
