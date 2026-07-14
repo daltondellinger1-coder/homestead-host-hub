@@ -268,8 +268,8 @@ export default function PaymentHistoryContent() {
                 const allocs = (event.allocations ?? []).filter(a => a.amount > 0);
                 const isSplit = allocs.length > 1;
                 return (
-                  <>
-                    <TableRow key={`${event.unitId}-${event.id}`}>
+                  <Fragment key={`${event.unitId}-${event.id}`}>
+                    <TableRow>
                       <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
                       <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
                       <TableCell className="text-xs font-body">{event.guestName}</TableCell>
