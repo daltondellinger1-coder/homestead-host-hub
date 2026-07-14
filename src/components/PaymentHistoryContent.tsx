@@ -146,6 +146,33 @@ export default function PaymentHistoryContent() {
         </div>
       </div>
 
+      {needsReviewCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setMethodFilter('needs_review')}
+          className="w-full flex items-center gap-2 rounded-xl border border-[hsl(var(--warning))]/40 bg-[hsl(var(--warning))]/10 px-4 py-3 text-left hover:bg-[hsl(var(--warning))]/15 transition"
+        >
+          <AlertTriangle className="h-4 w-4 text-[hsl(var(--warning))] shrink-0" />
+          <div className="text-xs font-body">
+            <span className="font-heading font-semibold text-[hsl(var(--warning))]">{needsReviewCount}</span>{' '}
+            paid payment{needsReviewCount === 1 ? '' : 's'} need a payment method — tap to review.
+          </div>
+        </button>
+      )}
+
+      {methodTotals.length > 0 && (
+        <div className="glass-card rounded-xl p-4">
+          <p className="text-xs font-body text-muted-foreground mb-2">Collected by method</p>
+          <div className="flex flex-wrap gap-2">
+            {methodTotals.map(([m, total]) => (
+              <Badge key={m} variant="outline" className="text-[10px] font-body">
+                {PAYMENT_METHOD_LABELS[m]}: {fmt(total)}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="glass-card rounded-xl p-4 space-y-3">
         <div className="flex items-center gap-2 text-xs font-body text-muted-foreground">
@@ -161,7 +188,7 @@ export default function PaymentHistoryContent() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
           <div className="relative lg:col-span-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input placeholder="Search guest, unit, note..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-9 h-9 text-xs font-body" />
@@ -178,6 +205,15 @@ export default function PaymentHistoryContent() {
             <SelectTrigger className="h-9 text-xs font-body"><SelectValue placeholder="All Statuses" /></SelectTrigger>
             <SelectContent><SelectItem value="all">All Statuses</SelectItem><SelectItem value="paid">Paid</SelectItem><SelectItem value="upcoming">Upcoming</SelectItem><SelectItem value="pending">Pending</SelectItem><SelectItem value="overdue">Overdue</SelectItem></SelectContent>
           </Select>
+          <Select value={methodFilter} onValueChange={setMethodFilter}>
+            <SelectTrigger className="h-9 text-xs font-body"><SelectValue placeholder="All Methods" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Methods</SelectItem>
+              <SelectItem value="needs_review">Needs payment method</SelectItem>
+              <SelectItem value="split">Split payments</SelectItem>
+              {PAYMENT_METHODS.map(m => (<SelectItem key={m} value={m}>{PAYMENT_METHOD_LABELS[m]}</SelectItem>))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-body">
@@ -189,7 +225,7 @@ export default function PaymentHistoryContent() {
       </div>
 
       {/* Table */}
-      <div className="glass-card rounded-xl overflow-hidden">
+      <div className="glass-card rounded-xl overflow-hidden overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -197,6 +233,7 @@ export default function PaymentHistoryContent() {
               <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('unit')}>Unit{sortArrow('unit')}</TableHead>
               <TableHead className="text-xs font-body">Guest</TableHead>
               <TableHead className="text-xs font-body">Source</TableHead>
+              <TableHead className="text-xs font-body">Method</TableHead>
               <TableHead className="text-xs font-body">Status</TableHead>
               <TableHead className="text-right cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('amount')}>Amount{sortArrow('amount')}</TableHead>
               <TableHead className="text-xs font-body hidden sm:table-cell">Note</TableHead>
@@ -205,24 +242,37 @@ export default function PaymentHistoryContent() {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
+                <TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
               </TableRow>
             ) : (
-              filtered.map(event => (
-                <TableRow key={`${event.unitId}-${event.id}`}>
-                  <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
-                  <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
-                  <TableCell className="text-xs font-body">{event.guestName}</TableCell>
-                  <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
-                  <TableCell>{statusBadge(event.status)}</TableCell>
-                  <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
-                  <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
-                </TableRow>
-              ))
+              filtered.map(event => {
+                const methodLabel = summarizeMethod(event.paymentMethod ?? null, event.allocations, event.paymentMethodOther);
+                return (
+                  <TableRow key={`${event.unitId}-${event.id}`}>
+                    <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
+                    <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
+                    <TableCell className="text-xs font-body">{event.guestName}</TableCell>
+                    <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
+                    <TableCell className="text-xs font-body">
+                      {methodLabel ? (
+                        <Badge variant="outline" className="text-[10px] font-body font-normal">{methodLabel}</Badge>
+                      ) : event.needsMethodReview ? (
+                        <Badge variant="outline" className="text-[10px] font-body font-normal bg-[hsl(var(--warning))]/15 text-[hsl(var(--warning))] border-[hsl(var(--warning))]/30">Needs method</Badge>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>{statusBadge(event.status)}</TableCell>
+                    <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
+                    <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>
       </div>
+
 
       <BulkDeletePaymentsDialog
         open={bulkDeleteOpen}
