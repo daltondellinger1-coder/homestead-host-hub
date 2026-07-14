@@ -265,25 +265,41 @@ export default function PaymentHistoryContent() {
             ) : (
               filtered.map(event => {
                 const methodLabel = summarizeMethod(event.paymentMethod ?? null, event.allocations, event.paymentMethodOther);
+                const allocs = (event.allocations ?? []).filter(a => a.amount > 0);
+                const isSplit = allocs.length > 1;
                 return (
-                  <TableRow key={`${event.unitId}-${event.id}`}>
-                    <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
-                    <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
-                    <TableCell className="text-xs font-body">{event.guestName}</TableCell>
-                    <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
-                    <TableCell className="text-xs font-body">
-                      {methodLabel ? (
-                        <Badge variant="outline" className="text-[10px] font-body font-normal">{methodLabel}</Badge>
-                      ) : event.needsMethodReview ? (
-                        <Badge variant="outline" className="text-[10px] font-body font-normal bg-[hsl(var(--warning))]/15 text-[hsl(var(--warning))] border-[hsl(var(--warning))]/30">Needs method</Badge>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell>{statusBadge(event.status)}</TableCell>
-                    <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
-                    <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
-                  </TableRow>
+                  <>
+                    <TableRow key={`${event.unitId}-${event.id}`}>
+                      <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
+                      <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
+                      <TableCell className="text-xs font-body">{event.guestName}</TableCell>
+                      <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
+                      <TableCell className="text-xs font-body">
+                        {methodLabel ? (
+                          <Badge variant="outline" className="text-[10px] font-body font-normal">{methodLabel}</Badge>
+                        ) : event.needsMethodReview ? (
+                          <Badge variant="outline" className="text-[10px] font-body font-normal bg-[hsl(var(--warning))]/15 text-[hsl(var(--warning))] border-[hsl(var(--warning))]/30">Needs method</Badge>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>{statusBadge(event.status)}</TableCell>
+                      <TableCell className="text-right text-xs font-body font-medium tabular-nums">{fmt(event.amount)}</TableCell>
+                      <TableCell className="text-xs font-body text-muted-foreground hidden sm:table-cell max-w-[200px] truncate">{event.note ?? '—'}</TableCell>
+                    </TableRow>
+                    {isSplit && (
+                      <TableRow key={`${event.unitId}-${event.id}-split`} className="bg-muted/20 hover:bg-muted/20">
+                        <TableCell colSpan={8} className="text-[10px] font-body text-muted-foreground py-1.5">
+                          <span className="mr-2">Allocations:</span>
+                          {allocs.map((a, i) => (
+                            <span key={i} className="mr-3">
+                              {a.method === 'other' && a.otherDescription ? a.otherDescription : PAYMENT_METHOD_LABELS[a.method]}: <span className="tabular-nums font-medium text-foreground">{fmt(a.amount)}</span>
+                            </span>
+                          ))}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </>
                 );
               })
             )}
