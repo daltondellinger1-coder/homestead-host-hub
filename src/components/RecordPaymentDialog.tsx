@@ -22,6 +22,7 @@ type Alloc = { method: PaymentMethod; otherDescription: string; amount: string }
 export default function RecordPaymentDialog({ open, onClose, onSave, unitName, defaultAmount }: RecordPaymentDialogProps) {
   const [amount, setAmount] = useState(defaultAmount?.toString() ?? '');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [dueDate, setDueDate] = useState('');
   const [status, setStatus] = useState<PaymentStatus>('paid');
   const [note, setNote] = useState('');
   const [saving, setSaving] = useState(false);
@@ -43,6 +44,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
   const reset = () => {
     setAmount(defaultAmount?.toString() ?? '');
     setDate(new Date().toISOString().split('T')[0]);
+    setDueDate('');
     setStatus('paid');
     setNote('');
     setSplit(false);
