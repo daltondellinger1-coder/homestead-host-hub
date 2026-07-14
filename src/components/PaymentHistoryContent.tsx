@@ -54,6 +54,16 @@ export default function PaymentHistoryContent() {
     if (unitFilter !== 'all') result = result.filter(e => e.unitName === unitFilter);
     if (sourceFilter !== 'all') result = result.filter(e => e.source === sourceFilter);
     if (statusFilter !== 'all') result = result.filter(e => e.status === statusFilter);
+    if (methodFilter === 'needs_review') {
+      result = result.filter(e => e.needsMethodReview);
+    } else if (methodFilter === 'split') {
+      result = result.filter(e => (e.allocations?.length ?? 0) > 1);
+    } else if (methodFilter !== 'all') {
+      result = result.filter(e =>
+        e.paymentMethod === methodFilter ||
+        (e.allocations ?? []).some(a => a.method === methodFilter),
+      );
+    }
     if (dateFrom) result = result.filter(e => e.date >= dateFrom);
     if (dateTo) result = result.filter(e => e.date <= dateTo);
     if (searchQuery.trim()) {
@@ -68,13 +78,27 @@ export default function PaymentHistoryContent() {
       return sortDir === 'desc' ? -cmp : cmp;
     });
     return result;
-  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, dateFrom, dateTo, searchQuery, sortField, sortDir]);
+  }, [allPaymentEvents, unitFilter, sourceFilter, statusFilter, methodFilter, dateFrom, dateTo, searchQuery, sortField, sortDir]);
 
   const totalFiltered = filtered.reduce((s, e) => s + e.amount, 0);
   const paidTotal = filtered.filter(e => e.status === 'paid').reduce((s, e) => s + e.amount, 0);
-  const hasActiveFilters = unitFilter !== 'all' || sourceFilter !== 'all' || statusFilter !== 'all' || dateFrom || dateTo || searchQuery;
+  const needsReviewCount = allPaymentEvents.filter(e => e.needsMethodReview).length;
+  const methodTotals = useMemo(() => {
+    const m = new Map<PaymentMethod, number>();
+    for (const e of filtered) {
+      if (e.status !== 'paid') continue;
+      const allocs = e.allocations ?? [];
+      if (allocs.length > 1) {
+        for (const a of allocs) m.set(a.method, (m.get(a.method) ?? 0) + a.amount);
+      } else if (e.paymentMethod) {
+        m.set(e.paymentMethod, (m.get(e.paymentMethod) ?? 0) + e.amount);
+      }
+    }
+    return [...m.entries()].sort((a, b) => b[1] - a[1]);
+  }, [filtered]);
+  const hasActiveFilters = unitFilter !== 'all' || sourceFilter !== 'all' || statusFilter !== 'all' || methodFilter !== 'all' || dateFrom || dateTo || searchQuery;
 
-  const clearFilters = () => { setUnitFilter('all'); setSourceFilter('all'); setStatusFilter('all'); setDateFrom(''); setDateTo(''); setSearchQuery(''); };
+  const clearFilters = () => { setUnitFilter('all'); setSourceFilter('all'); setStatusFilter('all'); setMethodFilter('all'); setDateFrom(''); setDateTo(''); setSearchQuery(''); };
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
