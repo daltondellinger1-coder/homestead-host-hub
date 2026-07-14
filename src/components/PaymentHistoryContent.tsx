@@ -184,7 +184,24 @@ export default function PaymentHistoryContent() {
               <X className="h-3 w-3 mr-1" />Clear all
             </Button>
           )}
-          <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive font-body text-[10px] h-6 px-2 ml-auto" onClick={() => setBulkDeleteOpen(true)}>
+          <Button
+            size="sm"
+            variant="outline"
+            className="font-body text-[10px] h-6 px-2 ml-auto"
+            onClick={() => {
+              const csv = buildPaymentsCsv(filtered.map(e => ({
+                id: e.id, date: e.date, unitName: e.unitName, guestName: e.guestName,
+                source: e.source, status: e.status, amount: e.amount, note: e.note,
+                paymentMethod: e.paymentMethod, paymentMethodOther: e.paymentMethodOther,
+                needsMethodReview: e.needsMethodReview, allocations: e.allocations,
+              })));
+              downloadCsv(`payments-${new Date().toISOString().slice(0,10)}.csv`, csv);
+              toast.success(`Exported ${filtered.length} payment${filtered.length === 1 ? '' : 's'}`);
+            }}
+          >
+            <Download className="h-3 w-3 mr-1" />Export CSV
+          </Button>
+          <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive font-body text-[10px] h-6 px-2" onClick={() => setBulkDeleteOpen(true)}>
             <Trash2 className="h-3 w-3 mr-1" />Bulk Delete
           </Button>
         </div>
