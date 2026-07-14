@@ -74,6 +74,7 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
       id: crypto.randomUUID(),
       amount: numAmount,
       date,
+      dueDate: dueDate || undefined,
       status,
       note: note.trim() || undefined,
       paymentMethod: split ? undefined : (method || undefined),
