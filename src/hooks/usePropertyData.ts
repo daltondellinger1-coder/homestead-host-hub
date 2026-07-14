@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Unit, Guest, FutureGuest, Payment, UnitStatus, UnitType, BookingSource } from '@/types/property';
+import { Unit, Guest, FutureGuest, Payment, PaymentAllocation, PaymentMethod, UnitStatus, UnitType, BookingSource } from '@/types/property';
 import { Tables } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
 
 type DbUnit = Tables<'units'>;
 type DbGuest = Tables<'guests'>;
 type DbPayment = Tables<'payments'>;
+type DbPaymentAllocation = Tables<'payment_allocations'>;
 
 /**
  * Transforms DB rows into the frontend Unit shape (with embedded guest + payments).
@@ -15,7 +16,20 @@ function assembleUnits(
   dbUnits: DbUnit[],
   dbGuests: DbGuest[],
   dbPayments: DbPayment[],
+  dbAllocations: DbPaymentAllocation[] = [],
 ): (Unit & { _guestDbId?: string })[] {
+  const allocationsByPayment = new Map<string, PaymentAllocation[]>();
+  for (const a of dbAllocations) {
+    const list = allocationsByPayment.get(a.payment_id) ?? [];
+    list.push({
+      id: a.id,
+      method: a.method as PaymentMethod,
+      otherDescription: a.other_description ?? undefined,
+      amount: Number(a.amount),
+    });
+    allocationsByPayment.set(a.payment_id, list);
+  }
+
   const paymentsByGuest = new Map<string, Payment[]>();
   for (const p of dbPayments) {
     const list = paymentsByGuest.get(p.guest_id) ?? [];
@@ -25,6 +39,10 @@ function assembleUnits(
       date: p.date,
       status: p.status,
       note: p.note ?? undefined,
+      paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
+      paymentMethodOther: p.payment_method_other ?? undefined,
+      needsMethodReview: p.needs_method_review ?? false,
+      allocations: allocationsByPayment.get(p.id) ?? [],
     });
     paymentsByGuest.set(p.guest_id, list);
   }
@@ -84,19 +102,22 @@ export function usePropertyData() {
   const [dbUnits, setDbUnits] = useState<DbUnit[]>([]);
   const [dbGuests, setDbGuests] = useState<DbGuest[]>([]);
   const [dbPayments, setDbPayments] = useState<DbPayment[]>([]);
+  const [dbAllocations, setDbAllocations] = useState<DbPaymentAllocation[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch all data (RLS filters by user_id automatically)
   const fetchAll = useCallback(async () => {
-    const [unitsRes, guestsRes, paymentsRes] = await Promise.all([
+    const [unitsRes, guestsRes, paymentsRes, allocationsRes] = await Promise.all([
       supabase.from('units').select('*'),
       supabase.from('guests').select('*'),
       supabase.from('payments').select('*'),
+      supabase.from('payment_allocations').select('*'),
     ]);
 
     if (unitsRes.data) setDbUnits(unitsRes.data);
     if (guestsRes.data) setDbGuests(guestsRes.data);
     if (paymentsRes.data) setDbPayments(paymentsRes.data);
+    if (allocationsRes.data) setDbAllocations(allocationsRes.data);
     setLoading(false);
   }, []);
 
@@ -212,6 +233,16 @@ export function usePropertyData() {
           setDbPayments(prev => prev.filter(p => p.id !== (payload.old as { id: string }).id));
         }
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'payment_allocations' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          const row = payload.new as DbPaymentAllocation;
+          setDbAllocations(prev => prev.some(a => a.id === row.id) ? prev : [...prev, row]);
+        } else if (payload.eventType === 'UPDATE') {
+          setDbAllocations(prev => prev.map(a => a.id === (payload.new as DbPaymentAllocation).id ? payload.new as DbPaymentAllocation : a));
+        } else if (payload.eventType === 'DELETE') {
+          setDbAllocations(prev => prev.filter(a => a.id !== (payload.old as { id: string }).id));
+        }
+      })
       .subscribe();
 
     return () => {
@@ -221,8 +252,8 @@ export function usePropertyData() {
 
   // Assemble frontend shape
   const units = useMemo(
-    () => assembleUnits(dbUnits, dbGuests, dbPayments),
-    [dbUnits, dbGuests, dbPayments],
+    () => assembleUnits(dbUnits, dbGuests, dbPayments, dbAllocations),
+    [dbUnits, dbGuests, dbPayments, dbAllocations],
   );
 
   // Map unit id → guest db id for payment operations
@@ -560,81 +591,136 @@ export function usePropertyData() {
     if (unitData) setDbUnits(prev => prev.map(u => u.id === unitId ? unitData : u));
   }, [guestIdByUnit, dbGuests]);
 
+  // Persist allocations for a payment: wipe existing and re-insert meaningful ones.
+  const persistAllocations = useCallback(async (paymentId: string, allocations?: PaymentAllocation[]) => {
+    const meaningful = (allocations ?? []).filter(a => a.amount > 0);
+    await supabase.from('payment_allocations').delete().eq('payment_id', paymentId);
+    if (meaningful.length > 1) {
+      const rows = meaningful.map(a => ({
+        payment_id: paymentId,
+        method: a.method,
+        other_description: a.method === 'other' ? (a.otherDescription ?? null) : null,
+        amount: a.amount,
+      }));
+      const { data } = await supabase.from('payment_allocations').insert(rows).select();
+      setDbAllocations(prev => [...prev.filter(x => x.payment_id !== paymentId), ...(data ?? [])]);
+    } else {
+      setDbAllocations(prev => prev.filter(x => x.payment_id !== paymentId));
+    }
+  }, []);
+
+  function buildPaymentInsert(payment: Payment) {
+    const isPaid = payment.status === 'paid';
+    const meaningful = (payment.allocations ?? []).filter(a => a.amount > 0);
+    const isSplit = meaningful.length > 1;
+    return {
+      amount: payment.amount,
+      date: payment.date,
+      status: payment.status,
+      note: payment.note || null,
+      payment_method: isSplit
+        ? null
+        : (payment.paymentMethod ?? meaningful[0]?.method ?? null),
+      payment_method_other: isSplit
+        ? null
+        : ((payment.paymentMethod === 'other' || meaningful[0]?.method === 'other')
+            ? (payment.paymentMethodOther ?? meaningful[0]?.otherDescription ?? null)
+            : null),
+      needs_method_review: isPaid && !isSplit && !(payment.paymentMethod || meaningful[0]?.method),
+    };
+  }
+
   const addPayment = useCallback(async (unitId: string, payment: Payment) => {
     const guestId = guestIdByUnit.get(unitId);
     if (!guestId) return;
 
     const { data } = await supabase
       .from('payments')
-      .insert({
-        guest_id: guestId,
-        unit_id: unitId,
-        amount: payment.amount,
-        date: payment.date,
-        status: payment.status,
-        note: payment.note || null,
-      })
+      .insert({ guest_id: guestId, unit_id: unitId, ...buildPaymentInsert(payment) })
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => [data, ...prev]);
+      await persistAllocations(data.id, payment.allocations);
       toast.success('Payment recorded');
     }
-  }, [guestIdByUnit]);
+  }, [guestIdByUnit, persistAllocations]);
 
   const addPaymentForGuest = useCallback(async (guestId: string, unitId: string, payment: Payment) => {
     const { data } = await supabase
       .from('payments')
-      .insert({
-        guest_id: guestId,
-        unit_id: unitId,
-        amount: payment.amount,
-        date: payment.date,
-        status: payment.status,
-        note: payment.note || null,
-      })
+      .insert({ guest_id: guestId, unit_id: unitId, ...buildPaymentInsert(payment) })
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => [data, ...prev]);
+      await persistAllocations(data.id, payment.allocations);
       toast.success('Payment added');
     }
-  }, []);
+  }, [persistAllocations]);
 
   const markPaymentPaid = useCallback(async (unitId: string, paymentId: string) => {
+    // Mark paid without a method → surfaces in the "needs method" review queue.
     const { data } = await supabase
       .from('payments')
-      .update({ status: 'paid' as const })
+      .update({ status: 'paid' as const, needs_method_review: true })
       .eq('id', paymentId)
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
-      toast.success('Payment marked as paid ✓');
+      toast.success('Marked paid — add a payment method to clear the review queue.');
     }
   }, []);
 
-  const updatePayment = useCallback(async (paymentId: string, updates: { amount?: number; date?: string; note?: string; status?: Payment['status'] }) => {
+  const updatePayment = useCallback(async (paymentId: string, updates: {
+    amount?: number; date?: string; note?: string; status?: Payment['status'];
+    paymentMethod?: PaymentMethod | null; paymentMethodOther?: string | null;
+    allocations?: PaymentAllocation[];
+  }) => {
+    const dbUpdates: Record<string, unknown> = {};
+    if (updates.amount !== undefined) dbUpdates.amount = updates.amount;
+    if (updates.date !== undefined) dbUpdates.date = updates.date;
+    if (updates.note !== undefined) dbUpdates.note = updates.note || null;
+    if (updates.status !== undefined) dbUpdates.status = updates.status;
+
+    const meaningful = (updates.allocations ?? []).filter(a => a.amount > 0);
+    const isSplit = meaningful.length > 1;
+    if (updates.paymentMethod !== undefined || updates.allocations !== undefined) {
+      dbUpdates.payment_method = isSplit ? null : (updates.paymentMethod ?? meaningful[0]?.method ?? null);
+      const otherVal = (dbUpdates.payment_method === 'other')
+        ? (updates.paymentMethodOther ?? meaningful[0]?.otherDescription ?? null)
+        : null;
+      dbUpdates.payment_method_other = otherVal;
+      // Clear review flag when a method is present or the payment is a valid split.
+      if (dbUpdates.payment_method || isSplit) {
+        dbUpdates.needs_method_review = false;
+      }
+    }
+
     const { data } = await supabase
       .from('payments')
-      .update(updates)
+      .update(dbUpdates)
       .eq('id', paymentId)
       .select()
       .single();
 
     if (data) {
       setDbPayments(prev => prev.map(p => p.id === paymentId ? data : p));
+      if (updates.allocations !== undefined) {
+        await persistAllocations(paymentId, updates.allocations);
+      }
       toast.success('Payment updated');
     }
-  }, []);
+  }, [persistAllocations]);
 
   const markPaymentUnpaid = useCallback(async (paymentId: string) => {
     const { data } = await supabase
       .from('payments')
-      .update({ status: 'upcoming' as const })
+      .update({ status: 'upcoming' as const, needs_method_review: false })
       .eq('id', paymentId)
       .select()
       .single();
@@ -701,6 +787,15 @@ export function usePropertyData() {
 
       if (!unit || !guest) return [];
 
+      const allocations = dbAllocations
+        .filter(a => a.payment_id === p.id)
+        .map(a => ({
+          id: a.id,
+          method: a.method as PaymentMethod,
+          otherDescription: a.other_description ?? undefined,
+          amount: Number(a.amount),
+        }));
+
       return [{
         id: p.id,
         amount: Number(p.amount),
@@ -711,6 +806,10 @@ export function usePropertyData() {
         unitName: unit.name,
         guestName: guest.name,
         source: guest.source as BookingSource,
+        paymentMethod: (p.payment_method as PaymentMethod | null) ?? undefined,
+        paymentMethodOther: p.payment_method_other ?? undefined,
+        needsMethodReview: p.needs_method_review ?? false,
+        allocations,
       }];
     });
 

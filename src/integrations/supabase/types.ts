@@ -483,6 +483,41 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_allocations: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          method: Database["public"]["Enums"]["payment_method"]
+          other_description: string | null
+          payment_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          method: Database["public"]["Enums"]["payment_method"]
+          other_description?: string | null
+          payment_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"]
+          other_description?: string | null
+          payment_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
@@ -490,7 +525,10 @@ export type Database = {
           date: string
           guest_id: string
           id: string
+          needs_method_review: boolean
           note: string | null
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          payment_method_other: string | null
           status: Database["public"]["Enums"]["payment_status"]
           unit_id: string
           updated_at: string
@@ -501,7 +539,10 @@ export type Database = {
           date: string
           guest_id: string
           id?: string
+          needs_method_review?: boolean
           note?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          payment_method_other?: string | null
           status?: Database["public"]["Enums"]["payment_status"]
           unit_id: string
           updated_at?: string
@@ -512,7 +553,10 @@ export type Database = {
           date?: string
           guest_id?: string
           id?: string
+          needs_method_review?: boolean
           note?: string | null
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          payment_method_other?: string | null
           status?: Database["public"]["Enums"]["payment_status"]
           unit_id?: string
           updated_at?: string
@@ -699,6 +743,18 @@ export type Database = {
         | "waiting_on_parts"
         | "completed"
         | "closed_verified"
+      payment_method:
+        | "airbnb"
+        | "stripe"
+        | "square"
+        | "venmo"
+        | "paypal"
+        | "zelle"
+        | "cash"
+        | "check"
+        | "ach"
+        | "credit_card"
+        | "other"
       payment_status: "paid" | "pending" | "overdue" | "upcoming"
       unit_status: "occupied" | "vacant" | "rented" | "planning" | "storage"
       unit_type: "1br" | "2br" | "cottage"
@@ -851,6 +907,19 @@ export const Constants = {
         "waiting_on_parts",
         "completed",
         "closed_verified",
+      ],
+      payment_method: [
+        "airbnb",
+        "stripe",
+        "square",
+        "venmo",
+        "paypal",
+        "zelle",
+        "cash",
+        "check",
+        "ach",
+        "credit_card",
+        "other",
       ],
       payment_status: ["paid", "pending", "overdue", "upcoming"],
       unit_status: ["occupied", "vacant", "rented", "planning", "storage"],
