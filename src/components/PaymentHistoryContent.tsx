@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, X, Trash2, AlertTriangle } from 'lucide-react';
+import { Search, Filter, X, Trash2, AlertTriangle, Download } from 'lucide-react';
 import { toast } from 'sonner';
 import BulkDeletePaymentsDialog from '@/components/BulkDeletePaymentsDialog';
+import { buildPaymentsCsv, downloadCsv } from '@/lib/paymentExport';
 
 type SortField = 'date' | 'amount' | 'unit';
 type SortDir = 'asc' | 'desc';
