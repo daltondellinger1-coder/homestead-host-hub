@@ -305,7 +305,20 @@ export default function PaymentHistoryContent() {
                 return (
                   <Fragment key={`${event.unitId}-${event.id}`}>
                     <TableRow>
-                      <TableCell className="text-xs font-body whitespace-nowrap">{fmtDate(event.date)}</TableCell>
+                      <TableCell className="text-xs font-body whitespace-nowrap">
+                        {dateBasis === 'due'
+                          ? (event.dueDate
+                              ? fmtDate(event.dueDate)
+                              : <span className="text-muted-foreground italic">Due date not recorded</span>)
+                          : fmtDate(event.date)}
+                      </TableCell>
+                      <TableCell className="text-xs font-body text-muted-foreground whitespace-nowrap hidden md:table-cell">
+                        {dateBasis === 'due'
+                          ? fmtDate(event.date)
+                          : (event.dueDate
+                              ? fmtDate(event.dueDate)
+                              : <span className="italic">—</span>)}
+                      </TableCell>
                       <TableCell className="text-xs font-body font-medium">{event.unitName}</TableCell>
                       <TableCell className="text-xs font-body">{event.guestName}</TableCell>
                       <TableCell className="text-xs font-body"><Badge variant="secondary" className="text-[10px] font-body font-normal">{SOURCE_LABELS[event.source]}</Badge></TableCell>
@@ -324,7 +337,7 @@ export default function PaymentHistoryContent() {
                     </TableRow>
                     {isSplit && (
                       <TableRow key={`${event.unitId}-${event.id}-split`} className="bg-muted/20 hover:bg-muted/20">
-                        <TableCell colSpan={8} className="text-[10px] font-body text-muted-foreground py-1.5">
+                        <TableCell colSpan={9} className="text-[10px] font-body text-muted-foreground py-1.5">
                           <span className="mr-2">Allocations:</span>
                           {allocs.map((a, i) => (
                             <span key={i} className="mr-3">
