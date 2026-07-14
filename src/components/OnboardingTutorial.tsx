@@ -21,6 +21,12 @@ import {
   Camera,
   CheckCircle,
   Lightbulb,
+  CreditCard,
+  Split,
+  ClipboardCheck,
+  FileText,
+  Hammer,
+  Sparkles,
 } from 'lucide-react';
 import { adminTutorialSteps, maintenanceTutorialSteps, type TutorialIconName, type TutorialStepContent } from '@/components/tutorialContent';
 
@@ -45,6 +51,12 @@ function tutorialIcon(name: TutorialIconName) {
     case 'camera': return <Camera className={className} />;
     case 'check-circle': return <CheckCircle className={className} />;
     case 'lightbulb': return <Lightbulb className={className} />;
+    case 'credit-card': return <CreditCard className={className} />;
+    case 'split': return <Split className={className} />;
+    case 'clipboard-check': return <ClipboardCheck className={className} />;
+    case 'file-text': return <FileText className={className} />;
+    case 'hammer': return <Hammer className={className} />;
+    case 'sparkles': return <Sparkles className={className} />;
     case 'mountain':
     default:
       return <Mountain className={className} />;
