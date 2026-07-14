@@ -120,8 +120,13 @@ export default function RecordPaymentDialog({ open, onClose, onSave, unitName, d
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="pay-date">Date</Label>
+            <Label htmlFor="pay-date">Received Date</Label>
             <Input id="pay-date" type="date" value={date} onChange={e => setDate(e.target.value)} />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="pay-due-date">Rent Due Date <span className="text-muted-foreground text-[10px]">(optional — leave blank for one-off / deposits / refunds)</span></Label>
+            <Input id="pay-due-date" type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} />
           </div>
 
           <div className="space-y-1.5">
