@@ -277,7 +277,12 @@ export default function PaymentHistoryContent() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('date')}>Date{sortArrow('date')}</TableHead>
+              <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('date')}>
+                {dateBasis === 'due' ? 'Due' : 'Received'}{sortArrow('date')}
+              </TableHead>
+              <TableHead className="text-xs font-body hidden md:table-cell">
+                {dateBasis === 'due' ? 'Received' : 'Due'}
+              </TableHead>
               <TableHead className="cursor-pointer select-none text-xs font-body" onClick={() => toggleSort('unit')}>Unit{sortArrow('unit')}</TableHead>
               <TableHead className="text-xs font-body">Guest</TableHead>
               <TableHead className="text-xs font-body">Source</TableHead>
@@ -290,7 +295,7 @@ export default function PaymentHistoryContent() {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
+                <TableCell colSpan={9} className="text-center text-sm text-muted-foreground py-12 font-body">No payments match your filters</TableCell>
               </TableRow>
             ) : (
               filtered.map(event => {
