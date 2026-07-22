@@ -219,6 +219,85 @@ export type Database = {
         }
         Relationships: []
       }
+      booking_intake_events: {
+        Row: {
+          booking_request_id: string | null
+          created_at: string
+          error_text: string | null
+          external_booking_id: string | null
+          external_listing_id: string | null
+          external_source: string | null
+          id: string
+          outcome: string
+          raw_payload: Json | null
+        }
+        Insert: {
+          booking_request_id?: string | null
+          created_at?: string
+          error_text?: string | null
+          external_booking_id?: string | null
+          external_listing_id?: string | null
+          external_source?: string | null
+          id?: string
+          outcome: string
+          raw_payload?: Json | null
+        }
+        Update: {
+          booking_request_id?: string | null
+          created_at?: string
+          error_text?: string | null
+          external_booking_id?: string | null
+          external_listing_id?: string | null
+          external_source?: string | null
+          id?: string
+          outcome?: string
+          raw_payload?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_intake_events_booking_request_id_fkey"
+            columns: ["booking_request_id"]
+            isOneToOne: false
+            referencedRelation: "booking_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_listing_mappings: {
+        Row: {
+          created_at: string
+          external_listing_id: string
+          external_source: string
+          id: string
+          unit_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          external_listing_id: string
+          external_source: string
+          id?: string
+          unit_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          external_listing_id?: string
+          external_source?: string
+          id?: string
+          unit_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_listing_mappings_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       booking_requests: {
         Row: {
           assigned_unit_id: string | null
@@ -227,14 +306,19 @@ export type Database = {
           created_at: string
           decline_reason: string | null
           email: string
+          external_booking_id: string | null
+          external_listing_id: string | null
+          external_source: string | null
           id: string
           name: string
           notes: string | null
           num_guests: number
           phone: string | null
           preferred_unit_type: Database["public"]["Enums"]["unit_type"] | null
+          raw_payload: Json | null
           reviewed_at: string | null
           source: Database["public"]["Enums"]["booking_source"]
+          source_updated_at: string | null
           status: Database["public"]["Enums"]["booking_request_status"]
           updated_at: string
         }
@@ -245,14 +329,19 @@ export type Database = {
           created_at?: string
           decline_reason?: string | null
           email: string
+          external_booking_id?: string | null
+          external_listing_id?: string | null
+          external_source?: string | null
           id?: string
           name: string
           notes?: string | null
           num_guests?: number
           phone?: string | null
           preferred_unit_type?: Database["public"]["Enums"]["unit_type"] | null
+          raw_payload?: Json | null
           reviewed_at?: string | null
           source?: Database["public"]["Enums"]["booking_source"]
+          source_updated_at?: string | null
           status?: Database["public"]["Enums"]["booking_request_status"]
           updated_at?: string
         }
@@ -263,14 +352,19 @@ export type Database = {
           created_at?: string
           decline_reason?: string | null
           email?: string
+          external_booking_id?: string | null
+          external_listing_id?: string | null
+          external_source?: string | null
           id?: string
           name?: string
           notes?: string | null
           num_guests?: number
           phone?: string | null
           preferred_unit_type?: Database["public"]["Enums"]["unit_type"] | null
+          raw_payload?: Json | null
           reviewed_at?: string | null
           source?: Database["public"]["Enums"]["booking_source"]
+          source_updated_at?: string | null
           status?: Database["public"]["Enums"]["booking_request_status"]
           updated_at?: string
         }
