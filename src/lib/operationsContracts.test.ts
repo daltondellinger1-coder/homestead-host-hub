@@ -71,6 +71,14 @@ describe('Homestead Helper V1 contracts', () => {
     expect(migration).toContain('Owners manage approval rules');
   });
 
+  it('seeds the approved administrator identity and owner thresholds', () => {
+    expect(migration).toContain("'booking@homestead-hill.com', 'Briana', 'admin', true");
+    expect(migration).toContain("('maintenance', 250.00, true, false)");
+    expect(migration).toContain("('emergency_maintenance', 500.00, true, true)");
+    expect(migration).toContain("('supply_purchase', 250.00, true, false)");
+    expect(migration).toContain("('refund', 0.00, true, false)");
+  });
+
   it('includes phone-friendly controls for the critical manager and cleaner workflows', () => {
     expect(operationsPage).toContain('min-h-11');
     expect(operationsPage).toContain('overflow-x-auto');

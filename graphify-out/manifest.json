@@ -105,8 +105,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260723154000_homestead_helper_v1.sql": {
-    "mtime": 1784835127.865023,
-    "ast_hash": "8329b61f638a18c0c96051d811ff2287",
+    "mtime": 1784837903.7970438,
+    "ast_hash": "c0096db826ebcc22f4c8b61937752806",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260207035646_49f993a6-bdaa-4eec-a4a0-88b52c402771.sql": {
@@ -870,8 +870,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/src/lib/operationsContracts.test.ts": {
-    "mtime": 1784834741.2046125,
-    "ast_hash": "5a7ba6fe3014fcc7ad98713198e51506",
+    "mtime": 1784837974.1045825,
+    "ast_hash": "761d7a3fe49328e0369db4c88de07aaf",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/src/lib/calendarSyncHealth.ts": {
@@ -1030,8 +1030,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/README.md": {
-    "mtime": 1784834828.918291,
-    "ast_hash": "42ab067ac95eb556a90c469856de6fea",
+    "mtime": 1784835428.6513515,
+    "ast_hash": "49284fe27f76100762ba0ed6f3569bf7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/index.html": {
@@ -1040,8 +1040,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/docs/HOMESTEAD_HELPER_V1.md": {
-    "mtime": 1784834828.918291,
-    "ast_hash": "931fd198377c7f0e5c0c1440a0cdcac9",
+    "mtime": 1784837903.8006437,
+    "ast_hash": "2ff26c959b1d3c179aea7685d953eba7",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/docs/ops/full-system-test-goal-command.md": {

@@ -25,6 +25,19 @@ $$;
 
 GRANT EXECUTE ON FUNCTION public.has_any_role(text[]) TO authenticated;
 
+-- Briana uses the shared booking identity as a full-access administrator.
+-- The row can exist before first login; account-linking should attach user_id
+-- after Google authentication is enabled for this address.
+INSERT INTO public.user_roles (email, display_name, role, active)
+SELECT 'booking@homestead-hill.com', 'Briana', 'admin', true
+WHERE NOT EXISTS (
+  SELECT 1
+    FROM public.user_roles
+   WHERE lower(email) = 'booking@homestead-hill.com'
+     AND role::text = 'admin'
+     AND active = true
+);
+
 -- Existing guest rows continue to work and can be progressively enriched.
 ALTER TABLE public.guests
   ADD COLUMN IF NOT EXISTS email text,
@@ -337,12 +350,27 @@ CREATE TABLE IF NOT EXISTS public.approval_rules (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
-INSERT INTO public.approval_rules (category)
+INSERT INTO public.approval_rules (
+  category,
+  threshold_amount,
+  enabled,
+  emergency_override_allowed
+)
 VALUES
-  ('maintenance'), ('emergency_maintenance'), ('refund'),
-  ('guest_discount'), ('supply_purchase'), ('vendor_change'),
-  ('capital_improvement'), ('reservation_exception'), ('unit_pricing_exception')
-ON CONFLICT (category) DO NOTHING;
+  ('maintenance', 250.00, true, false),
+  ('emergency_maintenance', 500.00, true, true),
+  ('refund', 0.00, true, false),
+  ('guest_discount', 0.00, true, false),
+  ('supply_purchase', 250.00, true, false),
+  ('vendor_change', 0.00, true, false),
+  ('capital_improvement', 0.00, true, false),
+  ('reservation_exception', 0.00, true, false),
+  ('unit_pricing_exception', 0.00, true, false)
+ON CONFLICT (category) DO UPDATE
+SET threshold_amount = EXCLUDED.threshold_amount,
+    enabled = EXCLUDED.enabled,
+    emergency_override_allowed = EXCLUDED.emergency_override_allowed,
+    updated_at = now();
 
 CREATE TABLE IF NOT EXISTS public.approval_requests (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

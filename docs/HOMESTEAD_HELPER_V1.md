@@ -118,13 +118,12 @@ The command center includes urgent items, arrivals, departures, same-day turns, 
 
 ## Role setup
 
-Keep Dalton as `admin`.
-
-Assign Briana:
+Keep Dalton as `admin`. Briana also has full access through the shared booking
+identity:
 
 ```sql
 insert into public.user_roles (email, display_name, role, active)
-values ('BRIANA_EMAIL', 'Briana', 'property_manager', true);
+values ('booking@homestead-hill.com', 'Briana', 'admin', true);
 ```
 
 Assign Wendy either a cleaner account:
@@ -134,12 +133,31 @@ insert into public.user_roles (email, display_name, role, active)
 values ('WENDY_EMAIL', 'Wendy', 'cleaner', true);
 ```
 
-or use expiring cleaner links without an account. Do not put real addresses into source control.
+or use expiring cleaner links without an account. Wendy's email is still
+pending. Keep her phone number out of source control and do not send automated
+texts until she has consented and an SMS provider is configured.
+
+## Approval policy
+
+The V1 migration seeds these owner-approval rules:
+
+| Category | Approval required |
+| --- | --- |
+| Routine maintenance | Above $250 |
+| Emergency maintenance | Above $500; emergency override is allowed and logged |
+| Supply purchases | Above $250 |
+| Refunds and guest discounts | Always |
+| Vendor changes and capital improvements | Always |
+| Reservation and unit-pricing exceptions | Always |
+
+Thresholds are enforced only by workflows wired to the approval engine. V1
+automatically applies the maintenance rules; the remaining categories stay
+visible as policy and must be enforced when their write workflows are added.
 
 ## Google Cleaning Calendar setup
 
-1. Create a dedicated Google Calendar named **Homestead Hill Cleaning**.
-2. Use a Google OAuth client that has Calendar event access to only the authorized Dalton/operations account.
+1. In the `booking@homestead-hill.com` Google account, create a dedicated Google Calendar named **Homestead Hill Cleaning**.
+2. Use a Google OAuth client authorized by `booking@homestead-hill.com`, then share the calendar with Wendy after her Google email is known.
 3. Complete the one-time consent flow and store the refresh token as a Supabase Edge Function secret.
 4. Configure:
    - `GOOGLE_CLIENT_ID`
@@ -163,7 +181,7 @@ V1’s provider adapter uses Resend. Another API provider can replace it behind 
 Configure Edge Function secrets:
 
 - `RESEND_API_KEY`
-- `OPERATIONS_EMAIL_FROM`
+- `OPERATIONS_EMAIL_FROM=booking@homestead-hill.com`
 - `APP_PUBLIC_URL`
 - `OPERATIONS_CRON_SECRET`
 
@@ -325,10 +343,9 @@ Add Twilio, Telnyx, or another verified API provider behind `NotificationProvide
 
 Do not use browser automation for SMS and do not hard-code Grasshopper without a documented supported API.
 
-## Decisions required from Dalton
+## Remaining setup decisions
 
-1. Briana’s and Wendy’s role/email assignments.
-2. Dollar thresholds for maintenance, emergency maintenance, refunds, discounts, supplies, vendor changes, capital work, reservation exceptions, and pricing exceptions.
-3. The Google account/calendar authorization for **Homestead Hill Cleaning**.
-4. The verified outbound email domain and sender.
-
+1. Wendy's email address for her cleaner login and calendar share.
+2. Wendy's explicit SMS consent and the supported SMS provider.
+3. Completion of Google OAuth authorization for **Homestead Hill Cleaning**.
+4. Verification of `homestead-hill.com` with the selected email provider.
