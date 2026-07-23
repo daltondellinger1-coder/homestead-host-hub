@@ -64,6 +64,11 @@
     "ast_hash": "d41cb1ecff910a1c24194453a7b25888",
     "semantic_hash": ""
   },
+  "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260722110307_b74bdb01-84aa-4372-a821-b05417ef6b90.sql": {
+    "mtime": 1784838864.410648,
+    "ast_hash": "d0ffbb15cf3d04ee0e9491ae912a0f24",
+    "semantic_hash": ""
+  },
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260623125931_7a1a293c-8eae-431d-bc9d-502582eba0d1.sql": {
     "mtime": 1784570649.8520021,
     "ast_hash": "bf7d8748fe5ee76d0eb11496a4bc22e0",
@@ -134,6 +139,11 @@
     "ast_hash": "3525b4023815d85e2a1a1fc9e6bfb121",
     "semantic_hash": ""
   },
+  "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260720090000_booking_intake.sql": {
+    "mtime": 1784838554.1507647,
+    "ast_hash": "e88a46e5a20c2a5c6b5c15fdc8cab1b8",
+    "semantic_hash": ""
+  },
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260523140610_3dc91e61-35a7-4564-99a1-939470ccdb53.sql": {
     "mtime": 1784570649.8520021,
     "ast_hash": "e28a39b5cb383b1b9b824d24fc86fc75",
@@ -147,6 +157,11 @@
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260523054000_fix_first_admin_claim.sql": {
     "mtime": 1784570649.8520021,
     "ast_hash": "ab7f2a4efcd59c9a905c3fa0e95a3ad7",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260722112021_c9188c84-49af-460d-92dd-6ae3ee00f4ff.sql": {
+    "mtime": 1784838554.1507647,
+    "ast_hash": "507b910cf9e1418c1c2312137d5ec68d",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/supabase/migrations/20260521213257_1421d32c-48a9-4c5a-a8f6-f320539972e1.sql": {
@@ -232,6 +247,11 @@
   "/home/dalton/projects/homestead-host-hub-codex/supabase/functions/operations-dispatch/index.ts": {
     "mtime": 1784834617.3161867,
     "ast_hash": "9fc06999baba12f21dbc8a301898f831",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub-codex/supabase/functions/booking-intake/index.ts": {
+    "mtime": 1784838554.1507647,
+    "ast_hash": "e95a4ccf04e7f4f147eed86a552d397e",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/.codex/hooks.json": {
@@ -695,8 +715,8 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/src/integrations/supabase/types.ts": {
-    "mtime": 1784570649.8376021,
-    "ast_hash": "b702204ec5bbfef0b8ce934c43682d57",
+    "mtime": 1784838554.1471646,
+    "ast_hash": "65405f25e7c008ccead997a9f384761c",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/src/integrations/supabase/client.ts": {
@@ -1014,6 +1034,11 @@
     "ast_hash": "005883a8840c9334d8c057fabef3e8ed",
     "semantic_hash": ""
   },
+  "/home/dalton/projects/homestead-host-hub-codex/src/lib/bookingIntakeContract.test.ts": {
+    "mtime": 1784838864.410648,
+    "ast_hash": "1449d93e6e46ac18d3ece418e15897b5",
+    "semantic_hash": ""
+  },
   "/home/dalton/projects/homestead-host-hub-codex/src/lib/paymentExport.ts": {
     "mtime": 1784570649.8376021,
     "ast_hash": "8ffecec7bac26f1d480040d8cecf30fe",
@@ -1040,8 +1065,13 @@
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/docs/HOMESTEAD_HELPER_V1.md": {
-    "mtime": 1784837903.8006437,
-    "ast_hash": "2ff26c959b1d3c179aea7685d953eba7",
+    "mtime": 1784838726.4253805,
+    "ast_hash": "5b813d6acf761abfcd5f6cb70712a708",
+    "semantic_hash": ""
+  },
+  "/home/dalton/projects/homestead-host-hub-codex/docs/booking-intake-n8n.md": {
+    "mtime": 1784838554.1471646,
+    "ast_hash": "774dead6c43d0a96854d8f8fd24516a9",
     "semantic_hash": ""
   },
   "/home/dalton/projects/homestead-host-hub-codex/docs/ops/full-system-test-goal-command.md": {

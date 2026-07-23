@@ -346,6 +346,8 @@ Do not use browser automation for SMS and do not hard-code Grasshopper without a
 ## Remaining setup decisions
 
 1. Wendy's email address for her cleaner login and calendar share.
-2. Wendy's explicit SMS consent and the supported SMS provider.
+2. A supported SMS provider. Wendy's SMS consent was confirmed by Dalton on
+   2026-07-23; keep the consent record in the provider's compliance system
+   before enabling delivery.
 3. Completion of Google OAuth authorization for **Homestead Hill Cleaning**.
 4. Verification of `homestead-hill.com` with the selected email provider.

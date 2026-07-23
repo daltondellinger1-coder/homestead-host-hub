@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.operations-dispatch]
 verify_jwt = false
+
+[functions.booking-intake]
+verify_jwt = false

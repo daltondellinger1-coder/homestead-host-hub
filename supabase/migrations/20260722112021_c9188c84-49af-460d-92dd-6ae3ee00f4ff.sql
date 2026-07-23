@@ -1,0 +1,1 @@
+DELETE FROM public.booking_requests WHERE external_booking_id LIKE 'E2E-TEST-%';
