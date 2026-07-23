@@ -574,7 +574,7 @@ export function usePropertyData() {
     if (!guest?.check_out) {
       updates.check_out = today;
     }
-    await supabase.from('guests').update(updates).eq('id', guestId);
+    await supabase.from('guests').update(updates as any).eq('id', guestId);
 
     // Set unit to vacant
     const { data: unitData } = await supabase
@@ -706,7 +706,7 @@ export function usePropertyData() {
 
     const { data } = await supabase
       .from('payments')
-      .update(dbUpdates)
+      .update(dbUpdates as any)
       .eq('id', paymentId)
       .select()
       .single();

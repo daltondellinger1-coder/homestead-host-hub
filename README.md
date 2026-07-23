@@ -1,73 +1,50 @@
-# Welcome to your Lovable project
+# Homestead Helper
 
-## Project info
+Homestead Helper is Homestead Hill’s internal property-operations command center. It gives the owner, property manager, maintenance team, and cleaner a role-appropriate view of the property’s 15 furnished-rental units.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The application is built with React, TypeScript, Vite, Tailwind, shadcn/ui, and Supabase. It is connected to Lovable through GitHub.
 
-## How can I edit this code?
+## Daily workflows
 
-There are several ways of editing your application.
+- Today-first operations dashboard
+- Unit status board
+- Guests and reservations
+- Arrivals and departures
+- Cleaning, confirmation, completion, and readiness verification
+- Maintenance and vendors
+- Morning, end-of-day, and weekly checklists
+- Tasks, approvals, notifications, and activity history
+- Limited cleaner accounts and expiring cleaner links
+- Existing bookings, availability, payments, and reporting tools
 
-**Use Lovable**
+## Source-of-truth boundaries
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- Property operations: Homestead Helper
+- Booking-platform reservation details and guest messages: original booking platform until integrations are verified
+- Accounting: QuickBooks
+- Credentials and access secrets: 1Password
+- Shared cleaning visibility: Google Calendar after its connection is verified
 
-Changes made via Lovable will be committed automatically to this repo.
+Do not store passwords, door codes, Wi-Fi passwords, payment credentials, or recovery information in this application.
 
-**Use your preferred IDE**
+## Local development
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Copy `.env.example` to `.env`, add the existing Supabase project’s public URL and publishable key, then:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Run the complete local checks with:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+npm test
+npm run build
+```
 
-**Use GitHub Codespaces**
+The current lockfile is inherited from Lovable. Use `npm install` rather than `npm ci` until the lockfile is synchronized.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Operations rollout
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The deployment, migration, role assignment, integration setup, acceptance checklist, and rollback procedure are documented in [docs/HOMESTEAD_HELPER_V1.md](docs/HOMESTEAD_HELPER_V1.md).
