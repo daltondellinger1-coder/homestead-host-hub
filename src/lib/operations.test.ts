@@ -108,4 +108,3 @@ describe('Homestead Helper operational rules', () => {
     expect(addDaysKey('2026-12-29', 7)).toBe('2027-01-05');
   });
 });
-
