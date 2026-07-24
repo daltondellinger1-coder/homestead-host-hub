@@ -11,7 +11,8 @@ import MaintenanceRequestCard from '@/components/MaintenanceRequestCard';
 import MaintenanceRequestDialog from '@/components/MaintenanceRequestDialog';
 import LogMaintenanceDialog from '@/components/LogMaintenanceDialog';
 import { useAuth } from '@/hooks/useAuth';
-import { MaintenanceTutorial, useMaintenanceOnboardingState } from '@/components/OnboardingTutorial';
+import { MaintenanceTutorial } from '@/components/OnboardingTutorial';
+import { useMaintenanceOnboardingState } from '@/hooks/useTutorialState';
 
 interface MaintenanceProps {
   portalMode?: boolean;

@@ -130,12 +130,14 @@ Assign Wendy either a cleaner account:
 
 ```sql
 insert into public.user_roles (email, display_name, role, active)
-values ('WENDY_EMAIL', 'Wendy', 'cleaner', true);
+values ('Groves.wendy@gmail.com', 'Wendy', 'cleaner', true);
 ```
 
-or use expiring cleaner links without an account. Wendy's email is still
-pending. Keep her phone number out of source control and do not send automated
-texts until she has consented and an SMS provider is configured.
+or use the deployed expiring cleaner links without an account. Wendy's email is
+known, but a full cleaner account has not been created yet. Keep her phone
+number out of source control. Her consent is documented, but do not send
+automated texts until an SMS provider, templates, and a controlled canary are
+configured and approved.
 
 ## Approval policy
 
@@ -157,7 +159,7 @@ visible as policy and must be enforced when their write workflows are added.
 ## Google Cleaning Calendar setup
 
 1. In the `booking@homestead-hill.com` Google account, create a dedicated Google Calendar named **Homestead Hill Cleaning**.
-2. Use a Google OAuth client authorized by `booking@homestead-hill.com`, then share the calendar with Wendy after her Google email is known.
+2. Use a Google OAuth client authorized by `booking@homestead-hill.com`, then share the calendar with `Groves.wendy@gmail.com`.
 3. Complete the one-time consent flow and store the refresh token as a Supabase Edge Function secret.
 4. Configure:
    - `GOOGLE_CLIENT_ID`
@@ -345,7 +347,8 @@ Do not use browser automation for SMS and do not hard-code Grasshopper without a
 
 ## Remaining setup decisions
 
-1. Wendy's email address for her cleaner login and calendar share.
+1. Whether Wendy should receive a full cleaner login at `Groves.wendy@gmail.com`
+   or continue using the deployed expiring cleaner-link workflow.
 2. A supported SMS provider. Wendy's SMS consent was confirmed by Dalton on
    2026-07-23; keep the consent record in the provider's compliance system
    before enabling delivery.

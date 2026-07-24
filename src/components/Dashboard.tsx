@@ -15,7 +15,8 @@ import AddUnitDialog from '@/components/AddUnitDialog';
 import EditUnitDialog from '@/components/EditUnitDialog';
 import LeaseHistoryDialog from '@/components/LeaseHistoryDialog';
 import FutureGuestDialog from '@/components/FutureGuestDialog';
-import OnboardingTutorial, { useOnboardingState } from '@/components/OnboardingTutorial';
+import OnboardingTutorial from '@/components/OnboardingTutorial';
+import { useOnboardingState } from '@/hooks/useTutorialState';
 import PullToRefresh from '@/components/PullToRefresh';
 import RequestsInbox from '@/components/RequestsInbox';
 import { useBookingRequests, BookingRequest } from '@/hooks/useBookingRequests';
@@ -670,7 +671,7 @@ export default function Dashboard({ viewMode, onViewModeChange }: DashboardProps
         </AlertDialogContent>
       </AlertDialog>
 
-      <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} />
+      <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} isAdmin={isAdmin} />
 
       <AlertDialog open={showResetConfirm} onOpenChange={setShowResetConfirm}>
         <AlertDialogContent className="glass-card border-border/60">

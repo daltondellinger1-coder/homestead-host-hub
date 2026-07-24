@@ -12,6 +12,7 @@ import {
   ClipboardCheck,
   Clock3,
   DoorOpen,
+  HelpCircle,
   LogOut,
   Plus,
   RefreshCcw,
@@ -53,6 +54,8 @@ import {
   UNIT_OPERATIONAL_STATUS,
 } from '@/lib/operations';
 import { cn } from '@/lib/utils';
+import OnboardingTutorial from '@/components/OnboardingTutorial';
+import { useOnboardingState } from '@/hooks/useTutorialState';
 
 const STATUS_TONES: Record<string, string> = {
   occupied: 'border-sky-500/40 bg-sky-500/10 text-sky-200',
@@ -378,7 +381,9 @@ function ChecklistCard({ type, existing, save }: {
 export default function Operations() {
   const { signOut, session } = useAuth();
   const { isAdmin } = useAuthRoles(session?.user.id);
+  const { isComplete: onboardingComplete } = useOnboardingState();
   const operations = useOperationsData();
+  const [showOnboarding, setShowOnboarding] = useState(!onboardingComplete);
   const [reservationOpen, setReservationOpen] = useState(false);
   const [vendorOpen, setVendorOpen] = useState(false);
   const [readinessCleaning, setReadinessCleaning] = useState<OperationalCleaning | null>(null);
@@ -401,6 +406,9 @@ export default function Operations() {
             </div>
           </div>
           <div className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => setShowOnboarding(true)} aria-label="Open tutorial">
+              <HelpCircle className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Tutorial</span>
+            </Button>
             <Button variant="ghost" size="sm" onClick={operations.refresh} aria-label="Refresh operations">
               <RefreshCcw className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Refresh</span>
             </Button>
@@ -763,6 +771,7 @@ export default function Operations() {
       <AddReservationDialog open={reservationOpen} onOpenChange={setReservationOpen} units={operations.units} onSave={operations.createReservation} />
       <AddVendorDialog open={vendorOpen} onOpenChange={setVendorOpen} onSave={operations.createVendor} />
       <ReadinessDialog cleaning={readinessCleaning} onClose={() => setReadinessCleaning(null)} onVerify={operations.verifyCleaning} />
+      <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} isAdmin={isAdmin} />
     </div>
   );
 }
