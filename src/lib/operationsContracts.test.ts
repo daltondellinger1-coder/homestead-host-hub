@@ -20,6 +20,10 @@ const reservationRepair = readFileSync(
   resolve(process.cwd(), 'supabase/migrations/20260724140000_fix_reservation_creation_rpc.sql'),
   'utf8',
 );
+const cleanerUnitPolicy = readFileSync(
+  resolve(process.cwd(), 'supabase/migrations/20260724141000_allow_cleaners_to_read_assigned_unit_names.sql'),
+  'utf8',
+);
 
 describe('Homestead Helper V1 contracts', () => {
   it('creates reservation guests using only columns present in the current guest schema', () => {
@@ -57,6 +61,14 @@ describe('Homestead Helper V1 contracts', () => {
     expect(cleanerFunction).not.toContain('payment');
     expect(cleanerFunction).not.toContain('wifi_secret_reference');
     expect(cleanerPage).toContain('Only the work assigned to you');
+    expect(cleanerPage).toContain("token ? 'This cleaning link is invalid or expired.'");
+  });
+
+  it('lets cleaners read only unit names connected to their own active assignments', () => {
+    expect(cleanerUnitPolicy).toContain('task.assigned_cleaner_user_id = auth.uid()');
+    expect(cleanerUnitPolicy).toContain("task.status NOT IN ('ready', 'cancelled')");
+    expect(cleanerUnitPolicy).not.toContain('guests');
+    expect(cleanerUnitPolicy).not.toContain('payments');
   });
 
   it('restricts cleaner uploads to image types and ten megabytes', () => {

@@ -6,11 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Mail, Sparkles } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 const units = Array.from({ length: 15 }, (_, i) => `Unit ${i + 1}`);
 
 const ExtendStay = () => {
-  const [unit, setUnit] = useState("Unit 1");
+  const [searchParams] = useSearchParams();
+  const requestedUnit = searchParams.get("unit");
+  const [unit, setUnit] = useState(units.includes(requestedUnit ?? "") ? requestedUnit! : "Unit 1");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -32,6 +35,12 @@ const ExtendStay = () => {
   }, [unit, name, email, phone, checkout, nights, notes]);
 
   const mailto = `mailto:booking@homestead-hill.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const canSend = Boolean(
+    name.trim()
+    && (email.trim() || phone.trim())
+    && checkout.trim()
+    && nights.trim(),
+  );
 
   return (
     <div className="min-h-screen pattern-bg px-4 py-10">
@@ -60,17 +69,30 @@ const ExtendStay = () => {
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2"><label className="text-sm font-medium">Guest name</label><Input value={name} onChange={(e)=>setName(e.target.value)} placeholder="Your full name" /></div>
-                <div className="space-y-2"><label className="text-sm font-medium">Phone</label><Input value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="(555) 555-5555" /></div>
+                <div className="space-y-2"><label className="text-sm font-medium">Phone</label><Input value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="(555) 555-5555" inputMode="tel" /></div>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2"><label className="text-sm font-medium">Email</label><Input value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="you@example.com" /></div>
-                <div className="space-y-2"><label className="text-sm font-medium">Current checkout date</label><Input value={checkout} onChange={(e)=>setCheckout(e.target.value)} placeholder="MM/DD/YYYY" /></div>
+                <div className="space-y-2"><label className="text-sm font-medium">Email</label><Input value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="you@example.com" type="email" /></div>
+                <div className="space-y-2"><label className="text-sm font-medium">Current checkout date</label><Input value={checkout} onChange={(e)=>setCheckout(e.target.value)} type="date" /></div>
               </div>
               <div className="space-y-2"><label className="text-sm font-medium">How long would you like to stay?</label><Input value={nights} onChange={(e)=>setNights(e.target.value)} placeholder="Example: 3 more nights / through Friday" /></div>
               <div className="space-y-2"><label className="text-sm font-medium">Anything else we should know?</label><Textarea value={notes} onChange={(e)=>setNotes(e.target.value)} placeholder="Optional note" rows={4} /></div>
+              {!canSend && (
+                <p className="text-xs text-muted-foreground">
+                  Add your name, phone or email, current checkout date, and requested extension to send the request.
+                </p>
+              )}
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90"><a href={mailto}><Mail className="h-4 w-4 mr-2" /> Send request</a></Button>
-                <Button variant="outline" asChild><a href={`/?unit=${encodeURIComponent(unit)}`}>Back to website</a></Button>
+                <Button
+                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                  disabled={!canSend}
+                  onClick={() => {
+                    window.location.href = mailto;
+                  }}
+                >
+                  <Mail className="h-4 w-4 mr-2" /> Send request
+                </Button>
+                <Button variant="outline" asChild><a href={`https://homestead-hill.com/?unit=${encodeURIComponent(unit)}`}>Back to website</a></Button>
               </div>
             </CardContent>
           </Card>
@@ -84,7 +106,7 @@ const ExtendStay = () => {
               <ol className="space-y-3 list-decimal list-inside">
                 <li>Open the QR code for your unit.</li>
                 <li>Choose your unit and send a request.</li>
-                <li>Dalton and Hannah review availability and pricing.</li>
+                <li>Briana and the Homestead Hill team review availability and pricing.</li>
                 <li>We confirm your extension and next steps by email.</li>
               </ol>
               <div className="rounded-lg border border-border/60 bg-background/60 p-4">

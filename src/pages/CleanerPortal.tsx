@@ -87,7 +87,7 @@ export default function CleanerPortal() {
         setTasks(data ?? []);
       }
     } catch (error: unknown) {
-      toast.error(errorMessage(error, 'This cleaning link is invalid or expired.'));
+      toast.error(token ? 'This cleaning link is invalid or expired.' : errorMessage(error, 'Assignments could not be loaded.'));
       setTasks([]);
     } finally {
       setLoading(false);

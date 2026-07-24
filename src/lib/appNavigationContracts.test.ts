@@ -6,6 +6,7 @@ const appSource = readFileSync(resolve(process.cwd(), 'src/App.tsx'), 'utf8');
 const authSource = readFileSync(resolve(process.cwd(), 'src/pages/Auth.tsx'), 'utf8');
 const financeSource = readFileSync(resolve(process.cwd(), 'src/pages/Finances.tsx'), 'utf8');
 const operationsSource = readFileSync(resolve(process.cwd(), 'src/pages/Operations.tsx'), 'utf8');
+const extendStaySource = readFileSync(resolve(process.cwd(), 'src/pages/ExtendStay.tsx'), 'utf8');
 
 describe('role entry points', () => {
   it('offers a dedicated cleaner login and route', () => {
@@ -26,5 +27,14 @@ describe('finance deep links', () => {
     expect(financeSource).toContain("location.pathname === '/reports'");
     expect(financeSource).toContain("? 'history'");
     expect(financeSource).toContain("? 'reports'");
+  });
+});
+
+describe('guest stay extension', () => {
+  it('preselects the QR-code unit and blocks incomplete requests', () => {
+    expect(extendStaySource).toContain('searchParams.get("unit")');
+    expect(extendStaySource).toContain('disabled={!canSend}');
+    expect(extendStaySource).toContain('https://homestead-hill.com/?unit=');
+    expect(extendStaySource).toContain('Briana and the Homestead Hill team');
   });
 });

@@ -64,6 +64,11 @@
     "ast_hash": "a50c2e0e157e4c0d754d8b0a0c3a14ee",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
+    "mtime": 1784903207.140756,
+    "ast_hash": "51d6eaff52d786276bde72334abeda50",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/scripts/generate-maintenance-qr-codes.py": {
     "mtime": 1784882228.096095,
     "ast_hash": "f9ba341bb34fbd34b810ace2d50b9443",
@@ -605,8 +610,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/appNavigationContracts.test.ts": {
-    "mtime": 1784901186.63567,
-    "ast_hash": "e7b508c4cb24d586618680b9f969a868",
+    "mtime": 1784902997.843369,
+    "ast_hash": "746f374254502e472e24ed68b35dba62",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/bookingIntakeContract.test.ts": {
@@ -730,8 +735,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/operationsContracts.test.ts": {
-    "mtime": 1784901668.7275352,
-    "ast_hash": "d051cb7ac715d6f465d7c77d45082a80",
+    "mtime": 1784903122.8180568,
+    "ast_hash": "187b7b3ce0f38a57190f29632ed209ed",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/paymentExport.test.ts": {
@@ -780,13 +785,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Auth.tsx": {
-    "mtime": 1784900895.2661862,
-    "ast_hash": "cb50c58ac8a1ebd38f6ef9d1029919e7",
+    "mtime": 1784903135.519058,
+    "ast_hash": "2ffeacded14a95ff0a9adb6aa20c17dd",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/CleanerPortal.tsx": {
-    "mtime": 1784886340.167965,
-    "ast_hash": "1f186ad703a337757858a866e1745855",
+    "mtime": 1784903117.385926,
+    "ast_hash": "b8ed66b5d1888fd8adaded0be96f21b3",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/ContractorOfficeLaundry.tsx": {
@@ -795,8 +800,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/ExtendStay.tsx": {
-    "mtime": 1784882229.7489893,
-    "ast_hash": "5ca2d67937729ac5c449d6e89c0362e0",
+    "mtime": 1784902997.8295293,
+    "ast_hash": "c350656c6478040529b70fbf15552ab1",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Finances.tsx": {
@@ -1072,6 +1077,11 @@
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260724140000_fix_reservation_creation_rpc.sql": {
     "mtime": 1784901674.1374369,
     "ast_hash": "95140dde56b3551d5a958262cf46e55b",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260724141000_allow_cleaners_to_read_assigned_unit_names.sql": {
+    "mtime": 1784902055.0805588,
+    "ast_hash": "46454a7c233c79ca24b742ab9ec46599",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/worker/index.test.ts": {

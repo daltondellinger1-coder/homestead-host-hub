@@ -82,7 +82,7 @@ export default function Auth() {
       } else {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        toast.success('Account created! You are now signed in.');
+        toast.success('Account created. Your assigned portal will open now.');
       }
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Authentication failed');
@@ -113,7 +113,7 @@ export default function Auth() {
 
         <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4">
           <h2 className="text-lg font-heading font-semibold text-center">
-            {isLogin ? 'Sign In' : 'Create Account'}
+            {isLogin ? 'Sign In' : 'Create Invited Account'}
           </h2>
 
           <div className="space-y-2">
@@ -131,10 +131,13 @@ export default function Auth() {
           </Button>
 
           <p className="text-center text-xs text-muted-foreground font-body">
-            {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+            {isLogin ? 'Have a team invitation?' : 'Already have an account?'}{' '}
             <button type="button" className="text-secondary hover:underline" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? 'Sign Up' : 'Sign In'}
+              {isLogin ? 'Create account' : 'Sign In'}
             </button>
+          </p>
+          <p className="text-center text-[11px] text-muted-foreground font-body">
+            Portal access is assigned by Dalton or Briana.
           </p>
         </form>
       </div>
