@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import Operations from './Operations';
 
 const operationsState = vi.hoisted(() => ({
@@ -14,9 +14,14 @@ const operationsState = vi.hoisted(() => ({
   completeTask: vi.fn(),
   saveChecklist: vi.fn(),
   issueCleanerLink: vi.fn(),
+  getCleaningPhotoUrls: vi.fn(),
   assignVendor: vi.fn(),
   decideApproval: vi.fn(),
   createVendor: vi.fn(),
+}));
+
+const operationsData = vi.hoisted(() => ({
+  cleanings: [] as Array<Record<string, unknown>>,
 }));
 
 vi.mock('@/hooks/useAuth', () => ({
@@ -45,7 +50,7 @@ vi.mock('@/hooks/useOperationsData', () => ({
     ...operationsState,
     units: [],
     reservations: [],
-    cleanings: [],
+    cleanings: operationsData.cleanings,
     maintenance: [],
     tasks: [],
     approvals: [],
@@ -70,6 +75,11 @@ vi.mock('@/hooks/useOperationsData', () => ({
 }));
 
 describe('Operations navigation', () => {
+  afterEach(() => {
+    operationsData.cleanings = [];
+    operationsState.getCleaningPhotoUrls.mockReset();
+  });
+
   it('turns summary cards into useful navigation', async () => {
     render(
       <MemoryRouter>
@@ -93,5 +103,54 @@ describe('Operations navigation', () => {
     expect(await screen.findByText('Maintenance & vendor contacts')).toBeInTheDocument();
     expect(screen.getByText('Routine checklists')).toBeInTheDocument();
     expect(screen.getByText('Activity history')).toBeInTheDocument();
+  });
+
+  it('lets a manager review everything shown to the cleaner plus completion evidence', async () => {
+    operationsData.cleanings = [{
+      id: 'cleaning-1',
+      unit_id: 'unit-12',
+      status: 'readiness_verification_required',
+      confirmation_status: 'confirmed',
+      checkout_at: '2026-07-24T15:00:00.000Z',
+      next_check_in_at: '2026-07-25T19:00:00.000Z',
+      cleaning_deadline: '2026-07-25T16:00:00.000Z',
+      assigned_cleaner_name: 'Wendy',
+      special_notes: 'Use fragrance-free products.',
+      pet_notes: 'Dog stayed in the unit.',
+      linen_notes: 'Replace both queen sets.',
+      supply_notes: 'Extra paper towels are in the office.',
+      completion_notes: 'Turnover is complete.',
+      supplies_needed: 'Dishwasher pods',
+      damage_found: 'None',
+      maintenance_issue_found: 'Loose bathroom handle',
+      completion_photo_urls: ['cleaning-1/finish.jpg'],
+      unit: { id: 'unit-12', name: 'Unit 12' },
+    }];
+    operationsState.getCleaningPhotoUrls.mockResolvedValue([{
+      path: 'cleaning-1/finish.jpg',
+      signedUrl: 'https://example.test/private-photo',
+    }]);
+
+    render(
+      <MemoryRouter>
+        <Operations />
+      </MemoryRouter>,
+    );
+
+    const cleaningTab = screen.getByRole('tab', { name: 'Cleaning' });
+    fireEvent.mouseDown(cleaningTab, { button: 0, ctrlKey: false });
+    fireEvent.click(cleaningTab);
+    fireEvent.click(await screen.findByRole('button', { name: 'View details' }));
+
+    expect(await screen.findByText('Instructions shown to the cleaner')).toBeInTheDocument();
+    expect(screen.getByText('Use fragrance-free products.')).toBeInTheDocument();
+    expect(screen.getByText('Dog stayed in the unit.')).toBeInTheDocument();
+    expect(screen.getByText('Replace both queen sets.')).toBeInTheDocument();
+    expect(screen.getByText('Turnover is complete.')).toBeInTheDocument();
+    expect(screen.getByText('Loose bathroom handle')).toBeInTheDocument();
+    expect(await screen.findByAltText('Completion evidence 1 for Unit 12')).toHaveAttribute(
+      'src',
+      'https://example.test/private-photo',
+    );
   });
 });

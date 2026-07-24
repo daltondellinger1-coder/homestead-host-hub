@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import {
@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Clock3,
+  Camera,
   DoorOpen,
   HelpCircle,
   LogOut,
@@ -346,6 +347,153 @@ function ReadinessDialog({ cleaning, onClose, onVerify }: {
   );
 }
 
+function DetailValue({ label, value }: { label: string; value?: string | null }) {
+  return (
+    <div className="rounded-xl border border-border/70 bg-background/35 p-3">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="mt-1 whitespace-pre-wrap text-sm">{value?.trim() || 'None added'}</p>
+    </div>
+  );
+}
+
+function CleanerDetailsDialog({
+  cleaning,
+  onClose,
+  loadPhotoUrls,
+}: {
+  cleaning: OperationalCleaning | null;
+  onClose: () => void;
+  loadPhotoUrls: (paths: string[]) => Promise<Array<{ path: string; signedUrl: string }>>;
+}) {
+  const [photos, setPhotos] = useState<Array<{ path: string; signedUrl: string }>>([]);
+  const [photoLoading, setPhotoLoading] = useState(false);
+  const [photoError, setPhotoError] = useState('');
+
+  useEffect(() => {
+    let active = true;
+    const paths = cleaning?.completion_photo_urls ?? [];
+    setPhotos([]);
+    setPhotoError('');
+    if (!paths.length) {
+      setPhotoLoading(false);
+      return () => { active = false; };
+    }
+    setPhotoLoading(true);
+    loadPhotoUrls(paths)
+      .then((items) => {
+        if (active) setPhotos(items);
+      })
+      .catch(() => {
+        if (active) setPhotoError('Completion photos could not be loaded. Refresh and try again.');
+      })
+      .finally(() => {
+        if (active) setPhotoLoading(false);
+      });
+    return () => { active = false; };
+  }, [cleaning, loadPhotoUrls]);
+
+  const cleanerName = cleaning?.assigned_cleaner_name || cleaning?.assigned_cleaner_email || 'Not assigned';
+
+  return (
+    <Dialog open={Boolean(cleaning)} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
+        <DialogHeader>
+          <div className="flex flex-wrap items-center gap-2">
+            <DialogTitle>{cleaning?.unit?.name ?? 'Cleaning'} details</DialogTitle>
+            {cleaning && <Badge variant="outline">{CLEANING_STATUS_LABELS[cleaning.status] ?? cleaning.status}</Badge>}
+          </div>
+          <DialogDescription>
+            Everything the cleaner receives, plus the completion evidence needed for your readiness check.
+          </DialogDescription>
+        </DialogHeader>
+
+        {cleaning && (
+          <div className="space-y-5 py-2">
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Assignment</p>
+                <p className="text-sm text-muted-foreground">Cleaner, turnover timing, and confirmation status.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <DetailValue label="Cleaner" value={cleanerName} />
+                <DetailValue label="Guest checkout" value={displayTimestamp(cleaning.checkout_at)} />
+                <DetailValue label="Next check-in" value={displayTimestamp(cleaning.next_check_in_at)} />
+                <DetailValue label="Cleaning deadline" value={displayTimestamp(cleaning.cleaning_deadline)} />
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Cleaning status" value={CLEANING_STATUS_LABELS[cleaning.status] ?? cleaning.status} />
+                <DetailValue label="Cleaner response" value={cleaning.confirmation_status?.replaceAll('_', ' ') || 'Not requested'} />
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Instructions shown to the cleaner</p>
+                <p className="text-sm text-muted-foreground">Use this section to confirm Wendy received the right turnover details.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Special cleaning notes" value={cleaning.special_notes} />
+                <DetailValue label="Pet notes" value={cleaning.pet_notes} />
+                <DetailValue label="Linen notes" value={cleaning.linen_notes} />
+                <DetailValue label="Supply notes" value={cleaning.supply_notes} />
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Cleaner completion report</p>
+                <p className="text-sm text-muted-foreground">Review what was finished and anything that needs follow-up.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Completion notes" value={cleaning.completion_notes} />
+                <DetailValue label="Supplies needed" value={cleaning.supplies_needed} />
+                <DetailValue label="Damage found" value={cleaning.damage_found} />
+                <DetailValue label="Maintenance issue" value={cleaning.maintenance_issue_found} />
+              </div>
+
+              <div className="rounded-xl border border-border/70 p-3">
+                <div className="flex items-center gap-2">
+                  <Camera className="h-4 w-4 text-secondary" />
+                  <p className="text-sm font-medium">Completion photos</p>
+                </div>
+                {photoLoading && <p className="mt-3 text-sm text-muted-foreground">Loading private photos…</p>}
+                {photoError && <p className="mt-3 text-sm text-destructive" role="alert">{photoError}</p>}
+                {!photoLoading && !photoError && !photos.length && (
+                  <p className="mt-3 text-sm text-muted-foreground">No completion photos were submitted.</p>
+                )}
+                {photos.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {photos.map((photo, index) => (
+                      <a
+                        key={photo.path}
+                        href={photo.signedUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="overflow-hidden rounded-xl border border-border/70 bg-muted/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        aria-label={`Open completion photo ${index + 1}`}
+                      >
+                        <img
+                          src={photo.signedUrl}
+                          alt={`Completion evidence ${index + 1} for ${cleaning.unit?.name ?? 'unit'}`}
+                          className="aspect-square w-full object-cover"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+        )}
+
+        <DialogFooter>
+          <Button onClick={onClose}>Close</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function ChecklistCard({ type, existing, save }: {
   type: ChecklistRun['checklist_type'];
   existing?: ChecklistRun;
@@ -406,6 +554,7 @@ export default function Operations() {
   const [reservationOpen, setReservationOpen] = useState(false);
   const [vendorOpen, setVendorOpen] = useState(false);
   const [readinessCleaning, setReadinessCleaning] = useState<OperationalCleaning | null>(null);
+  const [detailsCleaning, setDetailsCleaning] = useState<OperationalCleaning | null>(null);
   const [activeView, setActiveView] = useState<OperationsView>('today');
   const today = localDateKey();
   const todayChecklists = operations.checklists.filter((checklist) => checklist.checklist_date === today);
@@ -688,6 +837,14 @@ export default function Operations() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="col-span-2 sm:col-span-1"
+                        onClick={() => setDetailsCleaning(cleaning)}
+                      >
+                        View details
+                      </Button>
                       <Select
                         value={cleaning.assigned_cleaner_user_id || 'unassigned'}
                         onValueChange={(userId) => {
@@ -837,6 +994,11 @@ export default function Operations() {
       <AddReservationDialog open={reservationOpen} onOpenChange={setReservationOpen} units={operations.units} onSave={operations.createReservation} />
       <AddVendorDialog open={vendorOpen} onOpenChange={setVendorOpen} onSave={operations.createVendor} />
       <ReadinessDialog cleaning={readinessCleaning} onClose={() => setReadinessCleaning(null)} onVerify={operations.verifyCleaning} />
+      <CleanerDetailsDialog
+        cleaning={detailsCleaning}
+        onClose={() => setDetailsCleaning(null)}
+        loadPhotoUrls={operations.getCleaningPhotoUrls}
+      />
       <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} isAdmin={isAdmin} />
     </div>
   );

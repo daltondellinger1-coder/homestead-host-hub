@@ -65,7 +65,7 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1784903207.140756,
+    "mtime": 1784928880.2249937,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
     "semantic_hash": ""
   },
@@ -565,8 +565,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useOperationsData.ts": {
-    "mtime": 1784900546.6474643,
-    "ast_hash": "0c4aaa728af27668b4df0081042b119f",
+    "mtime": 1784928821.0886767,
+    "ast_hash": "ce794a755fe7a2104b2844590f148254",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/usePropertyData.ts": {
@@ -730,8 +730,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/operations.ts": {
-    "mtime": 1784882229.6304586,
-    "ast_hash": "12d91f4e6ae232fbdcf0003f339f32e4",
+    "mtime": 1784928821.0781682,
+    "ast_hash": "ee211f1a154a53bb2b26dbe11da19b30",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/operationsContracts.test.ts": {
@@ -840,13 +840,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Operations.test.tsx": {
-    "mtime": 1784900546.6812716,
-    "ast_hash": "34e1bb8e9269eee4438d1f373ef78d57",
+    "mtime": 1784928821.1157596,
+    "ast_hash": "fd315e5b4ee6a644f294a74d1ae9f44b",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Operations.tsx": {
-    "mtime": 1784900546.6725774,
-    "ast_hash": "14d9e4c70c796c8ac09b6bcd69cf321d",
+    "mtime": 1784928821.1032548,
+    "ast_hash": "2331c6c58ddd71c9ce6fd4f5dd15553c",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/PaymentHistory.tsx": {
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/HOMESTEAD_HELPER_V1.md": {
-    "mtime": 1784882224.717671,
-    "ast_hash": "5c0718f898c64ff8629e1f7072ffa157",
+    "mtime": 1784928963.7890754,
+    "ast_hash": "e35ffb1df36a215432112d2e99529b78",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/SITES_MIGRATION.md": {

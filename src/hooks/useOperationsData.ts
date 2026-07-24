@@ -297,6 +297,20 @@ export function useOperationsData() {
     return data.url as string;
   }, []);
 
+  const getCleaningPhotoUrls = useCallback(async (paths: string[]) => {
+    if (!paths.length) return [];
+    const { data, error } = await supabase.storage
+      .from('cleaning-photos')
+      .createSignedUrls(paths, 30 * 60);
+    if (error) throw error;
+    return (data ?? [])
+      .map((item, index) => ({
+        path: paths[index],
+        signedUrl: item.signedUrl,
+      }))
+      .filter((item): item is { path: string; signedUrl: string } => Boolean(item.path && item.signedUrl));
+  }, []);
+
   const assignVendor = useCallback((maintenanceRequestId: string, vendorId: string | null) => mutate(
     () => db.from('maintenance_requests').update({
       vendor_id: vendorId,
@@ -368,6 +382,7 @@ export function useOperationsData() {
     completeTask,
     saveChecklist,
     issueCleanerLink,
+    getCleaningPhotoUrls,
     assignVendor,
     decideApproval,
     createVendor,

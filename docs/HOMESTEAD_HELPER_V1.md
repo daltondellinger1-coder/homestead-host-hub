@@ -133,11 +133,10 @@ insert into public.user_roles (email, display_name, role, active)
 values ('Groves.wendy@gmail.com', 'Wendy', 'cleaner', true);
 ```
 
-or use the deployed expiring cleaner links without an account. Wendy's email is
-known, but a full cleaner account has not been created yet. Keep her phone
-number out of source control. Her consent is documented, but do not send
-automated texts until an SMS provider, templates, and a controlled canary are
-configured and approved.
+or use the deployed expiring cleaner links without an account. Wendy now has a
+confirmed cleaner-only account. Keep her phone number out of source control.
+Her consent is documented, but do not send automated texts until an SMS
+provider, templates, and a controlled canary are configured and approved.
 
 ## Approval policy
 
@@ -329,6 +328,33 @@ After the manual workflows are accepted, Hermes may consume the sanitized `autom
 
 Hermes must use event IDs and idempotency keys, never receive credentials, never auto-approve spending, and never send guest messages in V1.
 
+### Current cleaning-delivery status
+
+- Reservation creation automatically creates or updates the linked cleaning
+  task and records `cleaning.created`.
+- A property manager manually assigns Wendy from **Today → Cleaning**.
+- **Copy cleaner link** creates a secure 14-day link and copies it for manual
+  sending. Assignment alone does not send that link.
+- The existing `cleaning_required` notification is an internal, already-sent
+  record; it is not addressed to Wendy.
+- Google Calendar and Resend email delivery exist behind
+  `OPERATIONS_DELIVERY_ENABLED=false`.
+- SMS is a deliberate provider stub and cannot send.
+
+Hermes should not become the delivery provider or hold Google, email, SMS, or
+app credentials. Its first safe role is a read-only exception supervisor:
+
+1. Read sanitized cleaning and delivery events by stable event ID.
+2. Prepare a morning digest and flag unassigned, declined, overdue, same-day,
+   72-hour unconfirmed, and 48-hour escalation cases.
+3. Submit a durable request to the app-owned notification queue when a message
+   is needed; the app owns recipient resolution, consent, templates, quiet
+   hours, idempotency, retries, and delivery receipts.
+4. Report permanent delivery failures and unresolved exceptions to Briana and
+   Dalton without exposing guest data, cleaner tokens, or credentials.
+5. Never mark a cleaning confirmed, complete, or ready and never send a guest
+   message without a separately approved workflow.
+
 ## Future SMS notes
 
 Add Twilio, Telnyx, or another verified API provider behind `NotificationProvider`. Require:
@@ -347,8 +373,8 @@ Do not use browser automation for SMS and do not hard-code Grasshopper without a
 
 ## Remaining setup decisions
 
-1. Whether Wendy should receive a full cleaner login at `Groves.wendy@gmail.com`
-   or continue using the deployed expiring cleaner-link workflow.
+1. Whether normal Wendy assignments should use her cleaner login, a direct
+   assignment email, or both the login and the expiring-link fallback.
 2. A supported SMS provider. Wendy's SMS consent was confirmed by Dalton on
    2026-07-23; keep the consent record in the provider's compliance system
    before enabling delivery.
