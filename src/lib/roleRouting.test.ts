@@ -3,9 +3,17 @@ import { getPostLoginPath, canAccessPath } from './roleRouting';
 
 describe('role-based login routing', () => {
   it('sends property managers to the full Host Hub dashboard', () => {
-    expect(getPostLoginPath(['admin'], 'property-manager')).toBe('/');
+    expect(getPostLoginPath(['admin'], 'property-manager')).toBe('/operations');
     expect(canAccessPath('/finances', ['admin'])).toBe(true);
     expect(canAccessPath('/maintenance', ['admin'])).toBe(true);
+  });
+
+  it('sends Briana to operations without owner-only finance or admin access', () => {
+    expect(getPostLoginPath(['property_manager'], 'property-manager')).toBe('/operations');
+    expect(canAccessPath('/operations', ['property_manager'])).toBe(true);
+    expect(canAccessPath('/maintenance', ['property_manager'])).toBe(true);
+    expect(canAccessPath('/finances', ['property_manager'])).toBe(false);
+    expect(canAccessPath('/admin/draws', ['property_manager'])).toBe(false);
   });
 
   it('sends maintenance users to the maintenance-only portal', () => {
@@ -17,13 +25,22 @@ describe('role-based login routing', () => {
 
   it('defaults mixed-role users based on the login lane they chose', () => {
     expect(getPostLoginPath(['admin', 'maintenance'], 'maintenance')).toBe('/maintenance-portal');
-    expect(getPostLoginPath(['admin', 'maintenance'], 'property-manager')).toBe('/');
+    expect(getPostLoginPath(['admin', 'maintenance'], 'property-manager')).toBe('/operations');
   });
 
   it('does not leave assigned users stranded on the unauthorized page after roles load', () => {
     expect(canAccessPath('/unauthorized', ['admin'])).toBe(false);
     expect(canAccessPath('/unauthorized', ['maintenance'])).toBe(false);
+    expect(canAccessPath('/unauthorized', ['property_manager'])).toBe(false);
+    expect(canAccessPath('/unauthorized', ['cleaner'])).toBe(false);
     expect(canAccessPath('/unauthorized', [])).toBe(true);
+  });
+
+  it('restricts cleaner accounts to their assignment portal', () => {
+    expect(getPostLoginPath(['cleaner'])).toBe('/cleaner');
+    expect(canAccessPath('/cleaner', ['cleaner'])).toBe(true);
+    expect(canAccessPath('/operations', ['cleaner'])).toBe(false);
+    expect(canAccessPath('/maintenance', ['cleaner'])).toBe(false);
   });
 
   it('restricts /admin/draws to admins only', () => {
@@ -32,4 +49,3 @@ describe('role-based login routing', () => {
     expect(canAccessPath('/admin/draws', [])).toBe(false);
   });
 });
-

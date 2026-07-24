@@ -6,5 +6,11 @@ verify_jwt = false
 [functions.hermes-qa-tally-call]
 verify_jwt = false
 
+[functions.cleaner-task-access]
+verify_jwt = false
+
+[functions.operations-dispatch]
+verify_jwt = false
+
 [functions.booking-intake]
 verify_jwt = false

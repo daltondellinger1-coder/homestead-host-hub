@@ -13,12 +13,16 @@ GRANT ALL ON public.booking_listing_mappings TO service_role;
 
 ALTER TABLE public.booking_listing_mappings ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Admins manage booking listing mappings"
+  ON public.booking_listing_mappings;
 CREATE POLICY "Admins manage booking listing mappings"
   ON public.booking_listing_mappings
   FOR ALL TO authenticated
   USING (public.has_role(auth.uid(), 'admin'))
   WITH CHECK (public.has_role(auth.uid(), 'admin'));
 
+DROP TRIGGER IF EXISTS update_booking_listing_mappings_updated_at
+  ON public.booking_listing_mappings;
 CREATE TRIGGER update_booking_listing_mappings_updated_at
   BEFORE UPDATE ON public.booking_listing_mappings
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
@@ -54,6 +58,8 @@ GRANT ALL ON public.booking_intake_events TO service_role;
 
 ALTER TABLE public.booking_intake_events ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Admins read booking intake events"
+  ON public.booking_intake_events;
 CREATE POLICY "Admins read booking intake events"
   ON public.booking_intake_events
   FOR SELECT TO authenticated

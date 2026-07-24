@@ -5,6 +5,10 @@ import { resolve } from 'node:path';
 const root = process.cwd();
 const functionPath = resolve(root, 'supabase/functions/booking-intake/index.ts');
 const migrationPath = resolve(root, 'supabase/migrations/20260720090000_booking_intake.sql');
+const generatedMigrationPath = resolve(
+  root,
+  'supabase/migrations/20260722110307_b74bdb01-84aa-4372-a821-b05417ef6b90.sql',
+);
 const configPath = resolve(root, 'supabase/config.toml');
 
 describe('booking intake foundation contract', () => {
@@ -51,5 +55,18 @@ describe('booking intake foundation contract', () => {
   it('includes the required implementation files', () => {
     expect(existsSync(functionPath)).toBe(true);
     expect(existsSync(migrationPath)).toBe(true);
+  });
+
+  it('keeps the generated booking-intake migration replay-safe', () => {
+    const generatedMigration = readFileSync(generatedMigrationPath, 'utf8');
+    expect(generatedMigration).toContain(
+      'DROP POLICY IF EXISTS "Admins manage booking listing mappings"',
+    );
+    expect(generatedMigration).toContain(
+      'DROP TRIGGER IF EXISTS update_booking_listing_mappings_updated_at',
+    );
+    expect(generatedMigration).toContain(
+      'DROP POLICY IF EXISTS "Admins read booking intake events"',
+    );
   });
 });

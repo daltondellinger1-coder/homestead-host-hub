@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, CalendarDays, Inbox, Wrench } from 'lucide-react';
+import { LayoutDashboard, LayoutGrid, CalendarDays, Wrench } from 'lucide-react';
 import { useBookingRequests } from '@/hooks/useBookingRequests';
 import { useMaintenanceRequests } from '@/hooks/useMaintenanceRequests';
 import { cn } from '@/lib/utils';
@@ -15,14 +15,22 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
   const location = useLocation();
   const { pendingCount } = useBookingRequests();
   const { newCount: maintenanceNewCount } = useMaintenanceRequests();
-  const isDashboard = location.pathname === '/';
+  const isDashboard = location.pathname === '/host-hub';
 
   const items = [
+    {
+      label: 'Today',
+      icon: LayoutDashboard,
+      active: location.pathname === '/operations',
+      to: '/operations',
+      onClick: () => undefined,
+      badge: pendingCount,
+    },
     {
       label: 'Units',
       icon: LayoutGrid,
       active: isDashboard && viewMode === 'units',
-      to: '/',
+      to: '/host-hub',
       onClick: () => {
         if (isDashboard) onViewModeChange?.('units');
       },
@@ -32,21 +40,11 @@ export default function MobileBottomNav({ viewMode = 'units', onViewModeChange }
       label: 'Calendar',
       icon: CalendarDays,
       active: isDashboard && viewMode === 'calendar',
-      to: '/',
+      to: '/host-hub',
       onClick: () => {
         if (isDashboard) onViewModeChange?.('calendar');
       },
       badge: 0,
-    },
-    {
-      label: 'Requests',
-      icon: Inbox,
-      active: isDashboard && viewMode === 'requests',
-      to: '/',
-      onClick: () => {
-        if (isDashboard) onViewModeChange?.('requests');
-      },
-      badge: pendingCount,
     },
     {
       label: 'Fix',

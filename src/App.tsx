@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,24 +8,34 @@ import { ShieldAlert } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthRoles } from "@/hooks/useAuthRoles";
 import { canAccessPath, getPostLoginPath, getStoredLoginLane, type AppRole } from "@/lib/roleRouting";
-import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import Finances from "./pages/Finances";
-import Maintenance from "./pages/Maintenance";
-import MaintenanceHealth from "./pages/MaintenanceHealth";
-import MaintenancePortal from "./pages/MaintenancePortal";
-import ContractorOfficeLaundry from "./pages/ContractorOfficeLaundry";
-import ExtendStay from "./pages/ExtendStay";
-import AirbnbMarket from "./pages/AirbnbMarket";
-import AdminDraws from "./pages/AdminDraws";
-
-import NotFound from "./pages/NotFound";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
+
+const Index = lazy(() => import("./pages/Index"));
+const Finances = lazy(() => import("./pages/Finances"));
+const Maintenance = lazy(() => import("./pages/Maintenance"));
+const MaintenanceHealth = lazy(() => import("./pages/MaintenanceHealth"));
+const MaintenancePortal = lazy(() => import("./pages/MaintenancePortal"));
+const ContractorOfficeLaundry = lazy(() => import("./pages/ContractorOfficeLaundry"));
+const ExtendStay = lazy(() => import("./pages/ExtendStay"));
+const AirbnbMarket = lazy(() => import("./pages/AirbnbMarket"));
+const AdminDraws = lazy(() => import("./pages/AdminDraws"));
+const Operations = lazy(() => import("./pages/Operations"));
+const CleanerPortal = lazy(() => import("./pages/CleanerPortal"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
 type ViewMode = 'units' | 'calendar' | 'requests';
+
+function AppLoading() {
+  return (
+    <div className="min-h-screen pattern-bg flex items-center justify-center">
+      <div className="text-muted-foreground font-body text-sm animate-pulse">Loading Homestead Helper…</div>
+    </div>
+  );
+}
 
 function Unauthorized() {
   const { signOut } = useAuth();
@@ -48,12 +58,16 @@ function Unauthorized() {
 
 function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
   const [viewMode, setViewMode] = useState<ViewMode>('units');
-  const isMaintenanceOnly = roles.includes('maintenance') && !roles.includes('admin');
+  const isMaintenanceOnly = roles.includes('maintenance') && !roles.includes('admin') && !roles.includes('property_manager');
+  const isCleanerOnly = roles.includes('cleaner') && !roles.includes('admin') && !roles.includes('property_manager');
 
   return (
     <>
       <Routes>
-        <Route path="/" element={isMaintenanceOnly ? <Navigate to="/maintenance-portal" replace /> : <Index viewMode={viewMode} onViewModeChange={setViewMode} />} />
+        <Route path="/" element={<Navigate to={getPostLoginPath(roles)} replace />} />
+        <Route path="/operations" element={<Operations />} />
+        <Route path="/host-hub" element={<Index viewMode={viewMode} onViewModeChange={setViewMode} />} />
+        <Route path="/cleaner" element={<CleanerPortal />} />
         <Route path="/finances" element={<Finances />} />
         <Route path="/payments" element={<Finances />} />
         <Route path="/reports" element={<Finances />} />
@@ -70,7 +84,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/auth/maintenance" element={<Navigate to={getPostLoginPath(roles, 'maintenance')} replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isMaintenanceOnly && <MobileBottomNav viewMode={viewMode} onViewModeChange={setViewMode} />}
+      {!isMaintenanceOnly && !isCleanerOnly && <MobileBottomNav viewMode={viewMode} onViewModeChange={setViewMode} />}
     </>
   );
 }
@@ -102,6 +116,14 @@ function AppRouter() {
     );
   }
 
+  if (location.pathname.startsWith('/cleaning/')) {
+    return (
+      <Routes>
+        <Route path="/cleaning/:token" element={<CleanerPortal />} />
+      </Routes>
+    );
+  }
+
   if (!session) {
     return (
       <Routes>
@@ -128,7 +150,9 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <AppRouter />
+          <Suspense fallback={<AppLoading />}>
+            <AppRouter />
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

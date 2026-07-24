@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { getStoredLoginLane, type AppRole } from '@/lib/roleRouting';
 
+// These role RPCs were added after the generated Supabase client types.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function useAuthRoles(userId?: string) {
   const [roles, setRoles] = useState<AppRole[]>([]);
   const [loading, setLoading] = useState(!!userId);
@@ -31,7 +33,12 @@ export function useAuthRoles(userId?: string) {
 
         let nextRoles = ((data ?? []) as { role: AppRole }[])
           .map(row => row.role)
-          .filter((role): role is AppRole => role === 'admin' || role === 'maintenance');
+          .filter((role): role is AppRole => (
+            role === 'admin'
+            || role === 'property_manager'
+            || role === 'maintenance'
+            || role === 'cleaner'
+          ));
 
         if (nextRoles.length === 0 && getStoredLoginLane() === 'property-manager') {
           const { error: claimError } = await (supabase as any).rpc('claim_admin_if_first');
@@ -47,7 +54,12 @@ export function useAuthRoles(userId?: string) {
 
           nextRoles = ((claimedData ?? []) as { role: AppRole }[])
             .map(row => row.role)
-            .filter((role): role is AppRole => role === 'admin' || role === 'maintenance');
+            .filter((role): role is AppRole => (
+              role === 'admin'
+              || role === 'property_manager'
+              || role === 'maintenance'
+              || role === 'cleaner'
+            ));
         }
 
         if (!cancelled) setRoles(Array.from(new Set(nextRoles)));
@@ -70,6 +82,8 @@ export function useAuthRoles(userId?: string) {
     roles,
     loading,
     isAdmin: roles.includes('admin'),
+    isPropertyManager: roles.includes('property_manager'),
     isMaintenance: roles.includes('maintenance'),
+    isCleaner: roles.includes('cleaner'),
   };
 }
