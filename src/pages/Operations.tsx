@@ -57,6 +57,8 @@ import { cn } from '@/lib/utils';
 import OnboardingTutorial from '@/components/OnboardingTutorial';
 import { useOnboardingState } from '@/hooks/useTutorialState';
 
+type OperationsView = 'today' | 'units' | 'stays' | 'cleaning' | 'more';
+
 const STATUS_TONES: Record<string, string> = {
   occupied: 'border-sky-500/40 bg-sky-500/10 text-sky-200',
   vacant_ready: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200',
@@ -199,9 +201,14 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
     checkOutTime: '11:00',
     notes: '',
   });
+  const invalidDateRange = Boolean(
+    form.checkInDate
+    && form.checkOutDate
+    && form.checkOutDate <= form.checkInDate,
+  );
 
   const save = async () => {
-    if (!form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate) return;
+    if (!form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate || invalidDateRange) return;
     setSaving(true);
     const saved = await onSave(form);
     setSaving(false);
@@ -262,13 +269,25 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
           <div className="grid grid-cols-[1fr_110px] gap-2 sm:col-span-2">
             <div className="space-y-2">
               <Label htmlFor="check-out-date">Check-out</Label>
-              <Input id="check-out-date" type="date" value={form.checkOutDate} onChange={(event) => setForm({ ...form, checkOutDate: event.target.value })} />
+              <Input
+                id="check-out-date"
+                type="date"
+                min={form.checkInDate || undefined}
+                aria-invalid={invalidDateRange}
+                value={form.checkOutDate}
+                onChange={(event) => setForm({ ...form, checkOutDate: event.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="check-out-time">Time</Label>
               <Input id="check-out-time" type="time" value={form.checkOutTime} onChange={(event) => setForm({ ...form, checkOutTime: event.target.value })} />
             </div>
           </div>
+          {invalidDateRange && (
+            <p className="text-sm text-destructive sm:col-span-2" role="alert">
+              Check-out must be after check-in.
+            </p>
+          )}
           <div className="space-y-2 sm:col-span-2">
             <Label htmlFor="reservation-notes">Special notes</Label>
             <Textarea id="reservation-notes" value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} />
@@ -276,7 +295,7 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={save} disabled={saving || !form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate}>
+          <Button onClick={save} disabled={saving || invalidDateRange || !form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate}>
             {saving ? 'Saving…' : 'Create reservation'}
           </Button>
         </DialogFooter>
@@ -387,10 +406,22 @@ export default function Operations() {
   const [reservationOpen, setReservationOpen] = useState(false);
   const [vendorOpen, setVendorOpen] = useState(false);
   const [readinessCleaning, setReadinessCleaning] = useState<OperationalCleaning | null>(null);
+  const [activeView, setActiveView] = useState<OperationsView>('today');
   const today = localDateKey();
   const todayChecklists = operations.checklists.filter((checklist) => checklist.checklist_date === today);
   const readyCount = operations.units.filter((unit) => unit.operational_status === 'vacant_ready').length;
   const occupiedCount = operations.units.filter((unit) => unit.operational_status === 'occupied').length;
+  const activeReservations = operations.reservations.filter((reservation) => reservation.status !== 'cancelled');
+  const activeCleanings = operations.cleanings.filter((cleaning) => !['ready', 'cancelled'].includes(cleaning.status));
+
+  const openView = (view: OperationsView, sectionId?: string) => {
+    setActiveView(view);
+    if (sectionId) {
+      window.setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    }
+  };
 
   return (
     <div className="min-h-screen pattern-bg">
@@ -409,8 +440,8 @@ export default function Operations() {
             <Button variant="ghost" size="sm" onClick={() => setShowOnboarding(true)} aria-label="Open tutorial">
               <HelpCircle className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Tutorial</span>
             </Button>
-            <Button variant="ghost" size="sm" onClick={operations.refresh} aria-label="Refresh operations">
-              <RefreshCcw className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Refresh</span>
+            <Button variant="ghost" size="sm" disabled={operations.loading} onClick={operations.refresh} aria-label="Refresh operations">
+              <RefreshCcw className={cn('h-4 w-4 sm:mr-2', operations.loading && 'animate-spin')} /><span className="hidden sm:inline">Refresh</span>
             </Button>
             <Button variant="ghost" size="sm" onClick={signOut} aria-label="Sign out">
               <LogOut className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Sign out</span>
@@ -449,16 +480,22 @@ export default function Operations() {
               </div>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {([
-                  { label: 'Urgent', value: operations.summary.urgentCount, Icon: AlertTriangle, tone: 'text-rose-300' },
-                  { label: 'Arriving', value: operations.summary.arrivalsToday.length, Icon: DoorOpen, tone: 'text-emerald-300' },
-                  { label: 'Leaving', value: operations.summary.departuresToday.length, Icon: LogOut, tone: 'text-sky-300' },
-                  { label: 'Approvals', value: operations.approvals.length, Icon: ShieldCheck, tone: 'text-amber-300' },
-                ]).map(({ label, value, Icon, tone }) => (
-                  <div key={label} className="rounded-xl border border-border/70 bg-background/35 p-3">
+                  { label: 'Urgent', value: operations.summary.urgentCount, Icon: AlertTriangle, tone: 'text-rose-300', onClick: () => openView('today', 'requires-action') },
+                  { label: 'Arriving', value: operations.summary.arrivalsToday.length, Icon: DoorOpen, tone: 'text-emerald-300', onClick: () => openView('today', 'today-schedule') },
+                  { label: 'Leaving', value: operations.summary.departuresToday.length, Icon: LogOut, tone: 'text-sky-300', onClick: () => openView('today', 'today-schedule') },
+                  { label: 'Approvals', value: operations.approvals.length, Icon: ShieldCheck, tone: 'text-amber-300', onClick: () => openView('today', 'pending-approvals') },
+                ]).map(({ label, value, Icon, tone, onClick }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={onClick}
+                    className="rounded-xl border border-border/70 bg-background/35 p-3 text-left transition hover:border-secondary/50 hover:bg-background/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    aria-label={`Open ${label.toLowerCase()}: ${value}`}
+                  >
                     <Icon className={cn('h-4 w-4', tone)} />
                     <p className="mt-2 text-2xl font-bold">{value}</p>
                     <p className="text-xs text-muted-foreground">{label}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             </CardContent>
@@ -469,42 +506,40 @@ export default function Operations() {
               <CardTitle className="text-base">Property pulse</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-2 gap-3 p-5 pt-2">
-              <div className="rounded-xl bg-emerald-500/10 p-3">
+              <button type="button" onClick={() => openView('units')} className="rounded-xl bg-emerald-500/10 p-3 text-left transition hover:bg-emerald-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-emerald-200">{readyCount}</p>
                 <p className="text-xs text-muted-foreground">Vacant & ready</p>
-              </div>
-              <div className="rounded-xl bg-sky-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('units')} className="rounded-xl bg-sky-500/10 p-3 text-left transition hover:bg-sky-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-sky-200">{occupiedCount}</p>
                 <p className="text-xs text-muted-foreground">Occupied</p>
-              </div>
-              <div className="rounded-xl bg-amber-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('cleaning')} className="rounded-xl bg-amber-500/10 p-3 text-left transition hover:bg-amber-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-amber-200">{operations.summary.cleaningAction.length}</p>
                 <p className="text-xs text-muted-foreground">Cleaning action</p>
-              </div>
-              <div className="rounded-xl bg-orange-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('more', 'maintenance-and-vendors')} className="rounded-xl bg-orange-500/10 p-3 text-left transition hover:bg-orange-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-orange-200">{operations.summary.openMaintenance.length}</p>
                 <p className="text-xs text-muted-foreground">Open maintenance</p>
-              </div>
+              </button>
             </CardContent>
           </Card>
         </section>
 
-        <Tabs defaultValue="today" className="space-y-4">
+        <Tabs value={activeView} onValueChange={(value) => setActiveView(value as OperationsView)} className="space-y-4">
           <div className="overflow-x-auto pb-1">
             <TabsList className="h-11 min-w-max justify-start">
               <TabsTrigger value="today">Today</TabsTrigger>
               <TabsTrigger value="units">15 units</TabsTrigger>
-              <TabsTrigger value="stays">Stays</TabsTrigger>
+              <TabsTrigger value="stays">Reservations</TabsTrigger>
               <TabsTrigger value="cleaning">Cleaning</TabsTrigger>
-              <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-              <TabsTrigger value="checklists">Checklists</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="more">More</TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="today" className="space-y-5">
-            <div className="grid gap-5 lg:grid-cols-2">
-              <Card className="border-border/70">
+            <div id="today-schedule" className="grid scroll-mt-24 gap-5 lg:grid-cols-2">
+              <Card id="requires-action" className="scroll-mt-24 border-border/70">
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="flex items-center gap-2 text-base"><DoorOpen className="h-4 w-4 text-emerald-300" /> Arrivals today</CardTitle>
                 </CardHeader>
@@ -545,6 +580,9 @@ export default function Operations() {
                       {cleaning.status === 'readiness_verification_required' && (
                         <Button size="sm" onClick={() => setReadinessCleaning(cleaning)}>Verify</Button>
                       )}
+                      {cleaning.status !== 'readiness_verification_required' && (
+                        <Button size="sm" variant="outline" onClick={() => openView('cleaning')}>Review</Button>
+                      )}
                     </div>
                   ))}
                   {operations.summary.overdueTasks.slice(0, 5).map((task) => (
@@ -561,18 +599,18 @@ export default function Operations() {
               <Card className="border-border/70">
                 <CardHeader className="p-4 pb-2"><CardTitle className="text-base">Next 7 days</CardTitle></CardHeader>
                 <CardContent className="space-y-3 p-4 pt-2">
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  <button type="button" onClick={() => openView('stays')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><DoorOpen className="h-4 w-4 text-emerald-300" /> Arrivals</span>
                     <span className="text-xl font-bold">{operations.summary.arrivalsNextSevenDays.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  </button>
+                  <button type="button" onClick={() => openView('stays')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><LogOut className="h-4 w-4 text-sky-300" /> Departures</span>
                     <span className="text-xl font-bold">{operations.summary.departuresNextSevenDays.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  </button>
+                  <button type="button" onClick={() => openView('cleaning')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><RefreshCcw className="h-4 w-4 text-amber-300" /> Same-day turns</span>
                     <span className="text-xl font-bold">{operations.summary.sameDayTurnoverUnitIds.size}</span>
-                  </div>
+                  </button>
                   <Link to="/host-hub" className="flex min-h-11 items-center justify-between rounded-xl border border-border/70 px-3 text-sm hover:bg-muted/30">
                     Open booking calendar <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -581,7 +619,7 @@ export default function Operations() {
             </div>
 
             {operations.approvals.length > 0 && (
-              <Card className="border-amber-500/35 bg-amber-500/5">
+              <Card id="pending-approvals" className="scroll-mt-24 border-amber-500/35 bg-amber-500/5">
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="flex items-center gap-2 text-base"><ShieldCheck className="h-4 w-4 text-amber-300" /> Dalton approval required</CardTitle>
                 </CardHeader>
@@ -615,16 +653,15 @@ export default function Operations() {
 
           <TabsContent value="stays" className="space-y-3">
             <div className="flex justify-end"><Button onClick={() => setReservationOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add reservation</Button></div>
-            {operations.reservations
-              .filter((reservation) => reservation.status !== 'cancelled')
+            {activeReservations
               .map((reservation) => (
                 <ReservationManageCard key={reservation.id} reservation={reservation} update={operations.updateReservation} />
               ))}
-            {!operations.reservations.length && <EmptyState text="No reservations yet." />}
+            {!activeReservations.length && <EmptyState text="No active reservations." />}
           </TabsContent>
 
           <TabsContent value="cleaning" className="space-y-3">
-            {operations.cleanings.length ? operations.cleanings.map((cleaning) => (
+            {activeCleanings.length ? activeCleanings.map((cleaning) => (
               <Card key={cleaning.id} className={cn('border-border/70', cleaning.status === 'overdue' && 'border-rose-500/50')}>
                 <CardContent className="p-4">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -670,10 +707,14 @@ export default function Operations() {
             )) : <EmptyState text="No cleaning tasks yet." />}
           </TabsContent>
 
-          <TabsContent value="maintenance" className="space-y-3">
+          <TabsContent value="more" className="space-y-3">
+            <div id="maintenance-and-vendors" className="scroll-mt-24">
+              <p className="font-heading text-lg font-semibold">Maintenance & vendor contacts</p>
+              <p className="mt-1 text-sm text-muted-foreground">Open the maintenance workspace for detailed work. Keep quick vendor contacts here.</p>
+            </div>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="outline" onClick={() => setVendorOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add vendor</Button>
-              <Link to="/maintenance"><Button><Plus className="mr-2 h-4 w-4" /> Create maintenance request</Button></Link>
+              <Button asChild><Link to="/maintenance"><Plus className="mr-2 h-4 w-4" /> Create maintenance request</Link></Button>
             </div>
             {operations.summary.openMaintenance.length ? operations.summary.openMaintenance.map((request) => (
               <Card key={request.id} className={cn('border-border/70', (request.emergency || request.priority === 'emergency') && 'border-rose-500/50 bg-rose-500/5')}>
@@ -698,7 +739,7 @@ export default function Operations() {
                       </Select>
                     </div>
                   </div>
-                  <Link to="/maintenance"><Button size="sm" variant="outline">Open</Button></Link>
+                  <Button asChild size="sm" variant="outline"><Link to="/maintenance">Open</Link></Button>
                 </CardContent>
               </Card>
             )) : <EmptyState text="No open maintenance." />}
@@ -715,23 +756,25 @@ export default function Operations() {
                       </div>
                       <p className="text-xs text-muted-foreground">{vendor.trade}{vendor.company ? ` · ${vendor.company}` : ''}</p>
                       <div className="mt-2 flex gap-2">
-                        {vendor.phone && <a href={`tel:${vendor.phone}`}><Button size="sm" variant="outline">Call</Button></a>}
-                        {vendor.email && <a href={`mailto:${vendor.email}`}><Button size="sm" variant="outline">Email</Button></a>}
+                        {vendor.phone && <Button asChild size="sm" variant="outline"><a href={`tel:${vendor.phone}`}>Call</a></Button>}
+                        {vendor.email && <Button asChild size="sm" variant="outline"><a href={`mailto:${vendor.email}`}>Email</a></Button>}
                       </div>
                     </div>
                   ))}
                 </CardContent>
               </Card>
             )}
-          </TabsContent>
-
-          <TabsContent value="checklists" className="grid gap-4 lg:grid-cols-3">
+            <div className="grid gap-4 border-t border-border/60 pt-5 lg:grid-cols-3">
+            <div className="lg:col-span-3">
+              <p className="font-heading text-lg font-semibold">Routine checklists</p>
+              <p className="mt-1 text-sm text-muted-foreground">Use these when they are due; they stay out of the daily view otherwise.</p>
+            </div>
             {(['morning', 'end_of_day', 'weekly'] as const).map((type) => (
               <ChecklistCard key={type} type={type} existing={todayChecklists.find((checklist) => checklist.checklist_type === type)} save={operations.saveChecklist} />
             ))}
-          </TabsContent>
+            </div>
 
-          <TabsContent value="activity">
+            <div>
             <Card className="border-border/70">
               <CardHeader className="p-4 pb-2"><CardTitle className="flex items-center gap-2 text-base"><Activity className="h-4 w-4" /> Activity history</CardTitle></CardHeader>
               <CardContent className="divide-y divide-border/60 p-4 pt-2">
@@ -746,6 +789,7 @@ export default function Operations() {
                 )) : <EmptyState text="No operational activity yet." />}
               </CardContent>
             </Card>
+            </div>
           </TabsContent>
         </Tabs>
 
