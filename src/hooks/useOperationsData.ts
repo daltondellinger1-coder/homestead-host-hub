@@ -60,6 +60,12 @@ export interface ChecklistRun {
   escalation_notes?: string | null;
 }
 
+export interface CleanerAssignee {
+  user_id: string;
+  email?: string | null;
+  display_name?: string | null;
+}
+
 export const CHECKLIST_TEMPLATES = {
   morning: [
     'Review today’s arrivals',
@@ -114,6 +120,7 @@ export function useOperationsData() {
   const [activity, setActivity] = useState<ActivityEntry[]>([]);
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [checklists, setChecklists] = useState<ChecklistRun[]>([]);
+  const [cleaners, setCleaners] = useState<CleanerAssignee[]>([]);
   const [loading, setLoading] = useState(true);
   const [schemaReady, setSchemaReady] = useState(true);
 
@@ -129,6 +136,7 @@ export function useOperationsData() {
       db.from('activity_log').select('id,action,record_type,record_id,actor_label,source,created_at').order('created_at', { ascending: false }).limit(30),
       db.from('vendors').select('*').eq('active', true).order('trade').order('vendor_rank'),
       db.from('checklist_runs').select('*').gte('checklist_date', localDateKey(new Date(Date.now() - 8 * 86400000))),
+      db.from('user_roles').select('user_id,email,display_name').eq('role', 'cleaner').eq('active', true).not('user_id', 'is', null).order('display_name'),
     ]);
 
     const firstOperationalError = results.slice(1).find((result) => result.error)?.error;
@@ -147,6 +155,7 @@ export function useOperationsData() {
     if (results[6].data) setActivity(results[6].data);
     if (results[7].data) setVendors(results[7].data);
     if (results[8].data) setChecklists(results[8].data);
+    if (results[9].data) setCleaners(results[9].data);
     setLoading(false);
   }, []);
 
@@ -218,6 +227,27 @@ export function useOperationsData() {
   const updateCleaning = useCallback((id: string, values: Record<string, unknown>, message: string) => mutate(
     () => db.from('cleaning_tasks').update(values).eq('id', id),
     message,
+  ), [mutate]);
+
+  const assignCleaner = useCallback((id: string, cleaner: CleanerAssignee | null) => mutate(
+    () => db.from('cleaning_tasks').update(cleaner ? {
+      assigned_cleaner_user_id: cleaner.user_id,
+      assigned_cleaner_name: cleaner.display_name || cleaner.email || 'Cleaner',
+      assigned_cleaner_email: cleaner.email || null,
+      status: 'awaiting_confirmation',
+      confirmation_status: 'pending',
+      confirmed_at: null,
+      declined_at: null,
+    } : {
+      assigned_cleaner_user_id: null,
+      assigned_cleaner_name: null,
+      assigned_cleaner_email: null,
+      status: 'needs_scheduling',
+      confirmation_status: 'not_requested',
+      confirmed_at: null,
+      declined_at: null,
+    }).eq('id', id),
+    cleaner ? `Cleaning assigned to ${cleaner.display_name || cleaner.email || 'cleaner'}.` : 'Cleaner assignment removed.',
   ), [mutate]);
 
   const verifyCleaning = useCallback((id: string, checklist: Record<string, boolean>) => mutate(
@@ -324,6 +354,7 @@ export function useOperationsData() {
     activity,
     vendors,
     checklists,
+    cleaners,
     loading,
     schemaReady,
     summary,
@@ -332,6 +363,7 @@ export function useOperationsData() {
     updateUnitStatus,
     updateReservation,
     updateCleaning,
+    assignCleaner,
     verifyCleaning,
     completeTask,
     saveChecklist,

@@ -38,6 +38,7 @@ describe('role-based login routing', () => {
 
   it('restricts cleaner accounts to their assignment portal', () => {
     expect(getPostLoginPath(['cleaner'])).toBe('/cleaner');
+    expect(getPostLoginPath(['cleaner'], 'cleaner')).toBe('/cleaner');
     expect(canAccessPath('/cleaner', ['cleaner'])).toBe(true);
     expect(canAccessPath('/operations', ['cleaner'])).toBe(false);
     expect(canAccessPath('/maintenance', ['cleaner'])).toBe(false);

@@ -29,10 +29,10 @@ import {
   Sparkles,
 } from 'lucide-react';
 import {
-  adminTutorialSteps,
+  adminQuickStartSteps,
   cleanerTutorialSteps,
   maintenanceTutorialSteps,
-  propertyManagerTutorialSteps,
+  propertyManagerQuickStartSteps,
   type TutorialIconName,
   type TutorialStepContent,
 } from '@/components/tutorialContent';
@@ -176,7 +176,7 @@ export default function OnboardingTutorial({ open, onClose, isAdmin = false }: O
     <TutorialDialog
       open={open}
       onClose={onClose}
-      steps={isAdmin ? adminTutorialSteps : propertyManagerTutorialSteps}
+      steps={isAdmin ? adminQuickStartSteps : propertyManagerQuickStartSteps}
       storageKey={ONBOARDING_KEY}
     />
   );

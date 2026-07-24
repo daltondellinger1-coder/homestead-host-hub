@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Mountain, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,8 +11,18 @@ import HomesteadHillPLContent from '@/components/HomesteadHillPLContent';
 
 export default function Finances() {
   const location = useLocation();
-  const hasFilterParams = location.search.length > 0;
-  const [tab, setTab] = useState(hasFilterParams ? 'history' : 'pl');
+  const routeTab = location.pathname === '/payments'
+    ? 'history'
+    : location.pathname === '/reports'
+      ? 'reports'
+      : location.search.length > 0
+        ? 'history'
+        : 'pl';
+  const [tab, setTab] = useState(routeTab);
+
+  useEffect(() => {
+    setTab(routeTab);
+  }, [routeTab]);
 
   return (
     <div className="min-h-screen pattern-bg">

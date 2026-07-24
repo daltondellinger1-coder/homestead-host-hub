@@ -47,7 +47,7 @@ function Unauthorized() {
         <div>
           <h1 className="font-heading text-lg font-semibold text-foreground">Access not assigned yet</h1>
           <p className="text-sm text-muted-foreground font-body mt-2">
-            This login worked, but this account has not been assigned a Property Manager or Maintenance role yet.
+            This login worked, but this account has not been assigned a Property Manager, Cleaner, or Maintenance role yet.
           </p>
         </div>
         <Button onClick={signOut} variant="outline" className="w-full">Sign out</Button>
@@ -82,6 +82,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/auth" element={<Navigate to={getPostLoginPath(roles, getStoredLoginLane())} replace />} />
         <Route path="/auth/property-manager" element={<Navigate to={getPostLoginPath(roles, 'property-manager')} replace />} />
         <Route path="/auth/maintenance" element={<Navigate to={getPostLoginPath(roles, 'maintenance')} replace />} />
+        <Route path="/auth/cleaner" element={<Navigate to={getPostLoginPath(roles, 'cleaner')} replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!isMaintenanceOnly && !isCleanerOnly && <MobileBottomNav viewMode={viewMode} onViewModeChange={setViewMode} />}
@@ -131,6 +132,7 @@ function AppRouter() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/property-manager" element={<Auth />} />
         <Route path="/auth/maintenance" element={<Auth />} />
+        <Route path="/auth/cleaner" element={<Auth />} />
         <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     );

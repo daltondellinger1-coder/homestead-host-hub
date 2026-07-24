@@ -688,6 +688,28 @@ export default function Operations() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
+                      <Select
+                        value={cleaning.assigned_cleaner_user_id || 'unassigned'}
+                        onValueChange={(userId) => {
+                          const cleaner = operations.cleaners.find((candidate) => candidate.user_id === userId) ?? null;
+                          operations.assignCleaner(cleaning.id, cleaner);
+                        }}
+                      >
+                        <SelectTrigger
+                          aria-label={`Cleaner for ${cleaning.unit?.name ?? 'unit'}`}
+                          className="col-span-2 min-w-44 sm:col-span-1"
+                        >
+                          <SelectValue placeholder="Assign cleaner" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="unassigned">Not assigned</SelectItem>
+                          {operations.cleaners.map((cleaner) => (
+                            <SelectItem key={cleaner.user_id} value={cleaner.user_id}>
+                              {cleaner.display_name || cleaner.email || 'Cleaner'}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       {['needs_scheduling', 'awaiting_confirmation', 'cleaner_declined'].includes(cleaning.status) && (
                         <Button size="sm" variant="outline" onClick={() => operations.issueCleanerLink(cleaning.id)}>Copy cleaner link</Button>
                       )}

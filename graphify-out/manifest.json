@@ -70,8 +70,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/App.tsx": {
-    "mtime": 1784882228.1264908,
-    "ast_hash": "7eb8d60fe92bcecbcbc886770a081e72",
+    "mtime": 1784900510.8538454,
+    "ast_hash": "f1f154dd4f1bbda808b3f9709d72a631",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/main.tsx": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/maintenanceTutorialContent.test.ts": {
-    "mtime": 1784882228.5264752,
-    "ast_hash": "0bff66541b039ff85c14a5b33bf44510",
+    "mtime": 1784900578.6244247,
+    "ast_hash": "a12648bb46cf74c1d94108a38b3c5f30",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/ManagementDashboard.tsx": {
@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/OnboardingTutorial.tsx": {
-    "mtime": 1784882228.3644779,
-    "ast_hash": "8137c0c688e8645285d3d5a0ca49e409",
+    "mtime": 1784900584.0491252,
+    "ast_hash": "8637cb4416c1689e7faa2a40cbf75529",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/PaymentCalendar.tsx": {
@@ -245,8 +245,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/tutorialContent.ts": {
-    "mtime": 1784882228.544579,
-    "ast_hash": "c1dac3ddfd5a63898bf0daf84afc8e2b",
+    "mtime": 1784900578.598851,
+    "ast_hash": "fcb0126bc8ec990ed5c3519cf3e5033d",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/UnitCard.tsx": {
@@ -560,8 +560,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useOperationsData.ts": {
-    "mtime": 1784882229.2430656,
-    "ast_hash": "43f46ae64d81d214744e0c32ef5c3871",
+    "mtime": 1784900546.6474643,
+    "ast_hash": "0c4aaa728af27668b4df0081042b119f",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/usePropertyData.ts": {
@@ -602,6 +602,11 @@
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/airbnbMarketSignals.ts": {
     "mtime": 1784882229.405465,
     "ast_hash": "63a7f7779eb7cb770d555b6c89438c30",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/appNavigationContracts.test.ts": {
+    "mtime": 1784901186.63567,
+    "ast_hash": "e7b508c4cb24d586618680b9f969a868",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/bookingIntakeContract.test.ts": {
@@ -750,13 +755,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.test.ts": {
-    "mtime": 1784882229.674989,
-    "ast_hash": "2ddfa2f0fd8215a2862d2058ff43967b",
+    "mtime": 1784900510.8705335,
+    "ast_hash": "92283cb68343aadba58ceafec1d1738b",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.ts": {
-    "mtime": 1784882229.682986,
-    "ast_hash": "ffe3350b79342257c22119f95f6a6f8a",
+    "mtime": 1784900510.8422973,
+    "ast_hash": "76e10667c1d2cbb11e8ad866c3015478",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/utils.ts": {
@@ -775,8 +780,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Auth.tsx": {
-    "mtime": 1784882229.7289882,
-    "ast_hash": "2ee82db7803cf58ec6a5dbf72ded624a",
+    "mtime": 1784900895.2661862,
+    "ast_hash": "cb50c58ac8a1ebd38f6ef9d1029919e7",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/CleanerPortal.tsx": {
@@ -795,8 +800,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Finances.tsx": {
-    "mtime": 1784882229.754998,
-    "ast_hash": "23477213ec0d6dc164591c3d5d090c24",
+    "mtime": 1784900555.5981758,
+    "ast_hash": "df6f50704f5153eaa7ffbe8f8038ac8c",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/FinancialReports.tsx": {
@@ -830,13 +835,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Operations.test.tsx": {
-    "mtime": 1784886602.0699065,
-    "ast_hash": "64b6775fa23c3ac5f98bebdc51767a7e",
+    "mtime": 1784900546.6812716,
+    "ast_hash": "34e1bb8e9269eee4438d1f373ef78d57",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Operations.tsx": {
-    "mtime": 1784886532.2379272,
-    "ast_hash": "390c362a0b795e21bd19a44011ba80bd",
+    "mtime": 1784900546.6725774,
+    "ast_hash": "14d9e4c70c796c8ac09b6bcd69cf321d",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/PaymentHistory.tsx": {

@@ -9,6 +9,7 @@ const operationsState = vi.hoisted(() => ({
   updateUnitStatus: vi.fn(),
   updateReservation: vi.fn(),
   updateCleaning: vi.fn(),
+  assignCleaner: vi.fn(),
   verifyCleaning: vi.fn(),
   completeTask: vi.fn(),
   saveChecklist: vi.fn(),
@@ -51,6 +52,7 @@ vi.mock('@/hooks/useOperationsData', () => ({
     activity: [],
     vendors: [],
     checklists: [],
+    cleaners: [],
     loading: false,
     schemaReady: true,
     summary: {

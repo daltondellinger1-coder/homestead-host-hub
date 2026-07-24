@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mountain, Wrench, Building2, ArrowLeft } from 'lucide-react';
+import { Mountain, Wrench, Building2, ArrowLeft, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { setStoredLoginLane, type LoginLane } from '@/lib/roleRouting';
 
 function getLaneFromPath(pathname: string): LoginLane | null {
   if (pathname.includes('/maintenance')) return 'maintenance';
+  if (pathname.includes('/cleaner')) return 'cleaner';
   if (pathname.includes('/property-manager')) return 'property-manager';
   return null;
 }
@@ -53,6 +54,15 @@ export default function Auth() {
                 </span>
               </Button>
             </Link>
+            <Link to="/auth/cleaner" onClick={() => setStoredLoginLane('cleaner')}>
+              <Button variant="outline" className="w-full h-auto justify-start gap-3 p-4 bg-card/60">
+                <Sparkles className="h-5 w-5 text-secondary" />
+                <span className="text-left">
+                  <span className="block">Cleaner Login</span>
+                  <span className="block text-xs text-muted-foreground font-normal">Assigned cleanings, deadlines, photos, and issue reports</span>
+                </span>
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -74,14 +84,15 @@ export default function Auth() {
         if (error) throw error;
         toast.success('Account created! You are now signed in.');
       }
-    } catch (err: any) {
-      toast.error(err.message || 'Authentication failed');
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Authentication failed');
     } finally {
       setLoading(false);
     }
   };
 
   const isMaintenance = lane === 'maintenance';
+  const isCleaner = lane === 'cleaner';
 
   return (
     <div className="min-h-screen pattern-bg flex items-center justify-center px-4">
@@ -92,11 +103,11 @@ export default function Auth() {
 
         <div className="flex flex-col items-center mb-8">
           <div className="p-3 rounded-xl bg-secondary/15 mb-3">
-            {isMaintenance ? <Wrench className="h-8 w-8 text-secondary" /> : <Mountain className="h-8 w-8 text-secondary" />}
+            {isMaintenance ? <Wrench className="h-8 w-8 text-secondary" /> : isCleaner ? <Sparkles className="h-8 w-8 text-secondary" /> : <Mountain className="h-8 w-8 text-secondary" />}
           </div>
           <h1 className="text-2xl font-heading font-bold tracking-tight text-foreground">Homestead Hill</h1>
           <p className="text-xs text-muted-foreground font-body uppercase tracking-widest mt-1">
-            {isMaintenance ? 'Maintenance Portal' : 'Property Manager'}
+            {isMaintenance ? 'Maintenance Portal' : isCleaner ? 'Cleaner Portal' : 'Property Manager'}
           </p>
         </div>
 

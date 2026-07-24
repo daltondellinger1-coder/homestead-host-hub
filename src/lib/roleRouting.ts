@@ -1,5 +1,5 @@
 export type AppRole = 'admin' | 'property_manager' | 'maintenance' | 'cleaner';
-export type LoginLane = 'property-manager' | 'maintenance';
+export type LoginLane = 'property-manager' | 'maintenance' | 'cleaner';
 
 export const PROPERTY_MANAGER_HOME = '/operations';
 export const MAINTENANCE_HOME = '/maintenance-portal';
@@ -7,9 +7,8 @@ export const CLEANER_HOME = '/cleaner';
 
 export function getStoredLoginLane(): LoginLane {
   if (typeof window === 'undefined') return 'property-manager';
-  return window.localStorage.getItem('hostHubLoginLane') === 'maintenance'
-    ? 'maintenance'
-    : 'property-manager';
+  const lane = window.localStorage.getItem('hostHubLoginLane');
+  return lane === 'maintenance' || lane === 'cleaner' ? lane : 'property-manager';
 }
 
 export function setStoredLoginLane(lane: LoginLane) {
@@ -25,6 +24,7 @@ export function getPostLoginPath(roles: AppRole[], preferredLane: LoginLane = 'p
   const hasCleaner = roles.includes('cleaner');
 
   if (preferredLane === 'maintenance' && hasMaintenance) return MAINTENANCE_HOME;
+  if (preferredLane === 'cleaner' && hasCleaner) return CLEANER_HOME;
   if (hasAdmin || hasPropertyManager) return PROPERTY_MANAGER_HOME;
   if (hasMaintenance) return MAINTENANCE_HOME;
   if (hasCleaner) return CLEANER_HOME;
