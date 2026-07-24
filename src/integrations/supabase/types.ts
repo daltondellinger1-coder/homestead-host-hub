@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          actor_label: string | null
+          actor_user_id: string | null
+          automation_name: string | null
+          created_at: string
+          error_details: string | null
+          id: string
+          new_value: Json | null
+          prior_value: Json | null
+          record_id: string
+          record_type: string
+          session_metadata: Json | null
+          source: string
+        }
+        Insert: {
+          action: string
+          actor_label?: string | null
+          actor_user_id?: string | null
+          automation_name?: string | null
+          created_at?: string
+          error_details?: string | null
+          id?: string
+          new_value?: Json | null
+          prior_value?: Json | null
+          record_id: string
+          record_type: string
+          session_metadata?: Json | null
+          source?: string
+        }
+        Update: {
+          action?: string
+          actor_label?: string | null
+          actor_user_id?: string | null
+          automation_name?: string | null
+          created_at?: string
+          error_details?: string | null
+          id?: string
+          new_value?: Json | null
+          prior_value?: Json | null
+          record_id?: string
+          record_type?: string
+          session_metadata?: Json | null
+          source?: string
+        }
+        Relationships: []
+      }
       airbnb_availability_snapshots: {
         Row: {
           available_30_day: boolean | null
@@ -219,6 +267,123 @@ export type Database = {
         }
         Relationships: []
       }
+      approval_requests: {
+        Row: {
+          amount: number | null
+          category: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_reason: string | null
+          id: string
+          reason: string
+          record_id: string
+          record_type: string
+          requested_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number | null
+          category: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_reason?: string | null
+          id?: string
+          reason: string
+          record_id: string
+          record_type: string
+          requested_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number | null
+          category?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_reason?: string | null
+          id?: string
+          reason?: string
+          record_id?: string
+          record_type?: string
+          requested_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      approval_rules: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          emergency_override_allowed: boolean
+          enabled: boolean
+          id: string
+          threshold_amount: number | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          created_by?: string | null
+          emergency_override_allowed?: boolean
+          enabled?: boolean
+          id?: string
+          threshold_amount?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          emergency_override_allowed?: boolean
+          enabled?: boolean
+          id?: string
+          threshold_amount?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      automation_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          idempotency_key: string
+          payload: Json
+          record_id: string | null
+          source: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          idempotency_key: string
+          payload?: Json
+          record_id?: string | null
+          source?: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          idempotency_key?: string
+          payload?: Json
+          record_id?: string | null
+          source?: string
+          version?: number
+        }
+        Relationships: []
+      }
       booking_intake_events: {
         Row: {
           booking_request_id: string | null
@@ -370,51 +535,297 @@ export type Database = {
         }
         Relationships: []
       }
+      checklist_runs: {
+        Row: {
+          checklist_date: string
+          checklist_type: string
+          completed_at: string | null
+          created_at: string
+          escalation_notes: string | null
+          id: string
+          items: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          checklist_date?: string
+          checklist_type: string
+          completed_at?: string | null
+          created_at?: string
+          escalation_notes?: string | null
+          id?: string
+          items?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          checklist_date?: string
+          checklist_type?: string
+          completed_at?: string | null
+          created_at?: string
+          escalation_notes?: string | null
+          id?: string
+          items?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cleaner_access_tokens: {
+        Row: {
+          allowed_actions: string[]
+          cleaning_task_id: string
+          created_at: string
+          created_by: string | null
+          expires_at: string
+          id: string
+          revoked_at: string | null
+          token_hash: string
+          used_at: string | null
+        }
+        Insert: {
+          allowed_actions?: string[]
+          cleaning_task_id: string
+          created_at?: string
+          created_by?: string | null
+          expires_at: string
+          id?: string
+          revoked_at?: string | null
+          token_hash: string
+          used_at?: string | null
+        }
+        Update: {
+          allowed_actions?: string[]
+          cleaning_task_id?: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string
+          id?: string
+          revoked_at?: string | null
+          token_hash?: string
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cleaner_access_tokens_cleaning_task_id_fkey"
+            columns: ["cleaning_task_id"]
+            isOneToOne: false
+            referencedRelation: "cleaning_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cleaning_tasks: {
+        Row: {
+          assigned_cleaner_email: string | null
+          assigned_cleaner_name: string | null
+          assigned_cleaner_user_id: string | null
+          calendar_sync_status: string
+          checkout_at: string
+          cleaning_deadline: string
+          completed_at: string | null
+          completion_notes: string | null
+          completion_photo_urls: string[]
+          confirmation_status: string
+          confirmed_at: string | null
+          created_at: string
+          created_by: string | null
+          damage_found: string | null
+          declined_at: string | null
+          departing_reservation_id: string
+          google_calendar_event_id: string | null
+          id: string
+          linen_notes: string | null
+          maintenance_issue_found: string | null
+          next_check_in_at: string | null
+          next_reservation_id: string | null
+          notification_history: Json
+          pet_notes: string | null
+          readiness_checklist: Json
+          readiness_verification_status: string
+          scheduled_for: string | null
+          special_notes: string | null
+          status: string
+          supplies_needed: string | null
+          supply_notes: string | null
+          unit_id: string
+          updated_at: string
+          updated_by: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          assigned_cleaner_email?: string | null
+          assigned_cleaner_name?: string | null
+          assigned_cleaner_user_id?: string | null
+          calendar_sync_status?: string
+          checkout_at: string
+          cleaning_deadline: string
+          completed_at?: string | null
+          completion_notes?: string | null
+          completion_photo_urls?: string[]
+          confirmation_status?: string
+          confirmed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          damage_found?: string | null
+          declined_at?: string | null
+          departing_reservation_id: string
+          google_calendar_event_id?: string | null
+          id?: string
+          linen_notes?: string | null
+          maintenance_issue_found?: string | null
+          next_check_in_at?: string | null
+          next_reservation_id?: string | null
+          notification_history?: Json
+          pet_notes?: string | null
+          readiness_checklist?: Json
+          readiness_verification_status?: string
+          scheduled_for?: string | null
+          special_notes?: string | null
+          status?: string
+          supplies_needed?: string | null
+          supply_notes?: string | null
+          unit_id: string
+          updated_at?: string
+          updated_by?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          assigned_cleaner_email?: string | null
+          assigned_cleaner_name?: string | null
+          assigned_cleaner_user_id?: string | null
+          calendar_sync_status?: string
+          checkout_at?: string
+          cleaning_deadline?: string
+          completed_at?: string | null
+          completion_notes?: string | null
+          completion_photo_urls?: string[]
+          confirmation_status?: string
+          confirmed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          damage_found?: string | null
+          declined_at?: string | null
+          departing_reservation_id?: string
+          google_calendar_event_id?: string | null
+          id?: string
+          linen_notes?: string | null
+          maintenance_issue_found?: string | null
+          next_check_in_at?: string | null
+          next_reservation_id?: string | null
+          notification_history?: Json
+          pet_notes?: string | null
+          readiness_checklist?: Json
+          readiness_verification_status?: string
+          scheduled_for?: string | null
+          special_notes?: string | null
+          status?: string
+          supplies_needed?: string | null
+          supply_notes?: string | null
+          unit_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cleaning_tasks_departing_reservation_id_fkey"
+            columns: ["departing_reservation_id"]
+            isOneToOne: true
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cleaning_tasks_next_reservation_id_fkey"
+            columns: ["next_reservation_id"]
+            isOneToOne: false
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cleaning_tasks_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       guests: {
         Row: {
+          access_notes: string | null
+          active: boolean
           check_in: string
           check_out: string | null
+          communication_notes: string | null
           created_at: string
+          email: string | null
+          emergency_contact: string | null
           id: string
           is_current: boolean
           monthly_rate: number
           name: string
           notes: string | null
+          pet_information: string | null
+          phone: string | null
+          record_type: string
           security_deposit: number
           security_deposit_paid: boolean
           source: Database["public"]["Enums"]["booking_source"]
           unit_id: string
           updated_at: string
+          vehicle_notes: string | null
         }
         Insert: {
+          access_notes?: string | null
+          active?: boolean
           check_in: string
           check_out?: string | null
+          communication_notes?: string | null
           created_at?: string
+          email?: string | null
+          emergency_contact?: string | null
           id?: string
           is_current?: boolean
           monthly_rate?: number
           name: string
           notes?: string | null
+          pet_information?: string | null
+          phone?: string | null
+          record_type?: string
           security_deposit?: number
           security_deposit_paid?: boolean
           source?: Database["public"]["Enums"]["booking_source"]
           unit_id: string
           updated_at?: string
+          vehicle_notes?: string | null
         }
         Update: {
+          access_notes?: string | null
+          active?: boolean
           check_in?: string
           check_out?: string | null
+          communication_notes?: string | null
           created_at?: string
+          email?: string | null
+          emergency_contact?: string | null
           id?: string
           is_current?: boolean
           monthly_rate?: number
           name?: string
           notes?: string | null
+          pet_information?: string | null
+          phone?: string | null
+          record_type?: string
           security_deposit?: number
           security_deposit_paid?: boolean
           source?: Database["public"]["Enums"]["booking_source"]
           unit_id?: string
           updated_at?: string
+          vehicle_notes?: string | null
         }
         Relationships: [
           {
@@ -426,76 +837,180 @@ export type Database = {
           },
         ]
       }
+      import_runs: {
+        Row: {
+          completed_at: string | null
+          confidence: string
+          confirmed_by: string | null
+          created_at: string
+          created_by: string | null
+          error_report: Json
+          id: string
+          preview: Json
+          source_format: string
+          source_name: string
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          confidence?: string
+          confirmed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_report?: Json
+          id?: string
+          preview?: Json
+          source_format: string
+          source_name: string
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          confidence?: string
+          confirmed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_report?: Json
+          id?: string
+          preview?: Json
+          source_format?: string
+          source_name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       maintenance_requests: {
         Row: {
+          actual_cost: number | null
+          approval_required: boolean
+          approval_status: string
           assigned_to_email: string | null
           assigned_to_name: string | null
           assigned_to_user_id: string | null
+          category: string | null
           closed_at: string | null
           completed_at: string | null
+          completion_notes: string | null
+          completion_photo_urls: string[]
           created_at: string
           description: string | null
+          emergency: boolean
+          estimated_cost: number | null
           id: string
           notes: string | null
           photo_url: string | null
           photo_urls: string[]
+          priority: string
           priority_urgent: boolean
           reported_at: string
           reporter_name: string | null
+          reservation_id: string | null
+          scheduled_date: string | null
           status: Database["public"]["Enums"]["maintenance_status"]
           tally_event_id: string | null
           title: string
+          troubleshooting_performed: string | null
           unit_id: string
           updated_at: string
+          vendor_contacted_at: string | null
+          vendor_id: string | null
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
+          actual_cost?: number | null
+          approval_required?: boolean
+          approval_status?: string
           assigned_to_email?: string | null
           assigned_to_name?: string | null
           assigned_to_user_id?: string | null
+          category?: string | null
           closed_at?: string | null
           completed_at?: string | null
+          completion_notes?: string | null
+          completion_photo_urls?: string[]
           created_at?: string
           description?: string | null
+          emergency?: boolean
+          estimated_cost?: number | null
           id?: string
           notes?: string | null
           photo_url?: string | null
           photo_urls?: string[]
+          priority?: string
           priority_urgent?: boolean
           reported_at?: string
           reporter_name?: string | null
+          reservation_id?: string | null
+          scheduled_date?: string | null
           status?: Database["public"]["Enums"]["maintenance_status"]
           tally_event_id?: string | null
           title: string
+          troubleshooting_performed?: string | null
           unit_id: string
           updated_at?: string
+          vendor_contacted_at?: string | null
+          vendor_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
+          actual_cost?: number | null
+          approval_required?: boolean
+          approval_status?: string
           assigned_to_email?: string | null
           assigned_to_name?: string | null
           assigned_to_user_id?: string | null
+          category?: string | null
           closed_at?: string | null
           completed_at?: string | null
+          completion_notes?: string | null
+          completion_photo_urls?: string[]
           created_at?: string
           description?: string | null
+          emergency?: boolean
+          estimated_cost?: number | null
           id?: string
           notes?: string | null
           photo_url?: string | null
           photo_urls?: string[]
+          priority?: string
           priority_urgent?: boolean
           reported_at?: string
           reporter_name?: string | null
+          reservation_id?: string | null
+          scheduled_date?: string | null
           status?: Database["public"]["Enums"]["maintenance_status"]
           tally_event_id?: string | null
           title?: string
+          troubleshooting_performed?: string | null
           unit_id?: string
           updated_at?: string
+          vendor_contacted_at?: string | null
+          vendor_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_reservation_id_fkey"
+            columns: ["reservation_id"]
+            isOneToOne: false
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "maintenance_requests_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_requests_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
             referencedColumns: ["id"]
           },
         ]
@@ -576,6 +1091,168 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      notifications: {
+        Row: {
+          channel: string
+          created_at: string
+          delivery_status: string
+          event_type: string
+          failure_reason: string | null
+          id: string
+          idempotency_key: string
+          payload: Json
+          recipient_address: string | null
+          recipient_user_id: string | null
+          related_record_id: string | null
+          related_record_type: string | null
+          retry_count: number
+          scheduled_at: string
+          sent_at: string | null
+          template_key: string
+          updated_at: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          delivery_status?: string
+          event_type: string
+          failure_reason?: string | null
+          id?: string
+          idempotency_key: string
+          payload?: Json
+          recipient_address?: string | null
+          recipient_user_id?: string | null
+          related_record_id?: string | null
+          related_record_type?: string | null
+          retry_count?: number
+          scheduled_at?: string
+          sent_at?: string | null
+          template_key: string
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          delivery_status?: string
+          event_type?: string
+          failure_reason?: string | null
+          id?: string
+          idempotency_key?: string
+          payload?: Json
+          recipient_address?: string | null
+          recipient_user_id?: string | null
+          related_record_id?: string | null
+          related_record_type?: string | null
+          retry_count?: number
+          scheduled_at?: string
+          sent_at?: string | null
+          template_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      operational_tasks: {
+        Row: {
+          approval_required: boolean
+          assigned_user_id: string | null
+          attachment_urls: string[]
+          cleaning_task_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_at: string | null
+          guest_id: string | null
+          id: string
+          maintenance_request_id: string | null
+          notes: string | null
+          priority: string
+          reservation_id: string | null
+          status: string
+          title: string
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_required?: boolean
+          assigned_user_id?: string | null
+          attachment_urls?: string[]
+          cleaning_task_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          guest_id?: string | null
+          id?: string
+          maintenance_request_id?: string | null
+          notes?: string | null
+          priority?: string
+          reservation_id?: string | null
+          status?: string
+          title: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_required?: boolean
+          assigned_user_id?: string | null
+          attachment_urls?: string[]
+          cleaning_task_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          guest_id?: string | null
+          id?: string
+          maintenance_request_id?: string | null
+          notes?: string | null
+          priority?: string
+          reservation_id?: string | null
+          status?: string
+          title?: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "operational_tasks_cleaning_task_id_fkey"
+            columns: ["cleaning_task_id"]
+            isOneToOne: false
+            referencedRelation: "cleaning_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operational_tasks_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operational_tasks_maintenance_request_id_fkey"
+            columns: ["maintenance_request_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operational_tasks_reservation_id_fkey"
+            columns: ["reservation_id"]
+            isOneToOne: false
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "operational_tasks_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payment_allocations: {
         Row: {
@@ -675,6 +1352,132 @@ export type Database = {
           },
         ]
       }
+      reservations: {
+        Row: {
+          access_instructions_status: string
+          arrival_instructions_status: string
+          booking_source: string
+          booking_source_url: string | null
+          check_in_date: string
+          check_in_time: string
+          check_out_date: string | null
+          check_out_time: string
+          cleaning_notes: string | null
+          created_at: string
+          created_by: string | null
+          data_confidence: string
+          deposit_status: string
+          external_reservation_id: string | null
+          guest_communication_status: string
+          guest_count: number | null
+          guest_id: string
+          id: string
+          last_synchronized_at: string | null
+          overlap_override: boolean
+          overlap_override_reason: string | null
+          payment_status: string
+          pet_information: string | null
+          rate: number | null
+          readiness_verified: boolean
+          responsible_user_id: string | null
+          source_system: string
+          special_notes: string | null
+          status: string
+          total_amount: number | null
+          unit_id: string
+          updated_at: string
+          updated_by: string | null
+          vehicle_information: string | null
+        }
+        Insert: {
+          access_instructions_status?: string
+          arrival_instructions_status?: string
+          booking_source?: string
+          booking_source_url?: string | null
+          check_in_date: string
+          check_in_time?: string
+          check_out_date?: string | null
+          check_out_time?: string
+          cleaning_notes?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_confidence?: string
+          deposit_status?: string
+          external_reservation_id?: string | null
+          guest_communication_status?: string
+          guest_count?: number | null
+          guest_id: string
+          id?: string
+          last_synchronized_at?: string | null
+          overlap_override?: boolean
+          overlap_override_reason?: string | null
+          payment_status?: string
+          pet_information?: string | null
+          rate?: number | null
+          readiness_verified?: boolean
+          responsible_user_id?: string | null
+          source_system?: string
+          special_notes?: string | null
+          status?: string
+          total_amount?: number | null
+          unit_id: string
+          updated_at?: string
+          updated_by?: string | null
+          vehicle_information?: string | null
+        }
+        Update: {
+          access_instructions_status?: string
+          arrival_instructions_status?: string
+          booking_source?: string
+          booking_source_url?: string | null
+          check_in_date?: string
+          check_in_time?: string
+          check_out_date?: string | null
+          check_out_time?: string
+          cleaning_notes?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_confidence?: string
+          deposit_status?: string
+          external_reservation_id?: string | null
+          guest_communication_status?: string
+          guest_count?: number | null
+          guest_id?: string
+          id?: string
+          last_synchronized_at?: string | null
+          overlap_override?: boolean
+          overlap_override_reason?: string | null
+          payment_status?: string
+          pet_information?: string | null
+          rate?: number | null
+          readiness_verified?: boolean
+          responsible_user_id?: string | null
+          source_system?: string
+          special_notes?: string | null
+          status?: string
+          total_amount?: number | null
+          unit_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          vehicle_information?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservations_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservations_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       revenue_targets: {
         Row: {
           created_at: string
@@ -712,31 +1515,85 @@ export type Database = {
       }
       units: {
         Row: {
+          bathroom_count: number | null
+          bed_configuration: string | null
+          bedroom_count: number | null
+          cleaning_notes: string | null
           created_at: string
+          entry_secret_reference: string | null
+          furnishing_status: string | null
+          general_notes: string | null
           id: string
+          known_quirks: string | null
+          label: string | null
+          listing_links: Json
+          maintenance_notes: string | null
+          maximum_occupancy: number | null
           name: string
+          operational_status: string
+          parking_notes: string | null
+          photo_album_url: string | null
           sort_order: number
           status: Database["public"]["Enums"]["unit_status"]
+          status_override_reason: string | null
           unit_type: Database["public"]["Enums"]["unit_type"]
           updated_at: string
+          updated_by: string | null
+          wifi_secret_reference: string | null
         }
         Insert: {
+          bathroom_count?: number | null
+          bed_configuration?: string | null
+          bedroom_count?: number | null
+          cleaning_notes?: string | null
           created_at?: string
+          entry_secret_reference?: string | null
+          furnishing_status?: string | null
+          general_notes?: string | null
           id?: string
+          known_quirks?: string | null
+          label?: string | null
+          listing_links?: Json
+          maintenance_notes?: string | null
+          maximum_occupancy?: number | null
           name: string
+          operational_status?: string
+          parking_notes?: string | null
+          photo_album_url?: string | null
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
+          status_override_reason?: string | null
           unit_type?: Database["public"]["Enums"]["unit_type"]
           updated_at?: string
+          updated_by?: string | null
+          wifi_secret_reference?: string | null
         }
         Update: {
+          bathroom_count?: number | null
+          bed_configuration?: string | null
+          bedroom_count?: number | null
+          cleaning_notes?: string | null
           created_at?: string
+          entry_secret_reference?: string | null
+          furnishing_status?: string | null
+          general_notes?: string | null
           id?: string
+          known_quirks?: string | null
+          label?: string | null
+          listing_links?: Json
+          maintenance_notes?: string | null
+          maximum_occupancy?: number | null
           name?: string
+          operational_status?: string
+          parking_notes?: string | null
+          photo_album_url?: string | null
           sort_order?: number
           status?: Database["public"]["Enums"]["unit_status"]
+          status_override_reason?: string | null
           unit_type?: Database["public"]["Enums"]["unit_type"]
           updated_at?: string
+          updated_by?: string | null
+          wifi_secret_reference?: string | null
         }
         Relationships: []
       }
@@ -770,6 +1627,78 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      vendors: {
+        Row: {
+          active: boolean
+          company: string | null
+          created_at: string
+          created_by: string | null
+          email: string | null
+          emergency_availability: boolean
+          id: string
+          insurance_licensing_notes: string | null
+          known_units: string | null
+          last_used_date: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          preferred_contact_method: string
+          quickbooks_vendor_reference: string | null
+          service_area: string | null
+          trade: string
+          typical_pricing_notes: string | null
+          typical_response_time: string | null
+          updated_at: string
+          vendor_rank: string
+        }
+        Insert: {
+          active?: boolean
+          company?: string | null
+          created_at?: string
+          created_by?: string | null
+          email?: string | null
+          emergency_availability?: boolean
+          id?: string
+          insurance_licensing_notes?: string | null
+          known_units?: string | null
+          last_used_date?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          preferred_contact_method?: string
+          quickbooks_vendor_reference?: string | null
+          service_area?: string | null
+          trade: string
+          typical_pricing_notes?: string | null
+          typical_response_time?: string | null
+          updated_at?: string
+          vendor_rank?: string
+        }
+        Update: {
+          active?: boolean
+          company?: string | null
+          created_at?: string
+          created_by?: string | null
+          email?: string | null
+          emergency_availability?: boolean
+          id?: string
+          insurance_licensing_notes?: string | null
+          known_units?: string | null
+          last_used_date?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          preferred_contact_method?: string
+          quickbooks_vendor_reference?: string | null
+          service_area?: string | null
+          trade?: string
+          typical_pricing_notes?: string | null
+          typical_response_time?: string | null
+          updated_at?: string
+          vendor_rank?: string
         }
         Relationships: []
       }
@@ -809,6 +1738,30 @@ export type Database = {
     }
     Functions: {
       claim_admin_if_first: { Args: never; Returns: boolean }
+      create_reservation_with_guest: {
+        Args: {
+          _booking_source: string
+          _check_in_date: string
+          _check_in_time?: string
+          _check_out_date: string
+          _check_out_time?: string
+          _guest_email: string
+          _guest_name: string
+          _guest_phone: string
+          _special_notes?: string
+          _unit_id: string
+        }
+        Returns: string
+      }
+      decide_approval_request: {
+        Args: {
+          _approval_request_id: string
+          _decision: string
+          _decision_reason?: string
+        }
+        Returns: boolean
+      }
+      has_any_role: { Args: { _roles: string[] }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -819,7 +1772,7 @@ export type Database = {
       link_pending_roles_for_current_user: { Args: never; Returns: number }
     }
     Enums: {
-      app_role: "admin" | "maintenance"
+      app_role: "admin" | "maintenance" | "property_manager" | "cleaner"
       booking_request_status: "pending" | "approved" | "declined"
       booking_source:
         | "airbnb"
@@ -982,7 +1935,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "maintenance"],
+      app_role: ["admin", "maintenance", "property_manager", "cleaner"],
       booking_request_status: ["pending", "approved", "declined"],
       booking_source: [
         "airbnb",

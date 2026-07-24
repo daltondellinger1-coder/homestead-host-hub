@@ -1,98 +1,77 @@
-## Maintenance Work Order System
+## Goal
 
-You picked the lightest path. The tenant-facing form is a third-party tool (Tally, Jotform, or Google Forms with file upload). Host Hub gets a simple **Maintenance** tab to track open/in-progress/done work orders. No website changes, no edge functions for the form itself, no photo storage to set up — the form vendor stores the photos and links them in the email.
+Apply `20260723154000_homestead_helper_v1.sql` exactly once to the Lovable Cloud production database, then verify. No code changes, no outbound email/SMS, no data deletions.
 
-### How it flows
+## Step 1 — Apply the migration (single transaction)
 
-```text
-Tenant scans QR in unit
-        ↓
-Third-party form (per-unit URL with unit prefilled)
-        ↓
-Form vendor emails: you + maintenance contact
-   (subject + photos + unit + description)
-        ↓
-You open Host Hub → Maintenance tab
-        ↓
-Click "+ Log request" → paste/type details, attach link
-        ↓
-Track: New → In Progress → Done (+ notes)
-```
+Submit the entire attached file (1,136 lines) as one migration. The SQL is additive (`IF NOT EXISTS` / `ON CONFLICT DO NOTHING` / `ON CONFLICT DO UPDATE` on seed rows), so a partial re-run is safe, but I will only run it once. If any statement fails the whole migration rolls back and I stop and report.
 
-### What I'll build in Host Hub
+What it does (summary — full SQL already staged verbatim in the migration tool call):
 
-**1. New `maintenance_requests` table**
-- `id`, `unit_id` (FK to units), `title`, `description`, `status` (`new` | `in_progress` | `done`), `reported_at`, `completed_at`, `notes`, `photo_url` (optional text — paste the link from the form email), `reporter_name`, `created_at`, `updated_at`
-- Public RLS (matches the rest of your tables)
+- **Roles enum:** adds `property_manager`, `cleaner` to `public.app_role`.
+- **Admin seed:** inserts Briana admin row for `booking@homestead-hill.com` only if no active admin exists for that email.
+- **Guest / unit enrichments:** adds nullable columns to `guests` and `units`; backfills `units.operational_status` from legacy `status`.
+- **New tables (12):** `reservations`, `vendors`, `cleaning_tasks`, `operational_tasks`, `checklist_runs`, `approval_rules`, `approval_requests`, `activity_log`, `notifications`, `automation_events`, `cleaner_access_tokens`, `import_runs`. All get RLS + policies.
+- **Maintenance requests:** adds vendor/priority/cost/approval/completion columns (all nullable or defaulted).
+- **Approval thresholds seeded:** maintenance $250, emergency_maintenance $500 (override allowed), supply_purchase $250, plus six always-approve rules at $0.
+- **Functions / triggers:** `has_any_role`, `prevent_reservation_overlap`, `sync_cleaning_task_for_reservation`, `apply_cleaning_status_transition`, `apply_maintenance_approval_threshold`, `log_operational_change`, `create_reservation_with_guest`, `decide_approval_request`, plus `updated_at` triggers on the new tables.
+- **Storage:** creates private `cleaning-photos` bucket (10 MB, jpeg/png/webp) with staff-only read + insert policies; replaces legacy public `maintenance-photos` read policy with a staff-only signed-in read policy.
+- **One-time backfill:** copies active/future rows from `guests` into `reservations` as `legacy:<guest_id>` (originals untouched; ON CONFLICT DO NOTHING keeps it idempotent).
+- **Notifications table:** only in-app rows are written by triggers — no email/SMS is dispatched.
 
-**2. Maintenance page (`/maintenance`)**
-- Three sections: **New**, **In Progress**, **Done** (collapsible, recent first)
-- Each card shows: unit name, title, reported date, photo thumbnail (if URL pasted)
-- Tap a card → dialog with full description, notes field, status toggle, delete
-- Filter by unit
-- Empty state explains the QR/form workflow
+## Step 2 — Read-only verification (after migration succeeds)
 
-**3. Bottom nav + desktop nav entry**
-- Add "Maintenance" with a wrench icon
-- Badge with count of `new` requests (red dot, like an inbox)
+Run these `read_query` checks and report results:
 
-**4. "Log request" dialog**
-- Unit picker (defaults to most-recent), title, description, optional photo URL, reporter name
-- Lets you quickly turn an email/text/call into a tracked work order
+1. New tables exist and are RLS-enabled:
+   ```sql
+   SELECT tablename, rowsecurity FROM pg_tables
+    WHERE schemaname='public'
+      AND tablename IN ('reservations','vendors','cleaning_tasks','operational_tasks',
+                        'checklist_runs','approval_rules','approval_requests','activity_log',
+                        'notifications','automation_events','cleaner_access_tokens','import_runs')
+    ORDER BY tablename;
+   ```
+2. New columns landed on `guests`, `units`, `maintenance_requests` (spot-check via `information_schema.columns`).
+3. Enum values present:
+   ```sql
+   SELECT unnest(enum_range(NULL::public.app_role))::text;
+   ```
+4. Functions present:
+   ```sql
+   SELECT proname FROM pg_proc
+    WHERE pronamespace = 'public'::regnamespace
+      AND proname IN ('has_any_role','prevent_reservation_overlap','sync_cleaning_task_for_reservation',
+                      'apply_cleaning_status_transition','apply_maintenance_approval_threshold',
+                      'log_operational_change','create_reservation_with_guest','decide_approval_request');
+   ```
+5. Triggers present on `reservations`, `cleaning_tasks`, `maintenance_requests` (via `pg_trigger`).
+6. Policies attached to each new table (`pg_policies`), including cleaner-scoped policies on `cleaning_tasks` and the replaced `maintenance-photos` policy on `storage.objects`.
+7. `cleaning-photos` bucket exists and `public = false`:
+   ```sql
+   SELECT id, public, file_size_limit FROM storage.buckets WHERE id='cleaning-photos';
+   ```
+8. Briana admin row:
+   ```sql
+   SELECT email, role, active, display_name FROM public.user_roles
+    WHERE lower(email)='booking@homestead-hill.com';
+   ```
+9. Approval thresholds match spec:
+   ```sql
+   SELECT category, threshold_amount, enabled, emergency_override_allowed
+     FROM public.approval_rules
+    WHERE category IN ('maintenance','emergency_maintenance','supply_purchase')
+    ORDER BY category;
+   ```
+   Expected: maintenance=250 / true / false; emergency_maintenance=500 / true / true; supply_purchase=250 / true / false.
+10. Pre/post row counts on `guests`, `units`, `payments`, `maintenance_requests` unchanged (only additive columns).
 
-**5. Unit card integration**
-- On each unit card, small indicator if that unit has open maintenance ("🔧 2 open")
-- Tap → filters Maintenance page to that unit
+## Failure handling
 
-### What you set up outside the app (one-time, ~15 min)
+If any statement errors, Postgres rolls back the whole migration. I stop, report the exact error and the failing statement, and do not retry without your say-so.
 
-I'll give you exact step-by-step instructions in chat after the build, but the gist:
+## Out of scope
 
-1. **Pick a form tool**:
-   - **Tally** (recommended — free, generous, supports file uploads, hidden fields, email notifications)
-   - **Jotform** (free tier supports photos, slicker)
-   - **Google Forms** (free, photos work but uglier and requires Google sign-in for uploads — not great for tenants)
-2. **Build one form** with fields: Name, Issue title, Description, Photos (required, allow multiple), Unit (hidden field, prefilled from URL)
-3. **Configure two email notifications** on submit: one to you, one to maintenance contact. Email includes all answers + photo links.
-4. **Generate 13 QR codes** (one per rentable unit, excluding 12 and 15) — each QR encodes the form URL with `?unit=Unit+1` etc. so the unit field auto-fills. I'll provide a script that generates all 13 QR PNGs at once for printing.
-5. Print + post in each unit (laminated card on fridge or inside cabinet door is typical).
+No app code, no edge function changes, no outbound email/SMS, no data deletion, no changes to unrelated functions or secrets.
 
-### Why this approach over building a custom form
-
-- **Zero infrastructure** for photo storage (Tally/Jotform handle it; photos stay accessible via link in email)
-- **Built-in email notifications** to multiple recipients with zero edge-function work
-- **You can change the form** (add fields, tweak wording) without touching the app
-- **Tenants get a polished, mobile-optimized form** for free
-- Tradeoff: you manually log requests into Host Hub from the email. For ~15 units this is seconds per request and gives you a clean tracker without the maintenance burden.
-
-### Out of scope (not building)
-
-- Auto-creating Host Hub records from form submissions (would need website edge function + webhook — say the word later if email-to-app gets tedious)
-- Priority levels, assignee field, cost tracking, recurring/preventive maintenance
-- SMS notifications
-- Vendor directory
-
-### Files I'll create/edit
-
-**New:**
-- `supabase/migrations/<timestamp>_maintenance_requests.sql` — table + RLS
-- `src/hooks/useMaintenanceRequests.ts` — CRUD hook with realtime
-- `src/pages/Maintenance.tsx` — main page
-- `src/components/MaintenanceRequestCard.tsx` — list card
-- `src/components/MaintenanceRequestDialog.tsx` — detail/edit dialog
-- `src/components/LogMaintenanceDialog.tsx` — quick-add form
-- `scripts/generate-qr-codes.md` — one-time QR generation instructions (using a free online QR generator since you only do this once)
-
-**Edited:**
-- `src/integrations/supabase/types.ts` (auto)
-- `src/components/MobileBottomNav.tsx` — add Maintenance tab + badge
-- `src/App.tsx` — add `/maintenance` route
-- `src/components/UnitCard.tsx` — small open-requests indicator
-
-### After I ship
-
-I'll give you a chat message with:
-1. A direct link to sign up for Tally and a screenshot-by-screenshot guide to building the form (5 min)
-2. The exact URL format with the `?unit=` parameter
-3. A free QR generator link + the 13 URLs ready to paste
-4. A printable PDF template suggestion for the in-unit cards
+Switch to build mode to apply.
