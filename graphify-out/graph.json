@@ -1543,10 +1543,19 @@
       "norm_label": "hosting.json"
     },
     {
-      "label": "d1",
+      "label": "project_id",
       "file_type": "code",
       "source_file": ".openai/hosting.json",
       "source_location": "L2",
+      "id": "openai_hosting_project_id",
+      "community": 222,
+      "norm_label": "project_id"
+    },
+    {
+      "label": "d1",
+      "file_type": "code",
+      "source_file": ".openai/hosting.json",
+      "source_location": "L3",
       "id": "openai_hosting_d1",
       "community": 222,
       "norm_label": "d1"
@@ -1555,7 +1564,7 @@
       "label": "r2",
       "file_type": "code",
       "source_file": ".openai/hosting.json",
-      "source_location": "L3",
+      "source_location": "L4",
       "id": "openai_hosting_r2",
       "community": 222,
       "norm_label": "r2"
@@ -1845,7 +1854,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_addunitdialog_tsx",
-      "community": 110,
+      "community": 93,
       "norm_label": "addunitdialog.tsx"
     },
     {
@@ -1854,7 +1863,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L9",
       "id": "components_addunitdialog_addunitdialogprops",
-      "community": 110,
+      "community": 93,
       "norm_label": "addunitdialogprops"
     },
     {
@@ -1863,7 +1872,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L15",
       "id": "components_addunitdialog_addunitdialog",
-      "community": 110,
+      "community": 93,
       "norm_label": "addunitdialog()"
     },
     {
@@ -1872,7 +1881,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_availabilitysearch_tsx",
-      "community": 110,
+      "community": 227,
       "norm_label": "availabilitysearch.tsx"
     },
     {
@@ -1881,7 +1890,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L10",
       "id": "components_availabilitysearch_availabilitysearchprops",
-      "community": 110,
+      "community": 227,
       "norm_label": "availabilitysearchprops"
     },
     {
@@ -1890,7 +1899,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L16",
       "id": "components_availabilitysearch_type_icons",
-      "community": 110,
+      "community": 227,
       "norm_label": "type_icons"
     },
     {
@@ -1899,7 +1908,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L22",
       "id": "components_availabilitysearch_bookinginfo",
-      "community": 110,
+      "community": 227,
       "norm_label": "bookinginfo"
     },
     {
@@ -1908,7 +1917,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L30",
       "id": "components_availabilitysearch_availableunit",
-      "community": 110,
+      "community": 227,
       "norm_label": "availableunit"
     },
     {
@@ -1917,7 +1926,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L39",
       "id": "components_availabilitysearch_availabilitysearch",
-      "community": 110,
+      "community": 227,
       "norm_label": "availabilitysearch()"
     },
     {
@@ -1989,7 +1998,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_bulkdeletepaymentsdialog_tsx",
-      "community": 110,
+      "community": 123,
       "norm_label": "bulkdeletepaymentsdialog.tsx"
     },
     {
@@ -1998,7 +2007,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L24",
       "id": "components_bulkdeletepaymentsdialog_paymentevent",
-      "community": 110,
+      "community": 123,
       "norm_label": "paymentevent"
     },
     {
@@ -2007,7 +2016,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L34",
       "id": "components_bulkdeletepaymentsdialog_bulkdeletepaymentsdialogprops",
-      "community": 110,
+      "community": 123,
       "norm_label": "bulkdeletepaymentsdialogprops"
     },
     {
@@ -2016,7 +2025,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L42",
       "id": "components_bulkdeletepaymentsdialog_formatcurrency",
-      "community": 110,
+      "community": 123,
       "norm_label": "formatcurrency()"
     },
     {
@@ -2025,7 +2034,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L45",
       "id": "components_bulkdeletepaymentsdialog_bulkdeletepaymentsdialog",
-      "community": 110,
+      "community": 123,
       "norm_label": "bulkdeletepaymentsdialog()"
     },
     {
@@ -2106,7 +2115,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_editunitdialog_tsx",
-      "community": 110,
+      "community": 93,
       "norm_label": "editunitdialog.tsx"
     },
     {
@@ -2115,7 +2124,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L9",
       "id": "components_editunitdialog_editunitdialogprops",
-      "community": 110,
+      "community": 93,
       "norm_label": "editunitdialogprops"
     },
     {
@@ -2124,7 +2133,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L18",
       "id": "components_editunitdialog_editable_statuses",
-      "community": 110,
+      "community": 93,
       "norm_label": "editable_statuses"
     },
     {
@@ -2133,7 +2142,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L20",
       "id": "components_editunitdialog_editunitdialog",
-      "community": 110,
+      "community": 93,
       "norm_label": "editunitdialog()"
     },
     {
@@ -2286,7 +2295,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_futureguestdialog_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguestdialog.tsx"
     },
     {
@@ -2295,7 +2304,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L12",
       "id": "components_futureguestdialog_futureguestdialogprops",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguestdialogprops"
     },
     {
@@ -2304,7 +2313,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L31",
       "id": "components_futureguestdialog_rangesoverlap",
-      "community": 110,
+      "community": 149,
       "norm_label": "rangesoverlap()"
     },
     {
@@ -2313,7 +2322,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L37",
       "id": "components_futureguestdialog_futureguestdialog",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguestdialog()"
     },
     {
@@ -2322,7 +2331,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_guestdialog_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "guestdialog.tsx"
     },
     {
@@ -2331,7 +2340,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L12",
       "id": "components_guestdialog_guestdialogprops",
-      "community": 110,
+      "community": 149,
       "norm_label": "guestdialogprops"
     },
     {
@@ -2340,7 +2349,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L20",
       "id": "components_guestdialog_guestdialog",
-      "community": 110,
+      "community": 149,
       "norm_label": "guestdialog()"
     },
     {
@@ -2421,7 +2430,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_inlinepaymentscheduler_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "inlinepaymentscheduler.tsx"
     },
     {
@@ -2430,7 +2439,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L8",
       "id": "components_inlinepaymentscheduler_scheduledpayment",
-      "community": 110,
+      "community": 149,
       "norm_label": "scheduledpayment"
     },
     {
@@ -2439,7 +2448,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L14",
       "id": "components_inlinepaymentscheduler_inlinepaymentschedulerprops",
-      "community": 110,
+      "community": 149,
       "norm_label": "inlinepaymentschedulerprops"
     },
     {
@@ -2448,7 +2457,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L23",
       "id": "components_inlinepaymentscheduler_scheduledtopayments",
-      "community": 110,
+      "community": 149,
       "norm_label": "scheduledtopayments()"
     },
     {
@@ -2457,7 +2466,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L35",
       "id": "components_inlinepaymentscheduler_inlinepaymentscheduler",
-      "community": 110,
+      "community": 149,
       "norm_label": "inlinepaymentscheduler()"
     },
     {
@@ -2520,7 +2529,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_logmaintenancedialog_tsx",
-      "community": 110,
+      "community": 93,
       "norm_label": "logmaintenancedialog.tsx"
     },
     {
@@ -2529,7 +2538,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L11",
       "id": "components_logmaintenancedialog_logmaintenancedialogprops",
-      "community": 110,
+      "community": 93,
       "norm_label": "logmaintenancedialogprops"
     },
     {
@@ -2538,7 +2547,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L18",
       "id": "components_logmaintenancedialog_logmaintenancedialog",
-      "community": 110,
+      "community": 93,
       "norm_label": "logmaintenancedialog()"
     },
     {
@@ -2547,7 +2556,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_maintenancerequestcard_tsx",
-      "community": 112,
+      "community": 63,
       "norm_label": "maintenancerequestcard.tsx"
     },
     {
@@ -2556,7 +2565,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L5",
       "id": "components_maintenancerequestcard_photocount",
-      "community": 112,
+      "community": 63,
       "norm_label": "photocount()"
     },
     {
@@ -2565,7 +2574,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L11",
       "id": "components_maintenancerequestcard_maintenancerequestcardprops",
-      "community": 112,
+      "community": 63,
       "norm_label": "maintenancerequestcardprops"
     },
     {
@@ -2574,7 +2583,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L17",
       "id": "components_maintenancerequestcard_formatrelative",
-      "community": 112,
+      "community": 63,
       "norm_label": "formatrelative()"
     },
     {
@@ -2583,7 +2592,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L30",
       "id": "components_maintenancerequestcard_maintenancerequestcard",
-      "community": 112,
+      "community": 63,
       "norm_label": "maintenancerequestcard()"
     },
     {
@@ -2691,7 +2700,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ManagementDashboard.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_managementdashboard_tsx",
-      "community": 110,
+      "community": 226,
       "norm_label": "managementdashboard.tsx"
     },
     {
@@ -2700,7 +2709,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ManagementDashboard.tsx",
       "source_location": "L14",
       "id": "components_managementdashboard_revenuetarget",
-      "community": 110,
+      "community": 226,
       "norm_label": "revenuetarget"
     },
     {
@@ -2709,7 +2718,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ManagementDashboard.tsx",
       "source_location": "L20",
       "id": "components_managementdashboard_managementfee",
-      "community": 110,
+      "community": 226,
       "norm_label": "managementfee"
     },
     {
@@ -2718,7 +2727,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ManagementDashboard.tsx",
       "source_location": "L30",
       "id": "components_managementdashboard_managementdashboard",
-      "community": 110,
+      "community": 226,
       "norm_label": "managementdashboard()"
     },
     {
@@ -2844,7 +2853,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L185",
       "id": "components_onboardingtutorial_maintenancetutorial",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenancetutorial()"
     },
     {
@@ -2853,7 +2862,7 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L189",
       "id": "components_onboardingtutorial_cleanertutorial",
-      "community": 93,
+      "community": 0,
       "norm_label": "cleanertutorial()"
     },
     {
@@ -2952,7 +2961,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L1",
       "id": "src_components_paymenthistorycontent_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymenthistorycontent.tsx"
     },
     {
@@ -2961,7 +2970,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L16",
       "id": "components_paymenthistorycontent_sortfield",
-      "community": 110,
+      "community": 112,
       "norm_label": "sortfield"
     },
     {
@@ -2970,7 +2979,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L17",
       "id": "components_paymenthistorycontent_sortdir",
-      "community": 110,
+      "community": 112,
       "norm_label": "sortdir"
     },
     {
@@ -2979,7 +2988,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L19",
       "id": "components_paymenthistorycontent_paymenthistorycontent",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymenthistorycontent()"
     },
     {
@@ -2988,7 +2997,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PullToRefresh.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_pulltorefresh_tsx",
-      "community": 5,
+      "community": 10,
       "norm_label": "pulltorefresh.tsx"
     },
     {
@@ -2997,7 +3006,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PullToRefresh.tsx",
       "source_location": "L5",
       "id": "components_pulltorefresh_pulltorefreshprops",
-      "community": 5,
+      "community": 10,
       "norm_label": "pulltorefreshprops"
     },
     {
@@ -3006,7 +3015,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PullToRefresh.tsx",
       "source_location": "L13",
       "id": "components_pulltorefresh_pulltorefresh",
-      "community": 5,
+      "community": 10,
       "norm_label": "pulltorefresh()"
     },
     {
@@ -3015,7 +3024,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L1",
       "id": "src_components_recordpaymentdialog_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "recordpaymentdialog.tsx"
     },
     {
@@ -3033,7 +3042,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L20",
       "id": "components_recordpaymentdialog_alloc",
-      "community": 110,
+      "community": 112,
       "norm_label": "alloc"
     },
     {
@@ -3042,7 +3051,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L22",
       "id": "components_recordpaymentdialog_recordpaymentdialog",
-      "community": 110,
+      "community": 112,
       "norm_label": "recordpaymentdialog()"
     },
     {
@@ -3186,7 +3195,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_sortableunitcard_tsx",
-      "community": 52,
+      "community": 227,
       "norm_label": "sortableunitcard.tsx"
     },
     {
@@ -3195,7 +3204,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L8",
       "id": "components_sortableunitcard_sortableunitcardprops",
-      "community": 52,
+      "community": 227,
       "norm_label": "sortableunitcardprops"
     },
     {
@@ -3204,7 +3213,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L29",
       "id": "components_sortableunitcard_sortableunitcard",
-      "community": 52,
+      "community": 227,
       "norm_label": "sortableunitcard()"
     },
     {
@@ -3240,7 +3249,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_statsoverview_tsx",
-      "community": 63,
+      "community": 229,
       "norm_label": "statsoverview.tsx"
     },
     {
@@ -3249,7 +3258,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L6",
       "id": "components_statsoverview_statsoverviewprops",
-      "community": 63,
+      "community": 229,
       "norm_label": "statsoverviewprops"
     },
     {
@@ -3258,7 +3267,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L15",
       "id": "components_statsoverview_formatcurrency",
-      "community": 63,
+      "community": 229,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3267,7 +3276,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L18",
       "id": "components_statsoverview_type_icons",
-      "community": 63,
+      "community": 229,
       "norm_label": "type_icons"
     },
     {
@@ -3276,7 +3285,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L24",
       "id": "components_statsoverview_availabilityinfo",
-      "community": 63,
+      "community": 229,
       "norm_label": "availabilityinfo"
     },
     {
@@ -3285,7 +3294,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L32",
       "id": "components_statsoverview_getavailability",
-      "community": 63,
+      "community": 229,
       "norm_label": "getavailability()"
     },
     {
@@ -3294,7 +3303,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L70",
       "id": "components_statsoverview_statsoverview",
-      "community": 63,
+      "community": 229,
       "norm_label": "statsoverview()"
     },
     {
@@ -3429,7 +3438,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/WeeklyReport.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_weeklyreport_tsx",
-      "community": 110,
+      "community": 226,
       "norm_label": "weeklyreport.tsx"
     },
     {
@@ -3438,7 +3447,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/WeeklyReport.tsx",
       "source_location": "L9",
       "id": "components_weeklyreport_weeklyreport",
-      "community": 110,
+      "community": 226,
       "norm_label": "weeklyreport()"
     },
     {
@@ -3618,7 +3627,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/avatar.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_avatar_tsx",
-      "community": 5,
+      "community": 230,
       "norm_label": "avatar.tsx"
     },
     {
@@ -3627,7 +3636,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/avatar.tsx",
       "source_location": "L6",
       "id": "ui_avatar_avatar",
-      "community": 5,
+      "community": 230,
       "norm_label": "avatar"
     },
     {
@@ -3636,7 +3645,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/avatar.tsx",
       "source_location": "L18",
       "id": "ui_avatar_avatarimage",
-      "community": 5,
+      "community": 230,
       "norm_label": "avatarimage"
     },
     {
@@ -3645,7 +3654,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/avatar.tsx",
       "source_location": "L26",
       "id": "ui_avatar_avatarfallback",
-      "community": 5,
+      "community": 230,
       "norm_label": "avatarfallback"
     },
     {
@@ -3690,7 +3699,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_breadcrumb_tsx",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumb.tsx"
     },
     {
@@ -3699,7 +3708,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L7",
       "id": "ui_breadcrumb_breadcrumb",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumb"
     },
     {
@@ -3708,7 +3717,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L15",
       "id": "ui_breadcrumb_breadcrumblist",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumblist"
     },
     {
@@ -3717,7 +3726,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L29",
       "id": "ui_breadcrumb_breadcrumbitem",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumbitem"
     },
     {
@@ -3726,7 +3735,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L36",
       "id": "ui_breadcrumb_breadcrumblink",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumblink"
     },
     {
@@ -3735,7 +3744,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L48",
       "id": "ui_breadcrumb_breadcrumbpage",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumbpage"
     },
     {
@@ -3744,7 +3753,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L62",
       "id": "ui_breadcrumb_breadcrumbseparator",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumbseparator()"
     },
     {
@@ -3753,7 +3762,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/breadcrumb.tsx",
       "source_location": "L69",
       "id": "ui_breadcrumb_breadcrumbellipsis",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumbellipsis()"
     },
     {
@@ -3762,7 +3771,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_button_tsx",
-      "community": 110,
+      "community": 227,
       "norm_label": "button.tsx"
     },
     {
@@ -3789,7 +3798,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx",
       "source_location": "L39",
       "id": "ui_button_button",
-      "community": 110,
+      "community": 227,
       "norm_label": "button"
     },
     {
@@ -3798,7 +3807,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_calendar_tsx",
-      "community": 129,
+      "community": 10,
       "norm_label": "calendar.tsx"
     },
     {
@@ -3807,7 +3816,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L8",
       "id": "ui_calendar_calendarprops",
-      "community": 129,
+      "community": 10,
       "norm_label": "calendarprops"
     },
     {
@@ -3816,7 +3825,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L10",
       "id": "ui_calendar_calendar",
-      "community": 129,
+      "community": 10,
       "norm_label": "calendar()"
     },
     {
@@ -4329,7 +4338,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_dialog_tsx",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialog.tsx"
     },
     {
@@ -4338,7 +4347,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L15",
       "id": "ui_dialog_dialogoverlay",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogoverlay"
     },
     {
@@ -4347,7 +4356,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L30",
       "id": "ui_dialog_dialogcontent",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogcontent"
     },
     {
@@ -4356,7 +4365,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L54",
       "id": "ui_dialog_dialogheader",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogheader()"
     },
     {
@@ -4365,7 +4374,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L59",
       "id": "ui_dialog_dialogfooter",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogfooter()"
     },
     {
@@ -4374,7 +4383,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L64",
       "id": "ui_dialog_dialogtitle",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogtitle"
     },
     {
@@ -4383,7 +4392,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L76",
       "id": "ui_dialog_dialogdescription",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialogdescription"
     },
     {
@@ -4725,7 +4734,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/input.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_input_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "input.tsx"
     },
     {
@@ -4734,7 +4743,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/input.tsx",
       "source_location": "L5",
       "id": "ui_input_input",
-      "community": 110,
+      "community": 149,
       "norm_label": "input"
     },
     {
@@ -5094,7 +5103,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/resizable.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_resizable_tsx",
-      "community": 5,
+      "community": 10,
       "norm_label": "resizable.tsx"
     },
     {
@@ -5103,7 +5112,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/resizable.tsx",
       "source_location": "L6",
       "id": "ui_resizable_resizablepanelgroup",
-      "community": 5,
+      "community": 10,
       "norm_label": "resizablepanelgroup()"
     },
     {
@@ -5112,7 +5121,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/resizable.tsx",
       "source_location": "L15",
       "id": "ui_resizable_resizablehandle",
-      "community": 5,
+      "community": 10,
       "norm_label": "resizablehandle()"
     },
     {
@@ -5148,7 +5157,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_select_tsx",
-      "community": 110,
+      "community": 123,
       "norm_label": "select.tsx"
     },
     {
@@ -5157,7 +5166,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L13",
       "id": "ui_select_selecttrigger",
-      "community": 110,
+      "community": 123,
       "norm_label": "selecttrigger"
     },
     {
@@ -5166,7 +5175,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L33",
       "id": "ui_select_selectscrollupbutton",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectscrollupbutton"
     },
     {
@@ -5175,7 +5184,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L47",
       "id": "ui_select_selectscrolldownbutton",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectscrolldownbutton"
     },
     {
@@ -5184,7 +5193,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L61",
       "id": "ui_select_selectcontent",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectcontent"
     },
     {
@@ -5193,7 +5202,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L93",
       "id": "ui_select_selectlabel",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectlabel"
     },
     {
@@ -5202,7 +5211,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L101",
       "id": "ui_select_selectitem",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectitem"
     },
     {
@@ -5211,7 +5220,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L124",
       "id": "ui_select_selectseparator",
-      "community": 110,
+      "community": 123,
       "norm_label": "selectseparator"
     },
     {
@@ -5625,7 +5634,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/switch.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_switch_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "switch.tsx"
     },
     {
@@ -5634,7 +5643,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/switch.tsx",
       "source_location": "L6",
       "id": "ui_switch_switch",
-      "community": 110,
+      "community": 149,
       "norm_label": "switch"
     },
     {
@@ -5643,7 +5652,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_table_tsx",
-      "community": 110,
+      "community": 226,
       "norm_label": "table.tsx"
     },
     {
@@ -5652,7 +5661,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L5",
       "id": "ui_table_table",
-      "community": 110,
+      "community": 226,
       "norm_label": "table"
     },
     {
@@ -5661,7 +5670,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L14",
       "id": "ui_table_tableheader",
-      "community": 110,
+      "community": 226,
       "norm_label": "tableheader"
     },
     {
@@ -5670,7 +5679,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L19",
       "id": "ui_table_tablebody",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablebody"
     },
     {
@@ -5679,7 +5688,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L26",
       "id": "ui_table_tablefooter",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablefooter"
     },
     {
@@ -5688,7 +5697,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L33",
       "id": "ui_table_tablerow",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablerow"
     },
     {
@@ -5697,7 +5706,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L44",
       "id": "ui_table_tablehead",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablehead"
     },
     {
@@ -5706,7 +5715,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L58",
       "id": "ui_table_tablecell",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablecell"
     },
     {
@@ -5715,7 +5724,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/table.tsx",
       "source_location": "L65",
       "id": "ui_table_tablecaption",
-      "community": 110,
+      "community": 226,
       "norm_label": "tablecaption"
     },
     {
@@ -5724,7 +5733,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_tabs_tsx",
-      "community": 149,
+      "community": 53,
       "norm_label": "tabs.tsx"
     },
     {
@@ -5733,7 +5742,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L8",
       "id": "ui_tabs_tabslist",
-      "community": 149,
+      "community": 53,
       "norm_label": "tabslist"
     },
     {
@@ -5742,7 +5751,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L23",
       "id": "ui_tabs_tabstrigger",
-      "community": 149,
+      "community": 53,
       "norm_label": "tabstrigger"
     },
     {
@@ -5751,7 +5760,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L38",
       "id": "ui_tabs_tabscontent",
-      "community": 149,
+      "community": 53,
       "norm_label": "tabscontent"
     },
     {
@@ -5760,7 +5769,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_textarea_tsx",
-      "community": 110,
+      "community": 63,
       "norm_label": "textarea.tsx"
     },
     {
@@ -5769,7 +5778,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L5",
       "id": "ui_textarea_textareaprops",
-      "community": 110,
+      "community": 63,
       "norm_label": "textareaprops"
     },
     {
@@ -5778,7 +5787,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L7",
       "id": "ui_textarea_textarea",
-      "community": 110,
+      "community": 63,
       "norm_label": "textarea"
     },
     {
@@ -6642,7 +6651,7 @@
       "source_file": "src/hooks/useAuthRoles.ts",
       "source_location": "L1",
       "id": "src_hooks_useauthroles_ts",
-      "community": 33,
+      "community": 63,
       "norm_label": "useauthroles.ts"
     },
     {
@@ -6651,7 +6660,7 @@
       "source_file": "src/hooks/useAuthRoles.ts",
       "source_location": "L7",
       "id": "hooks_useauthroles_useauthroles",
-      "community": 33,
+      "community": 63,
       "norm_label": "useauthroles()"
     },
     {
@@ -6705,7 +6714,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useMaintenanceRequests.ts",
       "source_location": "L6",
       "id": "hooks_usemaintenancerequests_maintenancerequest",
-      "community": 110,
+      "community": 63,
       "norm_label": "maintenancerequest"
     },
     {
@@ -6723,7 +6732,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useMaintenanceRequests.ts",
       "source_location": "L9",
       "id": "hooks_usemaintenancerequests_usemaintenancerequests",
-      "community": 110,
+      "community": 63,
       "norm_label": "usemaintenancerequests()"
     },
     {
@@ -6741,7 +6750,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L13",
       "id": "hooks_useoperationsdata_operationalunit",
-      "community": 123,
+      "community": 53,
       "norm_label": "operationalunit"
     },
     {
@@ -6777,7 +6786,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L54",
       "id": "hooks_useoperationsdata_checklistrun",
-      "community": 123,
+      "community": 53,
       "norm_label": "checklistrun"
     },
     {
@@ -6786,7 +6795,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L63",
       "id": "hooks_useoperationsdata_checklist_templates",
-      "community": 123,
+      "community": 53,
       "norm_label": "checklist_templates"
     },
     {
@@ -6804,7 +6813,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L107",
       "id": "hooks_useoperationsdata_useoperationsdata",
-      "community": 123,
+      "community": 53,
       "norm_label": "useoperationsdata()"
     },
     {
@@ -6813,7 +6822,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L1",
       "id": "src_hooks_usepropertydata_ts",
-      "community": 110,
+      "community": 112,
       "norm_label": "usepropertydata.ts"
     },
     {
@@ -6822,7 +6831,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L7",
       "id": "hooks_usepropertydata_dbunit",
-      "community": 110,
+      "community": 112,
       "norm_label": "dbunit"
     },
     {
@@ -6831,7 +6840,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L8",
       "id": "hooks_usepropertydata_dbguest",
-      "community": 110,
+      "community": 112,
       "norm_label": "dbguest"
     },
     {
@@ -6840,7 +6849,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L9",
       "id": "hooks_usepropertydata_dbpayment",
-      "community": 110,
+      "community": 112,
       "norm_label": "dbpayment"
     },
     {
@@ -6849,7 +6858,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L10",
       "id": "hooks_usepropertydata_dbpaymentallocation",
-      "community": 110,
+      "community": 112,
       "norm_label": "dbpaymentallocation"
     },
     {
@@ -6858,7 +6867,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L15",
       "id": "hooks_usepropertydata_assembleunits",
-      "community": 110,
+      "community": 112,
       "norm_label": "assembleunits()"
     },
     {
@@ -6867,7 +6876,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L102",
       "id": "hooks_usepropertydata_usepropertydata",
-      "community": 110,
+      "community": 226,
       "norm_label": "usepropertydata()"
     },
     {
@@ -6876,7 +6885,7 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L1",
       "id": "src_hooks_usetutorialstate_ts",
-      "community": 93,
+      "community": 0,
       "norm_label": "usetutorialstate.ts"
     },
     {
@@ -6885,7 +6894,7 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L5",
       "id": "hooks_usetutorialstate_usetutorialstate",
-      "community": 93,
+      "community": 0,
       "norm_label": "usetutorialstate()"
     },
     {
@@ -6894,7 +6903,7 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L12",
       "id": "hooks_usetutorialstate_useonboardingstate",
-      "community": 93,
+      "community": 63,
       "norm_label": "useonboardingstate()"
     },
     {
@@ -6903,7 +6912,7 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L16",
       "id": "hooks_usetutorialstate_usemaintenanceonboardingstate",
-      "community": 93,
+      "community": 0,
       "norm_label": "usemaintenanceonboardingstate()"
     },
     {
@@ -6912,7 +6921,7 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L20",
       "id": "hooks_usetutorialstate_usecleaneronboardingstate",
-      "community": 93,
+      "community": 0,
       "norm_label": "usecleaneronboardingstate()"
     },
     {
@@ -9459,7 +9468,7 @@
       "source_file": "src/lib/operations.ts",
       "source_location": "L13",
       "id": "lib_operations_cleaning_status_labels",
-      "community": 93,
+      "community": 53,
       "norm_label": "cleaning_status_labels"
     },
     {
@@ -9720,7 +9729,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L1",
       "id": "src_lib_paymentexport_ts",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentexport.ts"
     },
     {
@@ -9729,7 +9738,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L3",
       "id": "lib_paymentexport_datebasis",
-      "community": 110,
+      "community": 112,
       "norm_label": "datebasis"
     },
     {
@@ -9738,7 +9747,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L5",
       "id": "lib_paymentexport_exportablepaymentevent",
-      "community": 110,
+      "community": 112,
       "norm_label": "exportablepaymentevent"
     },
     {
@@ -9747,7 +9756,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L21",
       "id": "lib_paymentexport_csvescape",
-      "community": 110,
+      "community": 112,
       "norm_label": "csvescape()"
     },
     {
@@ -9756,7 +9765,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L35",
       "id": "lib_paymentexport_buildpaymentscsv",
-      "community": 110,
+      "community": 112,
       "norm_label": "buildpaymentscsv()"
     },
     {
@@ -9765,7 +9774,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L87",
       "id": "lib_paymentexport_downloadcsv",
-      "community": 110,
+      "community": 112,
       "norm_label": "downloadcsv()"
     },
     {
@@ -9774,7 +9783,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L1",
       "id": "src_lib_paymentmethods_test_ts",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentmethods.test.ts"
     },
     {
@@ -9783,7 +9792,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L11",
       "id": "lib_paymentmethods_test_r",
-      "community": 110,
+      "community": 112,
       "norm_label": "r"
     },
     {
@@ -9792,7 +9801,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L36",
       "id": "lib_paymentmethods_test_bad",
-      "community": 110,
+      "community": 112,
       "norm_label": "bad"
     },
     {
@@ -9801,7 +9810,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L47",
       "id": "lib_paymentmethods_test_ok",
-      "community": 110,
+      "community": 112,
       "norm_label": "ok"
     },
     {
@@ -9810,7 +9819,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L1",
       "id": "src_lib_paymentmethods_ts",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentmethods.ts"
     },
     {
@@ -9819,7 +9828,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L10",
       "id": "lib_paymentmethods_paymentmethoddraft",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentmethoddraft"
     },
     {
@@ -9828,7 +9837,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L18",
       "id": "lib_paymentmethods_validationresult",
-      "community": 110,
+      "community": 112,
       "norm_label": "validationresult"
     },
     {
@@ -9837,7 +9846,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L24",
       "id": "lib_paymentmethods_methodrequired",
-      "community": 110,
+      "community": 112,
       "norm_label": "methodrequired()"
     },
     {
@@ -9846,7 +9855,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L28",
       "id": "lib_paymentmethods_validatepaymentmethod",
-      "community": 110,
+      "community": 112,
       "norm_label": "validatepaymentmethod()"
     },
     {
@@ -9855,7 +9864,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L60",
       "id": "lib_paymentmethods_summarizemethod",
-      "community": 110,
+      "community": 112,
       "norm_label": "summarizemethod()"
     },
     {
@@ -9945,7 +9954,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/utils.ts",
       "source_location": "L4",
       "id": "lib_utils_cn",
-      "community": 5,
+      "community": 10,
       "norm_label": "cn()"
     },
     {
@@ -10359,7 +10368,7 @@
       "source_file": "src/pages/CleanerPortal.tsx",
       "source_location": "L51",
       "id": "pages_cleanerportal_cleanerportal",
-      "community": 93,
+      "community": 0,
       "norm_label": "cleanerportal()"
     },
     {
@@ -10494,7 +10503,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/Finances.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_finances_tsx",
-      "community": 149,
+      "community": 53,
       "norm_label": "finances.tsx"
     },
     {
@@ -10503,7 +10512,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/Finances.tsx",
       "source_location": "L12",
       "id": "pages_finances_finances",
-      "community": 149,
+      "community": 53,
       "norm_label": "finances()"
     },
     {
@@ -10512,7 +10521,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_financialreports_tsx",
-      "community": 110,
+      "community": 123,
       "norm_label": "financialreports.tsx"
     },
     {
@@ -10521,7 +10530,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L14",
       "id": "pages_financialreports_month_names",
-      "community": 110,
+      "community": 123,
       "norm_label": "month_names"
     },
     {
@@ -10530,7 +10539,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L16",
       "id": "pages_financialreports_source_colors",
-      "community": 110,
+      "community": 123,
       "norm_label": "source_colors"
     },
     {
@@ -10539,7 +10548,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L25",
       "id": "pages_financialreports_status_colors",
-      "community": 110,
+      "community": 123,
       "norm_label": "status_colors"
     },
     {
@@ -10548,7 +10557,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L32",
       "id": "pages_financialreports_fmt",
-      "community": 110,
+      "community": 123,
       "norm_label": "fmt()"
     },
     {
@@ -10557,7 +10566,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L35",
       "id": "pages_financialreports_fmtfull",
-      "community": 110,
+      "community": 123,
       "norm_label": "fmtfull()"
     },
     {
@@ -10566,7 +10575,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L38",
       "id": "pages_financialreports_yearoption",
-      "community": 110,
+      "community": 123,
       "norm_label": "yearoption"
     },
     {
@@ -10575,7 +10584,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L40",
       "id": "pages_financialreports_financialreports",
-      "community": 110,
+      "community": 123,
       "norm_label": "financialreports()"
     },
     {
@@ -10620,7 +10629,7 @@
       "source_file": "src/pages/Maintenance.tsx",
       "source_location": "L1",
       "id": "src_pages_maintenance_tsx",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenance.tsx"
     },
     {
@@ -10629,7 +10638,7 @@
       "source_file": "src/pages/Maintenance.tsx",
       "source_location": "L17",
       "id": "pages_maintenance_maintenanceprops",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenanceprops"
     },
     {
@@ -10638,7 +10647,7 @@
       "source_file": "src/pages/Maintenance.tsx",
       "source_location": "L21",
       "id": "pages_maintenance_maintenance",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenance()"
     },
     {
@@ -10746,7 +10755,7 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L1",
       "id": "src_pages_operations_test_tsx",
-      "community": 123,
+      "community": 53,
       "norm_label": "operations.test.tsx"
     },
     {
@@ -10755,7 +10764,7 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L6",
       "id": "pages_operations_test_operationsstate",
-      "community": 123,
+      "community": 53,
       "norm_label": "operationsstate"
     },
     {
@@ -10764,7 +10773,7 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L88",
       "id": "pages_operations_test_moretab",
-      "community": 123,
+      "community": 53,
       "norm_label": "moretab"
     },
     {
@@ -10773,7 +10782,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L1",
       "id": "src_pages_operations_tsx",
-      "community": 123,
+      "community": 53,
       "norm_label": "operations.tsx"
     },
     {
@@ -10782,7 +10791,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L60",
       "id": "pages_operations_operationsview",
-      "community": 123,
+      "community": 53,
       "norm_label": "operationsview"
     },
     {
@@ -10791,7 +10800,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L62",
       "id": "pages_operations_status_tones",
-      "community": 123,
+      "community": 53,
       "norm_label": "status_tones"
     },
     {
@@ -10800,7 +10809,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L72",
       "id": "pages_operations_source_labels",
-      "community": 123,
+      "community": 53,
       "norm_label": "source_labels"
     },
     {
@@ -10809,7 +10818,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L83",
       "id": "pages_operations_readiness_items",
-      "community": 123,
+      "community": 53,
       "norm_label": "readiness_items"
     },
     {
@@ -10818,7 +10827,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L94",
       "id": "pages_operations_displaydate",
-      "community": 123,
+      "community": 53,
       "norm_label": "displaydate()"
     },
     {
@@ -10827,7 +10836,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L100",
       "id": "pages_operations_displaytimestamp",
-      "community": 123,
+      "community": 53,
       "norm_label": "displaytimestamp()"
     },
     {
@@ -10836,7 +10845,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L105",
       "id": "pages_operations_reservationrow",
-      "community": 123,
+      "community": 53,
       "norm_label": "reservationrow()"
     },
     {
@@ -10845,7 +10854,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L137",
       "id": "pages_operations_unitboard",
-      "community": 123,
+      "community": 53,
       "norm_label": "unitboard()"
     },
     {
@@ -10854,7 +10863,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L185",
       "id": "pages_operations_addreservationdialog",
-      "community": 123,
+      "community": 53,
       "norm_label": "addreservationdialog()"
     },
     {
@@ -10863,7 +10872,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L307",
       "id": "pages_operations_readinessdialog",
-      "community": 123,
+      "community": 53,
       "norm_label": "readinessdialog()"
     },
     {
@@ -10872,7 +10881,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L349",
       "id": "pages_operations_checklistcard",
-      "community": 123,
+      "community": 53,
       "norm_label": "checklistcard()"
     },
     {
@@ -10881,7 +10890,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L400",
       "id": "pages_operations_operations",
-      "community": 123,
+      "community": 63,
       "norm_label": "operations()"
     },
     {
@@ -10890,7 +10899,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L823",
       "id": "pages_operations_addvendordialog",
-      "community": 123,
+      "community": 53,
       "norm_label": "addvendordialog()"
     },
     {
@@ -10899,7 +10908,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L871",
       "id": "pages_operations_reservationmanagecard",
-      "community": 123,
+      "community": 53,
       "norm_label": "reservationmanagecard()"
     },
     {
@@ -10908,7 +10917,7 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L927",
       "id": "pages_operations_emptystate",
-      "community": 123,
+      "community": 53,
       "norm_label": "emptystate()"
     },
     {
@@ -10917,7 +10926,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/PaymentHistory.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_paymenthistory_tsx",
-      "community": 110,
+      "community": 226,
       "norm_label": "paymenthistory.tsx"
     },
     {
@@ -10926,7 +10935,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/PaymentHistory.tsx",
       "source_location": "L14",
       "id": "pages_paymenthistory_sortfield",
-      "community": 110,
+      "community": 226,
       "norm_label": "sortfield"
     },
     {
@@ -10935,7 +10944,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/PaymentHistory.tsx",
       "source_location": "L15",
       "id": "pages_paymenthistory_sortdir",
-      "community": 110,
+      "community": 226,
       "norm_label": "sortdir"
     },
     {
@@ -10944,7 +10953,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/PaymentHistory.tsx",
       "source_location": "L17",
       "id": "pages_paymenthistory_paymenthistory",
-      "community": 110,
+      "community": 226,
       "norm_label": "paymenthistory()"
     },
     {
@@ -10971,7 +10980,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L1",
       "id": "src_types_property_ts",
-      "community": 110,
+      "community": 112,
       "norm_label": "property.ts"
     },
     {
@@ -10980,7 +10989,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L1",
       "id": "types_property_bookingsource",
-      "community": 110,
+      "community": 149,
       "norm_label": "bookingsource"
     },
     {
@@ -10989,7 +10998,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L3",
       "id": "types_property_unitstatus",
-      "community": 110,
+      "community": 93,
       "norm_label": "unitstatus"
     },
     {
@@ -10998,7 +11007,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L5",
       "id": "types_property_unittype",
-      "community": 110,
+      "community": 93,
       "norm_label": "unittype"
     },
     {
@@ -11016,7 +11025,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L9",
       "id": "types_property_paymentmethod",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentmethod"
     },
     {
@@ -11025,7 +11034,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L22",
       "id": "types_property_paymentallocation",
-      "community": 110,
+      "community": 112,
       "norm_label": "paymentallocation"
     },
     {
@@ -11043,7 +11052,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L42",
       "id": "types_property_payment_methods",
-      "community": 110,
+      "community": 112,
       "norm_label": "payment_methods"
     },
     {
@@ -11052,7 +11061,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L46",
       "id": "types_property_payment_method_labels",
-      "community": 110,
+      "community": 112,
       "norm_label": "payment_method_labels"
     },
     {
@@ -11061,7 +11070,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L60",
       "id": "types_property_guest",
-      "community": 110,
+      "community": 149,
       "norm_label": "guest"
     },
     {
@@ -11070,7 +11079,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L72",
       "id": "types_property_futureguest",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguest"
     },
     {
@@ -11079,7 +11088,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L76",
       "id": "types_property_unit",
-      "community": 63,
+      "community": 149,
       "norm_label": "unit"
     },
     {
@@ -11088,7 +11097,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L85",
       "id": "types_property_source_labels",
-      "community": 110,
+      "community": 226,
       "norm_label": "source_labels"
     },
     {
@@ -11097,7 +11106,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L96",
       "id": "types_property_status_labels",
-      "community": 110,
+      "community": 93,
       "norm_label": "status_labels"
     },
     {
@@ -11106,7 +11115,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L104",
       "id": "types_property_unit_type_labels",
-      "community": 63,
+      "community": 93,
       "norm_label": "unit_type_labels"
     },
     {
@@ -11115,7 +11124,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L110",
       "id": "types_property_unit_types",
-      "community": 110,
+      "community": 93,
       "norm_label": "unit_types"
     },
     {
@@ -12055,10 +12064,28 @@
       "norm_label": "env"
     },
     {
-      "label": "asset",
+      "label": "fetchAsset",
       "file_type": "code",
       "source_file": "worker/index.test.ts",
       "source_location": "L26",
+      "id": "worker_index_test_fetchasset",
+      "community": 219,
+      "norm_label": "fetchasset"
+    },
+    {
+      "label": "missing",
+      "file_type": "code",
+      "source_file": "worker/index.test.ts",
+      "source_location": "L50",
+      "id": "worker_index_test_missing",
+      "community": 219,
+      "norm_label": "missing"
+    },
+    {
+      "label": "asset",
+      "file_type": "code",
+      "source_file": "worker/index.test.ts",
+      "source_location": "L64",
       "id": "worker_index_test_asset",
       "community": 219,
       "norm_label": "asset"
@@ -13931,7 +13958,7 @@
       "file_type": "code",
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L77",
-      "community": 110,
+      "community": 123,
       "norm_label": "usemaintenanceonboardingstate()",
       "id": "components_onboardingtutorial_usemaintenanceonboardingstate"
     },
@@ -13940,7 +13967,7 @@
       "file_type": "code",
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/Maintenance.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenance.tsx",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_maintenance_tsx"
     },
@@ -20609,7 +20636,7 @@
       "file_type": "code",
       "source_file": "src/components/GuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "guestdialog.tsx",
       "id": "src_components_guestdialog_tsx"
     },
@@ -20618,7 +20645,7 @@
       "file_type": "code",
       "source_file": "src/components/AvailabilitySearch.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 227,
       "norm_label": "availabilitysearch.tsx",
       "id": "src_components_availabilitysearch_tsx"
     },
@@ -20654,7 +20681,7 @@
       "file_type": "code",
       "source_file": "src/components/ManagementDashboard.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 226,
       "norm_label": "managementdashboard.tsx",
       "id": "src_components_managementdashboard_tsx"
     },
@@ -20690,7 +20717,7 @@
       "file_type": "code",
       "source_file": "src/components/MaintenanceRequestCard.tsx",
       "source_location": "L1",
-      "community": 112,
+      "community": 63,
       "norm_label": "maintenancerequestcard.tsx",
       "id": "src_components_maintenancerequestcard_tsx"
     },
@@ -20699,7 +20726,7 @@
       "file_type": "code",
       "source_file": "src/components/WeeklyReport.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 226,
       "norm_label": "weeklyreport.tsx",
       "id": "src_components_weeklyreport_tsx"
     },
@@ -20708,7 +20735,7 @@
       "file_type": "code",
       "source_file": "src/components/FutureGuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguestdialog.tsx",
       "id": "src_components_futureguestdialog_tsx"
     },
@@ -20726,7 +20753,7 @@
       "file_type": "code",
       "source_file": "src/components/PullToRefresh.tsx",
       "source_location": "L1",
-      "community": 5,
+      "community": 10,
       "norm_label": "pulltorefresh.tsx",
       "id": "src_components_pulltorefresh_tsx"
     },
@@ -20735,7 +20762,7 @@
       "file_type": "code",
       "source_file": "src/components/SortableUnitCard.tsx",
       "source_location": "L1",
-      "community": 52,
+      "community": 227,
       "norm_label": "sortableunitcard.tsx",
       "id": "src_components_sortableunitcard_tsx"
     },
@@ -20753,7 +20780,7 @@
       "file_type": "code",
       "source_file": "src/components/EditUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "editunitdialog.tsx",
       "id": "src_components_editunitdialog_tsx"
     },
@@ -20762,7 +20789,7 @@
       "file_type": "code",
       "source_file": "src/components/LogMaintenanceDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "logmaintenancedialog.tsx",
       "id": "src_components_logmaintenancedialog_tsx"
     },
@@ -20771,7 +20798,7 @@
       "file_type": "code",
       "source_file": "src/components/AddUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "addunitdialog.tsx",
       "id": "src_components_addunitdialog_tsx"
     },
@@ -20780,7 +20807,7 @@
       "file_type": "code",
       "source_file": "src/components/InlinePaymentScheduler.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "inlinepaymentscheduler.tsx",
       "id": "src_components_inlinepaymentscheduler_tsx"
     },
@@ -20789,7 +20816,7 @@
       "file_type": "code",
       "source_file": "src/components/StatsOverview.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 229,
       "norm_label": "statsoverview.tsx",
       "id": "src_components_statsoverview_tsx"
     },
@@ -20834,7 +20861,7 @@
       "file_type": "code",
       "source_file": "src/components/BulkDeletePaymentsDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 123,
       "norm_label": "bulkdeletepaymentsdialog.tsx",
       "id": "src_components_bulkdeletepaymentsdialog_tsx"
     },
@@ -20951,7 +20978,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 227,
       "norm_label": "button.tsx",
       "id": "src_components_ui_button_tsx"
     },
@@ -20996,7 +21023,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/calendar.tsx",
       "source_location": "L1",
-      "community": 129,
+      "community": 10,
       "norm_label": "calendar.tsx",
       "id": "src_components_ui_calendar_tsx"
     },
@@ -21050,7 +21077,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/dialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialog.tsx",
       "id": "src_components_ui_dialog_tsx"
     },
@@ -21077,7 +21104,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/avatar.tsx",
       "source_location": "L1",
-      "community": 5,
+      "community": 230,
       "norm_label": "avatar.tsx",
       "id": "src_components_ui_avatar_tsx"
     },
@@ -21122,7 +21149,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
-      "community": 149,
+      "community": 53,
       "norm_label": "tabs.tsx",
       "id": "src_components_ui_tabs_tsx"
     },
@@ -21140,7 +21167,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/textarea.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 63,
       "norm_label": "textarea.tsx",
       "id": "src_components_ui_textarea_tsx"
     },
@@ -21149,7 +21176,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/resizable.tsx",
       "source_location": "L1",
-      "community": 5,
+      "community": 10,
       "norm_label": "resizable.tsx",
       "id": "src_components_ui_resizable_tsx"
     },
@@ -21167,7 +21194,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/switch.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "switch.tsx",
       "id": "src_components_ui_switch_tsx"
     },
@@ -21194,7 +21221,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/table.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 226,
       "norm_label": "table.tsx",
       "id": "src_components_ui_table_tsx"
     },
@@ -21203,7 +21230,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/breadcrumb.tsx",
       "source_location": "L1",
-      "community": 10,
+      "community": 228,
       "norm_label": "breadcrumb.tsx",
       "id": "src_components_ui_breadcrumb_tsx"
     },
@@ -21257,7 +21284,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 123,
       "norm_label": "select.tsx",
       "id": "src_components_ui_select_tsx"
     },
@@ -21284,7 +21311,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "input.tsx",
       "id": "src_components_ui_input_tsx"
     },
@@ -21329,7 +21356,7 @@
       "file_type": "code",
       "source_file": "src/pages/PaymentHistory.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 226,
       "norm_label": "paymenthistory.tsx",
       "id": "src_pages_paymenthistory_tsx"
     },
@@ -21356,7 +21383,7 @@
       "file_type": "code",
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 123,
       "norm_label": "financialreports.tsx",
       "id": "src_pages_financialreports_tsx"
     },
@@ -21383,7 +21410,7 @@
       "file_type": "code",
       "source_file": "src/pages/Finances.tsx",
       "source_location": "L1",
-      "community": 149,
+      "community": 53,
       "norm_label": "finances.tsx",
       "id": "src_pages_finances_tsx"
     },
@@ -23336,7 +23363,7 @@
       "file_type": "code",
       "source_file": "pages/Finances.tsx",
       "source_location": "L1",
-      "community": 149,
+      "community": 53,
       "norm_label": "finances.tsx",
       "id": "pages_finances_tsx"
     },
@@ -23399,7 +23426,7 @@
       "file_type": "code",
       "source_file": "dialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "dialog.tsx",
       "id": "dialog_tsx"
     },
@@ -23408,7 +23435,7 @@
       "file_type": "code",
       "source_file": "AddUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "addunitdialog.tsx",
       "id": "addunitdialog_tsx"
     },
@@ -23426,7 +23453,7 @@
       "file_type": "code",
       "source_file": "EditUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 93,
       "norm_label": "editunitdialog.tsx",
       "id": "editunitdialog_tsx"
     },
@@ -23435,7 +23462,7 @@
       "file_type": "code",
       "source_file": "FutureGuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "futureguestdialog.tsx",
       "id": "futureguestdialog_tsx"
     },
@@ -23444,7 +23471,7 @@
       "file_type": "code",
       "source_file": "GuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "guestdialog.tsx",
       "id": "guestdialog_tsx"
     },
@@ -23525,7 +23552,7 @@
       "file_type": "code",
       "source_file": "pages/Maintenance.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 123,
       "norm_label": "maintenance.tsx",
       "id": "pages_maintenance_tsx"
     },
@@ -23784,9 +23811,9 @@
       "source_file": "package.json",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_name",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_name"
     },
     {
       "relation": "contains",
@@ -23794,9 +23821,9 @@
       "source_file": "package.json",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_private",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_private"
     },
     {
       "relation": "contains",
@@ -23804,9 +23831,9 @@
       "source_file": "package.json",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_version",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_version"
     },
     {
       "relation": "contains",
@@ -23814,9 +23841,9 @@
       "source_file": "package.json",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_type",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_type"
     },
     {
       "relation": "contains",
@@ -23824,9 +23851,9 @@
       "source_file": "package.json",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_scripts",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts"
     },
     {
       "relation": "contains",
@@ -23834,9 +23861,9 @@
       "source_file": "package.json",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_dependencies",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies"
     },
     {
       "relation": "contains",
@@ -23844,9 +23871,9 @@
       "source_file": "package.json",
       "source_location": "L72",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_json",
-      "target": "homestead_hill_package_devdependencies",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies"
     },
     {
       "relation": "contains",
@@ -23924,9 +23951,9 @@
       "source_file": "package.json",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_dev",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_dev"
     },
     {
       "relation": "contains",
@@ -23934,9 +23961,9 @@
       "source_file": "package.json",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_build",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_build"
     },
     {
       "relation": "contains",
@@ -23944,9 +23971,9 @@
       "source_file": "package.json",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_build_dev",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_build_dev"
     },
     {
       "relation": "contains",
@@ -23954,9 +23981,9 @@
       "source_file": "package.json",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_lint",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_lint"
     },
     {
       "relation": "contains",
@@ -23964,9 +23991,9 @@
       "source_file": "package.json",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_preview",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_preview"
     },
     {
       "relation": "contains",
@@ -23974,9 +24001,9 @@
       "source_file": "package.json",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_test",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_test"
     },
     {
       "relation": "contains",
@@ -23984,9 +24011,9 @@
       "source_file": "package.json",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_scripts",
-      "target": "homestead_hill_package_scripts_test_watch",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_scripts_test_watch"
     },
     {
       "relation": "contains",
@@ -23994,9 +24021,9 @@
       "source_file": "package.json",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_dnd_kit_core",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_dnd_kit_core"
     },
     {
       "relation": "contains",
@@ -24004,9 +24031,9 @@
       "source_file": "package.json",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_dnd_kit_sortable",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_dnd_kit_sortable"
     },
     {
       "relation": "contains",
@@ -24014,9 +24041,9 @@
       "source_file": "package.json",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_dnd_kit_utilities",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_dnd_kit_utilities"
     },
     {
       "relation": "contains",
@@ -24024,9 +24051,9 @@
       "source_file": "package.json",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_hookform_resolvers",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_hookform_resolvers"
     },
     {
       "relation": "contains",
@@ -24034,9 +24061,9 @@
       "source_file": "package.json",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_accordion",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_accordion"
     },
     {
       "relation": "contains",
@@ -24044,9 +24071,9 @@
       "source_file": "package.json",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_alert_dialog",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_alert_dialog"
     },
     {
       "relation": "contains",
@@ -24054,9 +24081,9 @@
       "source_file": "package.json",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_aspect_ratio",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_aspect_ratio"
     },
     {
       "relation": "contains",
@@ -24064,9 +24091,9 @@
       "source_file": "package.json",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_avatar",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_avatar"
     },
     {
       "relation": "contains",
@@ -24074,9 +24101,9 @@
       "source_file": "package.json",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_checkbox",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_checkbox"
     },
     {
       "relation": "contains",
@@ -24084,9 +24111,9 @@
       "source_file": "package.json",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_collapsible",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_collapsible"
     },
     {
       "relation": "contains",
@@ -24094,9 +24121,9 @@
       "source_file": "package.json",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_context_menu",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_context_menu"
     },
     {
       "relation": "contains",
@@ -24104,9 +24131,9 @@
       "source_file": "package.json",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_dialog",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_dialog"
     },
     {
       "relation": "contains",
@@ -24114,9 +24141,9 @@
       "source_file": "package.json",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_dropdown_menu",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_dropdown_menu"
     },
     {
       "relation": "contains",
@@ -24124,9 +24151,9 @@
       "source_file": "package.json",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_hover_card",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_hover_card"
     },
     {
       "relation": "contains",
@@ -24134,9 +24161,9 @@
       "source_file": "package.json",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_label",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_label"
     },
     {
       "relation": "contains",
@@ -24144,9 +24171,9 @@
       "source_file": "package.json",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_menubar",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_menubar"
     },
     {
       "relation": "contains",
@@ -24154,9 +24181,9 @@
       "source_file": "package.json",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_navigation_menu",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_navigation_menu"
     },
     {
       "relation": "contains",
@@ -24164,9 +24191,9 @@
       "source_file": "package.json",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_popover",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_popover"
     },
     {
       "relation": "contains",
@@ -24174,9 +24201,9 @@
       "source_file": "package.json",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_progress",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_progress"
     },
     {
       "relation": "contains",
@@ -24184,9 +24211,9 @@
       "source_file": "package.json",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_radio_group",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_radio_group"
     },
     {
       "relation": "contains",
@@ -24194,9 +24221,9 @@
       "source_file": "package.json",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_scroll_area",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_scroll_area"
     },
     {
       "relation": "contains",
@@ -24204,9 +24231,9 @@
       "source_file": "package.json",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_select",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_select"
     },
     {
       "relation": "contains",
@@ -24214,9 +24241,9 @@
       "source_file": "package.json",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_separator",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_separator"
     },
     {
       "relation": "contains",
@@ -24224,9 +24251,9 @@
       "source_file": "package.json",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_slider",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_slider"
     },
     {
       "relation": "contains",
@@ -24234,9 +24261,9 @@
       "source_file": "package.json",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_slot",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_slot"
     },
     {
       "relation": "contains",
@@ -24244,9 +24271,9 @@
       "source_file": "package.json",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_switch",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_switch"
     },
     {
       "relation": "contains",
@@ -24254,9 +24281,9 @@
       "source_file": "package.json",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_tabs",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_tabs"
     },
     {
       "relation": "contains",
@@ -24264,9 +24291,9 @@
       "source_file": "package.json",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_toast",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_toast"
     },
     {
       "relation": "contains",
@@ -24274,9 +24301,9 @@
       "source_file": "package.json",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_toggle",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_toggle"
     },
     {
       "relation": "contains",
@@ -24284,9 +24311,9 @@
       "source_file": "package.json",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_toggle_group",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_toggle_group"
     },
     {
       "relation": "contains",
@@ -24294,9 +24321,9 @@
       "source_file": "package.json",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_radix_ui_react_tooltip",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_radix_ui_react_tooltip"
     },
     {
       "relation": "contains",
@@ -24304,9 +24331,9 @@
       "source_file": "package.json",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_supabase_supabase_js",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_supabase_supabase_js"
     },
     {
       "relation": "contains",
@@ -24314,9 +24341,9 @@
       "source_file": "package.json",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_tanstack_react_query",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_tanstack_react_query"
     },
     {
       "relation": "contains",
@@ -24324,9 +24351,9 @@
       "source_file": "package.json",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_class_variance_authority",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_class_variance_authority"
     },
     {
       "relation": "contains",
@@ -24334,9 +24361,9 @@
       "source_file": "package.json",
       "source_location": "L50",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_clsx",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_clsx"
     },
     {
       "relation": "contains",
@@ -24344,9 +24371,9 @@
       "source_file": "package.json",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_cmdk",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_cmdk"
     },
     {
       "relation": "contains",
@@ -24354,9 +24381,9 @@
       "source_file": "package.json",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_date_fns",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_date_fns"
     },
     {
       "relation": "contains",
@@ -24364,9 +24391,9 @@
       "source_file": "package.json",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_embla_carousel_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_embla_carousel_react"
     },
     {
       "relation": "contains",
@@ -24374,9 +24401,9 @@
       "source_file": "package.json",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_framer_motion",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_framer_motion"
     },
     {
       "relation": "contains",
@@ -24384,9 +24411,9 @@
       "source_file": "package.json",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_input_otp",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_input_otp"
     },
     {
       "relation": "contains",
@@ -24394,9 +24421,9 @@
       "source_file": "package.json",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_lucide_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_lucide_react"
     },
     {
       "relation": "contains",
@@ -24404,9 +24431,9 @@
       "source_file": "package.json",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_next_themes",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_next_themes"
     },
     {
       "relation": "contains",
@@ -24414,9 +24441,9 @@
       "source_file": "package.json",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react"
     },
     {
       "relation": "contains",
@@ -24424,9 +24451,9 @@
       "source_file": "package.json",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react_day_picker",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react_day_picker"
     },
     {
       "relation": "contains",
@@ -24434,9 +24461,9 @@
       "source_file": "package.json",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react_dom",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react_dom"
     },
     {
       "relation": "contains",
@@ -24444,9 +24471,9 @@
       "source_file": "package.json",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react_hook_form",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react_hook_form"
     },
     {
       "relation": "contains",
@@ -24454,9 +24481,9 @@
       "source_file": "package.json",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react_resizable_panels",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react_resizable_panels"
     },
     {
       "relation": "contains",
@@ -24464,9 +24491,9 @@
       "source_file": "package.json",
       "source_location": "L63",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_react_router_dom",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_react_router_dom"
     },
     {
       "relation": "contains",
@@ -24474,9 +24501,9 @@
       "source_file": "package.json",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_recharts",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_recharts"
     },
     {
       "relation": "contains",
@@ -24484,9 +24511,9 @@
       "source_file": "package.json",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_sonner",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_sonner"
     },
     {
       "relation": "contains",
@@ -24494,9 +24521,9 @@
       "source_file": "package.json",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_tailwind_merge",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_tailwind_merge"
     },
     {
       "relation": "contains",
@@ -24504,9 +24531,9 @@
       "source_file": "package.json",
       "source_location": "L67",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_tailwindcss_animate",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_tailwindcss_animate"
     },
     {
       "relation": "contains",
@@ -24514,9 +24541,9 @@
       "source_file": "package.json",
       "source_location": "L68",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_vaul",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_vaul"
     },
     {
       "relation": "contains",
@@ -24524,9 +24551,9 @@
       "source_file": "package.json",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_vite_plugin_pwa",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_vite_plugin_pwa"
     },
     {
       "relation": "contains",
@@ -24534,9 +24561,9 @@
       "source_file": "package.json",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_dependencies",
-      "target": "homestead_hill_package_dependencies_zod",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_dependencies_zod"
     },
     {
       "relation": "calls",
@@ -24555,9 +24582,9 @@
       "source_file": "package.json",
       "source_location": "L73",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_cloudflare_vite_plugin",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_cloudflare_vite_plugin"
     },
     {
       "relation": "contains",
@@ -24565,9 +24592,9 @@
       "source_file": "package.json",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_eslint_js",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_eslint_js"
     },
     {
       "relation": "contains",
@@ -24575,9 +24602,9 @@
       "source_file": "package.json",
       "source_location": "L75",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_tailwindcss_typography",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_tailwindcss_typography"
     },
     {
       "relation": "contains",
@@ -24585,9 +24612,9 @@
       "source_file": "package.json",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_testing_library_jest_dom",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_testing_library_jest_dom"
     },
     {
       "relation": "contains",
@@ -24595,9 +24622,9 @@
       "source_file": "package.json",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_testing_library_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_testing_library_react"
     },
     {
       "relation": "contains",
@@ -24605,9 +24632,9 @@
       "source_file": "package.json",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_types_node",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_types_node"
     },
     {
       "relation": "contains",
@@ -24615,9 +24642,9 @@
       "source_file": "package.json",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_types_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_types_react"
     },
     {
       "relation": "contains",
@@ -24625,9 +24652,9 @@
       "source_file": "package.json",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_types_react_dom",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_types_react_dom"
     },
     {
       "relation": "contains",
@@ -24635,9 +24662,9 @@
       "source_file": "package.json",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_vitejs_plugin_react",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_vitejs_plugin_react"
     },
     {
       "relation": "contains",
@@ -24645,9 +24672,9 @@
       "source_file": "package.json",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_autoprefixer",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_autoprefixer"
     },
     {
       "relation": "contains",
@@ -24655,9 +24682,9 @@
       "source_file": "package.json",
       "source_location": "L83",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_eslint",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_eslint"
     },
     {
       "relation": "contains",
@@ -24665,9 +24692,9 @@
       "source_file": "package.json",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_eslint_plugin_react_hooks",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_eslint_plugin_react_hooks"
     },
     {
       "relation": "contains",
@@ -24675,9 +24702,9 @@
       "source_file": "package.json",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_eslint_plugin_react_refresh",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_eslint_plugin_react_refresh"
     },
     {
       "relation": "contains",
@@ -24685,9 +24712,9 @@
       "source_file": "package.json",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_globals",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_globals"
     },
     {
       "relation": "contains",
@@ -24695,9 +24722,9 @@
       "source_file": "package.json",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_jsdom",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_jsdom"
     },
     {
       "relation": "contains",
@@ -24705,9 +24732,9 @@
       "source_file": "package.json",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_postcss",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_postcss"
     },
     {
       "relation": "contains",
@@ -24715,9 +24742,9 @@
       "source_file": "package.json",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_tailwindcss",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_tailwindcss"
     },
     {
       "relation": "contains",
@@ -24725,9 +24752,9 @@
       "source_file": "package.json",
       "source_location": "L90",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_typescript",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_typescript"
     },
     {
       "relation": "contains",
@@ -24735,9 +24762,9 @@
       "source_file": "package.json",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_typescript_eslint",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_typescript_eslint"
     },
     {
       "relation": "contains",
@@ -24745,9 +24772,9 @@
       "source_file": "package.json",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_vite",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_vite"
     },
     {
       "relation": "contains",
@@ -24755,9 +24782,9 @@
       "source_file": "package.json",
       "source_location": "L93",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_vitest",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_vitest"
     },
     {
       "relation": "contains",
@@ -24765,9 +24792,9 @@
       "source_file": "package.json",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_package_devdependencies",
-      "target": "homestead_hill_package_devdependencies_wrangler",
-      "confidence_score": 1.0
+      "target": "homestead_hill_package_devdependencies_wrangler"
     },
     {
       "relation": "contains",
@@ -25376,8 +25403,18 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "openai_hosting_json",
-      "target": "openai_hosting_d1",
+      "target": "openai_hosting_project_id",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".openai/hosting.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "openai_hosting_json",
+      "target": "openai_hosting_d1"
     },
     {
       "relation": "contains",
@@ -25385,9 +25422,9 @@
       "source_file": ".openai/hosting.json",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "openai_hosting_json",
-      "target": "openai_hosting_r2",
-      "confidence_score": 1.0
+      "target": "openai_hosting_r2"
     },
     {
       "relation": "contains",
@@ -27847,9 +27884,9 @@
       "source_file": "src/components/Dashboard.tsx",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_dashboard_tsx",
-      "target": "src_hooks_usetutorialstate_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_usetutorialstate_ts"
     },
     {
       "relation": "imports",
@@ -27858,9 +27895,9 @@
       "source_file": "src/components/Dashboard.tsx",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_dashboard_tsx",
-      "target": "hooks_usetutorialstate_useonboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_useonboardingstate"
     },
     {
       "relation": "imports_from",
@@ -32291,9 +32328,9 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_maintenancetutorialcontent_test_ts",
-      "target": "components_tutorialcontent_cleanertutorialsteps",
-      "confidence_score": 1.0
+      "target": "components_tutorialcontent_cleanertutorialsteps"
     },
     {
       "relation": "imports",
@@ -32343,9 +32380,9 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_maintenancetutorialcontent_test_ts",
-      "target": "components_maintenancetutorialcontent_test_approvalstep",
-      "confidence_score": 1.0
+      "target": "components_maintenancetutorialcontent_test_approvalstep"
     },
     {
       "relation": "contains",
@@ -32353,9 +32390,9 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_maintenancetutorialcontent_test_ts",
-      "target": "components_maintenancetutorialcontent_test_automationstep",
-      "confidence_score": 1.0
+      "target": "components_maintenancetutorialcontent_test_automationstep"
     },
     {
       "relation": "contains",
@@ -32363,9 +32400,9 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_maintenancetutorialcontent_test_ts",
-      "target": "components_maintenancetutorialcontent_test_privacy",
-      "confidence_score": 1.0
+      "target": "components_maintenancetutorialcontent_test_privacy"
     },
     {
       "relation": "imports_from",
@@ -32977,9 +33014,9 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_onboardingtutorial_tsx",
-      "target": "components_tutorialcontent_cleanertutorialsteps",
-      "confidence_score": 1.0
+      "target": "components_tutorialcontent_cleanertutorialsteps"
     },
     {
       "relation": "imports",
@@ -32999,9 +33036,9 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_onboardingtutorial_tsx",
-      "target": "components_tutorialcontent_propertymanagertutorialsteps",
-      "confidence_score": 1.0
+      "target": "components_tutorialcontent_propertymanagertutorialsteps"
     },
     {
       "relation": "imports",
@@ -33032,9 +33069,9 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_onboardingtutorial_tsx",
-      "target": "src_hooks_usetutorialstate_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_usetutorialstate_ts"
     },
     {
       "relation": "imports",
@@ -33043,9 +33080,9 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_onboardingtutorial_tsx",
-      "target": "hooks_usetutorialstate_usetutorialstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usetutorialstate"
     },
     {
       "relation": "contains",
@@ -33113,9 +33150,9 @@
       "source_file": "src/components/OnboardingTutorial.tsx",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_onboardingtutorial_tsx",
-      "target": "components_onboardingtutorial_cleanertutorial",
-      "confidence_score": 1.0
+      "target": "components_onboardingtutorial_cleanertutorial"
     },
     {
       "relation": "imports_from",
@@ -33124,9 +33161,9 @@
       "source_file": "src/pages/CleanerPortal.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_cleanerportal_tsx",
-      "target": "src_components_onboardingtutorial_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_onboardingtutorial_tsx"
     },
     {
       "relation": "imports_from",
@@ -33146,9 +33183,9 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_tsx",
-      "target": "src_components_onboardingtutorial_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_onboardingtutorial_tsx"
     },
     {
       "relation": "contains",
@@ -33273,9 +33310,9 @@
       "source_file": "src/pages/CleanerPortal.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_cleanerportal_tsx",
-      "target": "components_onboardingtutorial_cleanertutorial",
-      "confidence_score": 1.0
+      "target": "components_onboardingtutorial_cleanertutorial"
     },
     {
       "relation": "imports_from",
@@ -35669,9 +35706,9 @@
       "source_file": "src/components/tutorialContent.ts",
       "source_location": "L223",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_tutorialcontent_ts",
-      "target": "components_tutorialcontent_cleanertutorialsteps",
-      "confidence_score": 1.0
+      "target": "components_tutorialcontent_cleanertutorialsteps"
     },
     {
       "relation": "contains",
@@ -51457,9 +51494,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_hooks_usetutorialstate_ts",
-      "target": "hooks_usetutorialstate_usetutorialstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usetutorialstate"
     },
     {
       "relation": "contains",
@@ -51467,9 +51504,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_hooks_usetutorialstate_ts",
-      "target": "hooks_usetutorialstate_useonboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_useonboardingstate"
     },
     {
       "relation": "contains",
@@ -51477,9 +51514,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_hooks_usetutorialstate_ts",
-      "target": "hooks_usetutorialstate_usemaintenanceonboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usemaintenanceonboardingstate"
     },
     {
       "relation": "contains",
@@ -51487,9 +51524,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_hooks_usetutorialstate_ts",
-      "target": "hooks_usetutorialstate_usecleaneronboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usecleaneronboardingstate"
     },
     {
       "relation": "imports_from",
@@ -51498,9 +51535,9 @@
       "source_file": "src/pages/CleanerPortal.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_cleanerportal_tsx",
-      "target": "src_hooks_usetutorialstate_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_usetutorialstate_ts"
     },
     {
       "relation": "imports_from",
@@ -51509,9 +51546,9 @@
       "source_file": "src/pages/Maintenance.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_maintenance_tsx",
-      "target": "src_hooks_usetutorialstate_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_usetutorialstate_ts"
     },
     {
       "relation": "imports_from",
@@ -51520,9 +51557,9 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_tsx",
-      "target": "src_hooks_usetutorialstate_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_usetutorialstate_ts"
     },
     {
       "relation": "calls",
@@ -51531,9 +51568,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "hooks_usetutorialstate_useonboardingstate",
-      "target": "hooks_usetutorialstate_usetutorialstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usetutorialstate"
     },
     {
       "relation": "calls",
@@ -51542,9 +51579,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "hooks_usetutorialstate_usemaintenanceonboardingstate",
-      "target": "hooks_usetutorialstate_usetutorialstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usetutorialstate"
     },
     {
       "relation": "calls",
@@ -51553,9 +51590,9 @@
       "source_file": "src/hooks/useTutorialState.ts",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "hooks_usetutorialstate_usecleaneronboardingstate",
-      "target": "hooks_usetutorialstate_usetutorialstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usetutorialstate"
     },
     {
       "relation": "imports",
@@ -51564,9 +51601,9 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_tsx",
-      "target": "hooks_usetutorialstate_useonboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_useonboardingstate"
     },
     {
       "relation": "calls",
@@ -51586,9 +51623,9 @@
       "source_file": "src/pages/Maintenance.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_maintenance_tsx",
-      "target": "hooks_usetutorialstate_usemaintenanceonboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usemaintenanceonboardingstate"
     },
     {
       "relation": "calls",
@@ -51608,9 +51645,9 @@
       "source_file": "src/pages/CleanerPortal.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_cleanerportal_tsx",
-      "target": "hooks_usetutorialstate_usecleaneronboardingstate",
-      "confidence_score": 1.0
+      "target": "hooks_usetutorialstate_usecleaneronboardingstate"
     },
     {
       "relation": "calls",
@@ -62418,9 +62455,9 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_test_tsx",
-      "target": "src_pages_operations_tsx",
-      "confidence_score": 1.0
+      "target": "src_pages_operations_tsx"
     },
     {
       "relation": "contains",
@@ -62428,9 +62465,9 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_test_tsx",
-      "target": "pages_operations_test_operationsstate",
-      "confidence_score": 1.0
+      "target": "pages_operations_test_operationsstate"
     },
     {
       "relation": "contains",
@@ -62438,9 +62475,9 @@
       "source_file": "src/pages/Operations.test.tsx",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_test_tsx",
-      "target": "pages_operations_test_moretab",
-      "confidence_score": 1.0
+      "target": "pages_operations_test_moretab"
     },
     {
       "relation": "imports_from",
@@ -62580,9 +62617,9 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_tsx",
-      "target": "pages_operations_operationsview",
-      "confidence_score": 1.0
+      "target": "pages_operations_operationsview"
     },
     {
       "relation": "contains",
@@ -65851,9 +65888,9 @@
       "source_file": "worker/index.test.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_test_ts",
-      "target": "worker_index_ts",
-      "confidence_score": 1.0
+      "target": "worker_index_ts"
     },
     {
       "relation": "contains",
@@ -65861,9 +65898,9 @@
       "source_file": "worker/index.test.ts",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_test_ts",
-      "target": "worker_index_test_env",
-      "confidence_score": 1.0
+      "target": "worker_index_test_env"
     },
     {
       "relation": "contains",
@@ -65872,8 +65909,28 @@
       "source_location": "L26",
       "weight": 1.0,
       "source": "worker_index_test_ts",
-      "target": "worker_index_test_asset",
+      "target": "worker_index_test_fetchasset",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.test.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "worker_index_test_ts",
+      "target": "worker_index_test_missing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.test.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "worker_index_test_ts",
+      "target": "worker_index_test_asset"
     },
     {
       "relation": "contains",
@@ -65881,9 +65938,9 @@
       "source_file": "worker/index.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_ts",
-      "target": "worker_index_assetfetcher",
-      "confidence_score": 1.0
+      "target": "worker_index_assetfetcher"
     },
     {
       "relation": "contains",
@@ -65891,9 +65948,9 @@
       "source_file": "worker/index.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_ts",
-      "target": "worker_index_env",
-      "confidence_score": 1.0
+      "target": "worker_index_env"
     },
     {
       "relation": "contains",
@@ -65901,9 +65958,9 @@
       "source_file": "worker/index.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_ts",
-      "target": "worker_index_withorigin",
-      "confidence_score": 1.0
+      "target": "worker_index_withorigin"
     },
     {
       "relation": "contains",
@@ -65911,9 +65968,9 @@
       "source_file": "worker/index.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_ts",
-      "target": "worker_index_worker",
-      "confidence_score": 1.0
+      "target": "worker_index_worker"
     },
     {
       "relation": "contains",
@@ -65961,9 +66018,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_md",
-      "target": "homestead_hill_readme_homestead_helper",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_homestead_helper"
     },
     {
       "relation": "contains",
@@ -65991,9 +66048,9 @@
       "source_file": "README.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_homestead_helper",
-      "target": "homestead_hill_readme_daily_workflows",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_daily_workflows"
     },
     {
       "relation": "contains",
@@ -66001,9 +66058,9 @@
       "source_file": "README.md",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_homestead_helper",
-      "target": "homestead_hill_readme_source_of_truth_boundaries",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_source_of_truth_boundaries"
     },
     {
       "relation": "contains",
@@ -66011,9 +66068,9 @@
       "source_file": "README.md",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_homestead_helper",
-      "target": "homestead_hill_readme_local_development",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_local_development"
     },
     {
       "relation": "contains",
@@ -66021,9 +66078,9 @@
       "source_file": "README.md",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_homestead_helper",
-      "target": "homestead_hill_readme_operations_rollout",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_operations_rollout"
     },
     {
       "relation": "contains",
@@ -66031,9 +66088,9 @@
       "source_file": "README.md",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_local_development",
-      "target": "homestead_hill_readme_codeblock_1",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_codeblock_1"
     },
     {
       "relation": "contains",
@@ -66041,9 +66098,9 @@
       "source_file": "README.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "homestead_hill_readme_local_development",
-      "target": "homestead_hill_readme_codeblock_2",
-      "confidence_score": 1.0
+      "target": "homestead_hill_readme_codeblock_2"
     },
     {
       "relation": "contains",
@@ -66051,9 +66108,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_md",
-      "target": "lovable_plan_goal",
-      "confidence_score": 1.0
+      "target": "lovable_plan_goal"
     },
     {
       "relation": "contains",
@@ -66061,9 +66118,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_md",
-      "target": "lovable_plan_step_1_apply_the_migration_single_transaction",
-      "confidence_score": 1.0
+      "target": "lovable_plan_step_1_apply_the_migration_single_transaction"
     },
     {
       "relation": "contains",
@@ -66071,9 +66128,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_md",
-      "target": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "confidence_score": 1.0
+      "target": "lovable_plan_step_2_read_only_verification_after_migration_succeeds"
     },
     {
       "relation": "contains",
@@ -66081,9 +66138,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_md",
-      "target": "lovable_plan_failure_handling",
-      "confidence_score": 1.0
+      "target": "lovable_plan_failure_handling"
     },
     {
       "relation": "contains",
@@ -66091,9 +66148,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L73",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_md",
-      "target": "lovable_plan_out_of_scope",
-      "confidence_score": 1.0
+      "target": "lovable_plan_out_of_scope"
     },
     {
       "relation": "contains",
@@ -66111,9 +66168,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_1",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_1"
     },
     {
       "relation": "contains",
@@ -66121,9 +66178,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_2",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_2"
     },
     {
       "relation": "contains",
@@ -66131,9 +66188,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_3",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_3"
     },
     {
       "relation": "contains",
@@ -66141,9 +66198,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_4",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_4"
     },
     {
       "relation": "contains",
@@ -66151,9 +66208,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_5",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_5"
     },
     {
       "relation": "contains",
@@ -66161,9 +66218,9 @@
       "source_file": ".lovable/plan.md",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lovable_plan_step_2_read_only_verification_after_migration_succeeds",
-      "target": "lovable_plan_codeblock_6",
-      "confidence_score": 1.0
+      "target": "lovable_plan_codeblock_6"
     },
     {
       "relation": "contains",
@@ -66611,9 +66668,9 @@
       "source_file": "docs/SITES_MIGRATION.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sites_migration_md",
-      "target": "docs_sites_migration_homestead_helper_sites_migration",
-      "confidence_score": 1.0
+      "target": "docs_sites_migration_homestead_helper_sites_migration"
     },
     {
       "relation": "contains",
@@ -66621,9 +66678,9 @@
       "source_file": "docs/SITES_MIGRATION.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sites_migration_homestead_helper_sites_migration",
-      "target": "docs_sites_migration_objective",
-      "confidence_score": 1.0
+      "target": "docs_sites_migration_objective"
     },
     {
       "relation": "contains",
@@ -66631,9 +66688,9 @@
       "source_file": "docs/SITES_MIGRATION.md",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sites_migration_homestead_helper_sites_migration",
-      "target": "docs_sites_migration_what_this_branch_changes",
-      "confidence_score": 1.0
+      "target": "docs_sites_migration_what_this_branch_changes"
     },
     {
       "relation": "contains",
@@ -66641,9 +66698,9 @@
       "source_file": "docs/SITES_MIGRATION.md",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sites_migration_homestead_helper_sites_migration",
-      "target": "docs_sites_migration_cutover_boundary",
-      "confidence_score": 1.0
+      "target": "docs_sites_migration_cutover_boundary"
     },
     {
       "relation": "contains",
@@ -66651,9 +66708,9 @@
       "source_file": "docs/SITES_MIGRATION.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_sites_migration_homestead_helper_sites_migration",
-      "target": "docs_sites_migration_separate_backend_migration",
-      "confidence_score": 1.0
+      "target": "docs_sites_migration_separate_backend_migration"
     },
     {
       "relation": "contains",
@@ -80429,5 +80486,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8e2858678a749c205eb723e3ac28e9e5d82c1ffd"
+  "built_at_commit": "76c627ad84281f2ef7d9e1d7e426970d0b61c332"
 }

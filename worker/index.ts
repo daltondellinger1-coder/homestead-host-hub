@@ -12,7 +12,14 @@ function withOrigin(html: string, origin: string): string {
 
 const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const response = await env.ASSETS.fetch(request);
+    let response = await env.ASSETS.fetch(request);
+    const acceptsHtml = request.headers.get("accept")?.includes("text/html") ?? false;
+
+    if (response.status === 404 && request.method === "GET" && acceptsHtml) {
+      const appShellUrl = new URL("/", request.url);
+      response = await env.ASSETS.fetch(new Request(appShellUrl, request));
+    }
+
     const contentType = response.headers.get("content-type") ?? "";
 
     if (!contentType.includes("text/html")) {
