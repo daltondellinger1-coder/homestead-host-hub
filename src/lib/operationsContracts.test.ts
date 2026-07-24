@@ -16,8 +16,18 @@ const dispatchFunction = readFileSync(
 );
 const operationsPage = readFileSync(resolve(process.cwd(), 'src/pages/Operations.tsx'), 'utf8');
 const cleanerPage = readFileSync(resolve(process.cwd(), 'src/pages/CleanerPortal.tsx'), 'utf8');
+const reservationRepair = readFileSync(
+  resolve(process.cwd(), 'supabase/migrations/20260724140000_fix_reservation_creation_rpc.sql'),
+  'utf8',
+);
 
 describe('Homestead Helper V1 contracts', () => {
+  it('creates reservation guests using only columns present in the current guest schema', () => {
+    expect(reservationRepair).toContain('CREATE OR REPLACE FUNCTION public.create_reservation_with_guest');
+    expect(reservationRepair).not.toContain('user_id');
+    expect(reservationRepair).toContain('_check_out_date <= _check_in_date');
+  });
+
   it('creates reservations atomically with a guest and blocks overlaps', () => {
     expect(migration).toContain('create_reservation_with_guest');
     expect(migration).toContain('prevent_reservation_overlap');
