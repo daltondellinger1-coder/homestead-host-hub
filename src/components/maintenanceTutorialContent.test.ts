@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { adminTutorialSteps, maintenanceTutorialSteps, propertyManagerTutorialSteps } from './tutorialContent';
+import {
+  adminTutorialSteps,
+  cleanerTutorialSteps,
+  maintenanceTutorialSteps,
+  propertyManagerTutorialSteps,
+} from './tutorialContent';
 
 describe('maintenance tutorial content', () => {
   it('teaches maintenance users the full work order flow', () => {
@@ -39,6 +44,45 @@ describe('property manager tutorial content', () => {
 
   it('describes dashboard/navigation for the correct roles', () => {
     expect(titles).toContain('Dashboard & Navigation');
+  });
+
+  it('covers the complete V1 daily operations workflow', () => {
+    expect(titles).toContain('Today — Daily Command Center');
+    expect(titles).toContain('Operational Unit Statuses');
+    expect(titles).toContain('Stays & Reservation Safety');
+    expect(titles).toContain('Cleaning Handoff & Cleaner Links');
+    expect(titles).toContain('Readiness Verification');
+    expect(titles).toContain('Maintenance, Vendors & Approvals');
+    expect(titles).toContain('Checklists, Activity & Safe Automation');
+  });
+
+  it('documents the configured approval thresholds and disabled delivery state', () => {
+    const approvalStep = propertyManagerTutorialSteps.find(step => step.title === 'Maintenance, Vendors & Approvals');
+    const automationStep = propertyManagerTutorialSteps.find(step => step.title === 'Checklists, Activity & Safe Automation');
+
+    expect(approvalStep?.description).toContain('$250 routine maintenance');
+    expect(approvalStep?.description).toContain('$500 emergency maintenance');
+    expect(approvalStep?.description).toContain('$250 supplies');
+    expect(automationStep?.description).toContain('remain off');
+  });
+});
+
+describe('cleaner tutorial content', () => {
+  const titles = cleanerTutorialSteps.map(step => step.title);
+
+  it('teaches the assignment lifecycle and readiness handoff', () => {
+    expect(titles).toContain('Review the Turnover Window');
+    expect(titles).toContain('Confirm or Decline Promptly');
+    expect(titles).toContain('Start When Work Begins');
+    expect(titles).toContain('Complete with Evidence');
+    expect(titles).toContain('Briana Verifies Readiness Next');
+  });
+
+  it('makes the privacy and link-revocation boundary explicit', () => {
+    const privacy = cleanerTutorialSteps.find(step => step.title === 'Privacy & Link Safety');
+
+    expect(privacy?.description).toContain('never includes guest finances');
+    expect(privacy?.description).toContain('old link will be revoked');
   });
 });
 

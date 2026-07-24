@@ -28,10 +28,20 @@ import {
   Hammer,
   Sparkles,
 } from 'lucide-react';
-import { adminTutorialSteps, maintenanceTutorialSteps, type TutorialIconName, type TutorialStepContent } from '@/components/tutorialContent';
-
-const ONBOARDING_KEY = 'homestead-hill-onboarding-complete';
-const MAINTENANCE_ONBOARDING_KEY = 'homestead-hill-maintenance-onboarding-complete';
+import {
+  adminTutorialSteps,
+  cleanerTutorialSteps,
+  maintenanceTutorialSteps,
+  propertyManagerTutorialSteps,
+  type TutorialIconName,
+  type TutorialStepContent,
+} from '@/components/tutorialContent';
+import {
+  CLEANER_ONBOARDING_KEY,
+  MAINTENANCE_ONBOARDING_KEY,
+  ONBOARDING_KEY,
+  useTutorialState,
+} from '@/hooks/useTutorialState';
 
 function tutorialIcon(name: TutorialIconName) {
   const className = 'h-10 w-10 text-secondary';
@@ -61,21 +71,6 @@ function tutorialIcon(name: TutorialIconName) {
     default:
       return <Mountain className={className} />;
   }
-}
-
-function useTutorialState(key: string) {
-  const isComplete = localStorage.getItem(key) === 'true';
-  const markComplete = () => localStorage.setItem(key, 'true');
-  const reset = () => localStorage.removeItem(key);
-  return { isComplete, markComplete, reset };
-}
-
-export function useOnboardingState() {
-  return useTutorialState(ONBOARDING_KEY);
-}
-
-export function useMaintenanceOnboardingState() {
-  return useTutorialState(MAINTENANCE_ONBOARDING_KEY);
 }
 
 interface TutorialDialogProps {
@@ -173,14 +168,26 @@ function TutorialDialog({ open, onClose, steps, storageKey }: TutorialDialogProp
 interface OnboardingTutorialProps {
   open: boolean;
   onClose: () => void;
+  isAdmin?: boolean;
 }
 
-export default function OnboardingTutorial({ open, onClose }: OnboardingTutorialProps) {
-  return <TutorialDialog open={open} onClose={onClose} steps={adminTutorialSteps} storageKey={ONBOARDING_KEY} />;
+export default function OnboardingTutorial({ open, onClose, isAdmin = false }: OnboardingTutorialProps) {
+  return (
+    <TutorialDialog
+      open={open}
+      onClose={onClose}
+      steps={isAdmin ? adminTutorialSteps : propertyManagerTutorialSteps}
+      storageKey={ONBOARDING_KEY}
+    />
+  );
 }
 
 export function MaintenanceTutorial({ open, onClose }: OnboardingTutorialProps) {
   return <TutorialDialog open={open} onClose={onClose} steps={maintenanceTutorialSteps} storageKey={MAINTENANCE_ONBOARDING_KEY} />;
+}
+
+export function CleanerTutorial({ open, onClose }: OnboardingTutorialProps) {
+  return <TutorialDialog open={open} onClose={onClose} steps={cleanerTutorialSteps} storageKey={CLEANER_ONBOARDING_KEY} />;
 }
 
 export { HelpCircle };

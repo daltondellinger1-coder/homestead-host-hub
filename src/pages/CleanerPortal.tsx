@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
-import { Camera, Check, Clock3, DoorOpen, LogOut, PackageOpen, RefreshCcw, ShieldCheck, Sparkles, TriangleAlert, Wrench } from 'lucide-react';
+import { Camera, Check, Clock3, DoorOpen, HelpCircle, LogOut, PackageOpen, RefreshCcw, ShieldCheck, Sparkles, TriangleAlert, Wrench } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { CleanerTutorial } from '@/components/OnboardingTutorial';
+import { useCleanerOnboardingState } from '@/hooks/useTutorialState';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -49,8 +51,10 @@ function when(value?: string | null) {
 export default function CleanerPortal() {
   const { token } = useParams();
   const { session, signOut } = useAuth();
+  const { isComplete: cleanerOnboardingComplete } = useCleanerOnboardingState();
   const [tasks, setTasks] = useState<CleanerTask[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(!cleanerOnboardingComplete);
   const [active, setActive] = useState<CleanerTask | null>(null);
   const [notes, setNotes] = useState('');
   const [supplies, setSupplies] = useState('');
@@ -153,7 +157,12 @@ export default function CleanerPortal() {
             <div className="gold-gradient flex h-10 w-10 items-center justify-center rounded-xl text-background"><Sparkles className="h-5 w-5" /></div>
             <div><h1 className="font-heading text-lg font-bold">Cleaning assignments</h1><p className="text-xs text-muted-foreground">Only the work assigned to you</p></div>
           </div>
-          {session && !token && <Button variant="ghost" size="sm" onClick={signOut}><LogOut className="mr-2 h-4 w-4" /> Sign out</Button>}
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => setShowTutorial(true)} aria-label="Open cleaner tutorial">
+              <HelpCircle className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Tutorial</span>
+            </Button>
+            {session && !token && <Button variant="ghost" size="sm" onClick={signOut}><LogOut className="mr-2 h-4 w-4" /> Sign out</Button>}
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-3xl space-y-4 px-4 py-5 pb-10">
@@ -218,6 +227,7 @@ export default function CleanerPortal() {
           <DialogFooter><Button variant="outline" onClick={() => setActive(null)}>Cancel</Button><Button onClick={complete}>Submit completion</Button></DialogFooter>
         </DialogContent>
       </Dialog>
+      <CleanerTutorial open={showTutorial} onClose={() => setShowTutorial(false)} />
     </div>
   );
 }

@@ -33,13 +33,55 @@ export const propertyManagerTutorialSteps: TutorialStepContent[] = [
     icon: 'mountain',
     title: 'Welcome to Homestead Helper',
     description:
-      'Your home base for 15 units — units, guests, payments, finances, and maintenance. This walkthrough covers everything currently shipped. Reopen it any time from the ⋮ menu (top-right) → "Help / Tutorial".',
+      'Your daily command center for 15 units. Start with Today for exceptions and handoffs, then move into stays, cleaning, maintenance, bookings, payments, and reporting. Reopen this tour from the Tutorial button in Today or ⋮ → "Help / Tutorial" in Bookings & Calendar.',
   },
   {
     icon: 'layout-grid',
     title: 'Dashboard & Navigation',
     description:
-      'Property managers see Units, Calendar, Requests, and Fix in the bottom bar. Finances, Airbnb Market, and (for admins) the Draw Dashboard live in the ⋮ overflow menu top-right. Maintenance-only users are routed straight to the Maintenance Portal.',
+      'Property managers and admins land on Today. The bottom bar prioritizes Today, Units, Calendar, and Fix. Today opens daily operations; Units and Calendar preserve the original Host Hub; Finances, Airbnb Market, and admin Draws remain available from the Bookings & Calendar menu.',
+  },
+  {
+    icon: 'alert',
+    title: 'Today — Daily Command Center',
+    description:
+      'Work exceptions first. Today summarizes urgent work, arrivals, departures, unconfirmed or overdue cleaning, the next seven days, and anything waiting for Dalton’s approval. Add a reservation here when a confirmed stay is not already captured by booking intake.',
+  },
+  {
+    icon: 'layout-grid',
+    title: 'Operational Unit Statuses',
+    description:
+      'The 15-unit board distinguishes Occupied, Vacant Ready, Vacant Dirty, Cleaning Scheduled, Maintenance Needed, Offline, and Under Renovation. Do not mark a unit ready just because cleaning was submitted—readiness verification is a separate step.',
+  },
+  {
+    icon: 'calendar',
+    title: 'Stays & Reservation Safety',
+    description:
+      'Stays is the operational reservation record for arrivals, departures, source, payment state, notes, and responsibility. Confirmed overlaps are blocked unless an owner records an explicit override and reason. Keep Airbnb channel blocks as availability warnings, not verified guest records.',
+  },
+  {
+    icon: 'check-circle',
+    title: 'Cleaning Handoff & Cleaner Links',
+    description:
+      'Each departure creates one cleaning task. Assign the cleaner, review checkout and next check-in, then copy a secure 14-day cleaner link. A cleaner can confirm, decline, start, complete, upload photos, and report supplies, damage, or maintenance without seeing finances, passwords, or unrelated units.',
+  },
+  {
+    icon: 'clipboard-check',
+    title: 'Readiness Verification',
+    description:
+      'Cleaner completion moves the task to Readiness Verification Required—it does not make the unit ready. Briana or another operations manager verifies cleanliness, linens, supplies, damage, maintenance, entry, Wi-Fi, and presentation before the unit becomes Vacant Ready.',
+  },
+  {
+    icon: 'wrench',
+    title: 'Maintenance, Vendors & Approvals',
+    description:
+      'Use Maintenance for priority, vendor, schedule, troubleshooting, estimate, completion, and verification. The vendor directory keeps primary and backup contacts. Dalton approval is required above $250 routine maintenance, above $500 emergency maintenance, and above $250 supplies; denials and emergency overrides require a reason.',
+  },
+  {
+    icon: 'clipboard-check',
+    title: 'Checklists, Activity & Safe Automation',
+    description:
+      'Morning, end-of-day, and weekly checklists support handoffs without relying on memory. Activity records important operational changes. Calendar, email, and text delivery remain off until their production credentials and a controlled test are approved; copy cleaner links manually in the meantime.',
   },
   {
     icon: 'layout-grid',
@@ -178,6 +220,51 @@ export const maintenanceTutorialSteps: TutorialStepContent[] = [
   },
 ];
 
+export const cleanerTutorialSteps: TutorialStepContent[] = [
+  {
+    icon: 'sparkles',
+    title: 'Welcome to Cleaning Assignments',
+    description:
+      'This focused portal shows only cleaning work assigned to you. Open Tutorial in the header whenever you need this walkthrough again.',
+  },
+  {
+    icon: 'calendar',
+    title: 'Review the Turnover Window',
+    description:
+      'Before accepting, check the guest checkout, next check-in, cleaning deadline, and all special, pet, and linen notes. Contact Briana if the window or instructions do not look workable.',
+  },
+  {
+    icon: 'check-circle',
+    title: 'Confirm or Decline Promptly',
+    description:
+      'Confirm when you can complete the assignment by its deadline. Decline as soon as possible when you cannot so the office can reassign it. Your response updates the operations dashboard immediately.',
+  },
+  {
+    icon: 'wrench',
+    title: 'Start When Work Begins',
+    description:
+      'Tap Start cleaning when you actually begin. Keep the assignment open until the cleaning and your inspection are complete; the status helps Briana see what is underway.',
+  },
+  {
+    icon: 'camera',
+    title: 'Complete with Evidence',
+    description:
+      'When finished, add useful notes and up to 10 JPEG, PNG, or WebP completion photos. Report supplies needed, damage found, and maintenance issues in their separate fields instead of burying them in a general note.',
+  },
+  {
+    icon: 'clipboard-check',
+    title: 'Briana Verifies Readiness Next',
+    description:
+      'Submitting completion sends the unit to readiness verification. It does not mark the unit guest-ready. Briana confirms cleanliness, linens, supplies, access, Wi-Fi, maintenance, damage, and presentation before the status changes to ready.',
+  },
+  {
+    icon: 'alert',
+    title: 'Privacy & Link Safety',
+    description:
+      'Your page never includes guest finances, owner records, passwords, door or Wi-Fi secrets, or other units. Do not forward an assignment link. If a link is lost or sent to the wrong person, ask the office to issue a new one—the old link will be revoked.',
+  },
+];
+
 export const adminTutorialSteps: TutorialStepContent[] = [
   ...propertyManagerTutorialSteps,
   ...maintenanceTutorialSteps,
@@ -209,12 +296,12 @@ export const adminTutorialSteps: TutorialStepContent[] = [
     icon: 'sparkles',
     title: 'What Changed Recently',
     description:
-      'NEW — Payment Method on every Paid payment (with Split + Other), a Needs-Review queue for legacy rows, an optional Rent Due Date on payments, and Finance History "Report by: Received Date vs Due Date" that also drives the CSV export. Historical rows without a due date stay blank — never inferred.',
+      'NEW — Today operations, seven unit statuses, protected reservations, automatic cleaning handoffs, secure cleaner links, readiness verification, vendors, approval thresholds, checklists, and activity history. Payment Method, Split, Needs Review, optional Rent Due Date, and dual-date Finance reports remain available in Bookings & Calendar.',
   },
   {
     icon: 'mountain',
     title: 'You\'re Good to Go!',
     description:
-      'That\'s the full tour. Tap the three dots (⋮) top-right anytime to reopen this walkthrough. Maintenance staff can reopen theirs from the Tutorial button in the Maintenance Portal header.',
+      'That\'s the full tour. Reopen it from the Tutorial button in Today or ⋮ → Help / Tutorial in Bookings & Calendar. Maintenance and cleaner portals each have their own role-specific Tutorial button.',
   },
 ];
