@@ -931,7 +931,10 @@ export default function Operations() {
                     <div key={vendor.id} className="rounded-xl border border-border/70 p-3">
                       <div className="flex items-center justify-between gap-2">
                         <p className="font-medium">{vendor.name}</p>
-                        <Badge variant="outline">{vendor.vendor_rank}</Badge>
+                        <div className="flex items-center gap-1">
+                          {vendor.sms_consent_status === 'consented' && <Badge variant="secondary">Text enabled</Badge>}
+                          <Badge variant="outline">{vendor.vendor_rank}</Badge>
+                        </div>
                       </div>
                       <p className="text-xs text-muted-foreground">{vendor.trade}{vendor.company ? ` · ${vendor.company}` : ''}</p>
                       <div className="mt-2 flex gap-2">
@@ -1018,6 +1021,7 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
     email: '',
     vendorRank: 'primary' as 'primary' | 'backup',
     emergencyAvailability: false,
+    smsConsentConfirmed: false,
   });
   const trades = ['cleaner', 'handyman', 'plumbing', 'electrical', 'hvac', 'appliance repair', 'internet or networking', 'lawn care', 'snow removal', 'pest control', 'locksmith', 'general contractor', 'emergency maintenance'];
   const save = async () => {
@@ -1027,7 +1031,16 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
     setSaving(false);
     if (saved) {
       onOpenChange(false);
-      setForm({ ...form, name: '', company: '', phone: '', email: '' });
+      setForm({
+        name: '',
+        company: '',
+        trade: 'handyman',
+        phone: '',
+        email: '',
+        vendorRank: 'primary',
+        emergencyAvailability: false,
+        smsConsentConfirmed: false,
+      });
     }
   };
   return (
@@ -1044,6 +1057,17 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
           <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-border/70 p-3 sm:col-span-2">
             <Checkbox checked={form.emergencyAvailability} onCheckedChange={(value) => setForm({ ...form, emergencyAvailability: value === true })} />
             <span className="text-sm">Available for emergencies</span>
+          </label>
+          <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-border/70 p-3 sm:col-span-2">
+            <Checkbox
+              className="mt-0.5"
+              checked={form.smsConsentConfirmed}
+              onCheckedChange={(value) => setForm({ ...form, smsConsentConfirmed: value === true })}
+            />
+            <span>
+              <span className="block text-sm">This vendor agreed to receive work-offer text messages</span>
+              <span className="mt-0.5 block text-xs text-muted-foreground">Required before Homestead Helper will include this number in a broadcast.</span>
+            </span>
           </label>
         </div>
         <DialogFooter><Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button><Button disabled={saving || !form.name} onClick={save}>{saving ? 'Saving…' : 'Add vendor'}</Button></DialogFooter>

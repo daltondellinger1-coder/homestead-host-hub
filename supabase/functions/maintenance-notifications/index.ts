@@ -148,7 +148,9 @@ Deno.serve(async (req) => {
       }
       const { data: roles } = await supabase.from("user_roles")
         .select("role").eq("user_id", uid).eq("active", true);
-      const allowed = (roles ?? []).some((r) => r.role === "admin" || r.role === "maintenance");
+      const allowed = (roles ?? []).some((r) =>
+        r.role === "admin" || r.role === "property_manager" || r.role === "maintenance"
+      );
       if (!allowed) {
         return new Response(JSON.stringify({ error: "Forbidden" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },

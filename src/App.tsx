@@ -17,6 +17,7 @@ const Finances = lazy(() => import("./pages/Finances"));
 const Maintenance = lazy(() => import("./pages/Maintenance"));
 const MaintenanceHealth = lazy(() => import("./pages/MaintenanceHealth"));
 const MaintenancePortal = lazy(() => import("./pages/MaintenancePortal"));
+const MaintenanceOffer = lazy(() => import("./pages/MaintenanceOffer"));
 const ContractorOfficeLaundry = lazy(() => import("./pages/ContractorOfficeLaundry"));
 const ExtendStay = lazy(() => import("./pages/ExtendStay"));
 const AirbnbMarket = lazy(() => import("./pages/AirbnbMarket"));
@@ -121,6 +122,14 @@ function AppRouter() {
     return (
       <Routes>
         <Route path="/cleaning/:token" element={<CleanerPortal />} />
+      </Routes>
+    );
+  }
+
+  if (location.pathname.startsWith('/maintenance-offer/')) {
+    return (
+      <Routes>
+        <Route path="/maintenance-offer/:token" element={<MaintenanceOffer />} />
       </Routes>
     );
   }

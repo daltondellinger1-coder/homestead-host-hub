@@ -69,6 +69,19 @@ The browser uses the existing Supabase project. Row-level security keeps owner/p
 
 Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified.
 
+Maintenance handyman texting is controlled separately by
+`MAINTENANCE_SMS_ENABLED`. A manager selects text-consented vendors, an
+authorized spending limit, and an acceptance window. Each recipient receives a
+unique expiring link. The database awards the job atomically to the first
+confirmed acceptance, assigns the vendor, and queues winner and filled-job
+notifications for retryable delivery. Keep this setting `false` until Twilio,
+the consented roster, and a controlled canary are verified.
+
+Production should use `TWILIO_ACCOUNT_SID`, `TWILIO_API_KEY_SID`, and
+`TWILIO_API_KEY_SECRET` in Supabase Edge Function secrets. The master
+`TWILIO_AUTH_TOKEN` remains a fallback only. A Messaging Service SID or sending
+number is also required.
+
 ## Database changes
 
 Migration: `supabase/migrations/20260723154000_homestead_helper_v1.sql`
@@ -339,7 +352,7 @@ Hermes must use event IDs and idempotency keys, never receive credentials, never
   record; it is not addressed to Wendy.
 - Google Calendar and Resend email delivery exist behind
   `OPERATIONS_DELIVERY_ENABLED=false`.
-- SMS is a deliberate provider stub and cannot send.
+- Twilio SMS delivery is implemented behind the default-off maintenance gate.
 
 Hermes should not become the delivery provider or hold Google, email, SMS, or
 app credentials. Its first safe role is a read-only exception supervisor:
@@ -355,9 +368,9 @@ app credentials. Its first safe role is a read-only exception supervisor:
 5. Never mark a cleaning confirmed, complete, or ready and never send a guest
    message without a separately approved workflow.
 
-## Future SMS notes
+## SMS rollout notes
 
-Add Twilio, Telnyx, or another verified API provider behind `NotificationProvider`. Require:
+Before enabling Twilio delivery, require:
 
 - verified sender/recipient consent,
 - separate production credentials in Edge Function secrets,

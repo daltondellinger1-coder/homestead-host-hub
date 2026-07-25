@@ -49,6 +49,7 @@ export interface Vendor {
   email?: string | null;
   vendor_rank: string;
   emergency_availability: boolean;
+  sms_consent_status?: 'unknown' | 'consented' | 'opted_out';
 }
 
 export interface ChecklistRun {
@@ -340,6 +341,7 @@ export function useOperationsData() {
     email: string;
     vendorRank: 'primary' | 'backup';
     emergencyAvailability: boolean;
+    smsConsentConfirmed: boolean;
   }) => mutate(
     () => db.from('vendors').insert({
       name: values.name,
@@ -349,6 +351,9 @@ export function useOperationsData() {
       email: values.email || null,
       vendor_rank: values.vendorRank,
       emergency_availability: values.emergencyAvailability,
+      preferred_contact_method: values.smsConsentConfirmed ? 'text' : 'phone',
+      sms_consent_status: values.smsConsentConfirmed ? 'consented' : 'unknown',
+      sms_consent_at: values.smsConsentConfirmed ? new Date().toISOString() : null,
     }),
     'Vendor added.',
   ), [mutate]);

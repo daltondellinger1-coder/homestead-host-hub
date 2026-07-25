@@ -62,6 +62,11 @@ export function useMaintenanceRequests() {
         toast.error('Failed to log request');
         return false;
       }
+      void supabase.functions.invoke('maintenance-notifications', {
+        body: { event: 'new_request', request_id: id, app_url: window.location.origin },
+      }).then(({ error: notificationError }) => {
+        if (notificationError) console.error('Maintenance notification failed', notificationError);
+      });
       toast.success('Maintenance request logged');
       return true;
     },
