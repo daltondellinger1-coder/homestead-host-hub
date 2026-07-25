@@ -121,7 +121,7 @@ export default function HandymanSmsSignup() {
                     </Label>
                   </div>
                   <p className="mt-3 pl-7 text-xs leading-5 text-muted-foreground">
-                    Read the <Link className="underline underline-offset-2" to="/sms-terms">SMS Terms</Link> and <Link className="underline underline-offset-2" to="/privacy">Privacy Policy</Link>.
+                    Read the <Link className="underline underline-offset-2" to="/sms-terms">SMS Terms</Link> and <Link className="underline underline-offset-2" to="/privacy-policy">Privacy Policy</Link>.
                   </p>
                 </div>
 

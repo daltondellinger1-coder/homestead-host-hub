@@ -47,7 +47,7 @@ mobile number.
 
 Privacy Policy:
 
-`https://homestead-helper.daltondellinger1.chatgpt.site/privacy`
+`https://homestead-helper.daltondellinger1.chatgpt.site/privacy-policy`
 
 SMS Terms:
 

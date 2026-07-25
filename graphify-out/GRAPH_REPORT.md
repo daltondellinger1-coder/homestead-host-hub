@@ -1,7 +1,7 @@
 # Graph Report - Homestead Hill  (2026-07-25)
 
 ## Corpus Check
-- 245 files · ~227,259 words
+- 245 files · ~227,267 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0d4922e8`
+- Built from commit: `62d15bfd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

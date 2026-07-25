@@ -35,12 +35,12 @@ export default function SmsTerms() {
 
           <section className="space-y-3">
             <h2 className="font-heading text-xl font-semibold">Privacy and changes</h2>
-            <p className="text-sm leading-7 text-muted-foreground">Our <Link className="underline underline-offset-2" to="/privacy">Privacy Policy</Link> explains how information is handled. We may update these terms and will post the effective date here. Material program changes may require renewed consent.</p>
+            <p className="text-sm leading-7 text-muted-foreground">Our <Link className="underline underline-offset-2" to="/privacy-policy">Privacy Policy</Link> explains how information is handled. We may update these terms and will post the effective date here. Material program changes may require renewed consent.</p>
           </section>
 
           <footer className="flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-5 text-sm">
             <Link className="underline underline-offset-2" to="/handyman-sms-signup">Handyman signup</Link>
-            <Link className="underline underline-offset-2" to="/privacy">Privacy Policy</Link>
+            <Link className="underline underline-offset-2" to="/privacy-policy">Privacy Policy</Link>
           </footer>
         </CardContent>
       </Card>

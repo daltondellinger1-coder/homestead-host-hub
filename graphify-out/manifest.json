@@ -65,7 +65,7 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1784970907.384632,
+    "mtime": 1784973275.8205643,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
     "semantic_hash": ""
   },
@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/App.tsx": {
-    "mtime": 1784969163.834632,
-    "ast_hash": "e8f5711d8c2ed991862a0bd2cc2f98ab",
+    "mtime": 1784973087.1749456,
+    "ast_hash": "7fb95b67c597a45ef92709b580b7b048",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/main.tsx": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/maintenanceSmsContracts.test.ts": {
-    "mtime": 1784969163.9482622,
-    "ast_hash": "4fd97cb82c7b499d34a71846853f6d45",
+    "mtime": 1784973087.2340522,
+    "ast_hash": "bc58e98e48f02f645cd25a11aa3bb256",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/maintenanceWebhook.test.ts": {
@@ -825,8 +825,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/HandymanSmsSignup.tsx": {
-    "mtime": 1784969163.848652,
-    "ast_hash": "17beab7e81c62d78c3908cbbf4906d81",
+    "mtime": 1784973087.1910038,
+    "ast_hash": "827870117010565c3b31345b6e5e0e66",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Index.tsx": {
@@ -880,8 +880,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/SmsTerms.tsx": {
-    "mtime": 1784969163.8766007,
-    "ast_hash": "8263a755fa506367f383c108151c9ec9",
+    "mtime": 1784973087.206059,
+    "ast_hash": "e5946e38eaaf766c279bfb3a3cdaed92",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/test/example.test.ts": {
@@ -1210,8 +1210,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/TWILIO_A2P_SUBMISSION.md": {
-    "mtime": 1784969989.7335973,
-    "ast_hash": "fac8ecd438da5fa9d7539c616a3a0fb0",
+    "mtime": 1784973087.2172801,
+    "ast_hash": "36692a72024abcb07dd6138d6e742224",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/ops/full-system-test-goal-command.md": {

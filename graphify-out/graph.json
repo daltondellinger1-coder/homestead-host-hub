@@ -1888,7 +1888,7 @@
       "label": "App()",
       "file_type": "code",
       "source_file": "src/App.tsx",
-      "source_location": "L170",
+      "source_location": "L171",
       "id": "src_app_app",
       "community": 33,
       "norm_label": "app()"
@@ -83318,5 +83318,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0d4922e8abffd555bcfef307b3fbfc351af7fdf2"
+  "built_at_commit": "62d15bfdb32a436fd92f3ba4d8126e5def40e395"
 }

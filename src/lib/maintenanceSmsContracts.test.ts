@@ -102,7 +102,7 @@ describe('maintenance handyman SMS dispatch contracts', () => {
 
   it('records explicit public opt-in evidence and publishes carrier disclosures', () => {
     expect(appSource).toContain('path="/handyman-sms-signup"');
-    expect(appSource).toContain('path="/privacy"');
+    expect(appSource).toContain('path="/privacy-policy"');
     expect(appSource).toContain('path="/sms-terms"');
     expect(signupPage).toContain('Message frequency varies');
     expect(signupPage).toContain('Message and data rates may apply');

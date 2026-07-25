@@ -107,11 +107,12 @@ function AppRouter() {
     );
   }
 
-  if (['/handyman-sms-signup', '/privacy', '/sms-terms'].includes(location.pathname)) {
+  if (['/handyman-sms-signup', '/privacy', '/privacy-policy', '/sms-terms'].includes(location.pathname)) {
     return (
       <Routes>
         <Route path="/handyman-sms-signup" element={<HandymanSmsSignup />} />
-        <Route path="/privacy" element={<SmsPrivacy />} />
+        <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+        <Route path="/privacy-policy" element={<SmsPrivacy />} />
         <Route path="/sms-terms" element={<SmsTerms />} />
       </Routes>
     );
