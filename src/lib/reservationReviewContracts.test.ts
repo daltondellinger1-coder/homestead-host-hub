@@ -42,4 +42,13 @@ describe('reservation review safety contract', () => {
     expect(reviewQueue).toContain('Approve schedule');
     expect(reviewQueue).toContain('Save review details');
   });
+
+  it('shows source evidence age without pretending it proves collector health', () => {
+    expect(reviewQueue).toContain('Latest evidence by source');
+    expect(reviewQueue).toContain('Evidence age shows the newest staged record');
+    expect(reviewQueue).toContain('not whether the source login is healthy');
+    expect(reviewQueue).toContain("'airbnb'");
+    expect(reviewQueue).toContain("'furnished_finder'");
+    expect(reviewQueue).toContain("'grasshopper'");
+  });
 });

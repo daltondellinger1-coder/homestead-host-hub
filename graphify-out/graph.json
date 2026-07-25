@@ -1917,7 +1917,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_addunitdialog_tsx",
-      "community": 110,
+      "community": 247,
       "norm_label": "addunitdialog.tsx"
     },
     {
@@ -1926,7 +1926,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L9",
       "id": "components_addunitdialog_addunitdialogprops",
-      "community": 110,
+      "community": 247,
       "norm_label": "addunitdialogprops"
     },
     {
@@ -1935,7 +1935,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AddUnitDialog.tsx",
       "source_location": "L15",
       "id": "components_addunitdialog_addunitdialog",
-      "community": 110,
+      "community": 247,
       "norm_label": "addunitdialog()"
     },
     {
@@ -1944,7 +1944,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_availabilitysearch_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "availabilitysearch.tsx"
     },
     {
@@ -1953,7 +1953,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L10",
       "id": "components_availabilitysearch_availabilitysearchprops",
-      "community": 110,
+      "community": 112,
       "norm_label": "availabilitysearchprops"
     },
     {
@@ -1962,7 +1962,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L16",
       "id": "components_availabilitysearch_type_icons",
-      "community": 110,
+      "community": 112,
       "norm_label": "type_icons"
     },
     {
@@ -1971,7 +1971,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L22",
       "id": "components_availabilitysearch_bookinginfo",
-      "community": 110,
+      "community": 112,
       "norm_label": "bookinginfo"
     },
     {
@@ -1980,7 +1980,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L30",
       "id": "components_availabilitysearch_availableunit",
-      "community": 110,
+      "community": 112,
       "norm_label": "availableunit"
     },
     {
@@ -1989,7 +1989,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/AvailabilitySearch.tsx",
       "source_location": "L39",
       "id": "components_availabilitysearch_availabilitysearch",
-      "community": 110,
+      "community": 112,
       "norm_label": "availabilitysearch()"
     },
     {
@@ -1998,7 +1998,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_bookingtimeline_tsx",
-      "community": 110,
+      "community": 252,
       "norm_label": "bookingtimeline.tsx"
     },
     {
@@ -2007,7 +2007,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L12",
       "id": "components_bookingtimeline_paymentevent",
-      "community": 110,
+      "community": 252,
       "norm_label": "paymentevent"
     },
     {
@@ -2016,7 +2016,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L23",
       "id": "components_bookingtimeline_bookingtimelineprops",
-      "community": 110,
+      "community": 252,
       "norm_label": "bookingtimelineprops"
     },
     {
@@ -2025,7 +2025,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L38",
       "id": "components_bookingtimeline_bookingbar",
-      "community": 110,
+      "community": 252,
       "norm_label": "bookingbar"
     },
     {
@@ -2034,7 +2034,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L55",
       "id": "components_bookingtimeline_formatcurrency",
-      "community": 110,
+      "community": 252,
       "norm_label": "formatcurrency()"
     },
     {
@@ -2043,7 +2043,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L58",
       "id": "components_bookingtimeline_formatdate",
-      "community": 110,
+      "community": 252,
       "norm_label": "formatdate()"
     },
     {
@@ -2052,7 +2052,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/BookingTimeline.tsx",
       "source_location": "L61",
       "id": "components_bookingtimeline_bookingtimeline",
-      "community": 110,
+      "community": 252,
       "norm_label": "bookingtimeline()"
     },
     {
@@ -2178,7 +2178,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_editunitdialog_tsx",
-      "community": 110,
+      "community": 247,
       "norm_label": "editunitdialog.tsx"
     },
     {
@@ -2187,7 +2187,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L9",
       "id": "components_editunitdialog_editunitdialogprops",
-      "community": 110,
+      "community": 247,
       "norm_label": "editunitdialogprops"
     },
     {
@@ -2196,7 +2196,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L18",
       "id": "components_editunitdialog_editable_statuses",
-      "community": 110,
+      "community": 247,
       "norm_label": "editable_statuses"
     },
     {
@@ -2205,7 +2205,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/EditUnitDialog.tsx",
       "source_location": "L20",
       "id": "components_editunitdialog_editunitdialog",
-      "community": 110,
+      "community": 247,
       "norm_label": "editunitdialog()"
     },
     {
@@ -2358,7 +2358,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_futureguestdialog_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "futureguestdialog.tsx"
     },
     {
@@ -2367,7 +2367,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L12",
       "id": "components_futureguestdialog_futureguestdialogprops",
-      "community": 110,
+      "community": 112,
       "norm_label": "futureguestdialogprops"
     },
     {
@@ -2376,7 +2376,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L31",
       "id": "components_futureguestdialog_rangesoverlap",
-      "community": 110,
+      "community": 112,
       "norm_label": "rangesoverlap()"
     },
     {
@@ -2385,7 +2385,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/FutureGuestDialog.tsx",
       "source_location": "L37",
       "id": "components_futureguestdialog_futureguestdialog",
-      "community": 110,
+      "community": 112,
       "norm_label": "futureguestdialog()"
     },
     {
@@ -2394,7 +2394,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_guestdialog_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "guestdialog.tsx"
     },
     {
@@ -2403,7 +2403,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L12",
       "id": "components_guestdialog_guestdialogprops",
-      "community": 110,
+      "community": 112,
       "norm_label": "guestdialogprops"
     },
     {
@@ -2412,7 +2412,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/GuestDialog.tsx",
       "source_location": "L20",
       "id": "components_guestdialog_guestdialog",
-      "community": 110,
+      "community": 112,
       "norm_label": "guestdialog()"
     },
     {
@@ -2421,7 +2421,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L1",
       "id": "src_components_handymanbroadcastpanel_tsx",
-      "community": 110,
+      "community": 250,
       "norm_label": "handymanbroadcastpanel.tsx"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L15",
       "id": "components_handymanbroadcastpanel_handyman",
-      "community": 110,
+      "community": 250,
       "norm_label": "handyman"
     },
     {
@@ -2439,7 +2439,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L25",
       "id": "components_handymanbroadcastpanel_broadcastsummary",
-      "community": 110,
+      "community": 250,
       "norm_label": "broadcastsummary"
     },
     {
@@ -2448,7 +2448,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L35",
       "id": "components_handymanbroadcastpanel_displayvendorname",
-      "community": 110,
+      "community": 250,
       "norm_label": "displayvendorname()"
     },
     {
@@ -2457,7 +2457,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L39",
       "id": "components_handymanbroadcastpanel_extractfunctionerror",
-      "community": 110,
+      "community": 250,
       "norm_label": "extractfunctionerror()"
     },
     {
@@ -2466,7 +2466,7 @@
       "source_file": "src/components/HandymanBroadcastPanel.tsx",
       "source_location": "L46",
       "id": "components_handymanbroadcastpanel_handymanbroadcastpanel",
-      "community": 110,
+      "community": 250,
       "norm_label": "handymanbroadcastpanel()"
     },
     {
@@ -2475,7 +2475,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_homesteadhillplcontent_tsx",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplcontent.tsx"
     },
     {
@@ -2484,7 +2484,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L13",
       "id": "components_homesteadhillplcontent_dashboarddata",
-      "community": 63,
+      "community": 255,
       "norm_label": "dashboarddata"
     },
     {
@@ -2493,7 +2493,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L14",
       "id": "components_homesteadhillplcontent_txn",
-      "community": 63,
+      "community": 255,
       "norm_label": "txn"
     },
     {
@@ -2502,7 +2502,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L16",
       "id": "components_homesteadhillplcontent_money",
-      "community": 63,
+      "community": 255,
       "norm_label": "money()"
     },
     {
@@ -2511,7 +2511,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L19",
       "id": "components_homesteadhillplcontent_amountclass",
-      "community": 63,
+      "community": 255,
       "norm_label": "amountclass()"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L20",
       "id": "components_homesteadhillplcontent_unitsort",
-      "community": 63,
+      "community": 255,
       "norm_label": "unitsort()"
     },
     {
@@ -2529,7 +2529,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L26",
       "id": "components_homesteadhillplcontent_transactioncard",
-      "community": 63,
+      "community": 255,
       "norm_label": "transactioncard()"
     },
     {
@@ -2538,7 +2538,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/HomesteadHillPLContent.tsx",
       "source_location": "L47",
       "id": "components_homesteadhillplcontent_homesteadhillplcontent",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplcontent()"
     },
     {
@@ -2547,7 +2547,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_inlinepaymentscheduler_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "inlinepaymentscheduler.tsx"
     },
     {
@@ -2556,7 +2556,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L8",
       "id": "components_inlinepaymentscheduler_scheduledpayment",
-      "community": 110,
+      "community": 112,
       "norm_label": "scheduledpayment"
     },
     {
@@ -2565,7 +2565,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L14",
       "id": "components_inlinepaymentscheduler_inlinepaymentschedulerprops",
-      "community": 110,
+      "community": 112,
       "norm_label": "inlinepaymentschedulerprops"
     },
     {
@@ -2574,7 +2574,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L23",
       "id": "components_inlinepaymentscheduler_scheduledtopayments",
-      "community": 110,
+      "community": 112,
       "norm_label": "scheduledtopayments()"
     },
     {
@@ -2583,7 +2583,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/InlinePaymentScheduler.tsx",
       "source_location": "L35",
       "id": "components_inlinepaymentscheduler_inlinepaymentscheduler",
-      "community": 110,
+      "community": 112,
       "norm_label": "inlinepaymentscheduler()"
     },
     {
@@ -2646,7 +2646,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_logmaintenancedialog_tsx",
-      "community": 110,
+      "community": 247,
       "norm_label": "logmaintenancedialog.tsx"
     },
     {
@@ -2655,7 +2655,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L11",
       "id": "components_logmaintenancedialog_logmaintenancedialogprops",
-      "community": 110,
+      "community": 247,
       "norm_label": "logmaintenancedialogprops"
     },
     {
@@ -2664,7 +2664,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/LogMaintenanceDialog.tsx",
       "source_location": "L18",
       "id": "components_logmaintenancedialog_logmaintenancedialog",
-      "community": 110,
+      "community": 247,
       "norm_label": "logmaintenancedialog()"
     },
     {
@@ -2673,7 +2673,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_maintenancerequestcard_tsx",
-      "community": 112,
+      "community": 149,
       "norm_label": "maintenancerequestcard.tsx"
     },
     {
@@ -2682,7 +2682,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L5",
       "id": "components_maintenancerequestcard_photocount",
-      "community": 112,
+      "community": 149,
       "norm_label": "photocount()"
     },
     {
@@ -2691,7 +2691,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L11",
       "id": "components_maintenancerequestcard_maintenancerequestcardprops",
-      "community": 112,
+      "community": 149,
       "norm_label": "maintenancerequestcardprops"
     },
     {
@@ -2700,7 +2700,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L17",
       "id": "components_maintenancerequestcard_formatrelative",
-      "community": 112,
+      "community": 149,
       "norm_label": "formatrelative()"
     },
     {
@@ -2709,7 +2709,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestCard.tsx",
       "source_location": "L30",
       "id": "components_maintenancerequestcard_maintenancerequestcard",
-      "community": 112,
+      "community": 149,
       "norm_label": "maintenancerequestcard()"
     },
     {
@@ -2718,7 +2718,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L1",
       "id": "src_components_maintenancerequestdialog_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "maintenancerequestdialog.tsx"
     },
     {
@@ -2727,7 +2727,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L13",
       "id": "components_maintenancerequestdialog_maintenancerequestdialogprops",
-      "community": 110,
+      "community": 149,
       "norm_label": "maintenancerequestdialogprops"
     },
     {
@@ -2736,7 +2736,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L21",
       "id": "components_maintenancerequestdialog_status_options",
-      "community": 110,
+      "community": 149,
       "norm_label": "status_options"
     },
     {
@@ -2745,7 +2745,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L27",
       "id": "components_maintenancerequestdialog_formatdatetime",
-      "community": 110,
+      "community": 149,
       "norm_label": "formatdatetime()"
     },
     {
@@ -2754,7 +2754,7 @@
       "source_file": "src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L32",
       "id": "components_maintenancerequestdialog_maintenancerequestdialog",
-      "community": 110,
+      "community": 149,
       "norm_label": "maintenancerequestdialog()"
     },
     {
@@ -2862,7 +2862,7 @@
       "source_file": "src/components/MobileBottomNav.tsx",
       "source_location": "L1",
       "id": "src_components_mobilebottomnav_tsx",
-      "community": 149,
+      "community": 33,
       "norm_label": "mobilebottomnav.tsx"
     },
     {
@@ -2871,7 +2871,7 @@
       "source_file": "src/components/MobileBottomNav.tsx",
       "source_location": "L7",
       "id": "components_mobilebottomnav_navviewmode",
-      "community": 149,
+      "community": 33,
       "norm_label": "navviewmode"
     },
     {
@@ -2880,7 +2880,7 @@
       "source_file": "src/components/MobileBottomNav.tsx",
       "source_location": "L9",
       "id": "components_mobilebottomnav_mobilebottomnavprops",
-      "community": 149,
+      "community": 33,
       "norm_label": "mobilebottomnavprops"
     },
     {
@@ -2889,7 +2889,7 @@
       "source_file": "src/components/MobileBottomNav.tsx",
       "source_location": "L14",
       "id": "components_mobilebottomnav_mobilebottomnav",
-      "community": 149,
+      "community": 33,
       "norm_label": "mobilebottomnav()"
     },
     {
@@ -2997,7 +2997,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_paymentcalendar_tsx",
-      "community": 110,
+      "community": 257,
       "norm_label": "paymentcalendar.tsx"
     },
     {
@@ -3006,7 +3006,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L13",
       "id": "components_paymentcalendar_paymentevent",
-      "community": 110,
+      "community": 257,
       "norm_label": "paymentevent"
     },
     {
@@ -3015,7 +3015,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L25",
       "id": "components_paymentcalendar_bookingevent",
-      "community": 110,
+      "community": 257,
       "norm_label": "bookingevent"
     },
     {
@@ -3024,7 +3024,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L34",
       "id": "components_paymentcalendar_occupiedunit",
-      "community": 110,
+      "community": 257,
       "norm_label": "occupiedunit"
     },
     {
@@ -3033,7 +3033,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L41",
       "id": "components_paymentcalendar_paymentcalendarprops",
-      "community": 110,
+      "community": 257,
       "norm_label": "paymentcalendarprops"
     },
     {
@@ -3042,7 +3042,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L53",
       "id": "components_paymentcalendar_calendarevent",
-      "community": 110,
+      "community": 257,
       "norm_label": "calendarevent"
     },
     {
@@ -3051,7 +3051,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L57",
       "id": "components_paymentcalendar_days_short",
-      "community": 110,
+      "community": 257,
       "norm_label": "days_short"
     },
     {
@@ -3060,7 +3060,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L58",
       "id": "components_paymentcalendar_days_med",
-      "community": 110,
+      "community": 257,
       "norm_label": "days_med"
     },
     {
@@ -3069,7 +3069,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L60",
       "id": "components_paymentcalendar_formatcurrency",
-      "community": 110,
+      "community": 257,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3078,7 +3078,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/PaymentCalendar.tsx",
       "source_location": "L63",
       "id": "components_paymentcalendar_paymentcalendar",
-      "community": 110,
+      "community": 257,
       "norm_label": "paymentcalendar()"
     },
     {
@@ -3087,7 +3087,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L1",
       "id": "src_components_paymenthistorycontent_tsx",
-      "community": 241,
+      "community": 251,
       "norm_label": "paymenthistorycontent.tsx"
     },
     {
@@ -3096,7 +3096,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L16",
       "id": "components_paymenthistorycontent_sortfield",
-      "community": 241,
+      "community": 251,
       "norm_label": "sortfield"
     },
     {
@@ -3105,7 +3105,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L17",
       "id": "components_paymenthistorycontent_sortdir",
-      "community": 241,
+      "community": 251,
       "norm_label": "sortdir"
     },
     {
@@ -3114,7 +3114,7 @@
       "source_file": "src/components/PaymentHistoryContent.tsx",
       "source_location": "L19",
       "id": "components_paymenthistorycontent_paymenthistorycontent",
-      "community": 241,
+      "community": 251,
       "norm_label": "paymenthistorycontent()"
     },
     {
@@ -3150,7 +3150,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L1",
       "id": "src_components_recordpaymentdialog_tsx",
-      "community": 110,
+      "community": 248,
       "norm_label": "recordpaymentdialog.tsx"
     },
     {
@@ -3159,7 +3159,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L12",
       "id": "components_recordpaymentdialog_recordpaymentdialogprops",
-      "community": 110,
+      "community": 248,
       "norm_label": "recordpaymentdialogprops"
     },
     {
@@ -3168,7 +3168,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L20",
       "id": "components_recordpaymentdialog_alloc",
-      "community": 110,
+      "community": 248,
       "norm_label": "alloc"
     },
     {
@@ -3177,7 +3177,7 @@
       "source_file": "src/components/RecordPaymentDialog.tsx",
       "source_location": "L22",
       "id": "components_recordpaymentdialog_recordpaymentdialog",
-      "community": 110,
+      "community": 248,
       "norm_label": "recordpaymentdialog()"
     },
     {
@@ -3240,7 +3240,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/RequestsInbox.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_requestsinbox_tsx",
-      "community": 63,
+      "community": 254,
       "norm_label": "requestsinbox.tsx"
     },
     {
@@ -3249,7 +3249,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/RequestsInbox.tsx",
       "source_location": "L10",
       "id": "components_requestsinbox_requestsinboxprops",
-      "community": 63,
+      "community": 254,
       "norm_label": "requestsinboxprops"
     },
     {
@@ -3258,7 +3258,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/RequestsInbox.tsx",
       "source_location": "L18",
       "id": "components_requestsinbox_requestsinbox",
-      "community": 63,
+      "community": 254,
       "norm_label": "requestsinbox()"
     },
     {
@@ -3267,43 +3267,61 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L1",
       "id": "src_components_reservationreviewqueue_tsx",
-      "community": 110,
+      "community": 63,
       "norm_label": "reservationreviewqueue.tsx"
     },
     {
       "label": "SOURCE_NAMES",
       "file_type": "code",
       "source_file": "src/components/ReservationReviewQueue.tsx",
-      "source_location": "L17",
+      "source_location": "L25",
       "id": "components_reservationreviewqueue_source_names",
-      "community": 110,
+      "community": 63,
       "norm_label": "source_names"
+    },
+    {
+      "label": "TRACKED_SOURCES",
+      "file_type": "code",
+      "source_file": "src/components/ReservationReviewQueue.tsx",
+      "source_location": "L34",
+      "id": "components_reservationreviewqueue_tracked_sources",
+      "community": 63,
+      "norm_label": "tracked_sources"
+    },
+    {
+      "label": "SourceEvidence()",
+      "file_type": "code",
+      "source_file": "src/components/ReservationReviewQueue.tsx",
+      "source_location": "L40",
+      "id": "components_reservationreviewqueue_sourceevidence",
+      "community": 63,
+      "norm_label": "sourceevidence()"
     },
     {
       "label": "canonicalConflict()",
       "file_type": "code",
       "source_file": "src/components/ReservationReviewQueue.tsx",
-      "source_location": "L26",
+      "source_location": "L80",
       "id": "components_reservationreviewqueue_canonicalconflict",
-      "community": 110,
+      "community": 63,
       "norm_label": "canonicalconflict()"
     },
     {
       "label": "ObservationCard()",
       "file_type": "code",
       "source_file": "src/components/ReservationReviewQueue.tsx",
-      "source_location": "L38",
+      "source_location": "L92",
       "id": "components_reservationreviewqueue_observationcard",
-      "community": 110,
+      "community": 63,
       "norm_label": "observationcard()"
     },
     {
       "label": "ReservationReviewQueue()",
       "file_type": "code",
       "source_file": "src/components/ReservationReviewQueue.tsx",
-      "source_location": "L202",
+      "source_location": "L256",
       "id": "components_reservationreviewqueue_reservationreviewqueue",
-      "community": 110,
+      "community": 63,
       "norm_label": "reservationreviewqueue()"
     },
     {
@@ -3312,7 +3330,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_schedulepaymentsdialog_tsx",
-      "community": 110,
+      "community": 248,
       "norm_label": "schedulepaymentsdialog.tsx"
     },
     {
@@ -3321,7 +3339,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L10",
       "id": "components_schedulepaymentsdialog_schedulepaymentsdialogprops",
-      "community": 110,
+      "community": 248,
       "norm_label": "schedulepaymentsdialogprops"
     },
     {
@@ -3330,7 +3348,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L23",
       "id": "components_schedulepaymentsdialog_formatcurrency",
-      "community": 110,
+      "community": 248,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3339,7 +3357,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L26",
       "id": "components_schedulepaymentsdialog_formatdate",
-      "community": 110,
+      "community": 248,
       "norm_label": "formatdate()"
     },
     {
@@ -3348,7 +3366,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L31",
       "id": "components_schedulepaymentsdialog_statusconfig",
-      "community": 110,
+      "community": 248,
       "norm_label": "statusconfig"
     },
     {
@@ -3357,7 +3375,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L38",
       "id": "components_schedulepaymentsdialog_schedulepaymentsdialog",
-      "community": 110,
+      "community": 248,
       "norm_label": "schedulepaymentsdialog()"
     },
     {
@@ -3366,7 +3384,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_sortableunitcard_tsx",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitcard.tsx"
     },
     {
@@ -3375,7 +3393,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L8",
       "id": "components_sortableunitcard_sortableunitcardprops",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitcardprops"
     },
     {
@@ -3384,7 +3402,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitCard.tsx",
       "source_location": "L29",
       "id": "components_sortableunitcard_sortableunitcard",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitcard()"
     },
     {
@@ -3393,7 +3411,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitGrid.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_sortableunitgrid_tsx",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitgrid.tsx"
     },
     {
@@ -3402,7 +3420,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitGrid.tsx",
       "source_location": "L24",
       "id": "components_sortableunitgrid_sortableunitgridprops",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitgridprops"
     },
     {
@@ -3411,7 +3429,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/SortableUnitGrid.tsx",
       "source_location": "L41",
       "id": "components_sortableunitgrid_sortableunitgrid",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitgrid()"
     },
     {
@@ -3420,7 +3438,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_statsoverview_tsx",
-      "community": 110,
+      "community": 253,
       "norm_label": "statsoverview.tsx"
     },
     {
@@ -3429,7 +3447,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L6",
       "id": "components_statsoverview_statsoverviewprops",
-      "community": 110,
+      "community": 253,
       "norm_label": "statsoverviewprops"
     },
     {
@@ -3438,7 +3456,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L15",
       "id": "components_statsoverview_formatcurrency",
-      "community": 110,
+      "community": 253,
       "norm_label": "formatcurrency()"
     },
     {
@@ -3447,7 +3465,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L18",
       "id": "components_statsoverview_type_icons",
-      "community": 110,
+      "community": 253,
       "norm_label": "type_icons"
     },
     {
@@ -3456,7 +3474,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L24",
       "id": "components_statsoverview_availabilityinfo",
-      "community": 110,
+      "community": 253,
       "norm_label": "availabilityinfo"
     },
     {
@@ -3465,7 +3483,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L32",
       "id": "components_statsoverview_getavailability",
-      "community": 110,
+      "community": 253,
       "norm_label": "getavailability()"
     },
     {
@@ -3474,7 +3492,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/StatsOverview.tsx",
       "source_location": "L70",
       "id": "components_statsoverview_statsoverview",
-      "community": 110,
+      "community": 253,
       "norm_label": "statsoverview()"
     },
     {
@@ -3762,7 +3780,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_alert_tsx",
-      "community": 63,
+      "community": 250,
       "norm_label": "alert.tsx"
     },
     {
@@ -3771,7 +3789,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx",
       "source_location": "L6",
       "id": "ui_alert_alertvariants",
-      "community": 63,
+      "community": 250,
       "norm_label": "alertvariants"
     },
     {
@@ -3780,7 +3798,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx",
       "source_location": "L21",
       "id": "ui_alert_alert",
-      "community": 63,
+      "community": 250,
       "norm_label": "alert"
     },
     {
@@ -3789,7 +3807,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx",
       "source_location": "L29",
       "id": "ui_alert_alerttitle",
-      "community": 63,
+      "community": 250,
       "norm_label": "alerttitle"
     },
     {
@@ -3798,7 +3816,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/alert.tsx",
       "source_location": "L36",
       "id": "ui_alert_alertdescription",
-      "community": 63,
+      "community": 250,
       "norm_label": "alertdescription"
     },
     {
@@ -3852,7 +3870,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/badge.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_badge_tsx",
-      "community": 241,
+      "community": 250,
       "norm_label": "badge.tsx"
     },
     {
@@ -3861,7 +3879,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/badge.tsx",
       "source_location": "L6",
       "id": "ui_badge_badgevariants",
-      "community": 241,
+      "community": 250,
       "norm_label": "badgevariants"
     },
     {
@@ -3870,7 +3888,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/badge.tsx",
       "source_location": "L23",
       "id": "ui_badge_badgeprops",
-      "community": 241,
+      "community": 250,
       "norm_label": "badgeprops"
     },
     {
@@ -3879,7 +3897,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/badge.tsx",
       "source_location": "L25",
       "id": "ui_badge_badge",
-      "community": 241,
+      "community": 250,
       "norm_label": "badge()"
     },
     {
@@ -3960,7 +3978,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_button_tsx",
-      "community": 110,
+      "community": 149,
       "norm_label": "button.tsx"
     },
     {
@@ -3969,7 +3987,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx",
       "source_location": "L7",
       "id": "ui_button_buttonvariants",
-      "community": 52,
+      "community": 5,
       "norm_label": "buttonvariants"
     },
     {
@@ -3987,7 +4005,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/button.tsx",
       "source_location": "L39",
       "id": "ui_button_button",
-      "community": 110,
+      "community": 149,
       "norm_label": "button"
     },
     {
@@ -3996,7 +4014,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_calendar_tsx",
-      "community": 52,
+      "community": 5,
       "norm_label": "calendar.tsx"
     },
     {
@@ -4005,7 +4023,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L8",
       "id": "ui_calendar_calendarprops",
-      "community": 52,
+      "community": 5,
       "norm_label": "calendarprops"
     },
     {
@@ -4014,7 +4032,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/calendar.tsx",
       "source_location": "L10",
       "id": "ui_calendar_calendar",
-      "community": 52,
+      "community": 5,
       "norm_label": "calendar()"
     },
     {
@@ -4527,7 +4545,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_dialog_tsx",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialog.tsx"
     },
     {
@@ -4536,7 +4554,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L15",
       "id": "ui_dialog_dialogoverlay",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogoverlay"
     },
     {
@@ -4545,7 +4563,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L30",
       "id": "ui_dialog_dialogcontent",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogcontent"
     },
     {
@@ -4554,7 +4572,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L54",
       "id": "ui_dialog_dialogheader",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogheader()"
     },
     {
@@ -4563,7 +4581,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L59",
       "id": "ui_dialog_dialogfooter",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogfooter()"
     },
     {
@@ -4572,7 +4590,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L64",
       "id": "ui_dialog_dialogtitle",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogtitle"
     },
     {
@@ -4581,7 +4599,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/dialog.tsx",
       "source_location": "L76",
       "id": "ui_dialog_dialogdescription",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialogdescription"
     },
     {
@@ -4923,7 +4941,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/input.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_input_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "input.tsx"
     },
     {
@@ -4932,7 +4950,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/input.tsx",
       "source_location": "L5",
       "id": "ui_input_input",
-      "community": 110,
+      "community": 112,
       "norm_label": "input"
     },
     {
@@ -4941,7 +4959,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/label.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_label_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "label.tsx"
     },
     {
@@ -4950,7 +4968,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/label.tsx",
       "source_location": "L7",
       "id": "ui_label_labelvariants",
-      "community": 110,
+      "community": 112,
       "norm_label": "labelvariants"
     },
     {
@@ -4959,7 +4977,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/label.tsx",
       "source_location": "L9",
       "id": "ui_label_label",
-      "community": 110,
+      "community": 112,
       "norm_label": "label"
     },
     {
@@ -5319,7 +5337,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/scroll-area.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_scroll_area_tsx",
-      "community": 110,
+      "community": 52,
       "norm_label": "scroll-area.tsx"
     },
     {
@@ -5328,7 +5346,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/scroll-area.tsx",
       "source_location": "L6",
       "id": "ui_scroll_area_scrollarea",
-      "community": 110,
+      "community": 52,
       "norm_label": "scrollarea"
     },
     {
@@ -5337,7 +5355,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/scroll-area.tsx",
       "source_location": "L18",
       "id": "ui_scroll_area_scrollbar",
-      "community": 110,
+      "community": 52,
       "norm_label": "scrollbar"
     },
     {
@@ -5346,7 +5364,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_select_tsx",
-      "community": 110,
+      "community": 247,
       "norm_label": "select.tsx"
     },
     {
@@ -5355,7 +5373,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L13",
       "id": "ui_select_selecttrigger",
-      "community": 110,
+      "community": 247,
       "norm_label": "selecttrigger"
     },
     {
@@ -5364,7 +5382,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L33",
       "id": "ui_select_selectscrollupbutton",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectscrollupbutton"
     },
     {
@@ -5373,7 +5391,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L47",
       "id": "ui_select_selectscrolldownbutton",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectscrolldownbutton"
     },
     {
@@ -5382,7 +5400,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L61",
       "id": "ui_select_selectcontent",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectcontent"
     },
     {
@@ -5391,7 +5409,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L93",
       "id": "ui_select_selectlabel",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectlabel"
     },
     {
@@ -5400,7 +5418,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L101",
       "id": "ui_select_selectitem",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectitem"
     },
     {
@@ -5409,7 +5427,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/select.tsx",
       "source_location": "L124",
       "id": "ui_select_selectseparator",
-      "community": 110,
+      "community": 247,
       "norm_label": "selectseparator"
     },
     {
@@ -5778,7 +5796,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/slider.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_slider_tsx",
-      "community": 5,
+      "community": 10,
       "norm_label": "slider.tsx"
     },
     {
@@ -5787,7 +5805,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/slider.tsx",
       "source_location": "L6",
       "id": "ui_slider_slider",
-      "community": 5,
+      "community": 10,
       "norm_label": "slider"
     },
     {
@@ -5823,7 +5841,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/switch.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_switch_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "switch.tsx"
     },
     {
@@ -5832,7 +5850,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/switch.tsx",
       "source_location": "L6",
       "id": "ui_switch_switch",
-      "community": 110,
+      "community": 112,
       "norm_label": "switch"
     },
     {
@@ -5922,7 +5940,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_tabs_tsx",
-      "community": 63,
+      "community": 254,
       "norm_label": "tabs.tsx"
     },
     {
@@ -5931,7 +5949,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L8",
       "id": "ui_tabs_tabslist",
-      "community": 63,
+      "community": 254,
       "norm_label": "tabslist"
     },
     {
@@ -5940,7 +5958,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L23",
       "id": "ui_tabs_tabstrigger",
-      "community": 63,
+      "community": 254,
       "norm_label": "tabstrigger"
     },
     {
@@ -5949,7 +5967,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/tabs.tsx",
       "source_location": "L38",
       "id": "ui_tabs_tabscontent",
-      "community": 63,
+      "community": 254,
       "norm_label": "tabscontent"
     },
     {
@@ -5958,7 +5976,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_components_ui_textarea_tsx",
-      "community": 110,
+      "community": 112,
       "norm_label": "textarea.tsx"
     },
     {
@@ -5967,7 +5985,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L5",
       "id": "ui_textarea_textareaprops",
-      "community": 110,
+      "community": 112,
       "norm_label": "textareaprops"
     },
     {
@@ -5976,7 +5994,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/ui/textarea.tsx",
       "source_location": "L7",
       "id": "ui_textarea_textarea",
-      "community": 110,
+      "community": 112,
       "norm_label": "textarea"
     },
     {
@@ -6507,7 +6525,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_data_homesteadhillplsnapshot_ts",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplsnapshot.ts"
     },
     {
@@ -6516,7 +6534,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
       "id": "data_homesteadhillplsnapshot_homesteadhillplsnapshot",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplsnapshot"
     },
     {
@@ -6678,7 +6696,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_hooks_useairbnbblocks_ts",
-      "community": 110,
+      "community": 252,
       "norm_label": "useairbnbblocks.ts"
     },
     {
@@ -6687,7 +6705,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts",
       "source_location": "L12",
       "id": "hooks_useairbnbblocks_airbnbblock",
-      "community": 110,
+      "community": 252,
       "norm_label": "airbnbblock"
     },
     {
@@ -6696,7 +6714,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts",
       "source_location": "L20",
       "id": "hooks_useairbnbblocks_slugifyunitname",
-      "community": 110,
+      "community": 252,
       "norm_label": "slugifyunitname()"
     },
     {
@@ -6705,7 +6723,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts",
       "source_location": "L28",
       "id": "hooks_useairbnbblocks_blockedrangerow",
-      "community": 110,
+      "community": 252,
       "norm_label": "blockedrangerow"
     },
     {
@@ -6714,7 +6732,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAirbnbBlocks.ts",
       "source_location": "L41",
       "id": "hooks_useairbnbblocks_useairbnbblocks",
-      "community": 110,
+      "community": 252,
       "norm_label": "useairbnbblocks()"
     },
     {
@@ -6822,7 +6840,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAuth.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_hooks_useauth_ts",
-      "community": 63,
+      "community": 256,
       "norm_label": "useauth.ts"
     },
     {
@@ -6831,7 +6849,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useAuth.ts",
       "source_location": "L5",
       "id": "hooks_useauth_useauth",
-      "community": 149,
+      "community": 33,
       "norm_label": "useauth()"
     },
     {
@@ -6858,7 +6876,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useBookingRequests.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_hooks_usebookingrequests_ts",
-      "community": 63,
+      "community": 254,
       "norm_label": "usebookingrequests.ts"
     },
     {
@@ -6876,7 +6894,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useBookingRequests.ts",
       "source_location": "L7",
       "id": "hooks_usebookingrequests_bookingrequeststatus",
-      "community": 63,
+      "community": 254,
       "norm_label": "bookingrequeststatus"
     },
     {
@@ -6885,7 +6903,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/hooks/useBookingRequests.ts",
       "source_location": "L9",
       "id": "hooks_usebookingrequests_usebookingrequests",
-      "community": 63,
+      "community": 254,
       "norm_label": "usebookingrequests()"
     },
     {
@@ -6930,7 +6948,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L1",
       "id": "src_hooks_useoperationsdata_ts",
-      "community": 93,
+      "community": 53,
       "norm_label": "useoperationsdata.ts"
     },
     {
@@ -6939,7 +6957,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L13",
       "id": "hooks_useoperationsdata_operationalunit",
-      "community": 93,
+      "community": 63,
       "norm_label": "operationalunit"
     },
     {
@@ -6948,7 +6966,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L23",
       "id": "hooks_useoperationsdata_approvalrequest",
-      "community": 93,
+      "community": 53,
       "norm_label": "approvalrequest"
     },
     {
@@ -6957,7 +6975,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L33",
       "id": "hooks_useoperationsdata_activityentry",
-      "community": 93,
+      "community": 53,
       "norm_label": "activityentry"
     },
     {
@@ -6966,7 +6984,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L43",
       "id": "hooks_useoperationsdata_vendor",
-      "community": 93,
+      "community": 53,
       "norm_label": "vendor"
     },
     {
@@ -6984,7 +7002,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L64",
       "id": "hooks_useoperationsdata_cleanerassignee",
-      "community": 93,
+      "community": 53,
       "norm_label": "cleanerassignee"
     },
     {
@@ -6993,7 +7011,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L70",
       "id": "hooks_useoperationsdata_reservationobservation",
-      "community": 93,
+      "community": 63,
       "norm_label": "reservationobservation"
     },
     {
@@ -7011,7 +7029,7 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L135",
       "id": "hooks_useoperationsdata_db",
-      "community": 93,
+      "community": 53,
       "norm_label": "db"
     },
     {
@@ -7029,7 +7047,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L1",
       "id": "src_hooks_usepropertydata_ts",
-      "community": 241,
+      "community": 248,
       "norm_label": "usepropertydata.ts"
     },
     {
@@ -7038,7 +7056,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L7",
       "id": "hooks_usepropertydata_dbunit",
-      "community": 241,
+      "community": 248,
       "norm_label": "dbunit"
     },
     {
@@ -7047,7 +7065,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L8",
       "id": "hooks_usepropertydata_dbguest",
-      "community": 241,
+      "community": 248,
       "norm_label": "dbguest"
     },
     {
@@ -7056,7 +7074,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L9",
       "id": "hooks_usepropertydata_dbpayment",
-      "community": 241,
+      "community": 248,
       "norm_label": "dbpayment"
     },
     {
@@ -7065,7 +7083,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L10",
       "id": "hooks_usepropertydata_dbpaymentallocation",
-      "community": 241,
+      "community": 248,
       "norm_label": "dbpaymentallocation"
     },
     {
@@ -7074,7 +7092,7 @@
       "source_file": "src/hooks/usePropertyData.ts",
       "source_location": "L15",
       "id": "hooks_usepropertydata_assembleunits",
-      "community": 241,
+      "community": 248,
       "norm_label": "assembleunits()"
     },
     {
@@ -7137,7 +7155,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/integrations/supabase/client.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_integrations_supabase_client_ts",
-      "community": 63,
+      "community": 256,
       "norm_label": "client.ts"
     },
     {
@@ -7146,7 +7164,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/integrations/supabase/client.ts",
       "source_location": "L11",
       "id": "supabase_client_supabase",
-      "community": 63,
+      "community": 256,
       "norm_label": "supabase"
     },
     {
@@ -7155,7 +7173,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1",
       "id": "src_integrations_supabase_types_ts",
-      "community": 63,
+      "community": 261,
       "norm_label": "types.ts"
     },
     {
@@ -7164,7 +7182,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1",
       "id": "supabase_types_json",
-      "community": 63,
+      "community": 261,
       "norm_label": "json"
     },
     {
@@ -7173,7 +7191,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L9",
       "id": "supabase_types_database",
-      "community": 63,
+      "community": 256,
       "norm_label": "database"
     },
     {
@@ -7182,7 +7200,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1818",
       "id": "supabase_types_databasewithoutinternals",
-      "community": 63,
+      "community": 261,
       "norm_label": "databasewithoutinternals"
     },
     {
@@ -7191,7 +7209,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1820",
       "id": "supabase_types_defaultschema",
-      "community": 63,
+      "community": 261,
       "norm_label": "defaultschema"
     },
     {
@@ -7200,7 +7218,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1822",
       "id": "supabase_types_tables",
-      "community": 63,
+      "community": 149,
       "norm_label": "tables"
     },
     {
@@ -7209,7 +7227,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1851",
       "id": "supabase_types_tablesinsert",
-      "community": 63,
+      "community": 261,
       "norm_label": "tablesinsert"
     },
     {
@@ -7218,7 +7236,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1876",
       "id": "supabase_types_tablesupdate",
-      "community": 63,
+      "community": 261,
       "norm_label": "tablesupdate"
     },
     {
@@ -7227,7 +7245,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1901",
       "id": "supabase_types_enums",
-      "community": 63,
+      "community": 261,
       "norm_label": "enums"
     },
     {
@@ -7236,7 +7254,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1918",
       "id": "supabase_types_compositetypes",
-      "community": 63,
+      "community": 261,
       "norm_label": "compositetypes"
     },
     {
@@ -7245,7 +7263,7 @@
       "source_file": "src/integrations/supabase/types.ts",
       "source_location": "L1935",
       "id": "supabase_types_constants",
-      "community": 63,
+      "community": 261,
       "norm_label": "constants"
     },
     {
@@ -7866,7 +7884,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.test.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_lib_calendarsynchealth_test_ts",
-      "community": 63,
+      "community": 258,
       "norm_label": "calendarsynchealth.test.ts"
     },
     {
@@ -7875,7 +7893,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.test.ts",
       "source_location": "L4",
       "id": "lib_calendarsynchealth_test_blocks",
-      "community": 63,
+      "community": 258,
       "norm_label": "blocks"
     },
     {
@@ -7884,7 +7902,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.test.ts",
       "source_location": "L17",
       "id": "lib_calendarsynchealth_test_summary",
-      "community": 63,
+      "community": 258,
       "norm_label": "summary"
     },
     {
@@ -7893,7 +7911,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_lib_calendarsynchealth_ts",
-      "community": 63,
+      "community": 258,
       "norm_label": "calendarsynchealth.ts"
     },
     {
@@ -7902,7 +7920,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L3",
       "id": "lib_calendarsynchealth_calendarsyncunithealth",
-      "community": 63,
+      "community": 258,
       "norm_label": "calendarsyncunithealth"
     },
     {
@@ -7911,7 +7929,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L12",
       "id": "lib_calendarsynchealth_isdateblockedbycalendar",
-      "community": 63,
+      "community": 258,
       "norm_label": "isdateblockedbycalendar()"
     },
     {
@@ -7920,7 +7938,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L16",
       "id": "lib_calendarsynchealth_adddays",
-      "community": 63,
+      "community": 258,
       "norm_label": "adddays()"
     },
     {
@@ -7929,7 +7947,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L22",
       "id": "lib_calendarsynchealth_toisodate",
-      "community": 63,
+      "community": 258,
       "norm_label": "toisodate()"
     },
     {
@@ -7938,7 +7956,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/lib/calendarSyncHealth.ts",
       "source_location": "L26",
       "id": "lib_calendarsynchealth_summarizecalendarsynchealth",
-      "community": 63,
+      "community": 258,
       "norm_label": "summarizecalendarsynchealth()"
     },
     {
@@ -9909,7 +9927,7 @@
       "source_file": "src/lib/operations.ts",
       "source_location": "L41",
       "id": "lib_operations_operationalcleaning",
-      "community": 93,
+      "community": 53,
       "norm_label": "operationalcleaning"
     },
     {
@@ -10098,7 +10116,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L1",
       "id": "src_lib_paymentexport_test_ts",
-      "community": 241,
+      "community": 251,
       "norm_label": "paymentexport.test.ts"
     },
     {
@@ -10107,7 +10125,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L6",
       "id": "lib_paymentexport_test_csv",
-      "community": 241,
+      "community": 251,
       "norm_label": "csv"
     },
     {
@@ -10116,7 +10134,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L16",
       "id": "lib_paymentexport_test_lines",
-      "community": 241,
+      "community": 251,
       "norm_label": "lines"
     },
     {
@@ -10125,7 +10143,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L52",
       "id": "lib_paymentexport_test_header",
-      "community": 241,
+      "community": 251,
       "norm_label": "[header]"
     },
     {
@@ -10134,7 +10152,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L67",
       "id": "lib_paymentexport_test_row",
-      "community": 241,
+      "community": 251,
       "norm_label": "[, row]"
     },
     {
@@ -10143,7 +10161,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L68",
       "id": "lib_paymentexport_test_cols",
-      "community": 241,
+      "community": 251,
       "norm_label": "cols"
     },
     {
@@ -10152,7 +10170,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L89",
       "id": "lib_paymentexport_test_rows",
-      "community": 241,
+      "community": 251,
       "norm_label": "rows"
     },
     {
@@ -10161,7 +10179,7 @@
       "source_file": "src/lib/paymentExport.test.ts",
       "source_location": "L90",
       "id": "lib_paymentexport_test_row1_row2",
-      "community": 241,
+      "community": 251,
       "norm_label": "[row1, row2]"
     },
     {
@@ -10170,7 +10188,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L1",
       "id": "src_lib_paymentexport_ts",
-      "community": 241,
+      "community": 251,
       "norm_label": "paymentexport.ts"
     },
     {
@@ -10179,7 +10197,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L3",
       "id": "lib_paymentexport_datebasis",
-      "community": 241,
+      "community": 251,
       "norm_label": "datebasis"
     },
     {
@@ -10188,7 +10206,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L5",
       "id": "lib_paymentexport_exportablepaymentevent",
-      "community": 241,
+      "community": 251,
       "norm_label": "exportablepaymentevent"
     },
     {
@@ -10197,7 +10215,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L21",
       "id": "lib_paymentexport_csvescape",
-      "community": 241,
+      "community": 251,
       "norm_label": "csvescape()"
     },
     {
@@ -10206,7 +10224,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L35",
       "id": "lib_paymentexport_buildpaymentscsv",
-      "community": 241,
+      "community": 251,
       "norm_label": "buildpaymentscsv()"
     },
     {
@@ -10215,7 +10233,7 @@
       "source_file": "src/lib/paymentExport.ts",
       "source_location": "L87",
       "id": "lib_paymentexport_downloadcsv",
-      "community": 241,
+      "community": 251,
       "norm_label": "downloadcsv()"
     },
     {
@@ -10224,7 +10242,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L1",
       "id": "src_lib_paymentmethods_test_ts",
-      "community": 241,
+      "community": 248,
       "norm_label": "paymentmethods.test.ts"
     },
     {
@@ -10233,7 +10251,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L11",
       "id": "lib_paymentmethods_test_r",
-      "community": 241,
+      "community": 248,
       "norm_label": "r"
     },
     {
@@ -10242,7 +10260,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L36",
       "id": "lib_paymentmethods_test_bad",
-      "community": 241,
+      "community": 248,
       "norm_label": "bad"
     },
     {
@@ -10251,7 +10269,7 @@
       "source_file": "src/lib/paymentMethods.test.ts",
       "source_location": "L47",
       "id": "lib_paymentmethods_test_ok",
-      "community": 241,
+      "community": 248,
       "norm_label": "ok"
     },
     {
@@ -10260,7 +10278,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L1",
       "id": "src_lib_paymentmethods_ts",
-      "community": 241,
+      "community": 248,
       "norm_label": "paymentmethods.ts"
     },
     {
@@ -10269,7 +10287,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L10",
       "id": "lib_paymentmethods_paymentmethoddraft",
-      "community": 241,
+      "community": 248,
       "norm_label": "paymentmethoddraft"
     },
     {
@@ -10278,7 +10296,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L18",
       "id": "lib_paymentmethods_validationresult",
-      "community": 241,
+      "community": 248,
       "norm_label": "validationresult"
     },
     {
@@ -10287,7 +10305,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L24",
       "id": "lib_paymentmethods_methodrequired",
-      "community": 241,
+      "community": 248,
       "norm_label": "methodrequired()"
     },
     {
@@ -10296,7 +10314,7 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L28",
       "id": "lib_paymentmethods_validatepaymentmethod",
-      "community": 241,
+      "community": 248,
       "norm_label": "validatepaymentmethod()"
     },
     {
@@ -10305,8 +10323,80 @@
       "source_file": "src/lib/paymentMethods.ts",
       "source_location": "L60",
       "id": "lib_paymentmethods_summarizemethod",
-      "community": 241,
+      "community": 248,
       "norm_label": "summarizemethod()"
+    },
+    {
+      "label": "reservationObservationIntakeContract.test.ts",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L1",
+      "id": "src_lib_reservationobservationintakecontract_test_ts",
+      "community": 263,
+      "norm_label": "reservationobservationintakecontract.test.ts"
+    },
+    {
+      "label": "root",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L5",
+      "id": "lib_reservationobservationintakecontract_test_root",
+      "community": 263,
+      "norm_label": "root"
+    },
+    {
+      "label": "functionPath",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L6",
+      "id": "lib_reservationobservationintakecontract_test_functionpath",
+      "community": 263,
+      "norm_label": "functionpath"
+    },
+    {
+      "label": "migrationPath",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L10",
+      "id": "lib_reservationobservationintakecontract_test_migrationpath",
+      "community": 263,
+      "norm_label": "migrationpath"
+    },
+    {
+      "label": "configPath",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L14",
+      "id": "lib_reservationobservationintakecontract_test_configpath",
+      "community": 263,
+      "norm_label": "configpath"
+    },
+    {
+      "label": "source",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L20",
+      "id": "lib_reservationobservationintakecontract_test_source",
+      "community": 263,
+      "norm_label": "source"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L21",
+      "id": "lib_reservationobservationintakecontract_test_config",
+      "community": 263,
+      "norm_label": "config"
+    },
+    {
+      "label": "migration",
+      "file_type": "code",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L66",
+      "id": "lib_reservationobservationintakecontract_test_migration",
+      "community": 263,
+      "norm_label": "migration"
     },
     {
       "label": "reservationReviewContracts.test.ts",
@@ -10980,7 +11070,7 @@
       "source_file": "src/pages/Finances.tsx",
       "source_location": "L1",
       "id": "src_pages_finances_tsx",
-      "community": 63,
+      "community": 254,
       "norm_label": "finances.tsx"
     },
     {
@@ -10989,7 +11079,7 @@
       "source_file": "src/pages/Finances.tsx",
       "source_location": "L12",
       "id": "pages_finances_finances",
-      "community": 63,
+      "community": 254,
       "norm_label": "finances()"
     },
     {
@@ -10998,7 +11088,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_financialreports_tsx",
-      "community": 241,
+      "community": 260,
       "norm_label": "financialreports.tsx"
     },
     {
@@ -11007,7 +11097,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L14",
       "id": "pages_financialreports_month_names",
-      "community": 241,
+      "community": 260,
       "norm_label": "month_names"
     },
     {
@@ -11016,7 +11106,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L16",
       "id": "pages_financialreports_source_colors",
-      "community": 241,
+      "community": 260,
       "norm_label": "source_colors"
     },
     {
@@ -11025,7 +11115,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L25",
       "id": "pages_financialreports_status_colors",
-      "community": 241,
+      "community": 260,
       "norm_label": "status_colors"
     },
     {
@@ -11034,7 +11124,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L32",
       "id": "pages_financialreports_fmt",
-      "community": 241,
+      "community": 260,
       "norm_label": "fmt()"
     },
     {
@@ -11043,7 +11133,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L35",
       "id": "pages_financialreports_fmtfull",
-      "community": 241,
+      "community": 260,
       "norm_label": "fmtfull()"
     },
     {
@@ -11052,7 +11142,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L38",
       "id": "pages_financialreports_yearoption",
-      "community": 241,
+      "community": 260,
       "norm_label": "yearoption"
     },
     {
@@ -11061,7 +11151,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/FinancialReports.tsx",
       "source_location": "L40",
       "id": "pages_financialreports_financialreports",
-      "community": 241,
+      "community": 260,
       "norm_label": "financialreports()"
     },
     {
@@ -11070,7 +11160,7 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L1",
       "id": "src_pages_handymansmssignup_tsx",
-      "community": 63,
+      "community": 250,
       "norm_label": "handymansmssignup.tsx"
     },
     {
@@ -11079,7 +11169,7 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L14",
       "id": "pages_handymansmssignup_handymansmssignup",
-      "community": 63,
+      "community": 250,
       "norm_label": "handymansmssignup()"
     },
     {
@@ -11151,7 +11241,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_maintenancehealth_tsx",
-      "community": 63,
+      "community": 256,
       "norm_label": "maintenancehealth.tsx"
     },
     {
@@ -11160,7 +11250,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L10",
       "id": "pages_maintenancehealth_healthlog",
-      "community": 63,
+      "community": 256,
       "norm_label": "healthlog"
     },
     {
@@ -11169,7 +11259,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L20",
       "id": "pages_maintenancehealth_qaresult",
-      "community": 63,
+      "community": 256,
       "norm_label": "qaresult"
     },
     {
@@ -11178,7 +11268,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L33",
       "id": "pages_maintenancehealth_formatdate",
-      "community": 63,
+      "community": 256,
       "norm_label": "formatdate()"
     },
     {
@@ -11187,7 +11277,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L40",
       "id": "pages_maintenancehealth_statusvariant",
-      "community": 63,
+      "community": 256,
       "norm_label": "statusvariant()"
     },
     {
@@ -11196,7 +11286,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L47",
       "id": "pages_maintenancehealth_getpayloadsummary",
-      "community": 63,
+      "community": 256,
       "norm_label": "getpayloadsummary()"
     },
     {
@@ -11205,7 +11295,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenanceHealth.tsx",
       "source_location": "L58",
       "id": "pages_maintenancehealth_maintenancehealth",
-      "community": 63,
+      "community": 256,
       "norm_label": "maintenancehealth()"
     },
     {
@@ -11214,7 +11304,7 @@
       "source_file": "src/pages/MaintenanceOffer.tsx",
       "source_location": "L1",
       "id": "src_pages_maintenanceoffer_tsx",
-      "community": 63,
+      "community": 250,
       "norm_label": "maintenanceoffer.tsx"
     },
     {
@@ -11223,7 +11313,7 @@
       "source_file": "src/pages/MaintenanceOffer.tsx",
       "source_location": "L10",
       "id": "pages_maintenanceoffer_offerview",
-      "community": 63,
+      "community": 250,
       "norm_label": "offerview"
     },
     {
@@ -11232,7 +11322,7 @@
       "source_file": "src/pages/MaintenanceOffer.tsx",
       "source_location": "L23",
       "id": "pages_maintenanceoffer_maintenanceoffer",
-      "community": 63,
+      "community": 250,
       "norm_label": "maintenanceoffer()"
     },
     {
@@ -11241,7 +11331,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenancePortal.tsx",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_maintenanceportal_tsx",
-      "community": 149,
+      "community": 33,
       "norm_label": "maintenanceportal.tsx"
     },
     {
@@ -11250,7 +11340,7 @@
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/MaintenancePortal.tsx",
       "source_location": "L3",
       "id": "pages_maintenanceportal_maintenanceportal",
-      "community": 149,
+      "community": 33,
       "norm_label": "maintenanceportal()"
     },
     {
@@ -11574,7 +11664,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L1",
       "id": "src_types_property_ts",
-      "community": 110,
+      "community": 248,
       "norm_label": "property.ts"
     },
     {
@@ -11583,7 +11673,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L1",
       "id": "types_property_bookingsource",
-      "community": 110,
+      "community": 112,
       "norm_label": "bookingsource"
     },
     {
@@ -11592,7 +11682,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L3",
       "id": "types_property_unitstatus",
-      "community": 110,
+      "community": 247,
       "norm_label": "unitstatus"
     },
     {
@@ -11601,7 +11691,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L5",
       "id": "types_property_unittype",
-      "community": 110,
+      "community": 247,
       "norm_label": "unittype"
     },
     {
@@ -11610,7 +11700,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L7",
       "id": "types_property_paymentstatus",
-      "community": 110,
+      "community": 248,
       "norm_label": "paymentstatus"
     },
     {
@@ -11619,7 +11709,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L9",
       "id": "types_property_paymentmethod",
-      "community": 241,
+      "community": 248,
       "norm_label": "paymentmethod"
     },
     {
@@ -11628,7 +11718,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L22",
       "id": "types_property_paymentallocation",
-      "community": 241,
+      "community": 248,
       "norm_label": "paymentallocation"
     },
     {
@@ -11637,7 +11727,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L29",
       "id": "types_property_payment",
-      "community": 110,
+      "community": 248,
       "norm_label": "payment"
     },
     {
@@ -11646,7 +11736,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L42",
       "id": "types_property_payment_methods",
-      "community": 110,
+      "community": 248,
       "norm_label": "payment_methods"
     },
     {
@@ -11655,7 +11745,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L46",
       "id": "types_property_payment_method_labels",
-      "community": 241,
+      "community": 248,
       "norm_label": "payment_method_labels"
     },
     {
@@ -11664,7 +11754,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L60",
       "id": "types_property_guest",
-      "community": 110,
+      "community": 112,
       "norm_label": "guest"
     },
     {
@@ -11673,7 +11763,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L72",
       "id": "types_property_futureguest",
-      "community": 110,
+      "community": 252,
       "norm_label": "futureguest"
     },
     {
@@ -11682,7 +11772,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L76",
       "id": "types_property_unit",
-      "community": 110,
+      "community": 253,
       "norm_label": "unit"
     },
     {
@@ -11700,7 +11790,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L96",
       "id": "types_property_status_labels",
-      "community": 110,
+      "community": 247,
       "norm_label": "status_labels"
     },
     {
@@ -11709,7 +11799,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L104",
       "id": "types_property_unit_type_labels",
-      "community": 110,
+      "community": 247,
       "norm_label": "unit_type_labels"
     },
     {
@@ -11718,7 +11808,7 @@
       "source_file": "src/types/property.ts",
       "source_location": "L110",
       "id": "types_property_unit_types",
-      "community": 110,
+      "community": 247,
       "norm_label": "unit_types"
     },
     {
@@ -12912,6 +13002,285 @@
     {
       "label": "index.ts",
       "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L1",
+      "id": "supabase_functions_reservation_observation_intake_index_ts",
+      "community": 249,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "corsHeaders",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L7",
+      "id": "reservation_observation_intake_index_corsheaders",
+      "community": 249,
+      "norm_label": "corsheaders"
+    },
+    {
+      "label": "SHARED_SECRET",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L15",
+      "id": "reservation_observation_intake_index_shared_secret",
+      "community": 249,
+      "norm_label": "shared_secret"
+    },
+    {
+      "label": "sources",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L17",
+      "id": "reservation_observation_intake_index_sources",
+      "community": 249,
+      "norm_label": "sources"
+    },
+    {
+      "label": "statuses",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L25",
+      "id": "reservation_observation_intake_index_statuses",
+      "community": 249,
+      "norm_label": "statuses"
+    },
+    {
+      "label": "confidenceValues",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L26",
+      "id": "reservation_observation_intake_index_confidencevalues",
+      "community": 249,
+      "norm_label": "confidencevalues"
+    },
+    {
+      "label": "IntakePayload",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L28",
+      "id": "reservation_observation_intake_index_intakepayload",
+      "community": 249,
+      "norm_label": "intakepayload"
+    },
+    {
+      "label": "requiredString()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L49",
+      "id": "reservation_observation_intake_index_requiredstring",
+      "community": 249,
+      "norm_label": "requiredstring()"
+    },
+    {
+      "label": "optionalString()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L56",
+      "id": "reservation_observation_intake_index_optionalstring",
+      "community": 249,
+      "norm_label": "optionalstring()"
+    },
+    {
+      "label": "enumValue()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L65",
+      "id": "reservation_observation_intake_index_enumvalue",
+      "community": 249,
+      "norm_label": "enumvalue()"
+    },
+    {
+      "label": "optionalDate()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L71",
+      "id": "reservation_observation_intake_index_optionaldate",
+      "community": 249,
+      "norm_label": "optionaldate()"
+    },
+    {
+      "label": "isoTimestamp()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L80",
+      "id": "reservation_observation_intake_index_isotimestamp",
+      "community": 249,
+      "norm_label": "isotimestamp()"
+    },
+    {
+      "label": "optionalUuid()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L86",
+      "id": "reservation_observation_intake_index_optionaluuid",
+      "community": 249,
+      "norm_label": "optionaluuid()"
+    },
+    {
+      "label": "jsonValue()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L95",
+      "id": "reservation_observation_intake_index_jsonvalue",
+      "community": 249,
+      "norm_label": "jsonvalue()"
+    },
+    {
+      "label": "json()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L102",
+      "id": "reservation_observation_intake_index_json",
+      "community": 249,
+      "norm_label": "json()"
+    },
+    {
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L113",
+      "id": "reservation_observation_intake_index_supabase",
+      "community": 249,
+      "norm_label": "supabase"
+    },
+    {
+      "label": "log()",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L120",
+      "id": "reservation_observation_intake_index_log",
+      "community": 249,
+      "norm_label": "log()"
+    },
+    {
+      "label": "listingLabel",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L161",
+      "id": "reservation_observation_intake_index_listinglabel",
+      "community": 249,
+      "norm_label": "listinglabel"
+    },
+    {
+      "label": "proposedUnitMapping",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L162",
+      "id": "reservation_observation_intake_index_proposedunitmapping",
+      "community": 249,
+      "norm_label": "proposedunitmapping"
+    },
+    {
+      "label": "guestName",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L167",
+      "id": "reservation_observation_intake_index_guestname",
+      "community": 249,
+      "norm_label": "guestname"
+    },
+    {
+      "label": "checkIn",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L168",
+      "id": "reservation_observation_intake_index_checkin",
+      "community": 249,
+      "norm_label": "checkin"
+    },
+    {
+      "label": "checkOut",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L169",
+      "id": "reservation_observation_intake_index_checkout",
+      "community": 249,
+      "norm_label": "checkout"
+    },
+    {
+      "label": "observationStatus",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L173",
+      "id": "reservation_observation_intake_index_observationstatus",
+      "community": 249,
+      "norm_label": "observationstatus"
+    },
+    {
+      "label": "confidence",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L178",
+      "id": "reservation_observation_intake_index_confidence",
+      "community": 249,
+      "norm_label": "confidence"
+    },
+    {
+      "label": "observedAt",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L179",
+      "id": "reservation_observation_intake_index_observedat",
+      "community": 249,
+      "norm_label": "observedat"
+    },
+    {
+      "label": "evidenceReference",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L180",
+      "id": "reservation_observation_intake_index_evidencereference",
+      "community": 249,
+      "norm_label": "evidencereference"
+    },
+    {
+      "label": "evidenceSummary",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L185",
+      "id": "reservation_observation_intake_index_evidencesummary",
+      "community": 249,
+      "norm_label": "evidencesummary"
+    },
+    {
+      "label": "conflicts",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L186",
+      "id": "reservation_observation_intake_index_conflicts",
+      "community": 249,
+      "norm_label": "conflicts"
+    },
+    {
+      "label": "rawPayload",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L187",
+      "id": "reservation_observation_intake_index_rawpayload",
+      "community": 249,
+      "norm_label": "rawpayload"
+    },
+    {
+      "label": "unitId",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L188",
+      "id": "reservation_observation_intake_index_unitid",
+      "community": 249,
+      "norm_label": "unitid"
+    },
+    {
+      "label": "stagedPayload",
+      "file_type": "code",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L211",
+      "id": "reservation_observation_intake_index_stagedpayload",
+      "community": 249,
+      "norm_label": "stagedpayload"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
       "source_file": "/home/dalton/projects/homestead-host-hub/supabase/functions/tally-maintenance-webhook/index.ts",
       "source_location": "L1",
       "id": "home_dalton_projects_homestead_host_hub_supabase_functions_tally_maintenance_webhook_index_ts",
@@ -13606,7 +13975,7 @@
       "label": "Database changes",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L85",
+      "source_location": "L92",
       "id": "docs_homestead_helper_v1_database_changes",
       "community": 131,
       "norm_label": "database changes"
@@ -13615,7 +13984,7 @@
       "label": "Extended tables",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L89",
+      "source_location": "L96",
       "id": "docs_homestead_helper_v1_extended_tables",
       "community": 131,
       "norm_label": "extended tables"
@@ -13624,7 +13993,7 @@
       "label": "New tables",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L95",
+      "source_location": "L102",
       "id": "docs_homestead_helper_v1_new_tables",
       "community": 131,
       "norm_label": "new tables"
@@ -13633,7 +14002,7 @@
       "label": "Database-enforced workflow",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L110",
+      "source_location": "L119",
       "id": "docs_homestead_helper_v1_database_enforced_workflow",
       "community": 131,
       "norm_label": "database-enforced workflow"
@@ -13642,7 +14011,7 @@
       "label": "UI changes",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L122",
+      "source_location": "L131",
       "id": "docs_homestead_helper_v1_ui_changes",
       "community": 131,
       "norm_label": "ui changes"
@@ -13651,7 +14020,7 @@
       "label": "Role setup",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L132",
+      "source_location": "L141",
       "id": "docs_homestead_helper_v1_role_setup",
       "community": 131,
       "norm_label": "role setup"
@@ -13660,7 +14029,7 @@
       "label": "code:sql (insert into public.user_roles (email, display_name, role, ac)",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L137",
+      "source_location": "L146",
       "id": "docs_homestead_helper_v1_codeblock_2",
       "community": 131,
       "norm_label": "code:sql (insert into public.user_roles (email, display_name, role, ac)"
@@ -13669,7 +14038,7 @@
       "label": "code:sql (insert into public.user_roles (email, display_name, role, ac)",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L144",
+      "source_location": "L153",
       "id": "docs_homestead_helper_v1_codeblock_3",
       "community": 131,
       "norm_label": "code:sql (insert into public.user_roles (email, display_name, role, ac)"
@@ -13678,7 +14047,7 @@
       "label": "Approval policy",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L154",
+      "source_location": "L163",
       "id": "docs_homestead_helper_v1_approval_policy",
       "community": 131,
       "norm_label": "approval policy"
@@ -13687,7 +14056,7 @@
       "label": "Google Cleaning Calendar setup",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L171",
+      "source_location": "L180",
       "id": "docs_homestead_helper_v1_google_cleaning_calendar_setup",
       "community": 131,
       "norm_label": "google cleaning calendar setup"
@@ -13696,7 +14065,7 @@
       "label": "Email setup",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L191",
+      "source_location": "L200",
       "id": "docs_homestead_helper_v1_email_setup",
       "community": 131,
       "norm_label": "email setup"
@@ -13705,7 +14074,7 @@
       "label": "Cleaner-link workflow",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L206",
+      "source_location": "L215",
       "id": "docs_homestead_helper_v1_cleaner_link_workflow",
       "community": 131,
       "norm_label": "cleaner-link workflow"
@@ -13714,7 +14083,7 @@
       "label": "Data import",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L215",
+      "source_location": "L224",
       "id": "docs_homestead_helper_v1_data_import",
       "community": 131,
       "norm_label": "data import"
@@ -13723,7 +14092,7 @@
       "label": "Environment variables",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L232",
+      "source_location": "L241",
       "id": "docs_homestead_helper_v1_environment_variables",
       "community": 131,
       "norm_label": "environment variables"
@@ -13732,7 +14101,7 @@
       "label": "Deployment order",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L253",
+      "source_location": "L262",
       "id": "docs_homestead_helper_v1_deployment_order",
       "community": 131,
       "norm_label": "deployment order"
@@ -13741,7 +14110,7 @@
       "label": "User acceptance checklist",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L266",
+      "source_location": "L279",
       "id": "docs_homestead_helper_v1_user_acceptance_checklist",
       "community": 131,
       "norm_label": "user acceptance checklist"
@@ -13750,7 +14119,7 @@
       "label": "Briana",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L268",
+      "source_location": "L281",
       "id": "docs_homestead_helper_v1_briana",
       "community": 131,
       "norm_label": "briana"
@@ -13759,7 +14128,7 @@
       "label": "Wendy",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L286",
+      "source_location": "L299",
       "id": "docs_homestead_helper_v1_wendy",
       "community": 131,
       "norm_label": "wendy"
@@ -13768,7 +14137,7 @@
       "label": "Reliability",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L297",
+      "source_location": "L310",
       "id": "docs_homestead_helper_v1_reliability",
       "community": 131,
       "norm_label": "reliability"
@@ -13777,7 +14146,7 @@
       "label": "Rollback",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L306",
+      "source_location": "L319",
       "id": "docs_homestead_helper_v1_rollback",
       "community": 131,
       "norm_label": "rollback"
@@ -13786,7 +14155,7 @@
       "label": "Known limitations",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L319",
+      "source_location": "L332",
       "id": "docs_homestead_helper_v1_known_limitations",
       "community": 131,
       "norm_label": "known limitations"
@@ -13795,7 +14164,7 @@
       "label": "Recommended Hermes automations",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L330",
+      "source_location": "L346",
       "id": "docs_homestead_helper_v1_recommended_hermes_automations",
       "community": 131,
       "norm_label": "recommended hermes automations"
@@ -13804,7 +14173,7 @@
       "label": "Current cleaning-delivery status",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L343",
+      "source_location": "L359",
       "id": "docs_homestead_helper_v1_current_cleaning_delivery_status",
       "community": 131,
       "norm_label": "current cleaning-delivery status"
@@ -13813,7 +14182,7 @@
       "label": "SMS rollout notes",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L370",
+      "source_location": "L386",
       "id": "docs_homestead_helper_v1_sms_rollout_notes",
       "community": 131,
       "norm_label": "sms rollout notes"
@@ -13822,10 +14191,172 @@
       "label": "Remaining setup decisions",
       "file_type": "document",
       "source_file": "docs/HOMESTEAD_HELPER_V1.md",
-      "source_location": "L386",
+      "source_location": "L402",
       "id": "docs_homestead_helper_v1_remaining_setup_decisions",
       "community": 131,
       "norm_label": "remaining setup decisions"
+    },
+    {
+      "label": "PROJECT_EXECUTION_ROADMAP.md",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L1",
+      "id": "docs_project_execution_roadmap_md",
+      "community": 259,
+      "norm_label": "project_execution_roadmap.md"
+    },
+    {
+      "label": "Homestead Helper execution roadmap",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L1",
+      "id": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "community": 259,
+      "norm_label": "homestead helper execution roadmap"
+    },
+    {
+      "label": "Operating outcome",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L5",
+      "id": "docs_project_execution_roadmap_operating_outcome",
+      "community": 259,
+      "norm_label": "operating outcome"
+    },
+    {
+      "label": "Non-negotiable controls",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L12",
+      "id": "docs_project_execution_roadmap_non_negotiable_controls",
+      "community": 259,
+      "norm_label": "non-negotiable controls"
+    },
+    {
+      "label": "Current release",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L26",
+      "id": "docs_project_execution_roadmap_current_release",
+      "community": 259,
+      "norm_label": "current release"
+    },
+    {
+      "label": "Priority 0 \u2014 trustworthy operating data",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L41",
+      "id": "docs_project_execution_roadmap_priority_0_trustworthy_operating_data",
+      "community": 259,
+      "norm_label": "priority 0 \u2014 trustworthy operating data"
+    },
+    {
+      "label": "Priority 1 \u2014 prove the daily workflow",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L52",
+      "id": "docs_project_execution_roadmap_priority_1_prove_the_daily_workflow",
+      "community": 259,
+      "norm_label": "priority 1 \u2014 prove the daily workflow"
+    },
+    {
+      "label": "Priority 2 \u2014 controlled delivery and maintenance dispatch",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L62",
+      "id": "docs_project_execution_roadmap_priority_2_controlled_delivery_and_maintenance_dispatch",
+      "community": 259,
+      "norm_label": "priority 2 \u2014 controlled delivery and maintenance dispatch"
+    },
+    {
+      "label": "Priority 3 \u2014 release hardening",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L71",
+      "id": "docs_project_execution_roadmap_priority_3_release_hardening",
+      "community": 259,
+      "norm_label": "priority 3 \u2014 release hardening"
+    },
+    {
+      "label": "Decisions reserved for Dalton",
+      "file_type": "document",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L84",
+      "id": "docs_project_execution_roadmap_decisions_reserved_for_dalton",
+      "community": 259,
+      "norm_label": "decisions reserved for dalton"
+    },
+    {
+      "label": "RESERVATION_OBSERVATION_INTAKE.md",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L1",
+      "id": "docs_reservation_observation_intake_md",
+      "community": 262,
+      "norm_label": "reservation_observation_intake.md"
+    },
+    {
+      "label": "Reservation observation intake",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L1",
+      "id": "docs_reservation_observation_intake_reservation_observation_intake",
+      "community": 262,
+      "norm_label": "reservation observation intake"
+    },
+    {
+      "label": "Endpoint",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L8",
+      "id": "docs_reservation_observation_intake_endpoint",
+      "community": 262,
+      "norm_label": "endpoint"
+    },
+    {
+      "label": "code:text (POST https://zcvkdtrsqxgwgkseqapa.supabase.co/functions/v1/r)",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L10",
+      "id": "docs_reservation_observation_intake_codeblock_1",
+      "community": 262,
+      "norm_label": "code:text (post https://zcvkdtrsqxgwgkseqapa.supabase.co/functions/v1/r)"
+    },
+    {
+      "label": "Contract",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L20",
+      "id": "docs_reservation_observation_intake_contract",
+      "community": 262,
+      "norm_label": "contract"
+    },
+    {
+      "label": "code:json ({)",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L22",
+      "id": "docs_reservation_observation_intake_codeblock_2",
+      "community": 262,
+      "norm_label": "code:json ({)"
+    },
+    {
+      "label": "Idempotency and review preservation",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L51",
+      "id": "docs_reservation_observation_intake_idempotency_and_review_preservation",
+      "community": 262,
+      "norm_label": "idempotency and review preservation"
+    },
+    {
+      "label": "Grasshopper boundary",
+      "file_type": "document",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L61",
+      "id": "docs_reservation_observation_intake_grasshopper_boundary",
+      "community": 262,
+      "norm_label": "grasshopper boundary"
     },
     {
       "label": "SITES_MIGRATION.md",
@@ -14264,7 +14795,7 @@
       "file_type": "code",
       "source_file": "/home/dalton/projects/homestead-host-hub/src/components/MaintenanceRequestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 149,
       "norm_label": "maintenancerequestdialog.tsx",
       "id": "home_dalton_projects_homestead_host_hub_src_components_maintenancerequestdialog_tsx"
     },
@@ -14300,7 +14831,7 @@
       "file_type": "code",
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/Auth.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "auth.tsx",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_auth_tsx"
     },
@@ -14309,7 +14840,7 @@
       "file_type": "code",
       "source_file": "/home/dalton/projects/homestead-host-hub/src/pages/Finances.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 254,
       "norm_label": "finances.tsx",
       "id": "home_dalton_projects_homestead_host_hub_src_pages_finances_tsx"
     },
@@ -21842,7 +22373,7 @@
       "file_type": "code",
       "source_file": "src/components/GuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "guestdialog.tsx",
       "id": "src_components_guestdialog_tsx"
     },
@@ -21851,7 +22382,7 @@
       "file_type": "code",
       "source_file": "src/components/AvailabilitySearch.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "availabilitysearch.tsx",
       "id": "src_components_availabilitysearch_tsx"
     },
@@ -21860,7 +22391,7 @@
       "file_type": "code",
       "source_file": "src/components/HomesteadHillPLContent.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplcontent.tsx",
       "id": "src_components_homesteadhillplcontent_tsx"
     },
@@ -21869,7 +22400,7 @@
       "file_type": "code",
       "source_file": "src/components/RequestsInbox.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 254,
       "norm_label": "requestsinbox.tsx",
       "id": "src_components_requestsinbox_tsx"
     },
@@ -21905,7 +22436,7 @@
       "file_type": "code",
       "source_file": "src/components/SortableUnitGrid.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitgrid.tsx",
       "id": "src_components_sortableunitgrid_tsx"
     },
@@ -21923,7 +22454,7 @@
       "file_type": "code",
       "source_file": "src/components/MaintenanceRequestCard.tsx",
       "source_location": "L1",
-      "community": 112,
+      "community": 149,
       "norm_label": "maintenancerequestcard.tsx",
       "id": "src_components_maintenancerequestcard_tsx"
     },
@@ -21941,7 +22472,7 @@
       "file_type": "code",
       "source_file": "src/components/FutureGuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "futureguestdialog.tsx",
       "id": "src_components_futureguestdialog_tsx"
     },
@@ -21968,7 +22499,7 @@
       "file_type": "code",
       "source_file": "src/components/SortableUnitCard.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 253,
       "norm_label": "sortableunitcard.tsx",
       "id": "src_components_sortableunitcard_tsx"
     },
@@ -21986,7 +22517,7 @@
       "file_type": "code",
       "source_file": "src/components/EditUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "editunitdialog.tsx",
       "id": "src_components_editunitdialog_tsx"
     },
@@ -21995,7 +22526,7 @@
       "file_type": "code",
       "source_file": "src/components/LogMaintenanceDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "logmaintenancedialog.tsx",
       "id": "src_components_logmaintenancedialog_tsx"
     },
@@ -22004,7 +22535,7 @@
       "file_type": "code",
       "source_file": "src/components/AddUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "addunitdialog.tsx",
       "id": "src_components_addunitdialog_tsx"
     },
@@ -22013,7 +22544,7 @@
       "file_type": "code",
       "source_file": "src/components/InlinePaymentScheduler.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "inlinepaymentscheduler.tsx",
       "id": "src_components_inlinepaymentscheduler_tsx"
     },
@@ -22022,7 +22553,7 @@
       "file_type": "code",
       "source_file": "src/components/StatsOverview.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 253,
       "norm_label": "statsoverview.tsx",
       "id": "src_components_statsoverview_tsx"
     },
@@ -22031,7 +22562,7 @@
       "file_type": "code",
       "source_file": "src/components/SchedulePaymentsDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 248,
       "norm_label": "schedulepaymentsdialog.tsx",
       "id": "src_components_schedulepaymentsdialog_tsx"
     },
@@ -22040,7 +22571,7 @@
       "file_type": "code",
       "source_file": "src/components/BookingTimeline.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 252,
       "norm_label": "bookingtimeline.tsx",
       "id": "src_components_bookingtimeline_tsx"
     },
@@ -22058,7 +22589,7 @@
       "file_type": "code",
       "source_file": "src/components/PaymentCalendar.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 257,
       "norm_label": "paymentcalendar.tsx",
       "id": "src_components_paymentcalendar_tsx"
     },
@@ -22157,7 +22688,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/alert.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 250,
       "norm_label": "alert.tsx",
       "id": "src_components_ui_alert_tsx"
     },
@@ -22220,7 +22751,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/calendar.tsx",
       "source_location": "L1",
-      "community": 52,
+      "community": 5,
       "norm_label": "calendar.tsx",
       "id": "src_components_ui_calendar_tsx"
     },
@@ -22274,7 +22805,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/dialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialog.tsx",
       "id": "src_components_ui_dialog_tsx"
     },
@@ -22337,7 +22868,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/slider.tsx",
       "source_location": "L1",
-      "community": 5,
+      "community": 10,
       "norm_label": "slider.tsx",
       "id": "src_components_ui_slider_tsx"
     },
@@ -22346,7 +22877,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 254,
       "norm_label": "tabs.tsx",
       "id": "src_components_ui_tabs_tsx"
     },
@@ -22364,7 +22895,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/textarea.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "textarea.tsx",
       "id": "src_components_ui_textarea_tsx"
     },
@@ -22391,7 +22922,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/switch.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "switch.tsx",
       "id": "src_components_ui_switch_tsx"
     },
@@ -22409,7 +22940,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/scroll-area.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 52,
       "norm_label": "scroll-area.tsx",
       "id": "src_components_ui_scroll_area_tsx"
     },
@@ -22472,7 +23003,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/badge.tsx",
       "source_location": "L1",
-      "community": 241,
+      "community": 250,
       "norm_label": "badge.tsx",
       "id": "src_components_ui_badge_tsx"
     },
@@ -22481,7 +23012,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/select.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "select.tsx",
       "id": "src_components_ui_select_tsx"
     },
@@ -22499,7 +23030,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/label.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "label.tsx",
       "id": "src_components_ui_label_tsx"
     },
@@ -22508,7 +23039,7 @@
       "file_type": "code",
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "input.tsx",
       "id": "src_components_ui_input_tsx"
     },
@@ -22517,7 +23048,7 @@
       "file_type": "code",
       "source_file": "src/integrations/supabase/client.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 256,
       "norm_label": "client.ts",
       "id": "src_integrations_supabase_client_ts"
     },
@@ -22553,7 +23084,7 @@
       "file_type": "code",
       "source_file": "src/pages/MaintenanceHealth.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 256,
       "norm_label": "maintenancehealth.tsx",
       "id": "src_pages_maintenancehealth_tsx"
     },
@@ -22562,7 +23093,7 @@
       "file_type": "code",
       "source_file": "src/pages/MaintenancePortal.tsx",
       "source_location": "L1",
-      "community": 149,
+      "community": 33,
       "norm_label": "maintenanceportal.tsx",
       "id": "src_pages_maintenanceportal_tsx"
     },
@@ -22571,7 +23102,7 @@
       "file_type": "code",
       "source_file": "src/pages/FinancialReports.tsx",
       "source_location": "L1",
-      "community": 241,
+      "community": 260,
       "norm_label": "financialreports.tsx",
       "id": "src_pages_financialreports_tsx"
     },
@@ -22589,7 +23120,7 @@
       "file_type": "code",
       "source_file": "src/data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplsnapshot.ts",
       "id": "src_data_homesteadhillplsnapshot_ts"
     },
@@ -22616,7 +23147,7 @@
       "file_type": "code",
       "source_file": "src/hooks/useAirbnbBlocks.ts",
       "source_location": "L1",
-      "community": 110,
+      "community": 252,
       "norm_label": "useairbnbblocks.ts",
       "id": "src_hooks_useairbnbblocks_ts"
     },
@@ -22625,7 +23156,7 @@
       "file_type": "code",
       "source_file": "src/hooks/useAuth.ts",
       "source_location": "L1",
-      "community": 149,
+      "community": 33,
       "norm_label": "useauth.ts",
       "id": "src_hooks_useauth_ts"
     },
@@ -22643,7 +23174,7 @@
       "file_type": "code",
       "source_file": "src/hooks/useBookingRequests.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 110,
       "norm_label": "usebookingrequests.ts",
       "id": "src_hooks_usebookingrequests_ts"
     },
@@ -22670,7 +23201,7 @@
       "file_type": "code",
       "source_file": "src/lib/calendarSyncHealth.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 258,
       "norm_label": "calendarsynchealth.ts",
       "id": "src_lib_calendarsynchealth_ts"
     },
@@ -22724,7 +23255,7 @@
       "file_type": "code",
       "source_file": "src/lib/calendarSyncHealth.test.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 258,
       "norm_label": "calendarsynchealth.test.ts",
       "id": "src_lib_calendarsynchealth_test_ts"
     },
@@ -24506,7 +25037,7 @@
       "file_type": "code",
       "source_file": "components/HomesteadHillPLContent.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplcontent.tsx",
       "id": "components_homesteadhillplcontent_tsx"
     },
@@ -24515,7 +25046,7 @@
       "file_type": "code",
       "source_file": "data/homesteadHillPlSnapshot.ts",
       "source_location": "L1",
-      "community": 63,
+      "community": 255,
       "norm_label": "homesteadhillplsnapshot.ts",
       "id": "data_homesteadhillplsnapshot_ts"
     },
@@ -24524,7 +25055,7 @@
       "file_type": "code",
       "source_file": "pages/Finances.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 254,
       "norm_label": "finances.tsx",
       "id": "pages_finances_tsx"
     },
@@ -24569,7 +25100,7 @@
       "file_type": "code",
       "source_file": "MaintenanceHealth.tsx",
       "source_location": "L1",
-      "community": 63,
+      "community": 256,
       "norm_label": "maintenancehealth.tsx",
       "id": "maintenancehealth_tsx"
     },
@@ -24587,7 +25118,7 @@
       "file_type": "code",
       "source_file": "dialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "dialog.tsx",
       "id": "dialog_tsx"
     },
@@ -24596,7 +25127,7 @@
       "file_type": "code",
       "source_file": "AddUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "addunitdialog.tsx",
       "id": "addunitdialog_tsx"
     },
@@ -24614,7 +25145,7 @@
       "file_type": "code",
       "source_file": "EditUnitDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 247,
       "norm_label": "editunitdialog.tsx",
       "id": "editunitdialog_tsx"
     },
@@ -24623,7 +25154,7 @@
       "file_type": "code",
       "source_file": "FutureGuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "futureguestdialog.tsx",
       "id": "futureguestdialog_tsx"
     },
@@ -24632,7 +25163,7 @@
       "file_type": "code",
       "source_file": "GuestDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 112,
       "norm_label": "guestdialog.tsx",
       "id": "guestdialog_tsx"
     },
@@ -24641,7 +25172,7 @@
       "file_type": "code",
       "source_file": "RecordPaymentDialog.tsx",
       "source_location": "L1",
-      "community": 110,
+      "community": 248,
       "norm_label": "recordpaymentdialog.tsx",
       "id": "recordpaymentdialog_tsx"
     },
@@ -24650,7 +25181,7 @@
       "file_type": "code",
       "source_file": "hooks/useAirbnbBlocks.ts",
       "source_location": "L1",
-      "community": 110,
+      "community": 252,
       "norm_label": "useairbnbblocks.ts",
       "id": "hooks_useairbnbblocks_ts"
     },
@@ -24668,7 +25199,7 @@
       "file_type": "code",
       "source_file": "useAirbnbBlocks.ts",
       "source_location": "L1",
-      "community": 110,
+      "community": 252,
       "norm_label": "useairbnbblocks.ts",
       "id": "useairbnbblocks_ts"
     },
@@ -24722,7 +25253,7 @@
       "file_type": "code",
       "source_file": "pages/MaintenancePortal.tsx",
       "source_location": "L1",
-      "community": 149,
+      "community": 33,
       "norm_label": "maintenanceportal.tsx",
       "id": "pages_maintenanceportal_tsx"
     },
@@ -33937,9 +34468,9 @@
       "source_file": "src/components/maintenanceTutorialContent.test.ts",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_maintenancetutorialcontent_test_ts",
-      "target": "components_maintenancetutorialcontent_test_staysstep",
-      "confidence_score": 1.0
+      "target": "components_maintenancetutorialcontent_test_staysstep"
     },
     {
       "relation": "contains",
@@ -36692,9 +37223,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_badge_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_badge_tsx"
     },
     {
       "relation": "imports",
@@ -36703,9 +37234,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_badge_badge",
-      "confidence_score": 1.0
+      "target": "ui_badge_badge"
     },
     {
       "relation": "imports_from",
@@ -36714,9 +37245,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_button_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_button_tsx"
     },
     {
       "relation": "imports",
@@ -36725,9 +37256,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_button_button",
-      "confidence_score": 1.0
+      "target": "ui_button_button"
     },
     {
       "relation": "imports_from",
@@ -36736,9 +37267,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_card_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_card_tsx"
     },
     {
       "relation": "imports",
@@ -36747,9 +37278,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_card_card",
-      "confidence_score": 1.0
+      "target": "ui_card_card"
     },
     {
       "relation": "imports",
@@ -36758,9 +37289,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_card_cardcontent",
-      "confidence_score": 1.0
+      "target": "ui_card_cardcontent"
     },
     {
       "relation": "imports",
@@ -36769,9 +37300,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_card_cardheader",
-      "confidence_score": 1.0
+      "target": "ui_card_cardheader"
     },
     {
       "relation": "imports",
@@ -36780,9 +37311,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_card_cardtitle",
-      "confidence_score": 1.0
+      "target": "ui_card_cardtitle"
     },
     {
       "relation": "imports_from",
@@ -36791,9 +37322,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_input_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_input_tsx"
     },
     {
       "relation": "imports",
@@ -36802,9 +37333,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_input_input",
-      "confidence_score": 1.0
+      "target": "ui_input_input"
     },
     {
       "relation": "imports_from",
@@ -36813,9 +37344,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_label_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_label_tsx"
     },
     {
       "relation": "imports",
@@ -36824,9 +37355,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_label_label",
-      "confidence_score": 1.0
+      "target": "ui_label_label"
     },
     {
       "relation": "imports_from",
@@ -36835,9 +37366,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_components_ui_select_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_select_tsx"
     },
     {
       "relation": "imports",
@@ -36846,9 +37377,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_select_selectcontent",
-      "confidence_score": 1.0
+      "target": "ui_select_selectcontent"
     },
     {
       "relation": "imports",
@@ -36857,9 +37388,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_select_selectitem",
-      "confidence_score": 1.0
+      "target": "ui_select_selectitem"
     },
     {
       "relation": "imports",
@@ -36868,9 +37399,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "ui_select_selecttrigger",
-      "confidence_score": 1.0
+      "target": "ui_select_selecttrigger"
     },
     {
       "relation": "imports_from",
@@ -36879,9 +37410,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_hooks_useoperationsdata_ts",
-      "confidence_score": 1.0
+      "target": "src_hooks_useoperationsdata_ts"
     },
     {
       "relation": "imports",
@@ -36890,9 +37421,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "hooks_useoperationsdata_operationalunit",
-      "confidence_score": 1.0
+      "target": "hooks_useoperationsdata_operationalunit"
     },
     {
       "relation": "imports",
@@ -36901,9 +37432,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "hooks_useoperationsdata_reservationobservation",
-      "confidence_score": 1.0
+      "target": "hooks_useoperationsdata_reservationobservation"
     },
     {
       "relation": "imports",
@@ -36912,9 +37443,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "hooks_useoperationsdata_useoperationsdata",
-      "confidence_score": 1.0
+      "target": "hooks_useoperationsdata_useoperationsdata"
     },
     {
       "relation": "imports_from",
@@ -36923,9 +37454,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "src_lib_utils_ts",
-      "confidence_score": 1.0
+      "target": "src_lib_utils_ts"
     },
     {
       "relation": "imports",
@@ -36934,9 +37465,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "lib_utils_cn",
-      "confidence_score": 1.0
+      "target": "lib_utils_cn"
     },
     {
       "relation": "contains",
@@ -36944,8 +37475,28 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "components_reservationreviewqueue_source_names",
+      "target": "components_reservationreviewqueue_source_names"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReservationReviewQueue.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "src_components_reservationreviewqueue_tsx",
+      "target": "components_reservationreviewqueue_tracked_sources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ReservationReviewQueue.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "src_components_reservationreviewqueue_tsx",
+      "target": "components_reservationreviewqueue_sourceevidence",
       "confidence_score": 1.0
     },
     {
@@ -36954,9 +37505,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "components_reservationreviewqueue_canonicalconflict",
-      "confidence_score": 1.0
+      "target": "components_reservationreviewqueue_canonicalconflict"
     },
     {
       "relation": "contains",
@@ -36964,9 +37515,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "components_reservationreviewqueue_observationcard",
-      "confidence_score": 1.0
+      "target": "components_reservationreviewqueue_observationcard"
     },
     {
       "relation": "contains",
@@ -36974,9 +37525,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L202",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_components_reservationreviewqueue_tsx",
-      "target": "components_reservationreviewqueue_reservationreviewqueue",
-      "confidence_score": 1.0
+      "target": "components_reservationreviewqueue_reservationreviewqueue"
     },
     {
       "relation": "imports_from",
@@ -36985,9 +37536,9 @@
       "source_file": "src/pages/Operations.tsx",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_operations_tsx",
-      "target": "src_components_reservationreviewqueue_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_reservationreviewqueue_tsx"
     },
     {
       "relation": "calls",
@@ -36996,9 +37547,9 @@
       "source_file": "src/components/ReservationReviewQueue.tsx",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_reservationreviewqueue_observationcard",
-      "target": "components_reservationreviewqueue_canonicalconflict",
-      "confidence_score": 1.0
+      "target": "components_reservationreviewqueue_canonicalconflict"
     },
     {
       "relation": "calls",
@@ -53261,9 +53812,9 @@
       "source_file": "src/hooks/useOperationsData.ts",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_hooks_useoperationsdata_ts",
-      "target": "hooks_useoperationsdata_reservationobservation",
-      "confidence_score": 1.0
+      "target": "hooks_useoperationsdata_reservationobservation"
     },
     {
       "relation": "contains",
@@ -61896,12 +62447,82 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_root",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_functionpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_migrationpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_configpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/reservationObservationIntakeContract.test.ts",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "src_lib_reservationobservationintakecontract_test_ts",
+      "target": "lib_reservationobservationintakecontract_test_migration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/lib/reservationReviewContracts.test.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_reservationreviewcontracts_test_ts",
-      "target": "lib_reservationreviewcontracts_test_migration",
-      "confidence_score": 1.0
+      "target": "lib_reservationreviewcontracts_test_migration"
     },
     {
       "relation": "contains",
@@ -61909,9 +62530,9 @@
       "source_file": "src/lib/reservationReviewContracts.test.ts",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_reservationreviewcontracts_test_ts",
-      "target": "lib_reservationreviewcontracts_test_reviewqueue",
-      "confidence_score": 1.0
+      "target": "lib_reservationreviewcontracts_test_reviewqueue"
     },
     {
       "relation": "contains",
@@ -61919,9 +62540,9 @@
       "source_file": "src/lib/reservationReviewContracts.test.ts",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_reservationreviewcontracts_test_ts",
-      "target": "lib_reservationreviewcontracts_test_operationshook",
-      "confidence_score": 1.0
+      "target": "lib_reservationreviewcontracts_test_operationshook"
     },
     {
       "relation": "imports_from",
@@ -69140,6 +69761,350 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_corsheaders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_shared_secret",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_sources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_confidencevalues",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_intakepayload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_requiredstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_optionalstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_enumvalue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_optionaldate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_isotimestamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_optionaluuid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_jsonvalue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L113",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_supabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_listinglabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L162",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_proposedunitmapping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_guestname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L168",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_checkin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_checkout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_observationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_confidence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L179",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_observedat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L180",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_evidencereference",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L185",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_evidencesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L186",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_conflicts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_rawpayload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L188",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_unitid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "supabase_functions_reservation_observation_intake_index_ts",
+      "target": "reservation_observation_intake_index_stagedpayload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "reservation_observation_intake_index_enumvalue",
+      "target": "reservation_observation_intake_index_requiredstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "reservation_observation_intake_index_isotimestamp",
+      "target": "reservation_observation_intake_index_requiredstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "reservation_observation_intake_index_optionaldate",
+      "target": "reservation_observation_intake_index_optionalstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/functions/reservation-observation-intake/index.ts",
+      "source_location": "L87",
+      "weight": 1.0,
+      "source": "reservation_observation_intake_index_optionaluuid",
+      "target": "reservation_observation_intake_index_optionalstring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "/home/dalton/projects/homestead-host-hub/supabase/functions/tally-maintenance-webhook/index.ts",
       "source_location": "L5",
       "weight": 1.0,
@@ -70377,6 +71342,166 @@
       "confidence_score": 1.0,
       "source": "docs_homestead_helper_v1_recommended_hermes_automations",
       "target": "docs_homestead_helper_v1_current_cleaning_delivery_status"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_md",
+      "target": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_operating_outcome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_non_negotiable_controls",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_current_release",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_priority_0_trustworthy_operating_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_priority_1_prove_the_daily_workflow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_priority_2_controlled_delivery_and_maintenance_dispatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_priority_3_release_hardening",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/PROJECT_EXECUTION_ROADMAP.md",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "docs_project_execution_roadmap_homestead_helper_execution_roadmap",
+      "target": "docs_project_execution_roadmap_decisions_reserved_for_dalton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_md",
+      "target": "docs_reservation_observation_intake_reservation_observation_intake",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_reservation_observation_intake",
+      "target": "docs_reservation_observation_intake_endpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_reservation_observation_intake",
+      "target": "docs_reservation_observation_intake_contract",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_reservation_observation_intake",
+      "target": "docs_reservation_observation_intake_idempotency_and_review_preservation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_reservation_observation_intake",
+      "target": "docs_reservation_observation_intake_grasshopper_boundary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_endpoint",
+      "target": "docs_reservation_observation_intake_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/RESERVATION_OBSERVATION_INTAKE.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "docs_reservation_observation_intake_contract",
+      "target": "docs_reservation_observation_intake_codeblock_2",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -83998,5 +85123,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "38ffd647d8d0573b7f1fdec18d719fa619ea554b"
+  "built_at_commit": "50c4fcc6ee1e9ccf292b0f89d0fdf1b0444e8f8f"
 }

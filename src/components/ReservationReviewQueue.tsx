@@ -1,5 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, CheckCircle2, Database, MapPin, ShieldCheck, X } from 'lucide-react';
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Clock3,
+  Database,
+  MapPin,
+  ShieldCheck,
+  X,
+} from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -22,6 +30,52 @@ const SOURCE_NAMES: Record<ReservationObservation['source'], string> = {
   legacy_host_hub: 'Legacy app',
   ical: 'Calendar feed',
 };
+
+const TRACKED_SOURCES: ReservationObservation['source'][] = [
+  'airbnb',
+  'furnished_finder',
+  'grasshopper',
+];
+
+function SourceEvidence({
+  source,
+  observations,
+}: {
+  source: ReservationObservation['source'];
+  observations: ReservationObservation[];
+}) {
+  const sourceObservations = observations.filter((observation) => observation.source === source);
+  const latest = sourceObservations.reduce<ReservationObservation | null>((current, observation) => (
+    !current || new Date(observation.observed_at) > new Date(current.observed_at)
+      ? observation
+      : current
+  ), null);
+  const pending = sourceObservations.filter((observation) => (
+    ['pending', 'needs_mapping'].includes(observation.review_status)
+  )).length;
+
+  return (
+    <div className="rounded-xl border border-border/60 bg-background/35 p-3">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-semibold">{SOURCE_NAMES[source]}</p>
+        {pending > 0 && <Badge variant="outline">{pending} to review</Badge>}
+      </div>
+      {latest ? (
+        <>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Latest evidence {formatDistanceToNow(new Date(latest.observed_at), { addSuffix: true })}
+          </p>
+          <p className="mt-1 truncate text-xs text-muted-foreground">
+            {latest.observation_status.replace('_', ' ')}
+            {latest.listing_label || latest.unit?.name ? ` · ${latest.listing_label || latest.unit?.name}` : ''}
+          </p>
+        </>
+      ) : (
+        <p className="mt-1 text-xs text-amber-200">No source evidence has been staged.</p>
+      )}
+    </div>
+  );
+}
 
 function canonicalConflict(observation: ReservationObservation) {
   const current = observation.matched_reservation;
@@ -238,6 +292,20 @@ export default function ReservationReviewQueue({
               Hermes and booking sources place possible changes here first. Nothing changes the live schedule until you approve it.
             </p>
             <p className="mt-1 text-xs font-medium text-emerald-200">Reviewing and approving here does not send email, text messages, or calendar invitations.</p>
+          </div>
+          <div>
+            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <Clock3 className="h-3.5 w-3.5" />
+              Latest evidence by source
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {TRACKED_SOURCES.map((source) => (
+                <SourceEvidence key={source} source={source} observations={observations} />
+              ))}
+            </div>
+            <p className="mt-2 text-[11px] text-muted-foreground">
+              Evidence age shows the newest staged record, not whether the source login is healthy.
+            </p>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <div className="rounded-xl bg-background/40 p-3">
