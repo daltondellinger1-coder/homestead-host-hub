@@ -65,7 +65,7 @@ flowchart LR
   M["Every important change"] --> N["Activity log and automation event"]
 ```
 
-The browser uses the existing Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
+The browser uses the independently owned Homestead Helper Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
 
 Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified.
 
@@ -252,17 +252,16 @@ Supabase-provided `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are used only i
 
 ## Deployment order
 
-1. Back up the Supabase database and confirm restore access.
-2. Confirm Dalton’s active `admin` role.
-3. Apply the V1 migration.
-4. Deploy `cleaner-task-access` and `operations-dispatch`.
-5. Set `APP_PUBLIC_URL`; leave delivery disabled.
-6. Publish the GitHub commit through Lovable.
-7. Assign Briana and Wendy roles.
-8. Run the acceptance checklist with synthetic records.
-9. Configure and prove Google Calendar.
-10. Configure and prove email.
-11. Enable delivery only after both proofs pass.
+1. Confirm the owned Supabase project is healthy and the prior data-count audit still matches.
+2. Confirm Briana’s linked `admin` role and Wendy’s linked `cleaner` role.
+3. Apply any pending migrations and deploy the checked-in Edge Functions.
+4. Set `APP_PUBLIC_URL`; keep calendar, email, and maintenance SMS delivery disabled.
+5. Build from the committed lockfile and publish the matching GitHub commit through Sites.
+6. Smoke-test manager login, cleaner login, password recovery, role boundaries, and the public offer route.
+7. Configure and prove Google Calendar.
+8. Configure and prove email.
+9. Complete Twilio A2P registration and run one controlled SMS canary.
+10. Enable each delivery channel only after its separate proof passes.
 
 ## User acceptance checklist
 
@@ -312,7 +311,7 @@ Do not use a destructive rollback on live data.
 2. Return the property-manager home route to `/host-hub` if the new interface must be hidden.
 3. Revoke active cleaner tokens.
 4. Stop the operations dispatcher schedule.
-5. Revert the application commit and republish through Lovable.
+5. Revert the application commit and republish the last known-good Sites version.
 6. Keep the additive V1 tables in place for evidence and export unless a tested database restore is being performed.
 
 Dropping tables, enum values, or operational columns can destroy activity, cleaning, and approval history and is not the normal rollback path.
@@ -321,7 +320,7 @@ Dropping tables, enum values, or operational columns can destroy activity, clean
 
 - No automatic guest messages are sent.
 - Google Calendar and email are coded but remain disabled until verified.
-- SMS is an interface-only disabled provider. Grasshopper is not assumed to have a supported SMS API.
+- Twilio maintenance SMS is implemented with a durable outbox and atomic first-accept assignment, but remains disabled until A2P registration and a controlled canary pass.
 - Airbnb iCal remains availability-only; rich guest details require an approved PMS/channel manager or permissioned confirmation-email importer.
 - QuickBooks remains separate; vendors store only an optional reference.
 - Import runs have a safe audit model, but no general-purpose import UI is shipped.

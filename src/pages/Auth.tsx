@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Mountain, Wrench, Building2, ArrowLeft, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -17,10 +17,14 @@ function getLaneFromPath(pathname: string): LoginLane | null {
 
 export default function Auth() {
   const location = useLocation();
+  const navigate = useNavigate();
   const lane = getLaneFromPath(location.pathname);
+  const isRecovery = new URLSearchParams(location.search).get('recovery') === '1';
   const [isLogin, setIsLogin] = useState(true);
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   if (!lane) {
@@ -75,7 +79,22 @@ export default function Auth() {
     setStoredLoginLane(lane);
 
     try {
-      if (isLogin) {
+      if (isRecovery) {
+        if (password !== confirmPassword) throw new Error('Passwords do not match.');
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) throw new Error('This password-reset link is invalid or has expired.');
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) throw error;
+        toast.success('Password updated. You are signed in.');
+        navigate('/', { replace: true });
+      } else if (forgotPassword) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}${location.pathname}?recovery=1`,
+        });
+        if (error) throw error;
+        toast.success('Check your email for a password-reset link.');
+        setForgotPassword(false);
+      } else if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success('Welcome back!');
@@ -93,6 +112,13 @@ export default function Auth() {
 
   const isMaintenance = lane === 'maintenance';
   const isCleaner = lane === 'cleaner';
+  const formTitle = isRecovery
+    ? 'Set a new password'
+    : forgotPassword
+      ? 'Reset your password'
+      : isLogin
+        ? 'Sign In'
+        : 'Create Invited Account';
 
   return (
     <div className="min-h-screen pattern-bg flex items-center justify-center px-4">
@@ -112,33 +138,68 @@ export default function Auth() {
         </div>
 
         <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4">
-          <h2 className="text-lg font-heading font-semibold text-center">
-            {isLogin ? 'Sign In' : 'Create Invited Account'}
-          </h2>
+          <h2 className="text-lg font-heading font-semibold text-center">{formTitle}</h2>
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="font-body text-sm">Email</Label>
-            <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} required className="font-body" />
-          </div>
+          {!isRecovery && (
+            <div className="space-y-2">
+              <Label htmlFor="email" className="font-body text-sm">Email</Label>
+              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} required className="font-body" />
+            </div>
+          )}
 
-          <div className="space-y-2">
-            <Label htmlFor="password" className="font-body text-sm">Password</Label>
-            <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} className="font-body" />
-          </div>
+          {!forgotPassword && (
+            <div className="space-y-2">
+              <Label htmlFor="password" className="font-body text-sm">
+                {isRecovery ? 'New password' : 'Password'}
+              </Label>
+              <Input id="password" type="password" placeholder="••••••••••" value={password} onChange={e => setPassword(e.target.value)} required minLength={10} className="font-body" />
+            </div>
+          )}
+
+          {isRecovery && (
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password" className="font-body text-sm">Confirm new password</Label>
+              <Input id="confirm-password" type="password" placeholder="••••••••••" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required minLength={10} className="font-body" />
+            </div>
+          )}
 
           <Button type="submit" disabled={loading} className="w-full gold-gradient border-0 text-background font-semibold font-body hover:opacity-90">
-            {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
+            {loading
+              ? 'Please wait...'
+              : isRecovery
+                ? 'Save new password'
+                : forgotPassword
+                  ? 'Email reset link'
+                  : isLogin
+                    ? 'Sign In'
+                    : 'Create Account'}
           </Button>
 
-          <p className="text-center text-xs text-muted-foreground font-body">
-            {isLogin ? 'Have a team invitation?' : 'Already have an account?'}{' '}
-            <button type="button" className="text-secondary hover:underline" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? 'Create account' : 'Sign In'}
-            </button>
-          </p>
-          <p className="text-center text-[11px] text-muted-foreground font-body">
-            Portal access is assigned by Dalton or Briana.
-          </p>
+          {!isRecovery && (
+            <>
+              <p className="text-center text-xs text-muted-foreground font-body">
+                {forgotPassword ? 'Remembered your password?' : isLogin ? 'Have a team invitation?' : 'Already have an account?'}{' '}
+                <button
+                  type="button"
+                  className="text-secondary hover:underline"
+                  onClick={() => {
+                    if (forgotPassword) setForgotPassword(false);
+                    else setIsLogin(!isLogin);
+                  }}
+                >
+                  {forgotPassword ? 'Sign In' : isLogin ? 'Create account' : 'Sign In'}
+                </button>
+              </p>
+              {isLogin && !forgotPassword && (
+                <button type="button" className="block w-full text-center text-xs text-secondary hover:underline" onClick={() => setForgotPassword(true)}>
+                  Forgot password?
+                </button>
+              )}
+              <p className="text-center text-[11px] text-muted-foreground font-body">
+                Portal access is assigned by Dalton or Briana.
+              </p>
+            </>
+          )}
         </form>
       </div>
     </div>

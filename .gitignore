@@ -12,6 +12,7 @@ dist
 artifacts/
 dist-ssr
 .wrangler/
+supabase/.temp/
 *.local
 
 # Editor directories and files

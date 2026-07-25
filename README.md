@@ -2,7 +2,7 @@
 
 Homestead Helper is Homestead Hill’s internal property-operations command center. It gives the owner, property manager, maintenance team, and cleaner a role-appropriate view of the property’s 15 furnished-rental units.
 
-The application is built with React, TypeScript, Vite, Tailwind, shadcn/ui, and Supabase. It is connected to Lovable through GitHub.
+The application is built with React, TypeScript, Vite, Tailwind, shadcn/ui, and an independently owned Supabase backend. GitHub is the source of truth and Sites hosts the public application.
 
 ## Daily workflows
 
@@ -29,10 +29,10 @@ Do not store passwords, door codes, Wi-Fi passwords, payment credentials, or rec
 
 ## Local development
 
-Copy `.env.example` to `.env`, add the existing Supabase project’s public URL and publishable key, then:
+Copy `.env.example` to `.env`, add the Homestead Helper Supabase project’s public URL and publishable key, then:
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
@@ -43,7 +43,7 @@ npm test
 npm run build
 ```
 
-The current lockfile is inherited from Lovable. Use `npm install` rather than `npm ci` until the lockfile is synchronized.
+Use the committed lockfile so local, CI, and hosted builds resolve the same dependency versions.
 
 ## Operations rollout
 

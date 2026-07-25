@@ -410,10 +410,12 @@ CREATE TABLE IF NOT EXISTS public.import_runs (
   completed_at timestamptz
 );
 
+DROP POLICY IF EXISTS "Operations staff read cleaning photos" ON storage.objects;
 CREATE POLICY "Operations staff read cleaning photos" ON storage.objects
 FOR SELECT TO authenticated
 USING (bucket_id = 'cleaning-photos' AND public.has_any_role(ARRAY['admin','property_manager','cleaner']));
 
+DROP POLICY IF EXISTS "Operations staff upload cleaning photos" ON storage.objects;
 CREATE POLICY "Operations staff upload cleaning photos" ON storage.objects
 FOR INSERT TO authenticated
 WITH CHECK (bucket_id = 'cleaning-photos' AND public.has_any_role(ARRAY['admin','property_manager','cleaner']));
@@ -718,6 +720,9 @@ DO $$ DECLARE v_table text; BEGIN
                                   'checklist_runs','activity_log','notifications','automation_events','import_runs']
   LOOP
     EXECUTE format(
+      'DROP POLICY IF EXISTS "Operations staff manage %1$s" ON public.%1$I',
+      v_table);
+    EXECUTE format(
       'CREATE POLICY "Operations staff manage %1$s" ON public.%1$I
        FOR ALL TO authenticated
        USING (public.has_any_role(ARRAY[''admin'',''property_manager'']))
@@ -726,60 +731,73 @@ DO $$ DECLARE v_table text; BEGIN
   END LOOP;
 END $$;
 
+DROP POLICY IF EXISTS "Owners manage approval requests" ON public.approval_requests;
 CREATE POLICY "Owners manage approval requests" ON public.approval_requests
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['admin'])) WITH CHECK (public.has_any_role(ARRAY['admin']));
 
+DROP POLICY IF EXISTS "Property managers create pending approvals" ON public.approval_requests;
 CREATE POLICY "Property managers create pending approvals" ON public.approval_requests
 FOR INSERT TO authenticated
 WITH CHECK (public.has_any_role(ARRAY['property_manager'])
   AND status = 'pending' AND decided_by IS NULL AND decided_at IS NULL);
 
+DROP POLICY IF EXISTS "Property managers read approval requests" ON public.approval_requests;
 CREATE POLICY "Property managers read approval requests" ON public.approval_requests
 FOR SELECT TO authenticated USING (public.has_any_role(ARRAY['property_manager']));
 
+DROP POLICY IF EXISTS "Owners manage approval rules" ON public.approval_rules;
 CREATE POLICY "Owners manage approval rules" ON public.approval_rules
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['admin'])) WITH CHECK (public.has_any_role(ARRAY['admin']));
 
+DROP POLICY IF EXISTS "Operations staff read approval rules" ON public.approval_rules;
 CREATE POLICY "Operations staff read approval rules" ON public.approval_rules
 FOR SELECT TO authenticated USING (public.has_any_role(ARRAY['admin','property_manager']));
 
+DROP POLICY IF EXISTS "Owners manage cleaner access tokens" ON public.cleaner_access_tokens;
 CREATE POLICY "Owners manage cleaner access tokens" ON public.cleaner_access_tokens
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['admin','property_manager']))
 WITH CHECK (public.has_any_role(ARRAY['admin','property_manager']));
 
+DROP POLICY IF EXISTS "Cleaners read assigned cleaning tasks" ON public.cleaning_tasks;
 CREATE POLICY "Cleaners read assigned cleaning tasks" ON public.cleaning_tasks
 FOR SELECT TO authenticated
 USING (public.has_any_role(ARRAY['cleaner']) AND assigned_cleaner_user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Cleaners update assigned cleaning tasks" ON public.cleaning_tasks;
 CREATE POLICY "Cleaners update assigned cleaning tasks" ON public.cleaning_tasks
 FOR UPDATE TO authenticated
 USING (public.has_any_role(ARRAY['cleaner']) AND assigned_cleaner_user_id = auth.uid())
 WITH CHECK (public.has_any_role(ARRAY['cleaner']) AND assigned_cleaner_user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Operations staff enrich guests" ON public.guests;
 CREATE POLICY "Operations staff enrich guests" ON public.guests
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['admin','property_manager']))
 WITH CHECK (public.has_any_role(ARRAY['admin','property_manager']));
 
+DROP POLICY IF EXISTS "Operations staff manage units" ON public.units;
 CREATE POLICY "Operations staff manage units" ON public.units
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['admin','property_manager']))
 WITH CHECK (public.has_any_role(ARRAY['admin','property_manager']));
 
 DROP POLICY IF EXISTS "Maintenance photos public read" ON storage.objects;
+DROP POLICY IF EXISTS "Maintenance photos staff read" ON storage.objects;
 CREATE POLICY "Maintenance photos staff read" ON storage.objects
 FOR SELECT TO authenticated
 USING (bucket_id = 'maintenance-photos'
        AND public.has_any_role(ARRAY['admin','property_manager','maintenance']));
 
+DROP POLICY IF EXISTS "Property managers manage maintenance requests" ON public.maintenance_requests;
 CREATE POLICY "Property managers manage maintenance requests" ON public.maintenance_requests
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['property_manager']))
 WITH CHECK (public.has_any_role(ARRAY['property_manager']));
 
+DROP POLICY IF EXISTS "Property managers manage maintenance updates" ON public.maintenance_updates;
 CREATE POLICY "Property managers manage maintenance updates" ON public.maintenance_updates
 FOR ALL TO authenticated
 USING (public.has_any_role(ARRAY['property_manager']))
