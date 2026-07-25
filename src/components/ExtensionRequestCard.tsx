@@ -338,7 +338,7 @@ export default function ExtensionRequestCard({
                 Amount to collect: <span className="text-secondary font-semibold">{fmtMoney(amount)}</span> ({nightsAdded} {nightsAdded === 1 ? 'night' : 'nights'}).
               </span>
               <span className="block text-[11px] text-muted-foreground">
-                Payment is collected manually. The extension will be mirrored to the website calendar and the guest will receive a confirmation email.
+                Payment is collected manually. The extension will be mirrored to the website calendar. Guest email delivery is paused and will not send automatically.
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -369,7 +369,7 @@ export default function ExtensionRequestCard({
           <AlertDialogHeader>
             <AlertDialogTitle className="font-heading">Decline this extension?</AlertDialogTitle>
             <AlertDialogDescription className="font-body">
-              The guest will receive a polite decline email. Optionally include a reason.
+              This updates the request only. Guest email delivery is paused and will not send automatically. Optionally include a reason for your records.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <Textarea

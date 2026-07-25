@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { getPostLoginPath, canAccessPath } from './roleRouting';
+import {
+  canAccessPath,
+  getPostLoginPath,
+  isPasswordRecoveryLocation,
+} from './roleRouting';
 
 describe('role-based login routing', () => {
   it('sends property managers to the full Host Hub dashboard', () => {
@@ -48,5 +52,12 @@ describe('role-based login routing', () => {
     expect(canAccessPath('/admin/draws', ['admin'])).toBe(true);
     expect(canAccessPath('/admin/draws', ['maintenance'])).toBe(false);
     expect(canAccessPath('/admin/draws', [])).toBe(false);
+  });
+
+  it('recognizes password recovery links before an authenticated redirect', () => {
+    expect(isPasswordRecoveryLocation('?recovery=1')).toBe(true);
+    expect(isPasswordRecoveryLocation('', '#access_token=example&type=recovery')).toBe(true);
+    expect(isPasswordRecoveryLocation('', '#type=signup')).toBe(false);
+    expect(isPasswordRecoveryLocation('')).toBe(false);
   });
 });

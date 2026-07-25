@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 
 export type BookingRequest = Tables<'booking_requests'>;
 export type BookingRequestStatus = BookingRequest['status'];
+const bookingEmailDeliveryEnabled =
+  import.meta.env.VITE_BOOKING_EMAIL_DELIVERY_ENABLED === 'true';
 
 export function useBookingRequests() {
   const [requests, setRequests] = useState<BookingRequest[]>([]);
@@ -58,12 +60,10 @@ export function useBookingRequests() {
       return false;
     }
 
-    // Fire-and-forget approval email via the website's edge function.
-    // The website project owns the Resend sender domain, so emails go out
-    // branded as booking@homestead-hill.com. Failures here are logged
-    // but never fail the approval itself.
+    // Email delivery is a separate, default-off action. Approving a booking
+    // must never silently contact the guest.
     const request = requests.find(r => r.id === id);
-    if (request) {
+    if (request && bookingEmailDeliveryEnabled) {
       fetch(
         'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/send-booking-approval-email',
         {
@@ -79,6 +79,8 @@ export function useBookingRequests() {
           }),
         }
       ).catch(err => console.error('Approval email send failed (non-fatal):', err));
+    } else if (request) {
+      toast.info('Booking approved. Guest email was not sent.');
     }
 
     return true;
@@ -99,8 +101,9 @@ export function useBookingRequests() {
       return false;
     }
 
-    // For stay-extension requests, fire a decline email via the website.
-    if (request?.source === 'extension') {
+    // Extension decline email remains default-off until outbound delivery is
+    // explicitly enabled after a controlled canary.
+    if (request?.source === 'extension' && bookingEmailDeliveryEnabled) {
       fetch(
         'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/send-extension-decline-email',
         {
@@ -115,6 +118,8 @@ export function useBookingRequests() {
           }),
         }
       ).catch(err => console.error('Extension decline email failed (non-fatal):', err));
+    } else if (request?.source === 'extension') {
+      toast.info('Extension declined. Guest email was not sent.');
     }
 
     toast.success('Request declined');
@@ -188,21 +193,26 @@ export function useBookingRequests() {
         return false;
       }
 
-      // 3. Fire-and-forget approval email.
-      fetch(
-        'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/send-extension-approval-email',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: request.name,
-            email: request.email,
-            unit_name: params.unitName,
-            new_check_out: params.endDate,
-            amount: params.amount,
-          }),
-        }
-      ).catch(err => console.error('Extension approval email failed (non-fatal):', err));
+      // 3. Guest email is independent from the calendar/status changes and
+      // remains default-off until its named canary is approved.
+      if (bookingEmailDeliveryEnabled) {
+        fetch(
+          'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/send-extension-approval-email',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: request.name,
+              email: request.email,
+              unit_name: params.unitName,
+              new_check_out: params.endDate,
+              amount: params.amount,
+            }),
+          }
+        ).catch(err => console.error('Extension approval email failed (non-fatal):', err));
+      } else {
+        toast.info('Extension approved. Guest email was not sent.');
+      }
 
       return true;
     },

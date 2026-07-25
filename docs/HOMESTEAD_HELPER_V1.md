@@ -67,7 +67,14 @@ flowchart LR
 
 The browser uses the independently owned Homestead Helper Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
 
-Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified.
+Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified. Legacy booking-request guest emails are separately controlled by the build-time `VITE_BOOKING_EMAIL_DELIVERY_ENABLED` flag, which must also remain unset/false until a named guest-email canary is explicitly approved.
+
+Normalized Airbnb, Furnished Finder, and Grasshopper evidence enters through
+the secret-protected `reservation-observation-intake` Edge Function. That
+function can only stage or refresh `reservation_source_observations`. A
+property manager must review the item before the transactional approval RPC can
+change a reservation. Inquiries and text signals cannot be approved as stays,
+and the intake path cannot create cleaning tasks or outbound notifications.
 
 Maintenance handyman texting is controlled separately by
 `MAINTENANCE_SMS_ENABLED`. A manager selects text-consented vendors, an
@@ -106,6 +113,8 @@ Migration: `supabase/migrations/20260723154000_homestead_helper_v1.sql`
 - `automation_events`
 - `cleaner_access_tokens`
 - `import_runs`
+- `reservation_source_observations`
+- `reservation_observation_intake_events`
 
 ### Database-enforced workflow
 
@@ -263,6 +272,10 @@ Supabase-provided `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are used only i
 9. Complete Twilio A2P registration and run one controlled SMS canary.
 10. Enable each delivery channel only after its separate proof passes.
 
+The current production rollout is intentionally paused before step 7:
+reservation review is live, source-observation intake is being connected, and
+all outbound gates remain off.
+
 ## User acceptance checklist
 
 ### Briana
@@ -319,11 +332,14 @@ Dropping tables, enum values, or operational columns can destroy activity, clean
 ## Known limitations
 
 - No automatic guest messages are sent.
-- Google Calendar and email are coded but remain disabled until verified.
+- Google Calendar and email are coded but remain disabled. Historical Wendy
+  assignment messages were sent before the source-data gate was restored; do
+  not repeat or correct them without Dalton's approval.
 - Twilio maintenance SMS is implemented with a durable outbox and atomic first-accept assignment, but remains disabled until A2P registration and a controlled canary pass.
 - Airbnb iCal remains availability-only; rich guest details require an approved PMS/channel manager or permissioned confirmation-email importer.
 - QuickBooks remains separate; vendors store only an optional reference.
-- Import runs have a safe audit model, but no general-purpose import UI is shipped.
+- Reservation observations have a manager review UI. Other import runs have a
+  safe audit model, but no general-purpose import UI is shipped.
 - Historical guest/payment data is preserved; it is not fully normalized into historical reservations.
 - The existing bundle remains large and should be code-split in a later performance pass.
 
@@ -385,10 +401,9 @@ Do not use browser automation for SMS and do not hard-code Grasshopper without a
 
 ## Remaining setup decisions
 
-1. Whether normal Wendy assignments should use her cleaner login, a direct
-   assignment email, or both the login and the expiring-link fallback.
-2. A supported SMS provider. Wendy's SMS consent was confirmed by Dalton on
+1. Approval of one named, synthetic cleaner email/calendar canary after source
+   reconciliation and role UAT are complete.
+2. A supported SMS provider and successful A2P registration. Wendy's SMS consent was confirmed by Dalton on
    2026-07-23; keep the consent record in the provider's compliance system
    before enabling delivery.
-3. Completion of Google OAuth authorization for **Homestead Hill Cleaning**.
-4. Verification of `homestead-hill.com` with the selected email provider.
+3. Approval or rejection of ambiguous real reservation observations.

@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { setStoredLoginLane, type LoginLane } from '@/lib/roleRouting';
+import {
+  isPasswordRecoveryLocation,
+  setStoredLoginLane,
+  type LoginLane,
+} from '@/lib/roleRouting';
 
 function getLaneFromPath(pathname: string): LoginLane | null {
   if (pathname.includes('/maintenance')) return 'maintenance';
@@ -19,7 +23,7 @@ export default function Auth() {
   const location = useLocation();
   const navigate = useNavigate();
   const lane = getLaneFromPath(location.pathname);
-  const isRecovery = new URLSearchParams(location.search).get('recovery') === '1';
+  const isRecovery = isPasswordRecoveryLocation(location.search, location.hash);
   const [isLogin, setIsLogin] = useState(true);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState('');

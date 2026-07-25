@@ -15,6 +15,12 @@ describe('role entry points', () => {
     expect(appSource).toContain('path="/auth/cleaner"');
   });
 
+  it('keeps a recovery session on the password form instead of redirecting into the app', () => {
+    expect(appSource).toContain('isPasswordRecoveryLocation');
+    expect(appSource).toContain('if (isPasswordRecovery)');
+    expect(authSource).toContain('isPasswordRecoveryLocation(location.search, location.hash)');
+  });
+
   it('lets operations assign an active cleaner to a cleaning task', () => {
     expect(operationsSource).toContain('operations.assignCleaner(cleaning.id, cleaner)');
     expect(operationsSource).toContain('Cleaner for ${cleaning.unit?.name');

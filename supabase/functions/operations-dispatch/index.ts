@@ -13,13 +13,80 @@ interface NotificationProvider {
     subject: string;
     text: string;
     idempotencyKey: string;
+    calendar?: CalendarInvite;
   }): Promise<DeliveryResult>;
+}
+
+interface CalendarInvite {
+  uid: string;
+  summary: string;
+  description: string;
+  startsAt: string;
+  endsAt: string;
+  attendeeName?: string;
+  organizerEmail?: string;
+  organizerName?: string;
+}
+
+function escapeCalendarText(value: string) {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/\r?\n/g, "\\n")
+    .replace(/,/g, "\\,")
+    .replace(/;/g, "\\;");
+}
+
+function calendarTimestamp(value: string) {
+  return new Date(value).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+}
+
+function encodeBase64(value: string) {
+  const bytes = new TextEncoder().encode(value);
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+function renderCalendarInvite(invite: CalendarInvite, attendeeEmail: string) {
+  const organizerEmail = invite.organizerEmail || "booking@homestead-hill.com";
+  const organizerName = invite.organizerName || "Homestead Helper";
+  const attendeeName = invite.attendeeName || attendeeEmail;
+  return [
+    "BEGIN:VCALENDAR",
+    "PRODID:-//Homestead Hill//Homestead Helper//EN",
+    "VERSION:2.0",
+    "CALSCALE:GREGORIAN",
+    "METHOD:REQUEST",
+    "BEGIN:VEVENT",
+    `UID:${escapeCalendarText(invite.uid)}`,
+    `DTSTAMP:${calendarTimestamp(new Date().toISOString())}`,
+    `DTSTART:${calendarTimestamp(invite.startsAt)}`,
+    `DTEND:${calendarTimestamp(invite.endsAt)}`,
+    `SUMMARY:${escapeCalendarText(invite.summary)}`,
+    `DESCRIPTION:${escapeCalendarText(invite.description)}`,
+    `ORGANIZER;CN=${escapeCalendarText(organizerName)}:mailto:${organizerEmail}`,
+    `ATTENDEE;CN=${escapeCalendarText(attendeeName)};RSVP=TRUE;ROLE=REQ-PARTICIPANT:mailto:${attendeeEmail}`,
+    "STATUS:CONFIRMED",
+    "SEQUENCE:0",
+    "END:VEVENT",
+    "END:VCALENDAR",
+    "",
+  ].join("\r\n");
 }
 
 class EmailProvider implements NotificationProvider {
   constructor(private apiKey: string, private from: string) {}
 
-  async send(message: { to: string; subject: string; text: string; idempotencyKey: string }) {
+  async send(message: {
+    to: string;
+    subject: string;
+    text: string;
+    idempotencyKey: string;
+    calendar?: CalendarInvite;
+  }) {
+    const calendar = message.calendar
+      ? renderCalendarInvite(message.calendar, message.to)
+      : null;
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -32,6 +99,10 @@ class EmailProvider implements NotificationProvider {
         to: [message.to],
         subject: message.subject,
         text: message.text,
+        attachments: calendar ? [{
+          filename: "homestead-hill-cleaning.ics",
+          content: encodeBase64(calendar),
+        }] : undefined,
       }),
     });
     if (response.ok) {
@@ -179,6 +250,7 @@ async function deliverNotifications() {
       subject: String(message.payload?.subject ?? "Homestead Helper update"),
       text: String(message.payload?.text ?? ""),
       idempotencyKey: message.idempotency_key,
+      calendar: message.payload?.calendar as CalendarInvite | undefined,
     });
     await admin.from("notifications").update(result.ok ? {
       delivery_status: "sent",
@@ -189,6 +261,13 @@ async function deliverNotifications() {
       failure_reason: result.error,
       retry_count: message.retry_count + 1,
     }).eq("id", message.id);
+    if (message.related_record_type === "cleaning_task" && message.payload?.calendar) {
+      await admin.from("cleaning_tasks").update(result.ok ? {
+        calendar_sync_status: "synced",
+      } : {
+        calendar_sync_status: "failed",
+      }).eq("id", message.related_record_id);
+    }
     result.ok ? sent += 1 : failed += 1;
   }
   return { sent, failed };
