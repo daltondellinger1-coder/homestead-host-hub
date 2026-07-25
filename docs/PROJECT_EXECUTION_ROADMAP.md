@@ -33,10 +33,13 @@ stay or trigger an outbound communication.
 - Graham Reed / Unit 11 / July 27 checkout is the only explicitly approved
   correction from the current reconciliation.
 - Ten source observations remain pending review. Paul / Unit 14 remains an
-  unresolved text signal.
+  unresolved text signal. The newer authenticated Airbnb snapshot for Raylon /
+  Unit 3 is staged as a July 26 versus August 8 conflict; the canonical stay
+  was not changed.
 - Delivery gates are off. Historical Wendy emails already sent before the gate
   was restored remain audit history and must not be repeated or corrected
-  without approval.
+  without approval. Legacy booking-request guest emails now have their own
+  default-off build gate.
 
 ## Priority 0 — trustworthy operating data
 
@@ -44,9 +47,9 @@ stay or trigger an outbound communication.
 | --- | --- | --- | --- |
 | Normalized collector intake | Codex | In progress | Secret-protected endpoint stages idempotent observations, preserves reviewed decisions, and cannot create reservations or outbound messages |
 | Current reservation reconciliation | Dalton/Briana review, Codex support | Ready for review | Every pending item is approved, rejected, or left explicitly unresolved with evidence |
-| Grasshopper history backfill | Hermes | Not built | Append-only messages/calls/voicemails/attachments back to 2023 where available; stable source IDs; checkpointed resume; duplicate-free rerun |
-| Living unit dossiers | Hermes | Not built | One dossier per unit tracks occupants, message history, maintenance, complaints, outcomes, confidence, contradictions, and source links |
-| Ongoing source polling | Hermes collectors | Partial | Airbnb monitor plus Furnished Finder and Grasshopper incremental checkpoints produce the normalized observation contract without direct app writes |
+| Grasshopper history backfill | Hermes collector + Codex archive | Archive engine built; live capture blocked by browser bridge | Append-only messages/calls/voicemails/attachments back to 2023 where available; stable source IDs; checkpointed resume; duplicate-free rerun |
+| Living unit dossiers | Codex archive engine | Built against fixtures; real backfill pending | One dossier per unit tracks occupants, message history, maintenance, complaints, outcomes, confidence, contradictions, and source links |
+| Ongoing source polling | Hermes collectors | Partial; hourly delivery corrected to local-only | Airbnb monitor plus Furnished Finder and Grasshopper incremental checkpoints produce the normalized observation contract without direct app writes |
 | Source health visibility | Codex | Pending | Manager can see last successful poll, stale source, error, and unresolved mapping without opening Agent OS |
 
 ## Priority 1 — prove the daily workflow
@@ -56,8 +59,8 @@ stay or trigger an outbound communication.
 | Reservation to cleaning | Codex | Built; full live UAT pending | Approved reservation creates exactly one cleaning task; date change updates it; cancellation cancels incomplete work |
 | Wendy cleaner journey | Codex + Wendy UAT | Built; acceptance pending | Login/link, confirm, decline, start, photos, findings, complete, and expired-link paths pass on Wendy's phone |
 | Briana manager journey | Codex + Briana UAT | Built; acceptance pending | Today, units, reservation review, cleaning, readiness, maintenance, approvals, checklists, and activity pass on phone |
-| Recovery and role boundaries | Codex | Pending full matrix | Admin, property manager, cleaner, maintenance, public token, password recovery, and revoked-link tests pass without data leakage |
-| No-outbound canary suite | Codex | Pending | Transactional test proves reservation-to-cleaning and review idempotency with delivery flags off and zero notification rows |
+| Recovery and role boundaries | Codex | Admin and cleaner accounts verified; full matrix pending | Admin, property manager, cleaner, maintenance, public token, password recovery, and revoked-link tests pass without data leakage |
+| No-outbound canary suite | Codex | Focused contracts and live queue audit pass; transactional test pending | Transactional test proves reservation-to-cleaning and review idempotency with delivery flags off and zero notification rows |
 
 ## Priority 2 — controlled delivery and maintenance dispatch
 
@@ -94,4 +97,3 @@ Codex should continue without interruption except when one of these is reached:
 4. Approving a destructive cleanup, irreversible production change, or a
    material change to roles, thresholds, retention, or guest communication
    policy.
-

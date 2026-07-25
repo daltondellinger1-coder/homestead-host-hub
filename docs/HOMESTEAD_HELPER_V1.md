@@ -67,7 +67,7 @@ flowchart LR
 
 The browser uses the independently owned Homestead Helper Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
 
-Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified.
+Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified. Legacy booking-request guest emails are separately controlled by the build-time `VITE_BOOKING_EMAIL_DELIVERY_ENABLED` flag, which must also remain unset/false until a named guest-email canary is explicitly approved.
 
 Normalized Airbnb, Furnished Finder, and Grasshopper evidence enters through
 the secret-protected `reservation-observation-intake` Edge Function. That
