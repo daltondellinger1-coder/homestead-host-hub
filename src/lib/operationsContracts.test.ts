@@ -16,8 +16,22 @@ const dispatchFunction = readFileSync(
 );
 const operationsPage = readFileSync(resolve(process.cwd(), 'src/pages/Operations.tsx'), 'utf8');
 const cleanerPage = readFileSync(resolve(process.cwd(), 'src/pages/CleanerPortal.tsx'), 'utf8');
+const reservationRepair = readFileSync(
+  resolve(process.cwd(), 'supabase/migrations/20260724140000_fix_reservation_creation_rpc.sql'),
+  'utf8',
+);
+const cleanerUnitPolicy = readFileSync(
+  resolve(process.cwd(), 'supabase/migrations/20260724141000_allow_cleaners_to_read_assigned_unit_names.sql'),
+  'utf8',
+);
 
 describe('Homestead Helper V1 contracts', () => {
+  it('creates reservation guests using only columns present in the current guest schema', () => {
+    expect(reservationRepair).toContain('CREATE OR REPLACE FUNCTION public.create_reservation_with_guest');
+    expect(reservationRepair).not.toContain('user_id');
+    expect(reservationRepair).toContain('_check_out_date <= _check_in_date');
+  });
+
   it('creates reservations atomically with a guest and blocks overlaps', () => {
     expect(migration).toContain('create_reservation_with_guest');
     expect(migration).toContain('prevent_reservation_overlap');
@@ -47,6 +61,14 @@ describe('Homestead Helper V1 contracts', () => {
     expect(cleanerFunction).not.toContain('payment');
     expect(cleanerFunction).not.toContain('wifi_secret_reference');
     expect(cleanerPage).toContain('Only the work assigned to you');
+    expect(cleanerPage).toContain("token ? 'This cleaning link is invalid or expired.'");
+  });
+
+  it('lets cleaners read only unit names connected to their own active assignments', () => {
+    expect(cleanerUnitPolicy).toContain('task.assigned_cleaner_user_id = auth.uid()');
+    expect(cleanerUnitPolicy).toContain("task.status NOT IN ('ready', 'cancelled')");
+    expect(cleanerUnitPolicy).not.toContain('guests');
+    expect(cleanerUnitPolicy).not.toContain('payments');
   });
 
   it('restricts cleaner uploads to image types and ten megabytes', () => {

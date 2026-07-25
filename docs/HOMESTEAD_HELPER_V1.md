@@ -65,9 +65,22 @@ flowchart LR
   M["Every important change"] --> N["Activity log and automation event"]
 ```
 
-The browser uses the existing Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
+The browser uses the independently owned Homestead Helper Supabase project. Row-level security keeps owner/property-manager, maintenance, and cleaner access separate. Public cleaner links call one narrowly scoped Edge Function; they never receive direct table access or an administrative session.
 
 Outbound calendar/email work is controlled by `OPERATIONS_DELIVERY_ENABLED`. It must remain `false` until the real calendar, sender, recipients, and a test cleaning are verified.
+
+Maintenance handyman texting is controlled separately by
+`MAINTENANCE_SMS_ENABLED`. A manager selects text-consented vendors, an
+authorized spending limit, and an acceptance window. Each recipient receives a
+unique expiring link. The database awards the job atomically to the first
+confirmed acceptance, assigns the vendor, and queues winner and filled-job
+notifications for retryable delivery. Keep this setting `false` until Twilio,
+the consented roster, and a controlled canary are verified.
+
+Production should use `TWILIO_ACCOUNT_SID`, `TWILIO_API_KEY_SID`, and
+`TWILIO_API_KEY_SECRET` in Supabase Edge Function secrets. The master
+`TWILIO_AUTH_TOKEN` remains a fallback only. A Messaging Service SID or sending
+number is also required.
 
 ## Database changes
 
@@ -133,11 +146,10 @@ insert into public.user_roles (email, display_name, role, active)
 values ('Groves.wendy@gmail.com', 'Wendy', 'cleaner', true);
 ```
 
-or use the deployed expiring cleaner links without an account. Wendy's email is
-known, but a full cleaner account has not been created yet. Keep her phone
-number out of source control. Her consent is documented, but do not send
-automated texts until an SMS provider, templates, and a controlled canary are
-configured and approved.
+or use the deployed expiring cleaner links without an account. Wendy now has a
+confirmed cleaner-only account. Keep her phone number out of source control.
+Her consent is documented, but do not send automated texts until an SMS
+provider, templates, and a controlled canary are configured and approved.
 
 ## Approval policy
 
@@ -240,17 +252,16 @@ Supabase-provided `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are used only i
 
 ## Deployment order
 
-1. Back up the Supabase database and confirm restore access.
-2. Confirm Dalton’s active `admin` role.
-3. Apply the V1 migration.
-4. Deploy `cleaner-task-access` and `operations-dispatch`.
-5. Set `APP_PUBLIC_URL`; leave delivery disabled.
-6. Publish the GitHub commit through Lovable.
-7. Assign Briana and Wendy roles.
-8. Run the acceptance checklist with synthetic records.
-9. Configure and prove Google Calendar.
-10. Configure and prove email.
-11. Enable delivery only after both proofs pass.
+1. Confirm the owned Supabase project is healthy and the prior data-count audit still matches.
+2. Confirm Briana’s linked `admin` role and Wendy’s linked `cleaner` role.
+3. Apply any pending migrations and deploy the checked-in Edge Functions.
+4. Set `APP_PUBLIC_URL`; keep calendar, email, and maintenance SMS delivery disabled.
+5. Build from the committed lockfile and publish the matching GitHub commit through Sites.
+6. Smoke-test manager login, cleaner login, password recovery, role boundaries, and the public offer route.
+7. Configure and prove Google Calendar.
+8. Configure and prove email.
+9. Complete Twilio A2P registration and run one controlled SMS canary.
+10. Enable each delivery channel only after its separate proof passes.
 
 ## User acceptance checklist
 
@@ -300,7 +311,7 @@ Do not use a destructive rollback on live data.
 2. Return the property-manager home route to `/host-hub` if the new interface must be hidden.
 3. Revoke active cleaner tokens.
 4. Stop the operations dispatcher schedule.
-5. Revert the application commit and republish through Lovable.
+5. Revert the application commit and republish the last known-good Sites version.
 6. Keep the additive V1 tables in place for evidence and export unless a tested database restore is being performed.
 
 Dropping tables, enum values, or operational columns can destroy activity, cleaning, and approval history and is not the normal rollback path.
@@ -309,7 +320,7 @@ Dropping tables, enum values, or operational columns can destroy activity, clean
 
 - No automatic guest messages are sent.
 - Google Calendar and email are coded but remain disabled until verified.
-- SMS is an interface-only disabled provider. Grasshopper is not assumed to have a supported SMS API.
+- Twilio maintenance SMS is implemented with a durable outbox and atomic first-accept assignment, but remains disabled until A2P registration and a controlled canary pass.
 - Airbnb iCal remains availability-only; rich guest details require an approved PMS/channel manager or permissioned confirmation-email importer.
 - QuickBooks remains separate; vendors store only an optional reference.
 - Import runs have a safe audit model, but no general-purpose import UI is shipped.
@@ -329,9 +340,36 @@ After the manual workflows are accepted, Hermes may consume the sanitized `autom
 
 Hermes must use event IDs and idempotency keys, never receive credentials, never auto-approve spending, and never send guest messages in V1.
 
-## Future SMS notes
+### Current cleaning-delivery status
 
-Add Twilio, Telnyx, or another verified API provider behind `NotificationProvider`. Require:
+- Reservation creation automatically creates or updates the linked cleaning
+  task and records `cleaning.created`.
+- A property manager manually assigns Wendy from **Today → Cleaning**.
+- **Copy cleaner link** creates a secure 14-day link and copies it for manual
+  sending. Assignment alone does not send that link.
+- The existing `cleaning_required` notification is an internal, already-sent
+  record; it is not addressed to Wendy.
+- Google Calendar and Resend email delivery exist behind
+  `OPERATIONS_DELIVERY_ENABLED=false`.
+- Twilio SMS delivery is implemented behind the default-off maintenance gate.
+
+Hermes should not become the delivery provider or hold Google, email, SMS, or
+app credentials. Its first safe role is a read-only exception supervisor:
+
+1. Read sanitized cleaning and delivery events by stable event ID.
+2. Prepare a morning digest and flag unassigned, declined, overdue, same-day,
+   72-hour unconfirmed, and 48-hour escalation cases.
+3. Submit a durable request to the app-owned notification queue when a message
+   is needed; the app owns recipient resolution, consent, templates, quiet
+   hours, idempotency, retries, and delivery receipts.
+4. Report permanent delivery failures and unresolved exceptions to Briana and
+   Dalton without exposing guest data, cleaner tokens, or credentials.
+5. Never mark a cleaning confirmed, complete, or ready and never send a guest
+   message without a separately approved workflow.
+
+## SMS rollout notes
+
+Before enabling Twilio delivery, require:
 
 - verified sender/recipient consent,
 - separate production credentials in Edge Function secrets,
@@ -347,8 +385,8 @@ Do not use browser automation for SMS and do not hard-code Grasshopper without a
 
 ## Remaining setup decisions
 
-1. Whether Wendy should receive a full cleaner login at `Groves.wendy@gmail.com`
-   or continue using the deployed expiring cleaner-link workflow.
+1. Whether normal Wendy assignments should use her cleaner login, a direct
+   assignment email, or both the login and the expiring-link fallback.
 2. A supported SMS provider. Wendy's SMS consent was confirmed by Dalton on
    2026-07-23; keep the consent record in the provider's compliance system
    before enabling delivery.

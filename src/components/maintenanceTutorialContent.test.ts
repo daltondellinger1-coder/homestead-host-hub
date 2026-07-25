@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
   adminTutorialSteps,
+  adminQuickStartSteps,
   cleanerTutorialSteps,
   maintenanceTutorialSteps,
   propertyManagerTutorialSteps,
+  propertyManagerQuickStartSteps,
 } from './tutorialContent';
 
 describe('maintenance tutorial content', () => {
@@ -98,5 +100,12 @@ describe('admin tutorial content', () => {
   it('mentions the Airbnb Market and the recent changes recap', () => {
     expect(titles).toContain('Airbnb Market (Read-Only)');
     expect(titles).toContain('What Changed Recently');
+  });
+});
+
+describe('first-run tutorial length', () => {
+  it('keeps onboarding focused instead of overwhelming users', () => {
+    expect(propertyManagerQuickStartSteps.length).toBeLessThanOrEqual(10);
+    expect(adminQuickStartSteps.length).toBeLessThanOrEqual(10);
   });
 });

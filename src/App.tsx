@@ -17,6 +17,10 @@ const Finances = lazy(() => import("./pages/Finances"));
 const Maintenance = lazy(() => import("./pages/Maintenance"));
 const MaintenanceHealth = lazy(() => import("./pages/MaintenanceHealth"));
 const MaintenancePortal = lazy(() => import("./pages/MaintenancePortal"));
+const MaintenanceOffer = lazy(() => import("./pages/MaintenanceOffer"));
+const HandymanSmsSignup = lazy(() => import("./pages/HandymanSmsSignup"));
+const SmsPrivacy = lazy(() => import("./pages/SmsPrivacy"));
+const SmsTerms = lazy(() => import("./pages/SmsTerms"));
 const ContractorOfficeLaundry = lazy(() => import("./pages/ContractorOfficeLaundry"));
 const ExtendStay = lazy(() => import("./pages/ExtendStay"));
 const AirbnbMarket = lazy(() => import("./pages/AirbnbMarket"));
@@ -47,7 +51,7 @@ function Unauthorized() {
         <div>
           <h1 className="font-heading text-lg font-semibold text-foreground">Access not assigned yet</h1>
           <p className="text-sm text-muted-foreground font-body mt-2">
-            This login worked, but this account has not been assigned a Property Manager or Maintenance role yet.
+            This login worked, but this account has not been assigned a Property Manager, Cleaner, or Maintenance role yet.
           </p>
         </div>
         <Button onClick={signOut} variant="outline" className="w-full">Sign out</Button>
@@ -82,6 +86,7 @@ function AuthenticatedApp({ roles }: { roles: AppRole[] }) {
         <Route path="/auth" element={<Navigate to={getPostLoginPath(roles, getStoredLoginLane())} replace />} />
         <Route path="/auth/property-manager" element={<Navigate to={getPostLoginPath(roles, 'property-manager')} replace />} />
         <Route path="/auth/maintenance" element={<Navigate to={getPostLoginPath(roles, 'maintenance')} replace />} />
+        <Route path="/auth/cleaner" element={<Navigate to={getPostLoginPath(roles, 'cleaner')} replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!isMaintenanceOnly && !isCleanerOnly && <MobileBottomNav viewMode={viewMode} onViewModeChange={setViewMode} />}
@@ -99,6 +104,16 @@ function AppRouter() {
       <div className="min-h-screen pattern-bg flex items-center justify-center">
         <div className="text-muted-foreground font-body text-sm animate-pulse">Loading...</div>
       </div>
+    );
+  }
+
+  if (['/handyman-sms-signup', '/privacy', '/sms-terms'].includes(location.pathname)) {
+    return (
+      <Routes>
+        <Route path="/handyman-sms-signup" element={<HandymanSmsSignup />} />
+        <Route path="/privacy" element={<SmsPrivacy />} />
+        <Route path="/sms-terms" element={<SmsTerms />} />
+      </Routes>
     );
   }
 
@@ -124,6 +139,14 @@ function AppRouter() {
     );
   }
 
+  if (location.pathname.startsWith('/maintenance-offer/')) {
+    return (
+      <Routes>
+        <Route path="/maintenance-offer/:token" element={<MaintenanceOffer />} />
+      </Routes>
+    );
+  }
+
   if (!session) {
     return (
       <Routes>
@@ -131,6 +154,7 @@ function AppRouter() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/auth/property-manager" element={<Auth />} />
         <Route path="/auth/maintenance" element={<Auth />} />
+        <Route path="/auth/cleaner" element={<Auth />} />
         <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     );

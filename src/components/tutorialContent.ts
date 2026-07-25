@@ -305,3 +305,33 @@ export const adminTutorialSteps: TutorialStepContent[] = [
       'That\'s the full tour. Reopen it from the Tutorial button in Today or ⋮ → Help / Tutorial in Bookings & Calendar. Maintenance and cleaner portals each have their own role-specific Tutorial button.',
   },
 ];
+
+// The full reference arrays above remain available to tests and future help
+// surfaces. First-run onboarding stays intentionally short so a user can begin
+// working without clicking through dozens of slides.
+export const propertyManagerQuickStartSteps: TutorialStepContent[] = [
+  propertyManagerTutorialSteps[0],
+  propertyManagerTutorialSteps[2],
+  propertyManagerTutorialSteps[4],
+  propertyManagerTutorialSteps[5],
+  propertyManagerTutorialSteps[6],
+  propertyManagerTutorialSteps[7],
+  propertyManagerTutorialSteps[8],
+  propertyManagerTutorialSteps[9],
+  {
+    icon: 'dollar',
+    title: 'Payments & Reports',
+    description:
+      'Use Bookings & Calendar for guest records and payments. Use Finances for P&L, reports, weekly review, management performance, and payment history. Keep booking source and payment method separate, and review legacy payments missing a method.',
+  },
+];
+
+export const adminQuickStartSteps: TutorialStepContent[] = [
+  ...propertyManagerQuickStartSteps,
+  {
+    icon: 'hammer',
+    title: 'Owner Tools',
+    description:
+      'Draws is the renovation funding and evidence dashboard. Airbnb Market is a read-only pricing and positioning snapshot. Both are owner tools under Bookings & Calendar; neither changes a reservation or sends a message.',
+  },
+];

@@ -61,6 +61,7 @@ export default function CleanerPortal() {
   const [damage, setDamage] = useState('');
   const [maintenance, setMaintenance] = useState('');
   const [photos, setPhotos] = useState<File[]>([]);
+  const [busyAction, setBusyAction] = useState<string | null>(null);
 
   const invokePublic = useCallback(async (body: Record<string, unknown>) => {
     const { data, error } = await supabase.functions.invoke('cleaner-task-access', { body: { token, ...body } });
@@ -86,7 +87,7 @@ export default function CleanerPortal() {
         setTasks(data ?? []);
       }
     } catch (error: unknown) {
-      toast.error(errorMessage(error, 'This cleaning link is invalid or expired.'));
+      toast.error(token ? 'This cleaning link is invalid or expired.' : errorMessage(error, 'Assignments could not be loaded.'));
       setTasks([]);
     } finally {
       setLoading(false);
@@ -96,6 +97,7 @@ export default function CleanerPortal() {
   useEffect(() => { load(); }, [load]);
 
   const act = async (task: CleanerTask, action: string, payload: Record<string, unknown> = {}) => {
+    setBusyAction(`${task.id}:${action}`);
     try {
       if (token) {
         await invokePublic({ action, ...payload });
@@ -111,41 +113,60 @@ export default function CleanerPortal() {
       toast.success(action === 'complete' ? 'Cleaning submitted for readiness verification.' : `Cleaning ${action} recorded.`);
       setActive(null);
       await load();
+      return true;
     } catch (error: unknown) {
       toast.error(errorMessage(error, 'That update could not be saved.'));
+      return false;
+    } finally {
+      setBusyAction(null);
     }
   };
 
   const uploadPhotos = async () => {
-    if (!token || !active || !photos.length) return [] as string[];
+    if (!active || !photos.length) return [] as string[];
     const paths: string[] = [];
     for (const photo of photos) {
-      const issued = await invokePublic({ action: 'upload_url', fileName: photo.name, contentType: photo.type, fileSize: photo.size });
-      const { error } = await supabase.storage.from('cleaning-photos').uploadToSignedUrl(issued.path, issued.uploadToken, photo, { contentType: photo.type });
-      if (error) throw error;
-      paths.push(issued.path);
+      if (token) {
+        const issued = await invokePublic({ action: 'upload_url', fileName: photo.name, contentType: photo.type, fileSize: photo.size });
+        const { error } = await supabase.storage.from('cleaning-photos').uploadToSignedUrl(issued.path, issued.uploadToken, photo, { contentType: photo.type });
+        if (error) throw error;
+        paths.push(issued.path);
+      } else {
+        const safeName = photo.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+        const path = `${active.id}/${crypto.randomUUID()}-${safeName}`;
+        const { error } = await supabase.storage.from('cleaning-photos').upload(path, photo, {
+          contentType: photo.type,
+          upsert: false,
+        });
+        if (error) throw error;
+        paths.push(path);
+      }
     }
     return paths;
   };
 
   const complete = async () => {
-    if (!active) return;
+    if (!active || busyAction) return;
+    setBusyAction(`${active.id}:complete`);
     try {
       const photoPaths = await uploadPhotos();
-      await act(active, 'complete', {
+      const saved = await act(active, 'complete', {
         completion_notes: notes,
         supplies_needed: supplies,
         damage_found: damage,
         maintenance_issue_found: maintenance,
         completion_photo_urls: photoPaths,
       });
-      setNotes('');
-      setSupplies('');
-      setDamage('');
-      setMaintenance('');
-      setPhotos([]);
+      if (saved) {
+        setNotes('');
+        setSupplies('');
+        setDamage('');
+        setMaintenance('');
+        setPhotos([]);
+      }
     } catch (error: unknown) {
       toast.error(errorMessage(error, 'Photos could not be uploaded.'));
+      setBusyAction(null);
     }
   };
 
@@ -160,6 +181,9 @@ export default function CleanerPortal() {
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="sm" onClick={() => setShowTutorial(true)} aria-label="Open cleaner tutorial">
               <HelpCircle className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Tutorial</span>
+            </Button>
+            <Button variant="ghost" size="sm" disabled={loading} onClick={load} aria-label="Refresh cleaning assignments">
+              <RefreshCcw className={loading ? 'h-4 w-4 animate-spin' : 'h-4 w-4'} />
             </Button>
             {session && !token && <Button variant="ghost" size="sm" onClick={signOut}><LogOut className="mr-2 h-4 w-4" /> Sign out</Button>}
           </div>
@@ -199,13 +223,30 @@ export default function CleanerPortal() {
               <div className="grid grid-cols-2 gap-2">
                 {task.status === 'awaiting_confirmation' && (
                   <>
-                    <Button variant="outline" className="min-h-12" onClick={() => act(task, 'decline')}>Decline</Button>
-                    <Button className="min-h-12" onClick={() => act(task, 'confirm')}>Confirm</Button>
+                    <Button
+                      variant="outline"
+                      className="min-h-12"
+                      disabled={Boolean(busyAction)}
+                      onClick={() => {
+                        if (window.confirm('Decline this cleaning assignment? Briana will be notified to reassign it.')) {
+                          act(task, 'decline');
+                        }
+                      }}
+                    >
+                      Decline
+                    </Button>
+                    <Button className="min-h-12" disabled={Boolean(busyAction)} onClick={() => act(task, 'confirm')}>Confirm assignment</Button>
                   </>
                 )}
-                {task.status === 'confirmed' && <Button className="col-span-2 min-h-12" onClick={() => act(task, 'start')}>Start cleaning</Button>}
-                {task.status === 'in_progress' && <Button className="col-span-2 min-h-12" onClick={() => setActive(task)}><Check className="mr-2 h-4 w-4" /> Mark complete</Button>}
+                {task.status === 'confirmed' && <Button className="col-span-2 min-h-12" disabled={Boolean(busyAction)} onClick={() => act(task, 'start')}>Start cleaning</Button>}
+                {task.status === 'in_progress' && <Button className="col-span-2 min-h-12" disabled={Boolean(busyAction)} onClick={() => setActive(task)}><Check className="mr-2 h-4 w-4" /> Finish & report</Button>}
               </div>
+              {['completed', 'readiness_verification_required'].includes(task.status) && (
+                <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 p-3">
+                  <p className="font-medium text-emerald-100">Your cleaning is submitted</p>
+                  <p className="mt-1 text-sm text-emerald-100/75">No more action is needed. Briana will do the final readiness check.</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -220,11 +261,18 @@ export default function CleanerPortal() {
             <Field icon={Wrench} label="Maintenance issue"><Textarea value={maintenance} onChange={(event) => setMaintenance(event.target.value)} placeholder="Leave blank if none" /></Field>
             <Field icon={Camera} label="Completion photos">
               <Input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(event) => setPhotos(Array.from(event.target.files ?? []).slice(0, 10))} />
-              <p className="text-xs text-muted-foreground">JPEG, PNG, or WebP. Up to 10 photos.</p>
+              <p className="text-xs text-muted-foreground">
+                {photos.length ? `${photos.length} photo${photos.length === 1 ? '' : 's'} selected.` : 'JPEG, PNG, or WebP. Up to 10 photos.'}
+              </p>
             </Field>
             <div className="space-y-2"><Label>Completion notes</Label><Textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Anything Briana should know?" /></div>
           </div>
-          <DialogFooter><Button variant="outline" onClick={() => setActive(null)}>Cancel</Button><Button onClick={complete}>Submit completion</Button></DialogFooter>
+          <DialogFooter>
+            <Button variant="outline" disabled={Boolean(busyAction)} onClick={() => setActive(null)}>Keep working</Button>
+            <Button disabled={Boolean(busyAction)} onClick={complete}>
+              {busyAction ? 'Submitting…' : 'Submit for readiness check'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
       <CleanerTutorial open={showTutorial} onClose={() => setShowTutorial(false)} />

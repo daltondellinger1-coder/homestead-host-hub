@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import {
@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Clock3,
+  Camera,
   DoorOpen,
   HelpCircle,
   LogOut,
@@ -56,6 +57,8 @@ import {
 import { cn } from '@/lib/utils';
 import OnboardingTutorial from '@/components/OnboardingTutorial';
 import { useOnboardingState } from '@/hooks/useTutorialState';
+
+type OperationsView = 'today' | 'units' | 'stays' | 'cleaning' | 'more';
 
 const STATUS_TONES: Record<string, string> = {
   occupied: 'border-sky-500/40 bg-sky-500/10 text-sky-200',
@@ -199,9 +202,14 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
     checkOutTime: '11:00',
     notes: '',
   });
+  const invalidDateRange = Boolean(
+    form.checkInDate
+    && form.checkOutDate
+    && form.checkOutDate <= form.checkInDate,
+  );
 
   const save = async () => {
-    if (!form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate) return;
+    if (!form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate || invalidDateRange) return;
     setSaving(true);
     const saved = await onSave(form);
     setSaving(false);
@@ -262,13 +270,25 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
           <div className="grid grid-cols-[1fr_110px] gap-2 sm:col-span-2">
             <div className="space-y-2">
               <Label htmlFor="check-out-date">Check-out</Label>
-              <Input id="check-out-date" type="date" value={form.checkOutDate} onChange={(event) => setForm({ ...form, checkOutDate: event.target.value })} />
+              <Input
+                id="check-out-date"
+                type="date"
+                min={form.checkInDate || undefined}
+                aria-invalid={invalidDateRange}
+                value={form.checkOutDate}
+                onChange={(event) => setForm({ ...form, checkOutDate: event.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="check-out-time">Time</Label>
               <Input id="check-out-time" type="time" value={form.checkOutTime} onChange={(event) => setForm({ ...form, checkOutTime: event.target.value })} />
             </div>
           </div>
+          {invalidDateRange && (
+            <p className="text-sm text-destructive sm:col-span-2" role="alert">
+              Check-out must be after check-in.
+            </p>
+          )}
           <div className="space-y-2 sm:col-span-2">
             <Label htmlFor="reservation-notes">Special notes</Label>
             <Textarea id="reservation-notes" value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} />
@@ -276,7 +296,7 @@ function AddReservationDialog({ open, onOpenChange, units, onSave }: {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={save} disabled={saving || !form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate}>
+          <Button onClick={save} disabled={saving || invalidDateRange || !form.unitId || !form.guestName || !form.checkInDate || !form.checkOutDate}>
             {saving ? 'Saving…' : 'Create reservation'}
           </Button>
         </DialogFooter>
@@ -321,6 +341,153 @@ function ReadinessDialog({ cleaning, onClose, onVerify }: {
           >
             <ShieldCheck className="mr-2 h-4 w-4" /> Mark ready
           </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function DetailValue({ label, value }: { label: string; value?: string | null }) {
+  return (
+    <div className="rounded-xl border border-border/70 bg-background/35 p-3">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="mt-1 whitespace-pre-wrap text-sm">{value?.trim() || 'None added'}</p>
+    </div>
+  );
+}
+
+function CleanerDetailsDialog({
+  cleaning,
+  onClose,
+  loadPhotoUrls,
+}: {
+  cleaning: OperationalCleaning | null;
+  onClose: () => void;
+  loadPhotoUrls: (paths: string[]) => Promise<Array<{ path: string; signedUrl: string }>>;
+}) {
+  const [photos, setPhotos] = useState<Array<{ path: string; signedUrl: string }>>([]);
+  const [photoLoading, setPhotoLoading] = useState(false);
+  const [photoError, setPhotoError] = useState('');
+
+  useEffect(() => {
+    let active = true;
+    const paths = cleaning?.completion_photo_urls ?? [];
+    setPhotos([]);
+    setPhotoError('');
+    if (!paths.length) {
+      setPhotoLoading(false);
+      return () => { active = false; };
+    }
+    setPhotoLoading(true);
+    loadPhotoUrls(paths)
+      .then((items) => {
+        if (active) setPhotos(items);
+      })
+      .catch(() => {
+        if (active) setPhotoError('Completion photos could not be loaded. Refresh and try again.');
+      })
+      .finally(() => {
+        if (active) setPhotoLoading(false);
+      });
+    return () => { active = false; };
+  }, [cleaning, loadPhotoUrls]);
+
+  const cleanerName = cleaning?.assigned_cleaner_name || cleaning?.assigned_cleaner_email || 'Not assigned';
+
+  return (
+    <Dialog open={Boolean(cleaning)} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto">
+        <DialogHeader>
+          <div className="flex flex-wrap items-center gap-2">
+            <DialogTitle>{cleaning?.unit?.name ?? 'Cleaning'} details</DialogTitle>
+            {cleaning && <Badge variant="outline">{CLEANING_STATUS_LABELS[cleaning.status] ?? cleaning.status}</Badge>}
+          </div>
+          <DialogDescription>
+            Everything the cleaner receives, plus the completion evidence needed for your readiness check.
+          </DialogDescription>
+        </DialogHeader>
+
+        {cleaning && (
+          <div className="space-y-5 py-2">
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Assignment</p>
+                <p className="text-sm text-muted-foreground">Cleaner, turnover timing, and confirmation status.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <DetailValue label="Cleaner" value={cleanerName} />
+                <DetailValue label="Guest checkout" value={displayTimestamp(cleaning.checkout_at)} />
+                <DetailValue label="Next check-in" value={displayTimestamp(cleaning.next_check_in_at)} />
+                <DetailValue label="Cleaning deadline" value={displayTimestamp(cleaning.cleaning_deadline)} />
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Cleaning status" value={CLEANING_STATUS_LABELS[cleaning.status] ?? cleaning.status} />
+                <DetailValue label="Cleaner response" value={cleaning.confirmation_status?.replaceAll('_', ' ') || 'Not requested'} />
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Instructions shown to the cleaner</p>
+                <p className="text-sm text-muted-foreground">Use this section to confirm Wendy received the right turnover details.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Special cleaning notes" value={cleaning.special_notes} />
+                <DetailValue label="Pet notes" value={cleaning.pet_notes} />
+                <DetailValue label="Linen notes" value={cleaning.linen_notes} />
+                <DetailValue label="Supply notes" value={cleaning.supply_notes} />
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <div>
+                <p className="font-heading font-semibold">Cleaner completion report</p>
+                <p className="text-sm text-muted-foreground">Review what was finished and anything that needs follow-up.</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DetailValue label="Completion notes" value={cleaning.completion_notes} />
+                <DetailValue label="Supplies needed" value={cleaning.supplies_needed} />
+                <DetailValue label="Damage found" value={cleaning.damage_found} />
+                <DetailValue label="Maintenance issue" value={cleaning.maintenance_issue_found} />
+              </div>
+
+              <div className="rounded-xl border border-border/70 p-3">
+                <div className="flex items-center gap-2">
+                  <Camera className="h-4 w-4 text-secondary" />
+                  <p className="text-sm font-medium">Completion photos</p>
+                </div>
+                {photoLoading && <p className="mt-3 text-sm text-muted-foreground">Loading private photos…</p>}
+                {photoError && <p className="mt-3 text-sm text-destructive" role="alert">{photoError}</p>}
+                {!photoLoading && !photoError && !photos.length && (
+                  <p className="mt-3 text-sm text-muted-foreground">No completion photos were submitted.</p>
+                )}
+                {photos.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {photos.map((photo, index) => (
+                      <a
+                        key={photo.path}
+                        href={photo.signedUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="overflow-hidden rounded-xl border border-border/70 bg-muted/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        aria-label={`Open completion photo ${index + 1}`}
+                      >
+                        <img
+                          src={photo.signedUrl}
+                          alt={`Completion evidence ${index + 1} for ${cleaning.unit?.name ?? 'unit'}`}
+                          className="aspect-square w-full object-cover"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+        )}
+
+        <DialogFooter>
+          <Button onClick={onClose}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -387,10 +554,23 @@ export default function Operations() {
   const [reservationOpen, setReservationOpen] = useState(false);
   const [vendorOpen, setVendorOpen] = useState(false);
   const [readinessCleaning, setReadinessCleaning] = useState<OperationalCleaning | null>(null);
+  const [detailsCleaning, setDetailsCleaning] = useState<OperationalCleaning | null>(null);
+  const [activeView, setActiveView] = useState<OperationsView>('today');
   const today = localDateKey();
   const todayChecklists = operations.checklists.filter((checklist) => checklist.checklist_date === today);
   const readyCount = operations.units.filter((unit) => unit.operational_status === 'vacant_ready').length;
   const occupiedCount = operations.units.filter((unit) => unit.operational_status === 'occupied').length;
+  const activeReservations = operations.reservations.filter((reservation) => reservation.status !== 'cancelled');
+  const activeCleanings = operations.cleanings.filter((cleaning) => !['ready', 'cancelled'].includes(cleaning.status));
+
+  const openView = (view: OperationsView, sectionId?: string) => {
+    setActiveView(view);
+    if (sectionId) {
+      window.setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    }
+  };
 
   return (
     <div className="min-h-screen pattern-bg">
@@ -409,8 +589,8 @@ export default function Operations() {
             <Button variant="ghost" size="sm" onClick={() => setShowOnboarding(true)} aria-label="Open tutorial">
               <HelpCircle className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Tutorial</span>
             </Button>
-            <Button variant="ghost" size="sm" onClick={operations.refresh} aria-label="Refresh operations">
-              <RefreshCcw className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Refresh</span>
+            <Button variant="ghost" size="sm" disabled={operations.loading} onClick={operations.refresh} aria-label="Refresh operations">
+              <RefreshCcw className={cn('h-4 w-4 sm:mr-2', operations.loading && 'animate-spin')} /><span className="hidden sm:inline">Refresh</span>
             </Button>
             <Button variant="ghost" size="sm" onClick={signOut} aria-label="Sign out">
               <LogOut className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Sign out</span>
@@ -449,16 +629,22 @@ export default function Operations() {
               </div>
               <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {([
-                  { label: 'Urgent', value: operations.summary.urgentCount, Icon: AlertTriangle, tone: 'text-rose-300' },
-                  { label: 'Arriving', value: operations.summary.arrivalsToday.length, Icon: DoorOpen, tone: 'text-emerald-300' },
-                  { label: 'Leaving', value: operations.summary.departuresToday.length, Icon: LogOut, tone: 'text-sky-300' },
-                  { label: 'Approvals', value: operations.approvals.length, Icon: ShieldCheck, tone: 'text-amber-300' },
-                ]).map(({ label, value, Icon, tone }) => (
-                  <div key={label} className="rounded-xl border border-border/70 bg-background/35 p-3">
+                  { label: 'Urgent', value: operations.summary.urgentCount, Icon: AlertTriangle, tone: 'text-rose-300', onClick: () => openView('today', 'requires-action') },
+                  { label: 'Arriving', value: operations.summary.arrivalsToday.length, Icon: DoorOpen, tone: 'text-emerald-300', onClick: () => openView('today', 'today-schedule') },
+                  { label: 'Leaving', value: operations.summary.departuresToday.length, Icon: LogOut, tone: 'text-sky-300', onClick: () => openView('today', 'today-schedule') },
+                  { label: 'Approvals', value: operations.approvals.length, Icon: ShieldCheck, tone: 'text-amber-300', onClick: () => openView('today', 'pending-approvals') },
+                ]).map(({ label, value, Icon, tone, onClick }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={onClick}
+                    className="rounded-xl border border-border/70 bg-background/35 p-3 text-left transition hover:border-secondary/50 hover:bg-background/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    aria-label={`Open ${label.toLowerCase()}: ${value}`}
+                  >
                     <Icon className={cn('h-4 w-4', tone)} />
                     <p className="mt-2 text-2xl font-bold">{value}</p>
                     <p className="text-xs text-muted-foreground">{label}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             </CardContent>
@@ -469,42 +655,40 @@ export default function Operations() {
               <CardTitle className="text-base">Property pulse</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-2 gap-3 p-5 pt-2">
-              <div className="rounded-xl bg-emerald-500/10 p-3">
+              <button type="button" onClick={() => openView('units')} className="rounded-xl bg-emerald-500/10 p-3 text-left transition hover:bg-emerald-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-emerald-200">{readyCount}</p>
                 <p className="text-xs text-muted-foreground">Vacant & ready</p>
-              </div>
-              <div className="rounded-xl bg-sky-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('units')} className="rounded-xl bg-sky-500/10 p-3 text-left transition hover:bg-sky-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-sky-200">{occupiedCount}</p>
                 <p className="text-xs text-muted-foreground">Occupied</p>
-              </div>
-              <div className="rounded-xl bg-amber-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('cleaning')} className="rounded-xl bg-amber-500/10 p-3 text-left transition hover:bg-amber-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-amber-200">{operations.summary.cleaningAction.length}</p>
                 <p className="text-xs text-muted-foreground">Cleaning action</p>
-              </div>
-              <div className="rounded-xl bg-orange-500/10 p-3">
+              </button>
+              <button type="button" onClick={() => openView('more', 'maintenance-and-vendors')} className="rounded-xl bg-orange-500/10 p-3 text-left transition hover:bg-orange-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <p className="text-2xl font-bold text-orange-200">{operations.summary.openMaintenance.length}</p>
                 <p className="text-xs text-muted-foreground">Open maintenance</p>
-              </div>
+              </button>
             </CardContent>
           </Card>
         </section>
 
-        <Tabs defaultValue="today" className="space-y-4">
+        <Tabs value={activeView} onValueChange={(value) => setActiveView(value as OperationsView)} className="space-y-4">
           <div className="overflow-x-auto pb-1">
             <TabsList className="h-11 min-w-max justify-start">
               <TabsTrigger value="today">Today</TabsTrigger>
               <TabsTrigger value="units">15 units</TabsTrigger>
-              <TabsTrigger value="stays">Stays</TabsTrigger>
+              <TabsTrigger value="stays">Reservations</TabsTrigger>
               <TabsTrigger value="cleaning">Cleaning</TabsTrigger>
-              <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-              <TabsTrigger value="checklists">Checklists</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="more">More</TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="today" className="space-y-5">
-            <div className="grid gap-5 lg:grid-cols-2">
-              <Card className="border-border/70">
+            <div id="today-schedule" className="grid scroll-mt-24 gap-5 lg:grid-cols-2">
+              <Card id="requires-action" className="scroll-mt-24 border-border/70">
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="flex items-center gap-2 text-base"><DoorOpen className="h-4 w-4 text-emerald-300" /> Arrivals today</CardTitle>
                 </CardHeader>
@@ -545,6 +729,9 @@ export default function Operations() {
                       {cleaning.status === 'readiness_verification_required' && (
                         <Button size="sm" onClick={() => setReadinessCleaning(cleaning)}>Verify</Button>
                       )}
+                      {cleaning.status !== 'readiness_verification_required' && (
+                        <Button size="sm" variant="outline" onClick={() => openView('cleaning')}>Review</Button>
+                      )}
                     </div>
                   ))}
                   {operations.summary.overdueTasks.slice(0, 5).map((task) => (
@@ -561,18 +748,18 @@ export default function Operations() {
               <Card className="border-border/70">
                 <CardHeader className="p-4 pb-2"><CardTitle className="text-base">Next 7 days</CardTitle></CardHeader>
                 <CardContent className="space-y-3 p-4 pt-2">
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  <button type="button" onClick={() => openView('stays')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><DoorOpen className="h-4 w-4 text-emerald-300" /> Arrivals</span>
                     <span className="text-xl font-bold">{operations.summary.arrivalsNextSevenDays.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  </button>
+                  <button type="button" onClick={() => openView('stays')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><LogOut className="h-4 w-4 text-sky-300" /> Departures</span>
                     <span className="text-xl font-bold">{operations.summary.departuresNextSevenDays.length}</span>
-                  </div>
-                  <div className="flex items-center justify-between rounded-xl bg-muted/30 p-3">
+                  </button>
+                  <button type="button" onClick={() => openView('cleaning')} className="flex w-full items-center justify-between rounded-xl bg-muted/30 p-3 text-left transition hover:bg-muted/50">
                     <span className="flex items-center gap-2 text-sm"><RefreshCcw className="h-4 w-4 text-amber-300" /> Same-day turns</span>
                     <span className="text-xl font-bold">{operations.summary.sameDayTurnoverUnitIds.size}</span>
-                  </div>
+                  </button>
                   <Link to="/host-hub" className="flex min-h-11 items-center justify-between rounded-xl border border-border/70 px-3 text-sm hover:bg-muted/30">
                     Open booking calendar <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -581,7 +768,7 @@ export default function Operations() {
             </div>
 
             {operations.approvals.length > 0 && (
-              <Card className="border-amber-500/35 bg-amber-500/5">
+              <Card id="pending-approvals" className="scroll-mt-24 border-amber-500/35 bg-amber-500/5">
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="flex items-center gap-2 text-base"><ShieldCheck className="h-4 w-4 text-amber-300" /> Dalton approval required</CardTitle>
                 </CardHeader>
@@ -615,16 +802,15 @@ export default function Operations() {
 
           <TabsContent value="stays" className="space-y-3">
             <div className="flex justify-end"><Button onClick={() => setReservationOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add reservation</Button></div>
-            {operations.reservations
-              .filter((reservation) => reservation.status !== 'cancelled')
+            {activeReservations
               .map((reservation) => (
                 <ReservationManageCard key={reservation.id} reservation={reservation} update={operations.updateReservation} />
               ))}
-            {!operations.reservations.length && <EmptyState text="No reservations yet." />}
+            {!activeReservations.length && <EmptyState text="No active reservations." />}
           </TabsContent>
 
           <TabsContent value="cleaning" className="space-y-3">
-            {operations.cleanings.length ? operations.cleanings.map((cleaning) => (
+            {activeCleanings.length ? activeCleanings.map((cleaning) => (
               <Card key={cleaning.id} className={cn('border-border/70', cleaning.status === 'overdue' && 'border-rose-500/50')}>
                 <CardContent className="p-4">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -651,6 +837,36 @@ export default function Operations() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="col-span-2 sm:col-span-1"
+                        onClick={() => setDetailsCleaning(cleaning)}
+                      >
+                        View details
+                      </Button>
+                      <Select
+                        value={cleaning.assigned_cleaner_user_id || 'unassigned'}
+                        onValueChange={(userId) => {
+                          const cleaner = operations.cleaners.find((candidate) => candidate.user_id === userId) ?? null;
+                          operations.assignCleaner(cleaning.id, cleaner);
+                        }}
+                      >
+                        <SelectTrigger
+                          aria-label={`Cleaner for ${cleaning.unit?.name ?? 'unit'}`}
+                          className="col-span-2 min-w-44 sm:col-span-1"
+                        >
+                          <SelectValue placeholder="Assign cleaner" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="unassigned">Not assigned</SelectItem>
+                          {operations.cleaners.map((cleaner) => (
+                            <SelectItem key={cleaner.user_id} value={cleaner.user_id}>
+                              {cleaner.display_name || cleaner.email || 'Cleaner'}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       {['needs_scheduling', 'awaiting_confirmation', 'cleaner_declined'].includes(cleaning.status) && (
                         <Button size="sm" variant="outline" onClick={() => operations.issueCleanerLink(cleaning.id)}>Copy cleaner link</Button>
                       )}
@@ -670,10 +886,14 @@ export default function Operations() {
             )) : <EmptyState text="No cleaning tasks yet." />}
           </TabsContent>
 
-          <TabsContent value="maintenance" className="space-y-3">
+          <TabsContent value="more" className="space-y-3">
+            <div id="maintenance-and-vendors" className="scroll-mt-24">
+              <p className="font-heading text-lg font-semibold">Maintenance & vendor contacts</p>
+              <p className="mt-1 text-sm text-muted-foreground">Open the maintenance workspace for detailed work. Keep quick vendor contacts here.</p>
+            </div>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="outline" onClick={() => setVendorOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add vendor</Button>
-              <Link to="/maintenance"><Button><Plus className="mr-2 h-4 w-4" /> Create maintenance request</Button></Link>
+              <Button asChild><Link to="/maintenance"><Plus className="mr-2 h-4 w-4" /> Create maintenance request</Link></Button>
             </div>
             {operations.summary.openMaintenance.length ? operations.summary.openMaintenance.map((request) => (
               <Card key={request.id} className={cn('border-border/70', (request.emergency || request.priority === 'emergency') && 'border-rose-500/50 bg-rose-500/5')}>
@@ -698,7 +918,7 @@ export default function Operations() {
                       </Select>
                     </div>
                   </div>
-                  <Link to="/maintenance"><Button size="sm" variant="outline">Open</Button></Link>
+                  <Button asChild size="sm" variant="outline"><Link to="/maintenance">Open</Link></Button>
                 </CardContent>
               </Card>
             )) : <EmptyState text="No open maintenance." />}
@@ -711,27 +931,32 @@ export default function Operations() {
                     <div key={vendor.id} className="rounded-xl border border-border/70 p-3">
                       <div className="flex items-center justify-between gap-2">
                         <p className="font-medium">{vendor.name}</p>
-                        <Badge variant="outline">{vendor.vendor_rank}</Badge>
+                        <div className="flex items-center gap-1">
+                          {vendor.sms_consent_status === 'consented' && <Badge variant="secondary">Text enabled</Badge>}
+                          <Badge variant="outline">{vendor.vendor_rank}</Badge>
+                        </div>
                       </div>
                       <p className="text-xs text-muted-foreground">{vendor.trade}{vendor.company ? ` · ${vendor.company}` : ''}</p>
                       <div className="mt-2 flex gap-2">
-                        {vendor.phone && <a href={`tel:${vendor.phone}`}><Button size="sm" variant="outline">Call</Button></a>}
-                        {vendor.email && <a href={`mailto:${vendor.email}`}><Button size="sm" variant="outline">Email</Button></a>}
+                        {vendor.phone && <Button asChild size="sm" variant="outline"><a href={`tel:${vendor.phone}`}>Call</a></Button>}
+                        {vendor.email && <Button asChild size="sm" variant="outline"><a href={`mailto:${vendor.email}`}>Email</a></Button>}
                       </div>
                     </div>
                   ))}
                 </CardContent>
               </Card>
             )}
-          </TabsContent>
-
-          <TabsContent value="checklists" className="grid gap-4 lg:grid-cols-3">
+            <div className="grid gap-4 border-t border-border/60 pt-5 lg:grid-cols-3">
+            <div className="lg:col-span-3">
+              <p className="font-heading text-lg font-semibold">Routine checklists</p>
+              <p className="mt-1 text-sm text-muted-foreground">Use these when they are due; they stay out of the daily view otherwise.</p>
+            </div>
             {(['morning', 'end_of_day', 'weekly'] as const).map((type) => (
               <ChecklistCard key={type} type={type} existing={todayChecklists.find((checklist) => checklist.checklist_type === type)} save={operations.saveChecklist} />
             ))}
-          </TabsContent>
+            </div>
 
-          <TabsContent value="activity">
+            <div>
             <Card className="border-border/70">
               <CardHeader className="p-4 pb-2"><CardTitle className="flex items-center gap-2 text-base"><Activity className="h-4 w-4" /> Activity history</CardTitle></CardHeader>
               <CardContent className="divide-y divide-border/60 p-4 pt-2">
@@ -746,6 +971,7 @@ export default function Operations() {
                 )) : <EmptyState text="No operational activity yet." />}
               </CardContent>
             </Card>
+            </div>
           </TabsContent>
         </Tabs>
 
@@ -771,6 +997,11 @@ export default function Operations() {
       <AddReservationDialog open={reservationOpen} onOpenChange={setReservationOpen} units={operations.units} onSave={operations.createReservation} />
       <AddVendorDialog open={vendorOpen} onOpenChange={setVendorOpen} onSave={operations.createVendor} />
       <ReadinessDialog cleaning={readinessCleaning} onClose={() => setReadinessCleaning(null)} onVerify={operations.verifyCleaning} />
+      <CleanerDetailsDialog
+        cleaning={detailsCleaning}
+        onClose={() => setDetailsCleaning(null)}
+        loadPhotoUrls={operations.getCleaningPhotoUrls}
+      />
       <OnboardingTutorial open={showOnboarding} onClose={() => setShowOnboarding(false)} isAdmin={isAdmin} />
     </div>
   );
@@ -790,6 +1021,7 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
     email: '',
     vendorRank: 'primary' as 'primary' | 'backup',
     emergencyAvailability: false,
+    smsConsentConfirmed: false,
   });
   const trades = ['cleaner', 'handyman', 'plumbing', 'electrical', 'hvac', 'appliance repair', 'internet or networking', 'lawn care', 'snow removal', 'pest control', 'locksmith', 'general contractor', 'emergency maintenance'];
   const save = async () => {
@@ -799,7 +1031,16 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
     setSaving(false);
     if (saved) {
       onOpenChange(false);
-      setForm({ ...form, name: '', company: '', phone: '', email: '' });
+      setForm({
+        name: '',
+        company: '',
+        trade: 'handyman',
+        phone: '',
+        email: '',
+        vendorRank: 'primary',
+        emergencyAvailability: false,
+        smsConsentConfirmed: false,
+      });
     }
   };
   return (
@@ -816,6 +1057,17 @@ function AddVendorDialog({ open, onOpenChange, onSave }: {
           <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-border/70 p-3 sm:col-span-2">
             <Checkbox checked={form.emergencyAvailability} onCheckedChange={(value) => setForm({ ...form, emergencyAvailability: value === true })} />
             <span className="text-sm">Available for emergencies</span>
+          </label>
+          <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-border/70 p-3 sm:col-span-2">
+            <Checkbox
+              className="mt-0.5"
+              checked={form.smsConsentConfirmed}
+              onCheckedChange={(value) => setForm({ ...form, smsConsentConfirmed: value === true })}
+            />
+            <span>
+              <span className="block text-sm">This vendor agreed to receive work-offer text messages</span>
+              <span className="mt-0.5 block text-xs text-muted-foreground">Required before Homestead Helper will include this number in a broadcast.</span>
+            </span>
           </label>
         </div>
         <DialogFooter><Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button><Button disabled={saving || !form.name} onClick={save}>{saving ? 'Saving…' : 'Add vendor'}</Button></DialogFooter>

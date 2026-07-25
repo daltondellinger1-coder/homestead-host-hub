@@ -8,12 +8,14 @@ import { Switch } from '@/components/ui/switch';
 import { Trash2, AlertTriangle, Archive } from 'lucide-react';
 import { useMaintenanceRequests, type MaintenanceRequest, type MaintenanceStatus } from '@/hooks/useMaintenanceRequests';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import HandymanBroadcastPanel from '@/components/HandymanBroadcastPanel';
 
 interface MaintenanceRequestDialogProps {
   request: MaintenanceRequest | null;
   unitName: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  canBroadcast?: boolean;
 }
 
 const STATUS_OPTIONS: { value: MaintenanceStatus; label: string }[] = [
@@ -27,7 +29,7 @@ const formatDateTime = (iso: string | null) => {
   return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 };
 
-export default function MaintenanceRequestDialog({ request, unitName, open, onOpenChange }: MaintenanceRequestDialogProps) {
+export default function MaintenanceRequestDialog({ request, unitName, open, onOpenChange, canBroadcast = false }: MaintenanceRequestDialogProps) {
   const { updateRequest, deleteRequest } = useMaintenanceRequests();
   const [notes, setNotes] = useState('');
   const [savingNotes, setSavingNotes] = useState(false);
@@ -162,6 +164,10 @@ export default function MaintenanceRequestDialog({ request, unitName, open, onOp
             <div>Reported: {formatDateTime(request.reported_at)}</div>
             {request.completed_at && <div>Completed: {formatDateTime(request.completed_at)}</div>}
           </div>
+
+          {canBroadcast && !['done', 'completed', 'closed_verified', 'archived'].includes(request.status) && (
+            <HandymanBroadcastPanel request={request} unitName={unitName} />
+          )}
         </div>
 
         <DialogFooter className="flex-row justify-between sm:justify-between gap-2">

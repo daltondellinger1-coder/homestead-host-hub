@@ -1,9 +1,22 @@
-project_id = "fiunauckxdnaqvlircob"
+project_id = "zcvkdtrsqxgwgkseqapa"
+
+[auth]
+enabled = true
+site_url = "https://homestead-helper.daltondellinger1.chatgpt.site"
+additional_redirect_urls = [
+  "https://homestead-helper.daltondellinger1.chatgpt.site/**",
+  "http://127.0.0.1:8080/**",
+  "http://localhost:8080/**",
+]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 10
+password_requirements = "lower_upper_letters_digits"
 
 [functions.tally-maintenance-webhook]
-verify_jwt = false
-
-[functions.hermes-qa-tally-call]
 verify_jwt = false
 
 [functions.cleaner-task-access]
@@ -15,5 +28,14 @@ verify_jwt = false
 [functions.booking-intake]
 verify_jwt = false
 
+[functions.maintenance-sms]
+verify_jwt = false
+
+[functions.maintenance-offer]
+verify_jwt = false
+
 [functions.maintenance-webhook-health-check]
+verify_jwt = false
+
+[functions.handyman-sms-consent]
 verify_jwt = false

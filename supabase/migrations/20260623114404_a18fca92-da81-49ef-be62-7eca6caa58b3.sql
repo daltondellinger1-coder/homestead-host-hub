@@ -80,6 +80,18 @@ ALTER TABLE public.airbnb_price_snapshots ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.airbnb_availability_snapshots ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.airbnb_weekly_briefings ENABLE ROW LEVEL SECURITY;
 
+-- This migration intentionally supersedes an earlier Lovable-generated copy
+-- of the market briefing schema. Recreate the policies so a clean project can
+-- replay the complete migration history without failing on duplicate names.
+DROP POLICY IF EXISTS "Admins can read airbnb market listings" ON public.airbnb_market_listings;
+DROP POLICY IF EXISTS "Admins can manage airbnb market listings" ON public.airbnb_market_listings;
+DROP POLICY IF EXISTS "Admins can read airbnb price snapshots" ON public.airbnb_price_snapshots;
+DROP POLICY IF EXISTS "Admins can manage airbnb price snapshots" ON public.airbnb_price_snapshots;
+DROP POLICY IF EXISTS "Admins can read airbnb availability snapshots" ON public.airbnb_availability_snapshots;
+DROP POLICY IF EXISTS "Admins can manage airbnb availability snapshots" ON public.airbnb_availability_snapshots;
+DROP POLICY IF EXISTS "Admins can read airbnb weekly briefings" ON public.airbnb_weekly_briefings;
+DROP POLICY IF EXISTS "Admins can manage airbnb weekly briefings" ON public.airbnb_weekly_briefings;
+
 CREATE POLICY "Admins can read airbnb market listings" ON public.airbnb_market_listings FOR SELECT USING (has_role(auth.uid(), 'admin'));
 CREATE POLICY "Admins can manage airbnb market listings" ON public.airbnb_market_listings FOR ALL USING (has_role(auth.uid(), 'admin')) WITH CHECK (has_role(auth.uid(), 'admin'));
 CREATE POLICY "Admins can read airbnb price snapshots" ON public.airbnb_price_snapshots FOR SELECT USING (has_role(auth.uid(), 'admin'));

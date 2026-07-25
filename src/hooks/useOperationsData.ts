@@ -49,6 +49,7 @@ export interface Vendor {
   email?: string | null;
   vendor_rank: string;
   emergency_availability: boolean;
+  sms_consent_status?: 'unknown' | 'consented' | 'opted_out';
 }
 
 export interface ChecklistRun {
@@ -58,6 +59,12 @@ export interface ChecklistRun {
   items: Array<{ id: string; label: string; complete: boolean }>;
   completed_at?: string | null;
   escalation_notes?: string | null;
+}
+
+export interface CleanerAssignee {
+  user_id: string;
+  email?: string | null;
+  display_name?: string | null;
 }
 
 export const CHECKLIST_TEMPLATES = {
@@ -114,6 +121,7 @@ export function useOperationsData() {
   const [activity, setActivity] = useState<ActivityEntry[]>([]);
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [checklists, setChecklists] = useState<ChecklistRun[]>([]);
+  const [cleaners, setCleaners] = useState<CleanerAssignee[]>([]);
   const [loading, setLoading] = useState(true);
   const [schemaReady, setSchemaReady] = useState(true);
 
@@ -129,6 +137,7 @@ export function useOperationsData() {
       db.from('activity_log').select('id,action,record_type,record_id,actor_label,source,created_at').order('created_at', { ascending: false }).limit(30),
       db.from('vendors').select('*').eq('active', true).order('trade').order('vendor_rank'),
       db.from('checklist_runs').select('*').gte('checklist_date', localDateKey(new Date(Date.now() - 8 * 86400000))),
+      db.from('user_roles').select('user_id,email,display_name').eq('role', 'cleaner').eq('active', true).not('user_id', 'is', null).order('display_name'),
     ]);
 
     const firstOperationalError = results.slice(1).find((result) => result.error)?.error;
@@ -147,6 +156,7 @@ export function useOperationsData() {
     if (results[6].data) setActivity(results[6].data);
     if (results[7].data) setVendors(results[7].data);
     if (results[8].data) setChecklists(results[8].data);
+    if (results[9].data) setCleaners(results[9].data);
     setLoading(false);
   }, []);
 
@@ -220,6 +230,27 @@ export function useOperationsData() {
     message,
   ), [mutate]);
 
+  const assignCleaner = useCallback((id: string, cleaner: CleanerAssignee | null) => mutate(
+    () => db.from('cleaning_tasks').update(cleaner ? {
+      assigned_cleaner_user_id: cleaner.user_id,
+      assigned_cleaner_name: cleaner.display_name || cleaner.email || 'Cleaner',
+      assigned_cleaner_email: cleaner.email || null,
+      status: 'awaiting_confirmation',
+      confirmation_status: 'pending',
+      confirmed_at: null,
+      declined_at: null,
+    } : {
+      assigned_cleaner_user_id: null,
+      assigned_cleaner_name: null,
+      assigned_cleaner_email: null,
+      status: 'needs_scheduling',
+      confirmation_status: 'not_requested',
+      confirmed_at: null,
+      declined_at: null,
+    }).eq('id', id),
+    cleaner ? `Cleaning assigned to ${cleaner.display_name || cleaner.email || 'cleaner'}.` : 'Cleaner assignment removed.',
+  ), [mutate]);
+
   const verifyCleaning = useCallback((id: string, checklist: Record<string, boolean>) => mutate(
     () => db.from('cleaning_tasks').update({
       readiness_checklist: checklist,
@@ -267,6 +298,20 @@ export function useOperationsData() {
     return data.url as string;
   }, []);
 
+  const getCleaningPhotoUrls = useCallback(async (paths: string[]) => {
+    if (!paths.length) return [];
+    const { data, error } = await supabase.storage
+      .from('cleaning-photos')
+      .createSignedUrls(paths, 30 * 60);
+    if (error) throw error;
+    return (data ?? [])
+      .map((item, index) => ({
+        path: paths[index],
+        signedUrl: item.signedUrl,
+      }))
+      .filter((item): item is { path: string; signedUrl: string } => Boolean(item.path && item.signedUrl));
+  }, []);
+
   const assignVendor = useCallback((maintenanceRequestId: string, vendorId: string | null) => mutate(
     () => db.from('maintenance_requests').update({
       vendor_id: vendorId,
@@ -296,6 +341,7 @@ export function useOperationsData() {
     email: string;
     vendorRank: 'primary' | 'backup';
     emergencyAvailability: boolean;
+    smsConsentConfirmed: boolean;
   }) => mutate(
     () => db.from('vendors').insert({
       name: values.name,
@@ -305,6 +351,9 @@ export function useOperationsData() {
       email: values.email || null,
       vendor_rank: values.vendorRank,
       emergency_availability: values.emergencyAvailability,
+      preferred_contact_method: values.smsConsentConfirmed ? 'text' : 'phone',
+      sms_consent_status: values.smsConsentConfirmed ? 'consented' : 'unknown',
+      sms_consent_at: values.smsConsentConfirmed ? new Date().toISOString() : null,
     }),
     'Vendor added.',
   ), [mutate]);
@@ -324,6 +373,7 @@ export function useOperationsData() {
     activity,
     vendors,
     checklists,
+    cleaners,
     loading,
     schemaReady,
     summary,
@@ -332,10 +382,12 @@ export function useOperationsData() {
     updateUnitStatus,
     updateReservation,
     updateCleaning,
+    assignCleaner,
     verifyCleaning,
     completeTask,
     saveChecklist,
     issueCleanerLink,
+    getCleaningPhotoUrls,
     assignVendor,
     decideApproval,
     createVendor,

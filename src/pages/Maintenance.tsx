@@ -135,7 +135,7 @@ export default function Maintenance({ portalMode = false }: MaintenanceProps) {
             <p className="text-sm font-body text-muted-foreground">
               {portalMode
                 ? 'Open work orders assigned to maintenance will appear here automatically.'
-                : 'When a tenant scans the QR code in their unit and submits the form, the request will appear here automatically and an email goes to you and your maintenance contact. You can also use Log Request to add one manually.'}
+                : 'When a tenant scans the QR code in their unit and submits the form, the request appears here automatically and management is notified. You can also use Log Request to add one manually.'}
             </p>
           </div>
         ) : (
@@ -246,6 +246,7 @@ export default function Maintenance({ portalMode = false }: MaintenanceProps) {
         request={selected}
         unitName={selected ? (unitNameById[selected.unit_id] ?? 'Unknown unit') : ''}
         open={!!selected}
+        canBroadcast={!portalMode}
         onOpenChange={(open) => { if (!open) setSelected(null); }}
       />
     </div>
