@@ -66,8 +66,10 @@ class ReservationShadowTests(unittest.TestCase):
         self.assertEqual(state["canonical_writes"], 0)
         self.assertEqual(state["outbound_sends"], 0)
         self.assertTrue(state["requires_final_go_live_approval"])
-        self.assertIn("EXCEPTION: Unit 2", result["packet"])
-        self.assertIn("ADD LATER: Unit 3", result["packet"])
+        self.assertIn("Urgent mismatch: Unit 2", result["packet"])
+        self.assertIn("New stay: Unit 3", result["packet"])
+        self.assertIn("Jul 1–Jul 26", result["packet"])
+        self.assertNotIn("2026-07-26", result["packet"])
 
     def test_changed_source_requires_a_second_read_and_is_restart_safe(self):
         self.write_source(changed=True)

@@ -177,25 +177,37 @@ def packet_text(day_number: int, rows: list[dict[str, Any]], checked_at: str) ->
     actionable = [row for row in rows if row["classification"] != "verified_no_change"]
     verified = [row for row in rows if row["classification"] == "verified_no_change"]
     lines = [
-        f"Homestead reservation shadow — Day {day_number} approval",
+        f"Reservation check — Day {day_number}",
         "",
-        f"Authenticated Airbnb evidence was unchanged across at least two reads. Latest read: {checked_at}.",
-        f"{len(verified)} stays match the app. {len(actionable)} need review.",
+        "Quick summary",
+        f"- {len(verified)} stays match Homestead Helper",
+        f"- {len(actionable)} items need your review",
+        "- Airbnb was checked twice, at least 30 minutes apart",
         "",
+        "Items to review",
     ]
     for row in actionable:
         label = {
-            "proposed_create": "ADD LATER",
-            "proposed_update": "UPDATE LATER",
-            "exception": "EXCEPTION",
+            "proposed_create": "New stay",
+            "proposed_update": "Date mismatch",
+            "exception": "Urgent mismatch",
         }[row["classification"]]
+        check_in = date.fromisoformat(row["check_in"]).strftime("%b %d").replace(" 0", " ")
+        check_out = date.fromisoformat(row["check_out"]).strftime("%b %d").replace(" 0", " ")
+        reason = re.sub(
+            r"\d{4}-\d{2}-\d{2}",
+            lambda match: date.fromisoformat(match.group()).strftime("%b %d").replace(" 0", " "),
+            row["reason"],
+        )
         lines.append(
-            f"- {label}: {row['unit']} — {row['guest']} — {row['check_in']} to {row['check_out']}. {row['reason']}"
+            f"- {label}: {row['unit']} · {row['guest']} · {check_in}–{check_out}. {reason}"
         )
     lines.extend([
         "",
-        f"Reply APPROVE SHADOW DAY {day_number} if these classifications are correct, or describe corrections.",
-        "Your reply will be recorded for evaluation only. It will not change the app or contact anyone.",
+        "Your decision",
+        f"Reply APPROVE SHADOW DAY {day_number} if this looks right. Otherwise, tell me what to correct.",
+        "",
+        "This is review-only. Your reply will not change the app or contact anyone.",
     ])
     return "\n".join(lines)
 

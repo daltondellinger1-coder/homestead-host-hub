@@ -1,16 +1,16 @@
 # Graph Report - Homestead Hill  (2026-07-25)
 
 ## Corpus Check
-- 266 files · ~239,271 words
+- 266 files · ~239,309 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2886 nodes · 5849 edges · 274 communities (256 shown, 18 thin omitted)
+- 2887 nodes · 5850 edges · 267 communities (249 shown, 18 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a3af7e87`
+- Built from commit: `c82c26ab`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,7 +43,6 @@
 - [[_COMMUNITY_Community 26|Community 26]]
 - [[_COMMUNITY_Community 27|Community 27]]
 - [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
 - [[_COMMUNITY_Community 30|Community 30]]
 - [[_COMMUNITY_Community 31|Community 31]]
 - [[_COMMUNITY_Community 32|Community 32]]
@@ -55,9 +54,7 @@
 - [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
-- [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 55|Community 55]]
@@ -106,7 +103,6 @@
 - [[_COMMUNITY_Community 106|Community 106]]
 - [[_COMMUNITY_Community 110|Community 110]]
 - [[_COMMUNITY_Community 111|Community 111]]
-- [[_COMMUNITY_Community 112|Community 112]]
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
 - [[_COMMUNITY_Community 115|Community 115]]
@@ -143,7 +139,6 @@
 - [[_COMMUNITY_Community 146|Community 146]]
 - [[_COMMUNITY_Community 147|Community 147]]
 - [[_COMMUNITY_Community 148|Community 148]]
-- [[_COMMUNITY_Community 149|Community 149]]
 - [[_COMMUNITY_Community 150|Community 150]]
 - [[_COMMUNITY_Community 151|Community 151]]
 - [[_COMMUNITY_Community 152|Community 152]]
@@ -191,7 +186,6 @@
 - [[_COMMUNITY_Community 241|Community 241]]
 - [[_COMMUNITY_Community 242|Community 242]]
 - [[_COMMUNITY_Community 243|Community 243]]
-- [[_COMMUNITY_Community 244|Community 244]]
 - [[_COMMUNITY_Community 245|Community 245]]
 - [[_COMMUNITY_Community 246|Community 246]]
 - [[_COMMUNITY_Community 247|Community 247]]
@@ -214,7 +208,6 @@
 - [[_COMMUNITY_Community 264|Community 264]]
 - [[_COMMUNITY_Community 265|Community 265]]
 - [[_COMMUNITY_Community 267|Community 267]]
-- [[_COMMUNITY_Community 268|Community 268]]
 - [[_COMMUNITY_Community 269|Community 269]]
 - [[_COMMUNITY_Community 270|Community 270]]
 - [[_COMMUNITY_Community 271|Community 271]]
@@ -245,11 +238,11 @@
 - `check_url()` --calls--> `type`  [INFERRED]
   scripts/generate-welcome-qr-print-v2.py → /home/dalton/projects/homestead-host-hub/package.json
 
-## Communities (274 total, 18 thin omitted)
+## Communities (267 total, 18 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.13
-Nodes (22): adminTitles, approvalStep, automationStep, privacy, staysStep, titles, OnboardingTutorial(), OnboardingTutorialProps (+14 more)
+Nodes (22): adminTitles, approvalStep, automationStep, privacy, staysStep, titles, CleanerTutorial(), OnboardingTutorial() (+14 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.04
@@ -268,8 +261,8 @@ Cohesion: 0.1
 Nodes (30): useIsMobile(), Separator, Sidebar, SidebarContent, SidebarContext, SidebarFooter, SidebarGroup, SidebarGroupAction (+22 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.18
-Nodes (17): PullToRefresh(), PullToRefreshProps, cn(), ButtonProps, buttonVariants, Calendar(), CalendarProps, Pagination() (+9 more)
+Cohesion: 0.21
+Nodes (14): PullToRefresh(), PullToRefreshProps, cn(), ButtonProps, Pagination(), PaginationContent, PaginationEllipsis(), PaginationItem (+6 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.09
@@ -359,10 +352,6 @@ Nodes (21): code:sh (npm ci), code:sh (npm test), Daily workflows, Homestead Hel
 Cohesion: 0.18
 Nodes (8): 1. Maintenance Webhook Health deployment lag — resolved, 2. Lint gate is red, 3. Existing automation rows remain in production data, Automated checks, Bugs / blockers found, Cleanup status, Homestead Hill / Host Hub Operational Path QA — 2026-05-24, Live UI path matrix
 
-### Community 29 - "Community 29"
-Cohesion: 0.2
-Nodes (15): daysUntil(), formatCurrency(), formatDate(), statusColors, UnitCard(), UnitCardProps, DropdownMenuCheckboxItem, DropdownMenuContent (+7 more)
-
 ### Community 30 - "Community 30"
 Cohesion: 0.39
 Nodes (7): NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle, NavigationMenuViewport
@@ -376,8 +365,8 @@ Cohesion: 0.13
 Nodes (18): actionBacklog, AmenityKey, amenityKeys, buildManualSnapshotRows(), canonicalCompName(), CompType, compTypeLabel(), contractorWeights (+10 more)
 
 ### Community 33 - "Community 33"
-Cohesion: 0.05
-Nodes (51): MobileBottomNav(), MobileBottomNavProps, NavViewMode, useAuth(), useAuthRoles(), AppRole, canAccessPath(), getPostLoginPath() (+43 more)
+Cohesion: 0.06
+Nodes (47): useAuthRoles(), AppRole, canAccessPath(), getPostLoginPath(), getStoredLoginLane(), isPasswordRecoveryLocation(), LoginLane, setStoredLoginLane() (+39 more)
 
 ### Community 34 - "Community 34"
 Cohesion: 0.06
@@ -387,21 +376,13 @@ Nodes (34): brand, accentColor, domain, paperColor, primaryColor, property, gues
 Cohesion: 0.2
 Nodes (21): ADMIN_EMAILS, allowed, authHeader, Body, completionPhotos, corsHeaders, esc(), Event (+13 more)
 
-### Community 50 - "Community 50"
-Cohesion: 0.11
-Nodes (26): Alloc, RecordPaymentDialog(), RecordPaymentDialogProps, formatCurrency(), formatDate(), SchedulePaymentsDialog(), SchedulePaymentsDialogProps, statusConfig (+18 more)
-
 ### Community 51 - "Community 51"
 Cohesion: 0.38
 Nodes (8): Action, body, buildPayload(), cleanup(), corsHeaders, json(), requireAdmin(), runTest()
 
-### Community 52 - "Community 52"
-Cohesion: 0.22
-Nodes (8): CompositeTypes, Constants, DatabaseWithoutInternals, DefaultSchema, Enums, Json, TablesInsert, TablesUpdate
-
 ### Community 53 - "Community 53"
-Cohesion: 0.13
-Nodes (21): addDaysKey(), findOverlappingReservation(), isOpenReservation(), localDateKey(), nextReservationFor(), OperationalCleaning, OperationalReservation, OperationalTask (+13 more)
+Cohesion: 0.12
+Nodes (22): addDaysKey(), CLEANING_STATUS_LABELS, findOverlappingReservation(), isOpenReservation(), localDateKey(), nextReservationFor(), OperationalCleaning, OperationalReservation (+14 more)
 
 ### Community 54 - "Community 54"
 Cohesion: 0.53
@@ -416,8 +397,8 @@ Cohesion: 0.2
 Nodes (9): Approval decisions before print/commit, code:bash (python3 scripts/generate-guest-qr-sheet.py), Generation commands, Guest / welcome basket flyer, Hannah / cleaner staff QR sheet, Homestead Hill QR Source of Truth, Per-unit maintenance QR cards, Purpose (+1 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.17
-Nodes (31): BulkDeletePaymentsDialog(), BulkDeletePaymentsDialogProps, formatCurrency(), PaymentEvent, ExtensionRequestCard(), ExtensionRequestCardProps, fmtMoney(), formatDate() (+23 more)
+Cohesion: 0.15
+Nodes (33): BulkDeletePaymentsDialog(), BulkDeletePaymentsDialogProps, formatCurrency(), PaymentEvent, ExtensionRequestCard(), ExtensionRequestCardProps, fmtMoney(), formatDate() (+25 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.25
@@ -508,8 +489,8 @@ Cohesion: 0.11
 Nodes (25): HomesteadUnit, MarketComp, PricingRecommendation, AvailabilityLabel, buildTopSummary(), compMonthlyValues(), CompRangeSummary, longStayProofScore() (+17 more)
 
 ### Community 93 - "Community 93"
-Cohesion: 0.19
-Nodes (7): CleanerTutorial(), CLEANING_STATUS_LABELS, CleanerTask, operationsDb, Badge(), BadgeProps, badgeVariants
+Cohesion: 0.25
+Nodes (3): CleanerPortal(), CleanerTask, operationsDb
 
 ### Community 94 - "Community 94"
 Cohesion: 0.09
@@ -564,16 +545,12 @@ Cohesion: 0.5
 Nodes (4): cleaning, extend, maintenance, homestead-hill-unit-9-image-model-text-final-small-qr-extend-fix-sheet.png
 
 ### Community 110 - "Community 110"
-Cohesion: 0.12
-Nodes (21): BroadcastSummary, Handyman, MaintenanceTutorial(), useMaintenanceOnboardingState(), MaintenanceRequest, MaintenanceStatus, useMaintenanceRequests(), FinancialReports() (+13 more)
+Cohesion: 0.13
+Nodes (20): BroadcastSummary, Handyman, LogMaintenanceDialog(), LogMaintenanceDialogProps, MobileBottomNav(), MobileBottomNavProps, NavViewMode, MaintenanceTutorial() (+12 more)
 
 ### Community 111 - "Community 111"
 Cohesion: 0.07
 Nodes (27): url_results, https://form.jotform.com/261687221033149, https://homestead-hill.com/contact?unit=7, https://homestead-hill.com/contact?unit=8, https://homestead-hill.com/contact?unit=9, https://homestead-hill.com/extend/unit-1, https://homestead-hill.com/extend/unit-11, https://homestead-hill.com/extend/unit-13 (+19 more)
-
-### Community 112 - "Community 112"
-Cohesion: 0.4
-Nodes (7): addDays(), CalendarSyncUnitHealth, isDateBlockedByCalendar(), summarizeCalendarSyncHealth(), blocks, summary, toIsoDate()
 
 ### Community 113 - "Community 113"
 Cohesion: 0.07
@@ -719,10 +696,6 @@ Nodes (3): decode_failures, note, sheet_count
 Cohesion: 0.5
 Nodes (3): decode_failures, note, sheet_count
 
-### Community 149 - "Community 149"
-Cohesion: 0.37
-Nodes (8): amountClass(), DashboardData, HomesteadHillPLContent(), money(), TransactionCard(), Txn, unitSort(), homesteadHillPlSnapshot
-
 ### Community 150 - "Community 150"
 Cohesion: 0.5
 Nodes (3): boxes, h, w
@@ -816,8 +789,8 @@ Cohesion: 0.5
 Nodes (4): cleaning, extend, maintenance, homestead-hill-unit-9-v3-image-model-large-qr-sheet.png
 
 ### Community 177 - "Community 177"
-Cohesion: 0.25
-Nodes (20): AddUnitDialog(), AddUnitDialogProps, EDITABLE_STATUSES, EditUnitDialog(), EditUnitDialogProps, LogMaintenanceDialog(), LogMaintenanceDialogProps, STATUS_LABELS (+12 more)
+Cohesion: 0.24
+Nodes (21): AddUnitDialog(), AddUnitDialogProps, EDITABLE_STATUSES, EditUnitDialog(), EditUnitDialogProps, Alloc, RecordPaymentDialog(), RecordPaymentDialogProps (+13 more)
 
 ### Community 178 - "Community 178"
 Cohesion: 0.2
@@ -880,8 +853,8 @@ Cohesion: 0.12
 Nodes (10): useOperationsData(), CleanerDetailsDialog(), displayDate(), displayTimestamp(), Operations(), OperationsView, READINESS_ITEMS, ReservationRow() (+2 more)
 
 ### Community 241 - "Community 241"
-Cohesion: 0.18
-Nodes (25): ManagementDashboard(), ManagementFee, RevenueTarget, PaymentHistoryContent(), SortDir, SortField, WeeklyReport(), usePropertyData() (+17 more)
+Cohesion: 0.06
+Nodes (68): ManagementDashboard(), ManagementFee, RevenueTarget, PaymentHistoryContent(), SortDir, SortField, daysUntil(), formatCurrency() (+60 more)
 
 ### Community 242 - "Community 242"
 Cohesion: 0.24
@@ -890,10 +863,6 @@ Nodes (7): admin, appPublicUrl, corsHeaders(), dispatchQueued(), json(), origin,
 ### Community 243 - "Community 243"
 Cohesion: 0.33
 Nodes (5): appSource, authSource, extendStaySource, financeSource, operationsSource
-
-### Community 244 - "Community 244"
-Cohesion: 0.25
-Nodes (7): cols, csv, [header], lines, [, row], [row1, row2], rows
 
 ### Community 245 - "Community 245"
 Cohesion: 0.14
@@ -904,48 +873,48 @@ Cohesion: 0.5
 Nodes (3): dispatch, migration, operationsHook
 
 ### Community 247 - "Community 247"
-Cohesion: 0.16
-Nodes (24): BookingBar, BookingTimeline(), BookingTimelineProps, formatCurrency(), formatDate(), PaymentEvent, FutureGuestDialog(), FutureGuestDialogProps (+16 more)
+Cohesion: 0.15
+Nodes (28): AvailabilitySearch(), AvailabilitySearchProps, AvailableUnit, BookingInfo, TYPE_ICONS, BookingBar, BookingTimeline(), BookingTimelineProps (+20 more)
 
 ### Community 248 - "Community 248"
-Cohesion: 0.24
-Nodes (12): DrillDownDialog(), DrillDownType, FilterMode, FinancialReportsContent(), fmt(), fmtFull(), MONTH_NAMES, PaymentEventRow (+4 more)
+Cohesion: 0.19
+Nodes (15): DrillDownDialog(), DrillDownType, FilterMode, FinancialReportsContent(), fmt(), fmtFull(), MONTH_NAMES, PaymentEventRow (+7 more)
 
 ### Community 249 - "Community 249"
 Cohesion: 0.07
 Nodes (27): checkIn, checkOut, confidence, confidenceValues, conflicts, corsHeaders, enumValue(), evidenceReference (+19 more)
 
 ### Community 250 - "Community 250"
-Cohesion: 0.13
-Nodes (14): canonicalConflict(), ObservationCard(), SOURCE_NAMES, TRACKED_SOURCES, ActivityEntry, ApprovalRequest, CHECKLIST_TEMPLATES, ChecklistRun (+6 more)
+Cohesion: 0.18
+Nodes (10): ActivityEntry, ApprovalRequest, CHECKLIST_TEMPLATES, ChecklistRun, CleanerAssignee, db, OperationalUnit, ReservationObservation (+2 more)
 
 ### Community 251 - "Community 251"
-Cohesion: 0.2
-Nodes (16): Dashboard(), DashboardProps, GuestDialogMode, parseEstimatedTotal(), ViewMode, useOnboardingState(), RequestsInbox(), RequestsInboxProps (+8 more)
+Cohesion: 0.12
+Nodes (27): Dashboard(), DashboardProps, GuestDialogMode, parseEstimatedTotal(), ViewMode, useOnboardingState(), useTutorialState(), RequestsInbox() (+19 more)
 
 ### Community 252 - "Community 252"
 Cohesion: 0.25
 Nodes (7): code:json ({), code:bash (python scripts/grasshopper_archive.py \), Collector record, Grasshopper archive and unit dossiers, Live collector gate, Run, Safety boundary
 
 ### Community 253 - "Community 253"
-Cohesion: 0.15
-Nodes (17): AvailabilitySearch(), AvailabilitySearchProps, AvailableUnit, BookingInfo, TYPE_ICONS, SortableUnitCard(), SortableUnitCardProps, SortableUnitGrid() (+9 more)
+Cohesion: 0.14
+Nodes (16): SortableUnitCard(), SortableUnitCardProps, SortableUnitGrid(), SortableUnitGridProps, AvailabilityInfo, formatCurrency(), getAvailability(), StatsOverview() (+8 more)
 
 ### Community 254 - "Community 254"
 Cohesion: 0.22
 Nodes (9): scripts, build, build:dev, dev, lint, preview, test, test:contracts (+1 more)
 
 ### Community 255 - "Community 255"
-Cohesion: 0.53
-Nodes (5): useCleanerOnboardingState(), useMaintenanceOnboardingState(), useOnboardingState(), useTutorialState(), CleanerPortal()
+Cohesion: 0.7
+Nodes (4): useCleanerOnboardingState(), useMaintenanceOnboardingState(), useOnboardingState(), useTutorialState()
 
 ### Community 256 - "Community 256"
 Cohesion: 0.6
 Nodes (3): Avatar, AvatarFallback, AvatarImage
 
 ### Community 257 - "Community 257"
-Cohesion: 0.35
-Nodes (9): BookingEvent, CalendarEvent, DAYS_MED, DAYS_SHORT, formatCurrency(), OccupiedUnit, PaymentCalendar(), PaymentCalendarProps (+1 more)
+Cohesion: 0.19
+Nodes (16): BookingEvent, CalendarEvent, DAYS_MED, DAYS_SHORT, formatCurrency(), OccupiedUnit, PaymentCalendar(), PaymentCalendarProps (+8 more)
 
 ### Community 258 - "Community 258"
 Cohesion: 0.4
@@ -956,8 +925,8 @@ Cohesion: 0.2
 Nodes (9): Current release, Decisions reserved for Dalton, Homestead Helper execution roadmap, Non-negotiable controls, Operating outcome, Priority 0 — trustworthy operating data, Priority 1 — prove the daily workflow, Priority 2 — controlled delivery and maintenance dispatch (+1 more)
 
 ### Community 260 - "Community 260"
-Cohesion: 0.17
-Nodes (15): CalendarSyncHealth(), ExtendStay(), normalizeUnit(), units, OfferView, Alert, AlertDescription, AlertTitle (+7 more)
+Cohesion: 0.08
+Nodes (40): CalendarSyncHealth(), amountClass(), DashboardData, HomesteadHillPLContent(), money(), TransactionCard(), Txn, unitSort() (+32 more)
 
 ### Community 262 - "Community 262"
 Cohesion: 0.25
@@ -972,12 +941,8 @@ Cohesion: 0.6
 Nodes (3): AccordionContent, AccordionItem, AccordionTrigger
 
 ### Community 267 - "Community 267"
-Cohesion: 0.25
-Nodes (14): api(), atomic_json(), classify(), digest(), ensure_assignment(), normalize_source(), packet_text(), parse_date_range() (+6 more)
-
-### Community 268 - "Community 268"
-Cohesion: 0.32
-Nodes (8): formatDate(), getPayloadSummary(), HealthLog, MaintenanceHealth(), QaResult, statusVariant(), supabase, Database
+Cohesion: 0.23
+Nodes (15): api(), atomic_json(), classify(), digest(), ensure_assignment(), normalize_source(), packet_text(), parse_date_range() (+7 more)
 
 ### Community 269 - "Community 269"
 Cohesion: 0.36
@@ -996,23 +961,23 @@ Cohesion: 0.4
 Nodes (4): Reservation reconciliation shadow, Runtime, What it cannot do, What it does
 
 ## Knowledge Gaps
-- **1167 isolated node(s):** `config`, `css`, `baseColor`, `cssVariables`, `prefix` (+1162 more)
+- **1168 isolated node(s):** `config`, `css`, `baseColor`, `cssVariables`, `prefix` (+1163 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 5` to `Community 256`, `Community 1`, `Community 3`, `Community 260`, `Community 4`, `Community 7`, `Community 265`, `Community 10`, `Community 269`, `Community 16`, `Community 18`, `Community 20`, `Community 21`, `Community 23`, `Community 25`, `Community 29`, `Community 30`, `Community 33`, `Community 177`, `Community 63`, `Community 68`, `Community 82`, `Community 89`, `Community 93`, `Community 228`, `Community 230`, `Community 110`, `Community 241`, `Community 118`, `Community 247`, `Community 248`, `Community 250`, `Community 253`?**
-  _High betweenness centrality (0.100) - this node is a cross-community bridge._
-- **Why does `Button` connect `Community 253` to `Community 0`, `Community 257`, `Community 3`, `Community 4`, `Community 260`, `Community 268`, `Community 18`, `Community 149`, `Community 29`, `Community 33`, `Community 177`, `Community 50`, `Community 63`, `Community 89`, `Community 93`, `Community 230`, `Community 110`, `Community 241`, `Community 247`, `Community 248`, `Community 250`, `Community 251`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+- **Why does `cn()` connect `Community 5` to `Community 256`, `Community 1`, `Community 3`, `Community 260`, `Community 4`, `Community 7`, `Community 265`, `Community 10`, `Community 269`, `Community 16`, `Community 18`, `Community 20`, `Community 21`, `Community 23`, `Community 25`, `Community 30`, `Community 177`, `Community 63`, `Community 68`, `Community 82`, `Community 89`, `Community 228`, `Community 230`, `Community 110`, `Community 241`, `Community 118`, `Community 247`, `Community 248`?**
+  _High betweenness centrality (0.098) - this node is a cross-community bridge._
+- **Why does `Button` connect `Community 247` to `Community 0`, `Community 33`, `Community 257`, `Community 3`, `Community 260`, `Community 4`, `Community 230`, `Community 110`, `Community 177`, `Community 241`, `Community 18`, `Community 93`, `Community 248`, `Community 89`, `Community 251`, `Community 253`, `Community 63`?**
+  _High betweenness centrality (0.037) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `Community 1` to `Community 117`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `cn()` (e.g. with `clsx` and `clsx`) actually correct?**
   _`cn()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `config`, `css`, `baseColor` to the rest of the system?**
-  _1167 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1168 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.13 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
