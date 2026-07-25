@@ -1109,6 +1109,16 @@
     "ast_hash": "95140dde56b3551d5a958262cf46e55b",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260724140548_8d7d50b5-7ad9-4e86-b977-c7c7927c7d88.sql": {
+    "mtime": 1784947432.0573852,
+    "ast_hash": "4f252a0e84cfbc10720ed3631e94e407",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260724140820_54dce8df-4f63-44d6-a431-5ef81c0ee962.sql": {
+    "mtime": 1784947432.0690181,
+    "ast_hash": "22ede0ed26407141b25ebd4621e62db6",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260724141000_allow_cleaners_to_read_assigned_unit_names.sql": {
     "mtime": 1784902055.0805588,
     "ast_hash": "46454a7c233c79ca24b742ab9ec46599",

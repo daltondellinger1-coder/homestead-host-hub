@@ -33,3 +33,6 @@ verify_jwt = false
 
 [functions.maintenance-offer]
 verify_jwt = false
+
+[functions.maintenance-webhook-health-check]
+verify_jwt = false
