@@ -18,6 +18,9 @@ const Maintenance = lazy(() => import("./pages/Maintenance"));
 const MaintenanceHealth = lazy(() => import("./pages/MaintenanceHealth"));
 const MaintenancePortal = lazy(() => import("./pages/MaintenancePortal"));
 const MaintenanceOffer = lazy(() => import("./pages/MaintenanceOffer"));
+const HandymanSmsSignup = lazy(() => import("./pages/HandymanSmsSignup"));
+const SmsPrivacy = lazy(() => import("./pages/SmsPrivacy"));
+const SmsTerms = lazy(() => import("./pages/SmsTerms"));
 const ContractorOfficeLaundry = lazy(() => import("./pages/ContractorOfficeLaundry"));
 const ExtendStay = lazy(() => import("./pages/ExtendStay"));
 const AirbnbMarket = lazy(() => import("./pages/AirbnbMarket"));
@@ -101,6 +104,16 @@ function AppRouter() {
       <div className="min-h-screen pattern-bg flex items-center justify-center">
         <div className="text-muted-foreground font-body text-sm animate-pulse">Loading...</div>
       </div>
+    );
+  }
+
+  if (['/handyman-sms-signup', '/privacy', '/sms-terms'].includes(location.pathname)) {
+    return (
+      <Routes>
+        <Route path="/handyman-sms-signup" element={<HandymanSmsSignup />} />
+        <Route path="/privacy" element={<SmsPrivacy />} />
+        <Route path="/sms-terms" element={<SmsTerms />} />
+      </Routes>
     );
   }
 

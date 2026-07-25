@@ -28,6 +28,17 @@ const maintenanceNotifications = readFileSync(
   resolve(process.cwd(), 'supabase/functions/maintenance-notifications/index.ts'),
   'utf8',
 );
+const consentMigration = readFileSync(
+  resolve(process.cwd(), 'supabase/migrations/20260725113000_handyman_sms_consent.sql'),
+  'utf8',
+);
+const consentFunction = readFileSync(
+  resolve(process.cwd(), 'supabase/functions/handyman-sms-consent/index.ts'),
+  'utf8',
+);
+const signupPage = readFileSync(resolve(process.cwd(), 'src/pages/HandymanSmsSignup.tsx'), 'utf8');
+const privacyPage = readFileSync(resolve(process.cwd(), 'src/pages/SmsPrivacy.tsx'), 'utf8');
+const termsPage = readFileSync(resolve(process.cwd(), 'src/pages/SmsTerms.tsx'), 'utf8');
 
 describe('maintenance handyman SMS dispatch contracts', () => {
   it('allows only one open broadcast and selects the winner under row locks', () => {
@@ -87,5 +98,25 @@ describe('maintenance handyman SMS dispatch contracts', () => {
     expect(maintenanceHook).toContain("event: 'new_request'");
     expect(maintenanceNotifications).toContain('r.role === "property_manager"');
     expect(offerFunction).toContain('event: "assigned"');
+  });
+
+  it('records explicit public opt-in evidence and publishes carrier disclosures', () => {
+    expect(appSource).toContain('path="/handyman-sms-signup"');
+    expect(appSource).toContain('path="/privacy"');
+    expect(appSource).toContain('path="/sms-terms"');
+    expect(signupPage).toContain('Message frequency varies');
+    expect(signupPage).toContain('Message and data rates may apply');
+    expect(signupPage).toContain('Reply STOP to opt out or HELP for help');
+    expect(signupPage).toContain('Consent is not a condition of purchasing goods or services');
+    expect(privacyPage).toContain('do not sell, rent, or share mobile numbers');
+    expect(termsPage).toContain('Homestead Hill Maintenance Network');
+    expect(consentMigration).toContain('vendor_sms_consent_events');
+    expect(consentFunction).toContain('sms_consent_status: "consented"');
+    expect(consentFunction).toContain('disclosure_version: version');
+  });
+
+  it('identifies the legal sender and includes opt-out and help in job offers', () => {
+    expect(smsFunction).toContain('We Flip Houses LLC — Homestead Hill job');
+    expect(smsFunction).toContain('Reply STOP to opt out or HELP for help');
   });
 });

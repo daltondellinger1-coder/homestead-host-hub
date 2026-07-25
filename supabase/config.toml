@@ -36,3 +36,6 @@ verify_jwt = false
 
 [functions.maintenance-webhook-health-check]
 verify_jwt = false
+
+[functions.handyman-sms-consent]
+verify_jwt = false

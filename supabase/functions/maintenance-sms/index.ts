@@ -281,7 +281,7 @@ async function broadcast(body: Record<string, unknown>, userId: string, origin: 
       offer_id: offerId,
       recipient_phone_e164: vendor.phoneE164,
       message_kind: "job_offer",
-      message_body: `Homestead Hill job: ${unitName} — ${title}. Authorized up to $${amount}. First confirmed acceptance gets it: ${acceptUrl} Reply STOP to opt out.`,
+      message_body: `We Flip Houses LLC — Homestead Hill job: ${unitName} — ${title}. Authorized up to $${amount}. First confirmed acceptance gets it: ${acceptUrl} Reply STOP to opt out or HELP for help.`,
     });
   }
 
