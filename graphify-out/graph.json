@@ -12967,7 +12967,7 @@
       "label": "missing",
       "file_type": "code",
       "source_file": "worker/index.test.ts",
-      "source_location": "L50",
+      "source_location": "L74",
       "id": "worker_index_test_missing",
       "community": 219,
       "norm_label": "missing"
@@ -12976,7 +12976,7 @@
       "label": "asset",
       "file_type": "code",
       "source_file": "worker/index.test.ts",
-      "source_location": "L64",
+      "source_location": "L88",
       "id": "worker_index_test_asset",
       "community": 219,
       "norm_label": "asset"
@@ -26939,9 +26939,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_tsx",
-      "target": "src_app_handymansmssignup",
-      "confidence_score": 1.0
+      "target": "src_app_handymansmssignup"
     },
     {
       "relation": "contains",
@@ -26949,9 +26949,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_tsx",
-      "target": "src_app_smsprivacy",
-      "confidence_score": 1.0
+      "target": "src_app_smsprivacy"
     },
     {
       "relation": "contains",
@@ -26959,9 +26959,9 @@
       "source_file": "src/App.tsx",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_tsx",
-      "target": "src_app_smsterms",
-      "confidence_score": 1.0
+      "target": "src_app_smsterms"
     },
     {
       "relation": "contains",
@@ -38560,9 +38560,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_alert_alert",
-      "confidence_score": 1.0
+      "target": "ui_alert_alert"
     },
     {
       "relation": "imports",
@@ -38602,9 +38602,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_alert_alertdescription",
-      "confidence_score": 1.0
+      "target": "ui_alert_alertdescription"
     },
     {
       "relation": "imports",
@@ -39681,9 +39681,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_button_button",
-      "confidence_score": 1.0
+      "target": "ui_button_button"
     },
     {
       "relation": "imports",
@@ -40429,9 +40429,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_card_card",
-      "confidence_score": 1.0
+      "target": "ui_card_card"
     },
     {
       "relation": "imports",
@@ -40473,9 +40473,9 @@
       "source_file": "src/pages/SmsPrivacy.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsprivacy_tsx",
-      "target": "ui_card_card",
-      "confidence_score": 1.0
+      "target": "ui_card_card"
     },
     {
       "relation": "imports",
@@ -40484,9 +40484,9 @@
       "source_file": "src/pages/SmsTerms.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsterms_tsx",
-      "target": "ui_card_card",
-      "confidence_score": 1.0
+      "target": "ui_card_card"
     },
     {
       "relation": "imports",
@@ -40615,9 +40615,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_card_cardheader",
-      "confidence_score": 1.0
+      "target": "ui_card_cardheader"
     },
     {
       "relation": "imports",
@@ -40757,9 +40757,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_card_cardtitle",
-      "confidence_score": 1.0
+      "target": "ui_card_cardtitle"
     },
     {
       "relation": "imports",
@@ -40931,9 +40931,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_card_cardcontent",
-      "confidence_score": 1.0
+      "target": "ui_card_cardcontent"
     },
     {
       "relation": "imports",
@@ -40975,9 +40975,9 @@
       "source_file": "src/pages/SmsPrivacy.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsprivacy_tsx",
-      "target": "ui_card_cardcontent",
-      "confidence_score": 1.0
+      "target": "ui_card_cardcontent"
     },
     {
       "relation": "imports",
@@ -40986,9 +40986,9 @@
       "source_file": "src/pages/SmsTerms.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsterms_tsx",
-      "target": "ui_card_cardcontent",
-      "confidence_score": 1.0
+      "target": "ui_card_cardcontent"
     },
     {
       "relation": "imports",
@@ -41619,9 +41619,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_checkbox_checkbox",
-      "confidence_score": 1.0
+      "target": "ui_checkbox_checkbox"
     },
     {
       "relation": "imports",
@@ -44192,9 +44192,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_input_input",
-      "confidence_score": 1.0
+      "target": "ui_input_input"
     },
     {
       "relation": "imports",
@@ -44584,9 +44584,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "ui_label_label",
-      "confidence_score": 1.0
+      "target": "ui_label_label"
     },
     {
       "relation": "imports",
@@ -53524,9 +53524,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "supabase_client_supabase",
-      "confidence_score": 1.0
+      "target": "supabase_client_supabase"
     },
     {
       "relation": "imports",
@@ -59602,9 +59602,9 @@
       "source_file": "src/lib/maintenanceSmsContracts.test.ts",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_maintenancesmscontracts_test_ts",
-      "target": "lib_maintenancesmscontracts_test_consentmigration",
-      "confidence_score": 1.0
+      "target": "lib_maintenancesmscontracts_test_consentmigration"
     },
     {
       "relation": "contains",
@@ -59612,9 +59612,9 @@
       "source_file": "src/lib/maintenanceSmsContracts.test.ts",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_maintenancesmscontracts_test_ts",
-      "target": "lib_maintenancesmscontracts_test_consentfunction",
-      "confidence_score": 1.0
+      "target": "lib_maintenancesmscontracts_test_consentfunction"
     },
     {
       "relation": "contains",
@@ -59622,9 +59622,9 @@
       "source_file": "src/lib/maintenanceSmsContracts.test.ts",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_maintenancesmscontracts_test_ts",
-      "target": "lib_maintenancesmscontracts_test_signuppage",
-      "confidence_score": 1.0
+      "target": "lib_maintenancesmscontracts_test_signuppage"
     },
     {
       "relation": "contains",
@@ -59632,9 +59632,9 @@
       "source_file": "src/lib/maintenanceSmsContracts.test.ts",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_maintenancesmscontracts_test_ts",
-      "target": "lib_maintenancesmscontracts_test_privacypage",
-      "confidence_score": 1.0
+      "target": "lib_maintenancesmscontracts_test_privacypage"
     },
     {
       "relation": "contains",
@@ -59642,9 +59642,9 @@
       "source_file": "src/lib/maintenanceSmsContracts.test.ts",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_lib_maintenancesmscontracts_test_ts",
-      "target": "lib_maintenancesmscontracts_test_termspage",
-      "confidence_score": 1.0
+      "target": "lib_maintenancesmscontracts_test_termspage"
     },
     {
       "relation": "imports_from",
@@ -64162,9 +64162,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_integrations_supabase_client_ts",
-      "confidence_score": 1.0
+      "target": "src_integrations_supabase_client_ts"
     },
     {
       "relation": "imports_from",
@@ -64173,9 +64173,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_alert_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_alert_tsx"
     },
     {
       "relation": "imports_from",
@@ -64184,9 +64184,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_button_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_button_tsx"
     },
     {
       "relation": "imports_from",
@@ -64195,9 +64195,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_card_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_card_tsx"
     },
     {
       "relation": "imports_from",
@@ -64206,9 +64206,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_checkbox_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_checkbox_tsx"
     },
     {
       "relation": "imports_from",
@@ -64217,9 +64217,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_input_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_input_tsx"
     },
     {
       "relation": "imports_from",
@@ -64228,9 +64228,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "src_components_ui_label_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_label_tsx"
     },
     {
       "relation": "contains",
@@ -64238,9 +64238,9 @@
       "source_file": "src/pages/HandymanSmsSignup.tsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_handymansmssignup_tsx",
-      "target": "pages_handymansmssignup_handymansmssignup",
-      "confidence_score": 1.0
+      "target": "pages_handymansmssignup_handymansmssignup"
     },
     {
       "relation": "contains",
@@ -65241,9 +65241,9 @@
       "source_file": "src/pages/SmsPrivacy.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsprivacy_tsx",
-      "target": "src_components_ui_card_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_card_tsx"
     },
     {
       "relation": "contains",
@@ -65251,9 +65251,9 @@
       "source_file": "src/pages/SmsPrivacy.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsprivacy_tsx",
-      "target": "pages_smsprivacy_smsprivacy",
-      "confidence_score": 1.0
+      "target": "pages_smsprivacy_smsprivacy"
     },
     {
       "relation": "imports_from",
@@ -65262,9 +65262,9 @@
       "source_file": "src/pages/SmsTerms.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsterms_tsx",
-      "target": "src_components_ui_card_tsx",
-      "confidence_score": 1.0
+      "target": "src_components_ui_card_tsx"
     },
     {
       "relation": "contains",
@@ -65272,9 +65272,9 @@
       "source_file": "src/pages/SmsTerms.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_pages_smsterms_tsx",
-      "target": "pages_smsterms_smsterms",
-      "confidence_score": 1.0
+      "target": "pages_smsterms_smsterms"
     },
     {
       "relation": "contains",
@@ -67045,9 +67045,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_admin",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_admin"
     },
     {
       "relation": "contains",
@@ -67055,9 +67055,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_corsheaders",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_corsheaders"
     },
     {
       "relation": "contains",
@@ -67065,9 +67065,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_json",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_json"
     },
     {
       "relation": "contains",
@@ -67075,9 +67075,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_cleantext",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_cleantext"
     },
     {
       "relation": "contains",
@@ -67085,9 +67085,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_normalizeusphone",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_normalizeusphone"
     },
     {
       "relation": "contains",
@@ -67095,9 +67095,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_origin",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_origin"
     },
     {
       "relation": "contains",
@@ -67105,9 +67105,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_name",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_name"
     },
     {
       "relation": "contains",
@@ -67115,9 +67115,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_company",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_company"
     },
     {
       "relation": "contains",
@@ -67125,9 +67125,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_email",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_email"
     },
     {
       "relation": "contains",
@@ -67135,9 +67135,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_phonee164",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_phonee164"
     },
     {
       "relation": "contains",
@@ -67145,9 +67145,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_sourceurl",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_sourceurl"
     },
     {
       "relation": "contains",
@@ -67155,9 +67155,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_version",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_version"
     },
     {
       "relation": "contains",
@@ -67165,9 +67165,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_now",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_now"
     },
     {
       "relation": "contains",
@@ -67175,9 +67175,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L73",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "supabase_functions_handyman_sms_consent_index_ts",
-      "target": "handyman_sms_consent_index_vendorid",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_vendorid"
     },
     {
       "relation": "calls",
@@ -67186,9 +67186,9 @@
       "source_file": "supabase/functions/handyman-sms-consent/index.ts",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "handyman_sms_consent_index_json",
-      "target": "handyman_sms_consent_index_corsheaders",
-      "confidence_score": 1.0
+      "target": "handyman_sms_consent_index_corsheaders"
     },
     {
       "relation": "contains",
@@ -69754,9 +69754,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_md",
-      "target": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission"
     },
     {
       "relation": "contains",
@@ -69764,9 +69764,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_registration_choice",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_registration_choice"
     },
     {
       "relation": "contains",
@@ -69774,9 +69774,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_campaign_description",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_campaign_description"
     },
     {
       "relation": "contains",
@@ -69784,9 +69784,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_message_flow_opt_in",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_message_flow_opt_in"
     },
     {
       "relation": "contains",
@@ -69794,9 +69794,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_representative_message_samples",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_representative_message_samples"
     },
     {
       "relation": "contains",
@@ -69804,9 +69804,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_help_and_stop_behavior",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_help_and_stop_behavior"
     },
     {
       "relation": "contains",
@@ -69814,9 +69814,9 @@
       "source_file": "docs/TWILIO_A2P_SUBMISSION.md",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_twilio_a2p_submission_homestead_hill_maintenance_sms_a2p_submission",
-      "target": "docs_twilio_a2p_submission_final_submission_checks",
-      "confidence_score": 1.0
+      "target": "docs_twilio_a2p_submission_final_submission_checks"
     },
     {
       "relation": "contains",
@@ -83318,5 +83318,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "603c6b0eee97a04b39cf5ffd7024a2eb423b40e9"
+  "built_at_commit": "0d4922e8abffd555bcfef307b3fbfc351af7fdf2"
 }

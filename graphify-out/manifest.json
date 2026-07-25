@@ -65,7 +65,7 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1784969547.3128371,
+    "mtime": 1784970907.384632,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
     "semantic_hash": ""
   },
@@ -1160,13 +1160,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/worker/index.test.ts": {
-    "mtime": 1784887081.751436,
-    "ast_hash": "b45fa9c6c173a86807993b44698c6624",
+    "mtime": 1784970756.1391785,
+    "ast_hash": "d1e6754ba5590d0135edbf2a9dad56cd",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/worker/index.ts": {
-    "mtime": 1784887081.740634,
-    "ast_hash": "879c60a37d294d85ded9558b0097746e",
+    "mtime": 1784970756.1301434,
+    "ast_hash": "13b985b51e5dbcde13aa68bcd7acbac2",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/AGENTS.md": {

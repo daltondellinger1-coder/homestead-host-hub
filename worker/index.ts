@@ -14,8 +14,11 @@ const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
     let response = await env.ASSETS.fetch(request);
     const acceptsHtml = request.headers.get("accept")?.includes("text/html") ?? false;
+    const pathname = new URL(request.url).pathname;
+    const lastSegment = pathname.split("/").filter(Boolean).at(-1) ?? "";
+    const isClientRoute = !lastSegment.includes(".");
 
-    if (response.status === 404 && request.method === "GET" && acceptsHtml) {
+    if (response.status === 404 && request.method === "GET" && (acceptsHtml || isClientRoute)) {
       const appShellUrl = new URL("/", request.url);
       response = await env.ASSETS.fetch(new Request(appShellUrl, request));
     }

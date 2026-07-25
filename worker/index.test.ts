@@ -46,6 +46,30 @@ describe("Sites worker", () => {
     expect(fetchAsset).toHaveBeenCalledTimes(2);
   });
 
+  it("serves public compliance routes to link checkers that send a generic accept header", async () => {
+    const fetchAsset = vi.fn(async (request: Request) => {
+      const url = new URL(request.url);
+      if (url.pathname === "/") {
+        return new Response("<main>Homestead Helper</main>", {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
+      }
+      return new Response("Not found", { status: 404 });
+    });
+    const env = { ASSETS: { fetch: fetchAsset } };
+
+    const response = await worker.fetch(
+      new Request("https://helper.example/privacy", {
+        headers: { accept: "*/*" },
+      }),
+      env as unknown as Parameters<typeof worker.fetch>[1],
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toContain("Homestead Helper");
+    expect(fetchAsset).toHaveBeenCalledTimes(2);
+  });
+
   it("does not turn missing static assets into the app shell", async () => {
     const missing = new Response("Not found", { status: 404 });
     const env = { ASSETS: { fetch: vi.fn(async () => missing) } };
