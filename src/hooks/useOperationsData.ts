@@ -67,6 +67,29 @@ export interface CleanerAssignee {
   display_name?: string | null;
 }
 
+export interface ReservationObservation {
+  id: string;
+  source: 'airbnb' | 'furnished_finder' | 'grasshopper' | 'manual' | 'legacy_host_hub' | 'ical';
+  source_record_id?: string | null;
+  listing_label?: string | null;
+  unit_id?: string | null;
+  guest_name?: string | null;
+  check_in_date?: string | null;
+  check_out_date?: string | null;
+  observation_status: 'confirmed' | 'inquiry' | 'text_signal' | 'cancelled' | 'unknown';
+  confidence: 'verified' | 'high' | 'medium' | 'low' | 'conflict';
+  observed_at: string;
+  evidence_reference?: string | null;
+  evidence_summary?: string | null;
+  review_status: 'pending' | 'approved' | 'rejected' | 'superseded' | 'needs_mapping';
+  proposed_action: 'create' | 'update' | 'cancel' | 'ignore' | 'map_unit';
+  matched_reservation_id?: string | null;
+  reviewed_at?: string | null;
+  review_notes?: string | null;
+  unit?: { id?: string; name?: string } | null;
+  matched_reservation?: OperationalReservation | null;
+}
+
 export const CHECKLIST_TEMPLATES = {
   morning: [
     'Review today’s arrivals',
@@ -122,6 +145,7 @@ export function useOperationsData() {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [checklists, setChecklists] = useState<ChecklistRun[]>([]);
   const [cleaners, setCleaners] = useState<CleanerAssignee[]>([]);
+  const [reservationObservations, setReservationObservations] = useState<ReservationObservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [schemaReady, setSchemaReady] = useState(true);
 
@@ -138,6 +162,9 @@ export function useOperationsData() {
       db.from('vendors').select('*').eq('active', true).order('trade').order('vendor_rank'),
       db.from('checklist_runs').select('*').gte('checklist_date', localDateKey(new Date(Date.now() - 8 * 86400000))),
       db.from('user_roles').select('user_id,email,display_name').eq('role', 'cleaner').eq('active', true).not('user_id', 'is', null).order('display_name'),
+      db.from('reservation_source_observations')
+        .select('*,unit:units(id,name),matched_reservation:reservations(id,unit_id,booking_source,status,check_in_date,check_in_time,check_out_date,check_out_time,guest:guests(id,name),unit:units(id,name,operational_status))')
+        .order('observed_at', { ascending: false }),
     ]);
 
     const firstOperationalError = results.slice(1).find((result) => result.error)?.error;
@@ -157,6 +184,7 @@ export function useOperationsData() {
     if (results[7].data) setVendors(results[7].data);
     if (results[8].data) setChecklists(results[8].data);
     if (results[9].data) setCleaners(results[9].data);
+    if (results[10].data) setReservationObservations(results[10].data);
     setLoading(false);
   }, []);
 
@@ -168,6 +196,7 @@ export function useOperationsData() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'cleaning_tasks' }, refresh)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'operational_tasks' }, refresh)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'approval_requests' }, refresh)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reservation_source_observations' }, refresh)
       .subscribe();
     return () => {
       db.removeChannel(channel);
@@ -367,6 +396,39 @@ export function useOperationsData() {
     'Vendor added.',
   ), [mutate]);
 
+  const updateReservationObservation = useCallback((
+    id: string,
+    values: Partial<Pick<ReservationObservation, 'unit_id' | 'guest_name' | 'check_in_date' | 'check_out_date' | 'observation_status'>>,
+  ) => mutate(
+    () => db.from('reservation_source_observations').update(values).eq('id', id),
+    'Review details saved. The live schedule has not changed.',
+  ), [mutate]);
+
+  const reviewReservationObservation = useCallback((
+    observationId: string,
+    decision: 'approved' | 'rejected',
+    values?: {
+      unitId?: string | null;
+      guestName?: string | null;
+      checkInDate?: string | null;
+      checkOutDate?: string | null;
+      notes?: string;
+    },
+  ) => mutate(
+    () => db.rpc('review_reservation_observation', {
+      _observation_id: observationId,
+      _decision: decision,
+      _unit_id: values?.unitId || null,
+      _guest_name: values?.guestName || null,
+      _check_in_date: values?.checkInDate || null,
+      _check_out_date: values?.checkOutDate || null,
+      _review_notes: values?.notes || null,
+    }),
+    decision === 'approved'
+      ? 'Reservation approved and added to the live schedule. No messages were sent.'
+      : 'Observation dismissed. The live schedule was not changed.',
+  ), [mutate]);
+
   const summary = useMemo(
     () => summarizeOperations(reservations, cleanings, maintenance, tasks),
     [reservations, cleanings, maintenance, tasks],
@@ -383,6 +445,7 @@ export function useOperationsData() {
     vendors,
     checklists,
     cleaners,
+    reservationObservations,
     loading,
     schemaReady,
     summary,
@@ -400,5 +463,7 @@ export function useOperationsData() {
     assignVendor,
     decideApproval,
     createVendor,
+    updateReservationObservation,
+    reviewReservationObservation,
   };
 }
