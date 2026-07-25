@@ -65,7 +65,7 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1784973275.8205643,
+    "mtime": 1784983926.0113173,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
     "semantic_hash": ""
   },
@@ -570,8 +570,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useOperationsData.ts": {
-    "mtime": 1784939439.813159,
-    "ast_hash": "2cf59d8bdb2e4db0e018560b5a87e1e0",
+    "mtime": 1784983834.1578977,
+    "ast_hash": "5f0c38fe9fef8662d7ae7435ad4a9bde",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/usePropertyData.ts": {
@@ -637,6 +637,11 @@
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/calendarSyncHealthPanel.test.ts": {
     "mtime": 1784882229.441686,
     "ast_hash": "9e5071912cad294abf2406acc9489405",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/cleaningEmailCalendarContracts.test.ts": {
+    "mtime": 1784983820.9049168,
+    "ast_hash": "f307cd51570f7245cda02f3213aadfbd",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/drawDashboard.test.ts": {
@@ -745,8 +750,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/operationsContracts.test.ts": {
-    "mtime": 1784903122.8180568,
-    "ast_hash": "187b7b3ce0f38a57190f29632ed209ed",
+    "mtime": 1784983820.8996835,
+    "ast_hash": "249d4166ccbdeef3cde41135b32cdeb1",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/paymentExport.test.ts": {
@@ -940,8 +945,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/functions/operations-dispatch/index.ts": {
-    "mtime": 1784882229.946982,
-    "ast_hash": "25673c294696ba6eba33b7e95472c020",
+    "mtime": 1784983834.141013,
+    "ast_hash": "ae1c6f6b0118032137e27966621c47b4",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/functions/tally-maintenance-webhook/index.ts": {
@@ -1157,6 +1162,11 @@
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725113000_handyman_sms_consent.sql": {
     "mtime": 1784969163.889287,
     "ast_hash": "75ab2b1810cb1ad210a1c9643e06a820",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725143000_queue_cleaner_assignment_email.sql": {
+    "mtime": 1784983820.8751426,
+    "ast_hash": "887bfb7749cff7d8105d8d13cf1969ef",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/worker/index.test.ts": {

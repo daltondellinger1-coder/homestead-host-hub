@@ -82,6 +82,8 @@ describe('Homestead Helper V1 contracts', () => {
     expect(dispatchFunction).toContain('OPERATIONS_DELIVERY_ENABLED');
     expect(dispatchFunction).toContain('GOOGLE_CLEANING_CALENDAR_ID');
     expect(dispatchFunction).toContain('RESEND_API_KEY');
+    expect(dispatchFunction).toContain('METHOD:REQUEST');
+    expect(dispatchFunction).toContain('homestead-hill-cleaning.ics');
     expect(dispatchFunction).toContain('SMS provider is not configured for Version 1.');
     expect(dispatchFunction).toContain('"Idempotency-Key"');
   });

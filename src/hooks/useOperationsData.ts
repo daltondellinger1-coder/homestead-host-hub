@@ -231,23 +231,32 @@ export function useOperationsData() {
   ), [mutate]);
 
   const assignCleaner = useCallback((id: string, cleaner: CleanerAssignee | null) => mutate(
-    () => db.from('cleaning_tasks').update(cleaner ? {
-      assigned_cleaner_user_id: cleaner.user_id,
-      assigned_cleaner_name: cleaner.display_name || cleaner.email || 'Cleaner',
-      assigned_cleaner_email: cleaner.email || null,
-      status: 'awaiting_confirmation',
-      confirmation_status: 'pending',
-      confirmed_at: null,
-      declined_at: null,
-    } : {
-      assigned_cleaner_user_id: null,
-      assigned_cleaner_name: null,
-      assigned_cleaner_email: null,
-      status: 'needs_scheduling',
-      confirmation_status: 'not_requested',
-      confirmed_at: null,
-      declined_at: null,
-    }).eq('id', id),
+    async () => {
+      const result = await db.from('cleaning_tasks').update(cleaner ? {
+        assigned_cleaner_user_id: cleaner.user_id,
+        assigned_cleaner_name: cleaner.display_name || cleaner.email || 'Cleaner',
+        assigned_cleaner_email: cleaner.email || null,
+        status: 'awaiting_confirmation',
+        confirmation_status: 'pending',
+        confirmed_at: null,
+        declined_at: null,
+      } : {
+        assigned_cleaner_user_id: null,
+        assigned_cleaner_name: null,
+        assigned_cleaner_email: null,
+        status: 'needs_scheduling',
+        confirmation_status: 'not_requested',
+        confirmed_at: null,
+        declined_at: null,
+      }).eq('id', id);
+      if (!result.error && cleaner?.email) {
+        const dispatch = await supabase.functions.invoke('operations-dispatch', { body: {} });
+        if (dispatch.error) {
+          console.warn('The cleaning was assigned, but outbound delivery is waiting for the next dispatch.', dispatch.error);
+        }
+      }
+      return result;
+    },
     cleaner ? `Cleaning assigned to ${cleaner.display_name || cleaner.email || 'cleaner'}.` : 'Cleaner assignment removed.',
   ), [mutate]);
 
