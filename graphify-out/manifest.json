@@ -65,7 +65,7 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1785007057.7717228,
+    "mtime": 1785011461.1570365,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
     "semantic_hash": ""
   },
@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/App.tsx": {
-    "mtime": 1784973087.1749456,
-    "ast_hash": "7fb95b67c597a45ef92709b580b7b048",
+    "mtime": 1785011268.334829,
+    "ast_hash": "9a10dca9cb6960df5296c0c06bc2171f",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/main.tsx": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/appNavigationContracts.test.ts": {
-    "mtime": 1784902997.843369,
-    "ast_hash": "746f374254502e472e24ed68b35dba62",
+    "mtime": 1785011268.3498476,
+    "ast_hash": "e82bf5a8edc7e3671b788d89a0b08400",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/bookingIntakeContract.test.ts": {
@@ -790,13 +790,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.test.ts": {
-    "mtime": 1784900510.8705335,
-    "ast_hash": "92283cb68343aadba58ceafec1d1738b",
+    "mtime": 1785011268.3453481,
+    "ast_hash": "5e5faeab07886d5590fa19ce4dbf56f7",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.ts": {
-    "mtime": 1784900510.8422973,
-    "ast_hash": "76e10667c1d2cbb11e8ad866c3015478",
+    "mtime": 1785011268.3107057,
+    "ast_hash": "f3a8e3e86c1c77d9c03d862625fc748e",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/utils.ts": {
@@ -815,8 +815,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Auth.tsx": {
-    "mtime": 1784946595.7381568,
-    "ast_hash": "492c6ff8d03676322cc4b9597a2412f0",
+    "mtime": 1785011268.325951,
+    "ast_hash": "960edd5a1f5d72dc164fafe015dbf164",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/CleanerPortal.tsx": {
