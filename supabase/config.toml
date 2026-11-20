@@ -39,3 +39,6 @@ verify_jwt = false
 
 [functions.handyman-sms-consent]
 verify_jwt = false
+
+[functions.website-mirror-extension-block]
+verify_jwt = false

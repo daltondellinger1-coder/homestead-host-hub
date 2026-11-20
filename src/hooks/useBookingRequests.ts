@@ -148,25 +148,15 @@ export function useBookingRequests() {
 
       // 1. Mirror to website calendar_events.
       try {
-        const res = await fetch(
-          'https://qihhgwslsjicjtrqvzsv.supabase.co/functions/v1/mirror-extension-block',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              booking_request_id: id,
-              unit_slug: params.unitSlug,
-              check_in: params.startDate,
-              check_out: params.endDate,
-              source: 'extension_approved',
-              summary: `Extension — ${request.name}`,
-            }),
-          }
-        );
-        if (!res.ok) {
-          const body = await res.text();
-          throw new Error(`Mirror failed [${res.status}]: ${body}`);
-        }
+        const { error: mirrorError } = await supabase.functions.invoke('website-mirror-extension-block', {
+          body: {
+            booking_request_id: id,
+            unit_slug: params.unitSlug,
+            check_in: params.startDate,
+            check_out: params.endDate,
+          },
+        });
+        if (mirrorError) throw mirrorError;
       } catch (err) {
         console.error('Failed to mirror extension block:', err);
         toast.error('Failed to mirror to website calendar — request not approved');
