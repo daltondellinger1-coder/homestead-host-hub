@@ -422,7 +422,7 @@ function CleanerDetailsDialog({
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <DetailValue label="Cleaning status" value={CLEANING_STATUS_LABELS[cleaning.status] ?? cleaning.status} />
-                <DetailValue label="Cleaner response" value={cleaning.confirmation_status?.replaceAll('_', ' ') || 'Not requested'} />
+                <DetailValue label="Cleaner response" value={cleaning.confirmation_status?.replace(/_/g, ' ') || 'Not requested'} />
               </div>
             </section>
 
