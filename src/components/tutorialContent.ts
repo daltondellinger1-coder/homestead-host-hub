@@ -57,7 +57,7 @@ export const propertyManagerTutorialSteps: TutorialStepContent[] = [
     icon: 'calendar',
     title: 'Stays & Reservation Safety',
     description:
-      'Stays is the operational reservation record for arrivals, departures, source, payment state, notes, and responsibility. Confirmed overlaps are blocked unless an owner records an explicit override and reason. Keep Airbnb channel blocks as availability warnings, not verified guest records.',
+      'Open Reservations to review source changes before they affect the live schedule. Hermes, Airbnb, Furnished Finder, Grasshopper, and calendar signals stay in Reservation Review until a manager verifies the unit, guest, dates, and booking status, then taps Approve Schedule. Inquiries and text signals cannot become stays until marked confirmed. Confirmed overlaps remain blocked.',
   },
   {
     icon: 'check-circle',
@@ -81,7 +81,7 @@ export const propertyManagerTutorialSteps: TutorialStepContent[] = [
     icon: 'clipboard-check',
     title: 'Checklists, Activity & Safe Automation',
     description:
-      'Morning, end-of-day, and weekly checklists support handoffs without relying on memory. Activity records important operational changes. Calendar, email, and text delivery remain off until their production credentials and a controlled test are approved; copy cleaner links manually in the meantime.',
+      'Morning, end-of-day, and weekly checklists support handoffs without relying on memory. Hermes may collect read-only reservation observations, but only a manager can approve them into the schedule. Reservation review never sends a message. Calendar, email, and text delivery remain off until their production credentials and a controlled test are explicitly approved.',
   },
   {
     icon: 'layout-grid',

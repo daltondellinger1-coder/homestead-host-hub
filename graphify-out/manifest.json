@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/package.json": {
-    "mtime": 1784883249.0350878,
-    "ast_hash": "71c8be77199521ab1762e82ee7a59d0b",
+    "mtime": 1785014714.4469767,
+    "ast_hash": "6487a4cd02756152a09ff15c51b38fab",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/postcss.config.js": {
@@ -49,6 +49,11 @@
     "ast_hash": "83e8ce003114ba6c5ca154ff7b7ff170",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/vitest.contract.config.ts": {
+    "mtime": 1785014714.4372816,
+    "ast_hash": "af4e200359c7eb26cb1157ea06291928",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.claude/settings.json": {
     "mtime": 1784882224.6096957,
     "ast_hash": "9276b535256dc065bd7b8b84e15abd95",
@@ -65,8 +70,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/.wrangler/deploy/config.json": {
-    "mtime": 1784973275.8205643,
+    "mtime": 1785014894.2793205,
     "ast_hash": "51d6eaff52d786276bde72334abeda50",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/config/reservation-shadow-baseline.json": {
+    "mtime": 1785021265.916607,
+    "ast_hash": "244b29c69a464c791593f9978340eb5d",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/scripts/generate-maintenance-qr-codes.py": {
@@ -74,9 +84,19 @@
     "ast_hash": "f9ba341bb34fbd34b810ace2d50b9443",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/scripts/grasshopper_archive.py": {
+    "mtime": 1785014059.020226,
+    "ast_hash": "b0160b6a2b5d4e8db9600a207b568cc3",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/scripts/reservation_shadow_reconciler.py": {
+    "mtime": 1785021786.5789037,
+    "ast_hash": "a53d0a21be750b3c191259cbe6fd5046",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/App.tsx": {
-    "mtime": 1784973087.1749456,
-    "ast_hash": "7fb95b67c597a45ef92709b580b7b048",
+    "mtime": 1785011268.334829,
+    "ast_hash": "9a10dca9cb6960df5296c0c06bc2171f",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/main.tsx": {
@@ -125,8 +145,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/ExtensionRequestCard.tsx": {
-    "mtime": 1784882228.2178988,
-    "ast_hash": "f15c89c88d301c530ad42766d709df57",
+    "mtime": 1785014188.7409322,
+    "ast_hash": "df08b3e82539e323895decc6da0de667",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/FinancialReportsContent.tsx": {
@@ -180,8 +200,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/maintenanceTutorialContent.test.ts": {
-    "mtime": 1784900578.6244247,
-    "ast_hash": "a12648bb46cf74c1d94108a38b3c5f30",
+    "mtime": 1785002554.447154,
+    "ast_hash": "7e565f2d07e92bc80f6fd5c661dd21ce",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/ManagementDashboard.tsx": {
@@ -234,6 +254,11 @@
     "ast_hash": "44013e112193efc3a3dd7b87d66b1bc1",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/ReservationReviewQueue.tsx": {
+    "mtime": 1785006757.5623634,
+    "ast_hash": "b12b65b85688e445dd70e83c6172eb4e",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/SchedulePaymentsDialog.tsx": {
     "mtime": 1784882228.4405017,
     "ast_hash": "f4c15c1d9514f1e7d599d58589125cd6",
@@ -255,8 +280,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/tutorialContent.ts": {
-    "mtime": 1784900578.598851,
-    "ast_hash": "fcb0126bc8ec990ed5c3519cf3e5033d",
+    "mtime": 1785002554.4325192,
+    "ast_hash": "bc2078865815e32d624b1dd6e21088a4",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/components/UnitCard.tsx": {
@@ -560,8 +585,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useBookingRequests.ts": {
-    "mtime": 1784882229.2098238,
-    "ast_hash": "7a1126becfb293efbaf0baf3a95d5972",
+    "mtime": 1785014188.72706,
+    "ast_hash": "7d84047a76d7fb188112916afbad99f7",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useMaintenanceRequests.ts": {
@@ -570,8 +595,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/useOperationsData.ts": {
-    "mtime": 1784939439.813159,
-    "ast_hash": "2cf59d8bdb2e4db0e018560b5a87e1e0",
+    "mtime": 1785001822.4724226,
+    "ast_hash": "6c2e5dec5e535d25b7ccf4ee299965b8",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/hooks/usePropertyData.ts": {
@@ -615,13 +640,18 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/appNavigationContracts.test.ts": {
-    "mtime": 1784902997.843369,
-    "ast_hash": "746f374254502e472e24ed68b35dba62",
+    "mtime": 1785011268.3498476,
+    "ast_hash": "e82bf5a8edc7e3671b788d89a0b08400",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/bookingIntakeContract.test.ts": {
     "mtime": 1784882229.4208415,
     "ast_hash": "1449d93e6e46ac18d3ece418e15897b5",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/bookingOutboundGate.test.ts": {
+    "mtime": 1785014188.7487,
+    "ast_hash": "47bb51d83169550d69e3ce602d2b1334",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/calendarSyncHealth.test.ts": {
@@ -637,6 +667,11 @@
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/calendarSyncHealthPanel.test.ts": {
     "mtime": 1784882229.441686,
     "ast_hash": "9e5071912cad294abf2406acc9489405",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/cleaningEmailCalendarContracts.test.ts": {
+    "mtime": 1784983820.9049168,
+    "ast_hash": "f307cd51570f7245cda02f3213aadfbd",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/drawDashboard.test.ts": {
@@ -745,8 +780,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/operationsContracts.test.ts": {
-    "mtime": 1784903122.8180568,
-    "ast_hash": "187b7b3ce0f38a57190f29632ed209ed",
+    "mtime": 1784983820.8996835,
+    "ast_hash": "249d4166ccbdeef3cde41135b32cdeb1",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/paymentExport.test.ts": {
@@ -769,14 +804,24 @@
     "ast_hash": "beed95487426a21f9d8a8be1dd910177",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/reservationObservationIntakeContract.test.ts": {
+    "mtime": 1785006058.9812162,
+    "ast_hash": "b8a064afb31d0c2294280b1be1aa5c22",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/reservationReviewContracts.test.ts": {
+    "mtime": 1785006757.5780756,
+    "ast_hash": "3d7e93c696c78d72871f8f12c7b5b00c",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.test.ts": {
-    "mtime": 1784900510.8705335,
-    "ast_hash": "92283cb68343aadba58ceafec1d1738b",
+    "mtime": 1785011268.3453481,
+    "ast_hash": "5e5faeab07886d5590fa19ce4dbf56f7",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/roleRouting.ts": {
-    "mtime": 1784900510.8422973,
-    "ast_hash": "76e10667c1d2cbb11e8ad866c3015478",
+    "mtime": 1785011268.3107057,
+    "ast_hash": "f3a8e3e86c1c77d9c03d862625fc748e",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/lib/utils.ts": {
@@ -795,8 +840,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Auth.tsx": {
-    "mtime": 1784946595.7381568,
-    "ast_hash": "492c6ff8d03676322cc4b9597a2412f0",
+    "mtime": 1785011268.325951,
+    "ast_hash": "960edd5a1f5d72dc164fafe015dbf164",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/CleanerPortal.tsx": {
@@ -865,8 +910,8 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/Operations.tsx": {
-    "mtime": 1784939446.8292665,
-    "ast_hash": "8d6d7951fdcf86b9a69bb21d681a2d50",
+    "mtime": 1785002566.4731598,
+    "ast_hash": "d217a3ac309af31aa982756e74b2707e",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/src/pages/PaymentHistory.tsx": {
@@ -940,8 +985,13 @@
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/functions/operations-dispatch/index.ts": {
-    "mtime": 1784882229.946982,
-    "ast_hash": "25673c294696ba6eba33b7e95472c020",
+    "mtime": 1784983834.141013,
+    "ast_hash": "ae1c6f6b0118032137e27966621c47b4",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/functions/reservation-observation-intake/index.ts": {
+    "mtime": 1785006058.9595473,
+    "ast_hash": "30ca4b131d7cc6f9cca21c7f1bfd3bef",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/functions/tally-maintenance-webhook/index.ts": {
@@ -1159,6 +1209,41 @@
     "ast_hash": "75ab2b1810cb1ad210a1c9643e06a820",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725141000_reservation_review_queue.sql": {
+    "mtime": 1785001785.4068055,
+    "ast_hash": "48763987444090670604bde456450bd5",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725143000_queue_cleaner_assignment_email.sql": {
+    "mtime": 1784983820.8751426,
+    "ast_hash": "887bfb7749cff7d8105d8d13cf1969ef",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725143000_reconcile_hermes_observation_report.sql": {
+    "mtime": 1785002498.0312843,
+    "ast_hash": "f80e0a6d6e2a8881b308f8c0fa0a79dd",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725170000_reservation_observation_intake.sql": {
+    "mtime": 1785006058.9527867,
+    "ast_hash": "e9398c742b3c7e0475efa82e009dcef1",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/supabase/migrations/20260725211500_reconcile_raylon_airbnb_conflict.sql": {
+    "mtime": 1785013784.6820538,
+    "ast_hash": "b431d148a20985aaf2fe2dc4c1cdd935",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/tests/test_grasshopper_archive.py": {
+    "mtime": 1785014059.0381112,
+    "ast_hash": "e217bc136fb4e3b89a1cf20e9b24ff71",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/tests/test_reservation_shadow_reconciler.py": {
+    "mtime": 1785021775.9588647,
+    "ast_hash": "4d3681b133aeb653304ab17f30e72847",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/worker/index.test.ts": {
     "mtime": 1784970756.1391785,
     "ast_hash": "d1e6754ba5590d0135edbf2a9dad56cd",
@@ -1199,9 +1284,29 @@
     "ast_hash": "774dead6c43d0a96854d8f8fd24516a9",
     "semantic_hash": ""
   },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/GRASSHOPPER_ARCHIVE.md": {
+    "mtime": 1785014059.0445197,
+    "ast_hash": "1e2835ea7fd3af2f4c9c642eacdd6297",
+    "semantic_hash": ""
+  },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/HOMESTEAD_HELPER_V1.md": {
-    "mtime": 1784947185.6312256,
-    "ast_hash": "986134de1c20349af7e8fe7e33f549bd",
+    "mtime": 1785014188.7609408,
+    "ast_hash": "ddfa289449996ec81bfa4f95119bfedd",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/PROJECT_EXECUTION_ROADMAP.md": {
+    "mtime": 1785015392.6968248,
+    "ast_hash": "dc013ea5b3c8ee7b3c327661170530a3",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/RESERVATION_OBSERVATION_INTAKE.md": {
+    "mtime": 1785006058.966274,
+    "ast_hash": "6d7a204a15dfc06a052cb11b7d649c76",
+    "semantic_hash": ""
+  },
+  "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/RESERVATION_RECONCILIATION_SHADOW.md": {
+    "mtime": 1785021415.6758635,
+    "ast_hash": "ecd5d92cab8e782a8134d418a37a810c",
     "semantic_hash": ""
   },
   "/mnt/c/Users/Dalton/Documents/Homestead Hill/docs/SITES_MIGRATION.md": {

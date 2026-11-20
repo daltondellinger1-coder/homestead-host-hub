@@ -57,6 +57,7 @@ import {
 import { cn } from '@/lib/utils';
 import OnboardingTutorial from '@/components/OnboardingTutorial';
 import { useOnboardingState } from '@/hooks/useTutorialState';
+import ReservationReviewQueue from '@/components/ReservationReviewQueue';
 
 type OperationsView = 'today' | 'units' | 'stays' | 'cleaning' | 'more';
 
@@ -562,6 +563,10 @@ export default function Operations() {
   const occupiedCount = operations.units.filter((unit) => unit.operational_status === 'occupied').length;
   const activeReservations = operations.reservations.filter((reservation) => reservation.status !== 'cancelled');
   const activeCleanings = operations.cleanings.filter((cleaning) => !['ready', 'cancelled'].includes(cleaning.status));
+  const reservationObservations = operations.reservationObservations ?? [];
+  const pendingReservationReviews = reservationObservations.filter((observation) => (
+    ['pending', 'needs_mapping'].includes(observation.review_status)
+  )).length;
 
   const openView = (view: OperationsView, sectionId?: string) => {
     setActiveView(view);
@@ -680,13 +685,30 @@ export default function Operations() {
             <TabsList className="h-11 min-w-max justify-start">
               <TabsTrigger value="today">Today</TabsTrigger>
               <TabsTrigger value="units">15 units</TabsTrigger>
-              <TabsTrigger value="stays">Reservations</TabsTrigger>
+              <TabsTrigger value="stays" className="gap-2">
+                Reservations
+                {pendingReservationReviews > 0 && <Badge className="h-5 min-w-5 justify-center bg-amber-500 px-1 text-[10px] text-background">{pendingReservationReviews}</Badge>}
+              </TabsTrigger>
               <TabsTrigger value="cleaning">Cleaning</TabsTrigger>
               <TabsTrigger value="more">More</TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="today" className="space-y-5">
+            {pendingReservationReviews > 0 && (
+              <button
+                type="button"
+                onClick={() => openView('stays')}
+                className="flex w-full items-center gap-3 rounded-xl border border-amber-500/35 bg-amber-500/5 p-4 text-left transition hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <CalendarCheck2 className="h-5 w-5 shrink-0 text-amber-300" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold">{pendingReservationReviews} reservation changes need review</p>
+                  <p className="text-sm text-muted-foreground">Check source details before they enter the live schedule. No messages are sent during review.</p>
+                </div>
+                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+              </button>
+            )}
             <div id="today-schedule" className="grid scroll-mt-24 gap-5 lg:grid-cols-2">
               <Card id="requires-action" className="scroll-mt-24 border-border/70">
                 <CardHeader className="p-4 pb-2">
@@ -801,6 +823,12 @@ export default function Operations() {
           </TabsContent>
 
           <TabsContent value="stays" className="space-y-3">
+            <ReservationReviewQueue
+              observations={reservationObservations}
+              units={operations.units}
+              onSave={operations.updateReservationObservation}
+              onReview={operations.reviewReservationObservation}
+            />
             <div className="flex justify-end"><Button onClick={() => setReservationOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add reservation</Button></div>
             {activeReservations
               .map((reservation) => (

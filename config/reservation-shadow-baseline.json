@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "property_group": "Homestead Hill",
+  "shadow_days": 3,
+  "minimum_stable_minutes": 30,
+  "canonical_snapshot_as_of": "2026-07-25T21:08:01.838656Z",
+  "canonical_reservations": [
+    {"unit": "Unit 1", "guest": "Samuel Martin", "check_in": "2026-07-19", "check_out": "2026-08-23"},
+    {"unit": "Unit 3", "guest": "Raylon Holmes", "check_in": "2026-07-06", "check_out": "2026-08-08"},
+    {"unit": "Unit 5", "guest": "David Allen", "check_in": "2026-07-13", "check_out": "2026-08-10"},
+    {"unit": "Unit 6", "guest": "Reed Braundmeier", "check_in": "2026-05-04", "check_out": "2026-09-10"},
+    {"unit": "Unit 11", "guest": "Graham Reed", "check_in": "2026-07-19", "check_out": "2026-07-27"},
+    {"unit": "Unit 11", "guest": "Ashley Turner", "check_in": "2026-09-24", "check_out": "2026-09-27"}
+  ]
+}

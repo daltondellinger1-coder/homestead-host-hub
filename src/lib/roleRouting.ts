@@ -5,6 +5,12 @@ export const PROPERTY_MANAGER_HOME = '/operations';
 export const MAINTENANCE_HOME = '/maintenance-portal';
 export const CLEANER_HOME = '/cleaner';
 
+export function isPasswordRecoveryLocation(search: string, hash = '') {
+  const queryRecovery = new URLSearchParams(search).get('recovery') === '1';
+  const hashParams = new URLSearchParams(hash.replace(/^#/, ''));
+  return queryRecovery || hashParams.get('type') === 'recovery';
+}
+
 export function getStoredLoginLane(): LoginLane {
   if (typeof window === 'undefined') return 'property-manager';
   const lane = window.localStorage.getItem('hostHubLoginLane');

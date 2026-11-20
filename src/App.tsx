@@ -7,7 +7,13 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { ShieldAlert } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthRoles } from "@/hooks/useAuthRoles";
-import { canAccessPath, getPostLoginPath, getStoredLoginLane, type AppRole } from "@/lib/roleRouting";
+import {
+  canAccessPath,
+  getPostLoginPath,
+  getStoredLoginLane,
+  isPasswordRecoveryLocation,
+  type AppRole,
+} from "@/lib/roleRouting";
 import Auth from "./pages/Auth";
 import MobileBottomNav from "./components/MobileBottomNav";
 import { Button } from "./components/ui/button";
@@ -98,8 +104,10 @@ function AppRouter() {
   const { session, loading } = useAuth();
   const { roles, loading: rolesLoading } = useAuthRoles(session?.user.id);
   const location = useLocation();
+  const isPasswordRecovery = location.pathname.startsWith('/auth/')
+    && isPasswordRecoveryLocation(location.search, location.hash);
 
-  if (loading || (session && rolesLoading)) {
+  if (loading || (session && rolesLoading && !isPasswordRecovery)) {
     return (
       <div className="min-h-screen pattern-bg flex items-center justify-center">
         <div className="text-muted-foreground font-body text-sm animate-pulse">Loading...</div>
@@ -144,6 +152,16 @@ function AppRouter() {
     return (
       <Routes>
         <Route path="/maintenance-offer/:token" element={<MaintenanceOffer />} />
+      </Routes>
+    );
+  }
+
+  if (isPasswordRecovery) {
+    return (
+      <Routes>
+        <Route path="/auth/property-manager" element={<Auth />} />
+        <Route path="/auth/maintenance" element={<Auth />} />
+        <Route path="/auth/cleaner" element={<Auth />} />
       </Routes>
     );
   }

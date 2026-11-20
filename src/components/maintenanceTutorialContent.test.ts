@@ -58,6 +58,16 @@ describe('property manager tutorial content', () => {
     expect(titles).toContain('Checklists, Activity & Safe Automation');
   });
 
+  it('teaches the review-first reservation automation boundary', () => {
+    const staysStep = propertyManagerTutorialSteps.find(step => step.title === 'Stays & Reservation Safety');
+    const automationStep = propertyManagerTutorialSteps.find(step => step.title === 'Checklists, Activity & Safe Automation');
+
+    expect(staysStep?.description).toContain('Reservation Review');
+    expect(staysStep?.description).toContain('Inquiries and text signals cannot become stays');
+    expect(automationStep?.description).toContain('only a manager can approve');
+    expect(automationStep?.description).toContain('never sends a message');
+  });
+
   it('documents the configured approval thresholds and disabled delivery state', () => {
     const approvalStep = propertyManagerTutorialSteps.find(step => step.title === 'Maintenance, Vendors & Approvals');
     const automationStep = propertyManagerTutorialSteps.find(step => step.title === 'Checklists, Activity & Safe Automation');
